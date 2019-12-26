@@ -1,0 +1,468 @@
+import {StyleSheet, Platform, Dimensions} from 'react-native';
+import {
+  getSizeBoxRegulation,
+  getSizeLogo,
+  getSizeImageHome,
+} from '../../../api/helpers';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import {
+  c_ffffff,
+  c_A6D0F1,
+  c_0097F2,
+  c_f8f8f8,
+  c_333333,
+  c_848484,
+  c_FFC200,
+  c_CDEBFF,
+  c_5793a6,
+  c_F0532D,
+  c_757575,
+  c_000000,
+  c_1c1c1c
+} from '../../../utils/constants';
+
+export default StyleSheet.create({
+  homeHeader: {
+    ...Platform.select({
+      ios: {
+        height: 300,
+      },
+      android: {
+        height: 270,
+      },
+    }),
+  },
+  homeTop: {
+    flexDirection: 'row',
+    marginRight: 10,
+    ...Platform.select({
+      ios: {
+        marginTop: 50,
+      },
+      android: {
+        marginTop: 20,
+      },
+    }),
+  },
+  txtTime: {
+    color: c_ffffff,
+    fontSize: 14,
+  },
+  boxRevenue: {
+    marginTop: 5,
+    height: 115,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 6,
+    backgroundColor: c_ffffff,
+  },
+  boxVenueLeft: {
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRightWidth: 0.5,
+    borderStyle: 'solid',
+    borderColor: c_A6D0F1,
+  },
+  boxVenueRight: {
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  txtVenue: {
+    fontSize: 16,
+    color: c_ffffff,
+    lineHeight: 25,
+    opacity: 0.69,
+  },
+  txtValue: {
+    fontSize: 18,
+    color: c_ffffff,
+    fontWeight: 'bold',
+  },
+  boxBtnCamera: {
+    width: '100%',
+    marginBottom: 40,
+    backgroundColor: c_ffffff,
+  },
+  txtUpdateAvatar: {
+    marginLeft: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: c_ffffff,
+  },
+  btnUpdateAvatar: {
+    width: '100%',
+    borderRadius: 30,
+    flexDirection: 'row',
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  boxBtnUpdateAvatar: {
+    marginLeft: '20%',
+    marginRight: '20%',
+  },
+  boxImage: {
+    width: '100%',
+    height: '100%',
+  },
+  boxIconCamera: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    marginTop: 20,
+    marginRight: 20,
+  },
+  hasImage: {
+    flex: 1,
+    position: 'absolute',
+    zIndex: 10,
+    marginTop: hp('86%'),
+  },
+  boxImagePG: {
+    alignItems: 'center',
+  },
+  boxRegulation: {
+    backgroundColor: c_ffffff,
+    height: getSizeBoxRegulation(),
+  },
+  boxRegulationChild: {
+    marginTop: 20,
+    marginLeft: 10,
+  },
+  txtRegulation: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: c_0097F2,
+    marginBottom: 5,
+  },
+  boxRow: {
+    marginTop: 5,
+    marginBottom: 5,
+    flexDirection: 'row',
+  },
+  txtRow: {
+    marginLeft: 15,
+    fontSize: 14,
+    color: '#1C1C1C',
+  },
+  boxLogoHome: {
+    width: 200,
+    height: getSizeLogo(),
+  },
+  boxImageHome: {
+    width: '100%',
+    height: '100%',
+  },
+  txtCoChe: {
+    marginTop: -3,
+    marginLeft: 5,
+    fontSize: 14,
+    color: '#1C1C1C',
+    lineHeight: 25,
+    flexWrap: 'wrap',
+    textAlign: 'left',
+    marginRight: 10,
+  },
+  boxIconUser: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    marginTop: -10,
+  },
+  boxTimeLeft: {
+    marginLeft: 20,
+    width: '86%',
+  },
+  styleMenu: {
+    borderTopLeftRadius: 45,
+    borderTopRightRadius: 45,
+  },
+  boxChangePwd: {
+    marginTop: 20,
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+    borderColor: c_f8f8f8,
+    paddingBottom: 15,
+    flexDirection: 'row',
+  },
+  btnChangePwd: {
+    marginLeft: 22,
+    flexDirection: 'row',
+  },
+  txtBoxMenu: {
+    fontSize: 18,
+    marginTop: 5,
+    marginLeft: 10,
+  },
+  boxLogout: {
+    marginTop: 10,
+    paddingBottom: 15,
+    flexDirection: 'row',
+  },
+  txtLogout: {
+    fontSize: 18,
+    marginTop: 2,
+    marginLeft: 10,
+  },
+  boxTargetParent: {
+    flexDirection: 'row',
+    width: '100%',
+    marginTop: 5,
+    marginBottom: 3,
+  },
+  boxMonth: {
+    marginLeft: 10,
+    marginTop: 10,
+  },
+  txtMonth: {
+    color: c_333333,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  boxTargetChild: {
+    marginLeft: 10,
+    marginTop: 10,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    width: '72%',
+    flexDirection: 'row',
+  },
+  txtTarget: {
+    color: c_333333,
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'right',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  boxDoanhThu: {
+    marginLeft: 10,
+    marginRight: 10,
+    flexDirection: 'row',
+  },
+  boxIncomeChild: {
+    width: '44%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  txtIncomeChild: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: c_0097F2,
+  },
+  txtIncome: {
+    color: c_848484,
+    fontSize: 15,
+    marginTop: 6,
+  },
+  boxReward: {
+    width: '15%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  boxRewardChild: {
+    width: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  txtRewardValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: c_FFC200,
+  },
+  txtReward: {
+    color: c_848484,
+    fontSize: 15,
+    marginTop: 6,
+  },
+  boxRewardParent: {
+    marginTop: 15,
+    height: 70,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 6,
+    backgroundColor: c_ffffff,
+    flexDirection: 'row',
+  },
+  txtTotalReward: {
+    marginTop: 10,
+    marginLeft: 10,
+    color: c_848484,
+    fontSize: 14,
+  },
+  boxCoin: {
+    marginLeft: 10,
+    marginTop: 10,
+    flexDirection: 'row',
+  },
+  boxBtnUse: {
+    backgroundColor: c_CDEBFF,
+    height: 38,
+    width: '90%',
+    borderRadius: 60,
+    marginRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  boxUse: {
+    width: '40%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  boxModal: {
+    backgroundColor: c_ffffff,
+    height: 170,
+    borderRadius: 8,
+  },
+  boxModalClose: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    marginTop: 10,
+    marginRight: 10,
+  },
+  txtLabelModal: {
+    justifyContent: 'center',
+    fontWeight: 'bold',
+    color: c_ffffff,
+  },
+  groupBtnModal: {
+    flexDirection: 'row',
+    width: '100%',
+    top: 30,
+  },
+  btnModalAgree: {
+    width: '43%',
+    marginRight: 10,
+    marginLeft: 15,
+    backgroundColor: c_0097F2,
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 6,
+  },
+  btnModalCancel: {
+    width: '43%',
+    marginRight: 10,
+    marginLeft: 10,
+    backgroundColor: c_5793a6,
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 6,
+  },
+  viewHeader: {
+    position: 'absolute',
+    marginStart: 16,
+    marginEnd: 16,
+    marginTop: 50,
+  },
+  txtHeaderTitle: {
+    fontSize: 24,
+    color: c_ffffff,
+    fontWeight: 'bold',
+  },
+  txtHeaderDes: {
+    fontSize: 16,
+    color: c_ffffff,
+    fontWeight: 'normal',
+    marginTop: 10,
+  },
+  boxHeaderRegister: {
+    backgroundColor: c_ffffff,
+    borderRadius: 22,
+    width: 120,
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  txtHeaderRegister: {
+    fontSize: 16,
+    color: c_F0532D,
+    fontWeight: 'bold',
+  },
+  boxSearch: {
+    flexDirection: 'row',
+    margin: 10,
+  },
+  inputSearch: {
+    flex: 1,
+    height: 44,
+    backgroundColor: c_ffffff,
+    borderRadius: 5,
+    flexDirection: 'row',
+  },
+  buttonFilter: {
+    width: 44,
+    height: 44,
+    backgroundColor: c_ffffff,
+    marginStart: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  icFilter: {
+    width: 24,
+    height: 24,
+  },
+  txtInputSearch: {
+    flex: 1,
+    marginStart: 5,
+    backgroundColor: c_ffffff,
+    fontSize: 16,
+  },
+  groupContent: {
+    width: '100%',
+    padding: 16,
+    backgroundColor: c_ffffff,
+  },
+  txtTitleGroupContent: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  txtInfoJob: {
+    flex: 1,
+    fontSize: 14,
+    color: c_757575,
+  },
+  imgInfoJob: {
+    width: 18,
+    height: 18,
+    marginEnd: 5,
+  },
+  jobHotItemContainer: {
+    width: 200,
+    borderRadius: 6,
+    marginEnd: 11,
+    marginBottom: 1,
+    padding: 12,
+    shadowColor: c_000000,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 1,
+  },
+  jobFollowLocationContainer: {
+    borderRadius: 6,
+    borderColor: c_F0532D,
+    borderWidth: 1,
+    padding: 16,
+    marginStart: 16,
+    marginEnd: 16,
+    marginBottom: 10,
+  },
+  jobFollowLocationDetail: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  jobFollowLocationTxtDetail: {color: c_1c1c1c, fontSize: 16, marginLeft: 10},
+});
