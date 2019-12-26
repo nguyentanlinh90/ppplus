@@ -12,7 +12,6 @@ export const SCREEN_TOPUP = 'Topup';
 export const SCREEN_HISTORY = 'History';
 export const SCREEN_TOPUP_STATUS = 'TopupStatus';
 export const SCREEN_PASSWORD = 'Password';
-export const SCREEN_MECHANISM = 'Mechanism';
 export const SCREEN_RETRO_1 = 'Retro1';
 export const SCREEN_CREATE_ACCOUNT = 'CreateAccount';
 export const SCREEN_SET_PASSWORD = 'SetPassword';

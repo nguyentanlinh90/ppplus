@@ -5,15 +5,7 @@ import Splash from '../features/splash/containers/SplashContainer';
 import Login from '../features/user/containers/LoginContainer';
 import OTP from '../features/user/containers/OTPContainer';
 import Home from '../features/home/containers/HomeContainer';
-import Reward from '../features/reward/containers/RewardContainer';
-import Income from '../features/income/containers/IncomeContainer';
-import Voucher from '../features/user/containers/VoucherContainer';
-import Redemption from '../features/user/containers/RedemptionContainer';
-import Topup from '../features/user/containers/TopupContainer';
-import TopupStatus from '../features/user/containers/TopupStatusContainer';
-import History from '../features/user/containers/HistoryContainer';
 import Password from '../features/user/containers/PasswordContainer';
-import Mechanism from '../features/home/containers/MechanismContainer';
 import Retro1 from '../features/retro/containers/RetroContainer1';
 import CreateAccount from '../features/user/containers/CreateAccountContainer';
 import SetPassword from '../features/user/containers/SetPasswordContainer';
@@ -106,58 +98,9 @@ const Stack = createStackNavigator(
       },
     },
 
-    Reward: {
-      screen: Reward,
-      navigationOptions: {
-        header: null,
-      },
-    },
 
-    Income: {
-      screen: Income,
-      navigationOptions: {
-        header: null,
-      },
-    },
-
-    Voucher: {
-      screen: Voucher,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Redemption: {
-      screen: Redemption,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Topup: {
-      screen: Topup,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    TopupStatus: {
-      screen: TopupStatus,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    History: {
-      screen: History,
-      navigationOptions: {
-        header: null,
-      },
-    },
     Password: {
       screen: Password,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Mechanism: {
-      screen: Mechanism,
       navigationOptions: {
         header: null,
       },
