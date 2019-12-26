@@ -21,7 +21,8 @@ import {
   c_F0532D,
   c_757575,
   c_000000,
-  c_1c1c1c
+  c_1c1c1c,
+  c_d8d8d8,
 } from '../../../utils/constants';
 
 export default StyleSheet.create({
@@ -437,18 +438,18 @@ export default StyleSheet.create({
   jobHotItemContainer: {
     width: 200,
     borderRadius: 6,
-    marginEnd: 11,
-    marginBottom: 1,
+    marginEnd: 10,
+    margin:1,
     padding: 12,
-    shadowColor: c_000000,
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    shadowColor: "#000000",
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
     shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-
-    elevation: 1,
+      height: 0,
+      width: 0
+    }
   },
   jobFollowLocationContainer: {
     borderRadius: 6,

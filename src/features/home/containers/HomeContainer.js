@@ -240,25 +240,30 @@ class HomeContainer extends Component {
     this.setState({item: item});
     this.jobHotDetail.open();
   }
+  _renderRBSheet() {
+    return (
+      <RBSheet
+        height={screenHeight - 80}
+        ref={ref => {
+          this.jobHotDetail = ref;
+        }}
+        closeOnDragDown={true}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+          },
+        }}>
+        <JobDetail item={this.state.item} data={this.state.data} />
+      </RBSheet>
+    );
+  }
   render() {
     const {inputSearch} = this.props;
 
     return (
       <View style={styles.body}>
-        <RBSheet
-          height={screenHeight - 80}
-          ref={ref => {
-            this.jobHotDetail = ref;
-          }}
-          closeOnDragDown={true}
-          customStyles={{
-            container: {
-              borderTopLeftRadius: 30,
-              borderTopRightRadius: 30,
-            },
-          }}>
-          <JobDetail item={this.state.item} data={this.state.data} />
-        </RBSheet>
+        {this._renderRBSheet()}
         <ScrollView style={[styles.container, {backgroundColor: '#d8d8d8'}]}>
           <View>
             <Image
@@ -332,11 +337,7 @@ class HomeContainer extends Component {
               showsHorizontalScrollIndicator={false}
               data={this.state.data}
               renderItem={({item: rowData}) => {
-                return (
-                  <JobNewItem
-                  item={rowData}
-                  />
-                );
+                return <JobNewItem item={rowData} />;
               }}
               keyExtractor={(item, index) => index}
             />
