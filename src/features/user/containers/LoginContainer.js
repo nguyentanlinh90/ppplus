@@ -122,7 +122,7 @@ export class LoginContainer extends Component {
     } else if (nextProps.msg_code == 'login_success') {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      //   this.props.navigation.navigate(SCREEN_INPUT_OTP);
+      this.props.navigation.goBack()
     }
   }
 

@@ -12,7 +12,7 @@ class MessageContainer extends Component {
   render() {
     const {props} = this.props;
     return (
-      <View style={styles.body}>
+      <View style={[styles.body,{backgroundColor:'#456'}]}>
       </View>
     );
   }

@@ -114,7 +114,12 @@ export class CreateAccountContainer extends Component {
     } else if (nextProps.msg_code == 'create_account_success') {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      this.props.navigation.navigate(SCREEN_SET_PASSWORD);
+      this.props.navigation.dispatch({
+        key: SCREEN_SET_PASSWORD,
+        type: 'ReplaceCurrentScreen',
+        routeName: SCREEN_SET_PASSWORD,
+        params: {},
+      });
     }
   }
 

@@ -100,7 +100,12 @@ export class SetPasswordContainer extends Component {
     } else if (nextProps.msg_code == 'set_password_success') {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      this.props.navigation.navigate(SCREEN_LOGIN);
+      this.props.navigation.dispatch({
+        key: SCREEN_LOGIN,
+        type: 'ReplaceCurrentScreen',
+        routeName: SCREEN_LOGIN,
+        params: {},
+      });
     }
   }
 
