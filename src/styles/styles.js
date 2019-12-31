@@ -12,6 +12,18 @@ export default StyleSheet.create({
   container: {
     flex: 1,
   },
+  tabNavigator: {
+    backgroundColor:'#fff',
+    alignItems:'center',
+    ...Platform.select({
+      ios: {
+        height: 70,
+      },
+      android: {
+        height: 60,
+      },
+    }),
+  },
   mainContent: {
     paddingTop: 0,
     paddingLeft: 10,
@@ -163,16 +175,16 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   imgNav: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
     backgroundColor: 'transparent',
-    marginBottom: 5,
   },
   circleMenu: {
     width: 5,
     height: 5,
     borderRadius: 100 / 2,
     backgroundColor: '#F0532D',
+    marginTop:5
   },
   cbbModalIos: {
     borderWidth: 0,

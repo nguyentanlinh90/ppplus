@@ -17,3 +17,4 @@ export const SCREEN_CREATE_ACCOUNT = 'CreateAccount';
 export const SCREEN_SET_PASSWORD = 'SetPassword';
 export const SCREEN_INPUT_OTP = 'InputOTP';
 export const SCREEN_INPUT_PHONE_NUMBER = 'InputPhoneNumber';
+export const SCREEN_MAIN = 'Main';

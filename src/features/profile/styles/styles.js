@@ -18,9 +18,7 @@ export default StyleSheet.create({
     }),
   },
   viewEdit: {
-    width: '100%',
-    alignItems: 'flex-end',
-    position: 'absolute',
+    alignSelf:'flex-end'
   },
   viewCircleAvatar: {
     alignItems: 'center',

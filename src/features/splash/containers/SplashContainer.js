@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {SCREEN_RETRO_1} from '../../../api/screen';
 import {SCREEN_PROFILE} from '../../../api/screen';
 import {SCREEN_HOME} from '../../../api/screen';
+import {SCREEN_MAIN} from '../../../api/screen';
 class SplashContainer extends Component {
   constructor(props) {
     super(props);
@@ -23,9 +24,9 @@ class SplashContainer extends Component {
       // });
       // this.props.navigation.dispatch(SCREEN_PROFILE);
       this.props.navigation.dispatch({
-        key: SCREEN_HOME,
+        key: SCREEN_MAIN,
         type: 'ReplaceCurrentScreen',
-        routeName: SCREEN_HOME,
+        routeName: SCREEN_MAIN,
         params: {},
       });
     }, 1000);

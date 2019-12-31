@@ -3,8 +3,6 @@ import {connect} from 'react-redux';
 import {View} from 'react-native';
 import styles from '../../../styles/styles';
 
-import Footer from '../../../components/footer/Footer';
-
 class MessageContainer extends Component {
   constructor(props) {
     super(props);
@@ -12,10 +10,9 @@ class MessageContainer extends Component {
   }
 
   render() {
+    const {props} = this.props;
     return (
       <View style={styles.body}>
-        <View style={styles.container}></View>
-        <Footer page={'message'} navigation={this.props.navigation} />
       </View>
     );
   }

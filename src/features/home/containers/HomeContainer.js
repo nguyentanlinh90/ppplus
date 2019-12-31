@@ -19,6 +19,7 @@ import JobNewItem from '../components/JobNewItem';
 import JobDetail from '../components/JobDetail';
 import Footer from '../../../components/footer/Footer';
 import {ScrollView} from 'react-native-gesture-handler';
+import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 const screenHeight = Math.round(Dimensions.get('window').height);
 const data = [
   {
@@ -259,8 +260,7 @@ class HomeContainer extends Component {
     );
   }
   render() {
-    const {inputSearch} = this.props;
-
+    const {props, inputSearch} = this.props;
     return (
       <View style={styles.body}>
         {this._renderRBSheet()}
@@ -279,9 +279,14 @@ class HomeContainer extends Component {
                 Banjo tote bag bicycle rights, High Life sartorial cray craft
                 beer.
               </Text>
-              <View style={stylesHome.boxHeaderRegister}>
+              <TouchableOpacity
+                style={stylesHome.boxHeaderRegister}
+                activeOpacity={0.8}
+                onPress={() => {
+                  props.navigation.navigate(SCREEN_CREATE_ACCOUNT);
+                }}>
                 <Text style={stylesHome.txtHeaderRegister}>Đăng ký</Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={stylesHome.boxSearch}>
@@ -368,7 +373,6 @@ class HomeContainer extends Component {
             />
           </View>
         </ScrollView>
-        <Footer page={'home'} navigation={this.props.navigation} />
       </View>
     );
   }

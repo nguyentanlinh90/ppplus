@@ -11,10 +11,11 @@ import CreateAccount from '../features/user/containers/CreateAccountContainer';
 import SetPassword from '../features/user/containers/SetPasswordContainer';
 import InputOTP from '../features/user/containers/InputOTPContainer';
 import InputPhoneNumber from '../features/user/containers/InputPhoneNumberContainer';
-import Message from '../features/message/containers/MesageContainer';
+import Message from '../features/message/containers/MessageContainer';
 import Notification from '../features/notification/containers/NotificationContainer';
 import Profile from '../features/profile/containers/ProfileContainer';
 import FillProfile from '../features/profile/containers/FillProfileContainer';
+import Main from '../features/main/MainContainer';
 
 const Stack = createStackNavigator(
   {
@@ -98,9 +99,14 @@ const Stack = createStackNavigator(
       },
     },
 
-
     Password: {
       screen: Password,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Main: {
+      screen: Main,
       navigationOptions: {
         header: null,
       },
