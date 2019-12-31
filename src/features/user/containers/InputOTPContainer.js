@@ -99,7 +99,7 @@ export class InputOTPContainer extends Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'input_otp_error') {
       this.setState({isLoading: false});
       this.dropdown.alertWithType('error', 'Lỗi', 'Mã OTP không đúng');

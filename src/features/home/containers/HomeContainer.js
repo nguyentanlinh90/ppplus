@@ -17,7 +17,6 @@ import stylesHome from '../../../features/home/styles/styles';
 import JobHotItem from '../components/JobHotItem';
 import JobNewItem from '../components/JobNewItem';
 import JobDetail from '../components/JobDetail';
-import Footer from '../../../components/footer/Footer';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 const screenHeight = Math.round(Dimensions.get('window').height);

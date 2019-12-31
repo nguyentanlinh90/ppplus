@@ -118,7 +118,7 @@ export class InputPhoneNumberContainer extends Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'input_phone_number_error') {
       this.setState({isLoading: false});
       this.dropdown.alertWithType('error', 'Lỗi', 'Số điện thoại không đúng');

@@ -5,7 +5,6 @@ import Splash from '../features/splash/containers/SplashContainer';
 import Login from '../features/user/containers/LoginContainer';
 import OTP from '../features/user/containers/OTPContainer';
 import Home from '../features/home/containers/HomeContainer';
-import Password from '../features/user/containers/PasswordContainer';
 import Retro1 from '../features/retro/containers/RetroContainer1';
 import CreateAccount from '../features/user/containers/CreateAccountContainer';
 import SetPassword from '../features/user/containers/SetPasswordContainer';
@@ -99,12 +98,6 @@ const Stack = createStackNavigator(
       },
     },
 
-    Password: {
-      screen: Password,
-      navigationOptions: {
-        header: null,
-      },
-    },
     Main: {
       screen: Main,
       navigationOptions: {

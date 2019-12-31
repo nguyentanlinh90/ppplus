@@ -88,7 +88,7 @@ export class SetPasswordContainer extends Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'set_password_error') {
       this.setState({isLoading: false});
       this.dropdown.alertWithType(

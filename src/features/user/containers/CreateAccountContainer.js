@@ -102,7 +102,7 @@ export class CreateAccountContainer extends Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'create_account_error') {
       this.setState({isLoading: false});
       this.dropdown.alertWithType(

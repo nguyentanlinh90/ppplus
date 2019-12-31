@@ -25,7 +25,6 @@ import {
 } from 'accordion-collapse-react-native';
 import styles from '../../../styles/styles';
 import stylesProfile from '../styles/styles';
-import Footer from '../../../components/footer/Footer';
 import AddImageComponent from '../component/AddImageComponent';
 import BasicInfoForm from '../component/BasicInfoForm';
 import LevelForm from '../component/LevelForm';
@@ -277,6 +276,7 @@ class FillProfileContainer extends Component {
       </Dialog>
     );
   }
+
   render() {
     const {percentage, name} = this.props;
     return (
@@ -288,7 +288,8 @@ class FillProfileContainer extends Component {
           <TouchableOpacity
             style={stylesProfile.viewEdit}
             onPress={() => {
-              this.props.navigation.navigate(SCREEN_PROFILE, { 'data':'abc'});
+              this.props.navigation.state.params.onGoBack('Linh Nguyen');
+              this.props.navigation.goBack()
             }}>
             <Text style={stylesProfile.txtSave}>Save</Text>
           </TouchableOpacity>

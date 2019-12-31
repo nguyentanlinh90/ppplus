@@ -15,6 +15,11 @@ class ProfileContainer extends Component {
     };
   }
 
+  refresh=(data)=>{
+    this.setState({name:data});
+    console.log('linhnt _refreshData', data);
+  }
+
   render() {
     const {props, percentage, name} = this.props;
     return (
@@ -24,7 +29,9 @@ class ProfileContainer extends Component {
             style={stylesProfile.viewEdit}
             activeOpacity={0.8}
             onPress={() => {
-              props.navigation.navigate(SCREEN_FILL_PROFILE);
+              props.navigation.navigate(SCREEN_FILL_PROFILE, {
+                onGoBack: () => this.refresh(),
+              });
             }}>
             <Image
               resizeMode="contain"
@@ -34,7 +41,7 @@ class ProfileContainer extends Component {
           </TouchableOpacity>
           <View style={stylesProfile.viewCircleAvatar}>
             <ProgressCircle
-              percent={20}
+              percent={this.state.percentage}
               radius={58}
               borderWidth={3}
               color="#F0532D"
@@ -47,7 +54,7 @@ class ProfileContainer extends Component {
               style={stylesProfile.circleAvatar}
             />
           </View>
-          <Text style={stylesProfile.name}>Nguyễn Ngọc Tiên</Text>
+          <Text style={stylesProfile.name}>{this.state.name}</Text>
           <View style={stylesProfile.viewReward}>
             <View style={stylesProfile.boxReward}>
               <Image
