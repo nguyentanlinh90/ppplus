@@ -288,6 +288,7 @@ class FillProfileContainer extends Component {
           <TouchableOpacity
             style={stylesProfile.viewEdit}
             onPress={() => {
+              
               this.props.navigation.state.params.onGoBack('Linh Nguyen');
               this.props.navigation.goBack()
             }}>

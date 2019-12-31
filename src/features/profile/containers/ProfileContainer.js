@@ -15,10 +15,9 @@ class ProfileContainer extends Component {
     };
   }
 
-  refresh=(data)=>{
-    this.setState({name:data});
-    console.log('linhnt _refreshData', data);
-  }
+  refresh = data => {
+    this.setState({name: data});
+  };
 
   render() {
     const {props, percentage, name} = this.props;
@@ -30,7 +29,7 @@ class ProfileContainer extends Component {
             activeOpacity={0.8}
             onPress={() => {
               props.navigation.navigate(SCREEN_FILL_PROFILE, {
-                onGoBack: () => this.refresh(),
+                onGoBack: data => this.refresh(data),
               });
             }}>
             <Image
