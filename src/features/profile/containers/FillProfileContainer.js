@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import ImagePicker from 'react-native-image-picker';
@@ -30,6 +31,7 @@ import BasicInfoForm from '../component/BasicInfoForm';
 import LevelForm from '../component/LevelForm';
 import ContactForm from '../component/ContactForm';
 import {SCREEN_PROFILE} from '../../../api/screen';
+import KeyboardShift from './KeyboardShift';
 const IMAGE_AVATAR = 0;
 const IMAGE_1 = 1;
 const IMAGE_2 = 2;
@@ -280,168 +282,173 @@ class FillProfileContainer extends Component {
   render() {
     const {percentage, name} = this.props;
     return (
-      <ScrollView style={stylesProfile.container}>
-        <View>
-          {this._renderDOBPicker()}
-          {this._renderGenderPicker()}
-          {this._renderLevelPicker()}
-          <TouchableOpacity
-            style={stylesProfile.viewEdit}
-            onPress={() => {
-              
-              this.props.navigation.state.params.onGoBack('Linh Nguyen');
-              this.props.navigation.goBack()
-            }}>
-            <Text style={stylesProfile.txtSave}>Save</Text>
-          </TouchableOpacity>
-          <View style={stylesProfile.viewCircleAvatar}>
-            <ProgressCircle
-              percent={this.state.percentage}
-              radius={58}
-              borderWidth={3}
-              color="#F0532D"
-              shadowColor="#d8d8d8"
-              bgColor="#fff"
-            />
-            <Image
-              resizeMode="cover"
-              source={{uri: this.state.urlAvatar}}
-              style={stylesProfile.circleAvatarFill}
-            />
-            <View style={stylesProfile.viewCamera}>
+      <KeyboardShift>
+        {() => (
+          <ScrollView style={stylesProfile.container}>
+            <View>
+              {this._renderDOBPicker()}
+              {this._renderGenderPicker()}
+              {this._renderLevelPicker()}
               <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => this._handleOpenImage(IMAGE_AVATAR)}>
-                <View style={stylesProfile.boxCamera}>
-                  <Image
-                    resizeMode="contain"
-                    source={require('../../../assets/images/ic-camera.png')}
-                  />
-                </View>
+                style={stylesProfile.viewEdit}
+                onPress={() => {
+                  this.props.navigation.state.params.onGoBack('Linh Nguyen');
+                  this.props.navigation.goBack();
+                }}>
+                <Text style={stylesProfile.txtSave}>Save</Text>
               </TouchableOpacity>
+              <View style={stylesProfile.viewCircleAvatar}>
+                <ProgressCircle
+                  percent={this.state.percentage}
+                  radius={58}
+                  borderWidth={3}
+                  color="#F0532D"
+                  shadowColor="#d8d8d8"
+                  bgColor="#fff"
+                />
+                <Image
+                  resizeMode="cover"
+                  source={{uri: this.state.urlAvatar}}
+                  style={stylesProfile.circleAvatarFill}
+                />
+                <View style={stylesProfile.viewCamera}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => this._handleOpenImage(IMAGE_AVATAR)}>
+                    <View style={stylesProfile.boxCamera}>
+                      <Image
+                        resizeMode="contain"
+                        source={require('../../../assets/images/ic-camera.png')}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <AddImageComponent
+                showButtonAdd_1={this.state.showButtonAdd_1}
+                showButtonAdd_2={this.state.showButtonAdd_2}
+                showButtonAdd_3={this.state.showButtonAdd_3}
+                showButtonAdd_4={this.state.showButtonAdd_4}
+                urlImage_1={this.state.urlImage_1}
+                urlImage_2={this.state.urlImage_2}
+                urlImage_3={this.state.urlImage_3}
+                urlImage_4={this.state.urlImage_4}
+                handleOpenImage={this._handleOpenImage}
+                handleCloseImage={this._handleCloseImage}
+              />
+              <View style={[stylesProfile.boxIndicatorFill, {height: 5}]} />
+              <Collapse
+                isCollapsed={this.state.isCollapsedBasicInfo}
+                onToggle={isCollapsed =>
+                  this.setState({isCollapsedBasicInfo: isCollapsed})
+                }>
+                <CollapseHeader>
+                  <View style={stylesProfile.boxTitleFill}>
+                    <Text style={stylesProfile.txtBasicInfo}>
+                      THÔNG TIN CƠ BẢN
+                    </Text>
+                    <View style={stylesProfile.boxArrow}>
+                      {this.state.isCollapsedBasicInfo ? (
+                        <Image
+                          resizeMode="contain"
+                          source={require('../../../assets/images/ic-arrow-up.png')}
+                        />
+                      ) : (
+                        <Image
+                          resizeMode="contain"
+                          source={require('../../../assets/images/ic-arrow-down.png')}
+                        />
+                      )}
+                    </View>
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <BasicInfoForm
+                    onChangeText={this._onChangeText}
+                    lastName={this.state.lastName}
+                    firstName={this.state.firstName}
+                    showDateTimePicker={this._showDateTimePicker}
+                    txtDOB={this.state.dob ? this.state.dob : 'Chọn'}
+                    showGenderSelect={this._handleShowGenderSelect}
+                    txtGender={this.state.genderValue}
+                    height={this.state.height}
+                    weight={this.state.weight}
+                    measure_1={this.state.measure_1}
+                    measure_3={this.state.measure_2}
+                    measure_3={this.state.measure_3}
+                  />
+                </CollapseBody>
+              </Collapse>
+              <View style={stylesProfile.boxIndicatorFill} />
+              <Collapse
+                isCollapsed={this.state.isCollapsedLevel}
+                onToggle={isCollapsed =>
+                  this.setState({isCollapsedLevel: isCollapsed})
+                }>
+                <CollapseHeader>
+                  <View style={stylesProfile.boxTitleFill}>
+                    <Text style={stylesProfile.txtBasicInfo}>TRÌNH ĐỘ</Text>
+                    <View style={stylesProfile.boxArrow}>
+                      {this.state.isCollapsedLevel ? (
+                        <Image
+                          resizeMode="contain"
+                          source={require('../../../assets/images/ic-arrow-up.png')}
+                        />
+                      ) : (
+                        <Image
+                          resizeMode="contain"
+                          source={require('../../../assets/images/ic-arrow-down.png')}
+                        />
+                      )}
+                    </View>
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <LevelForm
+                    onChangeText={this._onChangeText}
+                    showLevelSelect={this._handleShowLevelSelect}
+                    txtLevel={this.state.levelValue}
+                    major={this.state.major}
+                  />
+                </CollapseBody>
+              </Collapse>
+              <View style={stylesProfile.boxIndicatorFill} />
+              <Collapse
+                isCollapsed={this.state.isCollapsedContact}
+                onToggle={isCollapsed =>
+                  this.setState({isCollapsedContact: isCollapsed})
+                }>
+                <CollapseHeader>
+                  <View style={stylesProfile.boxTitleFill}>
+                    <Text style={stylesProfile.txtBasicInfo}>
+                      THÔNG TIN LIÊN LẠC
+                    </Text>
+                    <View style={stylesProfile.boxArrow}>
+                      {this.state.isCollapsedContact ? (
+                        <Image
+                          resizeMode="contain"
+                          source={require('../../../assets/images/ic-arrow-up.png')}
+                        />
+                      ) : (
+                        <Image
+                          resizeMode="contain"
+                          source={require('../../../assets/images/ic-arrow-down.png')}
+                        />
+                      )}
+                    </View>
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <ContactForm
+                    onChangeText={this._onChangeText}
+                    contact={this.state.contact}
+                  />
+                </CollapseBody>
+              </Collapse>
             </View>
-          </View>
-          <AddImageComponent
-            showButtonAdd_1={this.state.showButtonAdd_1}
-            showButtonAdd_2={this.state.showButtonAdd_2}
-            showButtonAdd_3={this.state.showButtonAdd_3}
-            showButtonAdd_4={this.state.showButtonAdd_4}
-            urlImage_1={this.state.urlImage_1}
-            urlImage_2={this.state.urlImage_2}
-            urlImage_3={this.state.urlImage_3}
-            urlImage_4={this.state.urlImage_4}
-            handleOpenImage={this._handleOpenImage}
-            handleCloseImage={this._handleCloseImage}
-          />
-          <View style={[stylesProfile.boxIndicatorFill, {height: 5}]} />
-          <Collapse
-            isCollapsed={this.state.isCollapsedBasicInfo}
-            onToggle={isCollapsed =>
-              this.setState({isCollapsedBasicInfo: isCollapsed})
-            }>
-            <CollapseHeader>
-              <View style={stylesProfile.boxTitleFill}>
-                <Text style={stylesProfile.txtBasicInfo}>THÔNG TIN CƠ BẢN</Text>
-                <View style={stylesProfile.boxArrow}>
-                  {this.state.isCollapsedBasicInfo ? (
-                    <Image
-                      resizeMode="contain"
-                      source={require('../../../assets/images/ic-arrow-up.png')}
-                    />
-                  ) : (
-                    <Image
-                      resizeMode="contain"
-                      source={require('../../../assets/images/ic-arrow-down.png')}
-                    />
-                  )}
-                </View>
-              </View>
-            </CollapseHeader>
-            <CollapseBody>
-              <BasicInfoForm
-                onChangeText={this._onChangeText}
-                lastName={this.state.lastName}
-                firstName={this.state.firstName}
-                showDateTimePicker={this._showDateTimePicker}
-                txtDOB={this.state.dob ? this.state.dob : 'Chọn'}
-                showGenderSelect={this._handleShowGenderSelect}
-                txtGender={this.state.genderValue}
-                height={this.state.height}
-                weight={this.state.weight}
-                measure_1={this.state.measure_1}
-                measure_3={this.state.measure_2}
-                measure_3={this.state.measure_3}
-              />
-            </CollapseBody>
-          </Collapse>
-          <View style={stylesProfile.boxIndicatorFill} />
-          <Collapse
-            isCollapsed={this.state.isCollapsedLevel}
-            onToggle={isCollapsed =>
-              this.setState({isCollapsedLevel: isCollapsed})
-            }>
-            <CollapseHeader>
-              <View style={stylesProfile.boxTitleFill}>
-                <Text style={stylesProfile.txtBasicInfo}>TRÌNH ĐỘ</Text>
-                <View style={stylesProfile.boxArrow}>
-                  {this.state.isCollapsedLevel ? (
-                    <Image
-                      resizeMode="contain"
-                      source={require('../../../assets/images/ic-arrow-up.png')}
-                    />
-                  ) : (
-                    <Image
-                      resizeMode="contain"
-                      source={require('../../../assets/images/ic-arrow-down.png')}
-                    />
-                  )}
-                </View>
-              </View>
-            </CollapseHeader>
-            <CollapseBody>
-              <LevelForm
-                onChangeText={this._onChangeText}
-                showLevelSelect={this._handleShowLevelSelect}
-                txtLevel={this.state.levelValue}
-                major={this.state.major}
-              />
-            </CollapseBody>
-          </Collapse>
-          <View style={stylesProfile.boxIndicatorFill} />
-          <Collapse
-            isCollapsed={this.state.isCollapsedContact}
-            onToggle={isCollapsed =>
-              this.setState({isCollapsedContact: isCollapsed})
-            }>
-            <CollapseHeader>
-              <View style={stylesProfile.boxTitleFill}>
-                <Text style={stylesProfile.txtBasicInfo}>
-                  THÔNG TIN LIÊN LẠC
-                </Text>
-                <View style={stylesProfile.boxArrow}>
-                  {this.state.isCollapsedContact ? (
-                    <Image
-                      resizeMode="contain"
-                      source={require('../../../assets/images/ic-arrow-up.png')}
-                    />
-                  ) : (
-                    <Image
-                      resizeMode="contain"
-                      source={require('../../../assets/images/ic-arrow-down.png')}
-                    />
-                  )}
-                </View>
-              </View>
-            </CollapseHeader>
-            <CollapseBody>
-              <ContactForm
-                onChangeText={this._onChangeText}
-                contact={this.state.contact}
-              />
-            </CollapseBody>
-          </Collapse>
-        </View>
-      </ScrollView>
+          </ScrollView>
+        )}
+      </KeyboardShift>
     );
   }
 }
