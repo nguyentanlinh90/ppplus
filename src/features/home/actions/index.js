@@ -15,7 +15,6 @@ export const getJobs = () => async dispatch => {
   const path = 'jobs';
   const params = '';
   const {json} = await callGetApi(getUrl(path), params);
-
   if (typeof json !== 'undefined') {
     await dispatch(fetchDataSuccess(types.FETCH_JOB_SUCCESS, json.data));
     await dispatch(

@@ -16,7 +16,7 @@ export default function entities(state = initialState, action) {
                 ...state,
                 msg_code: action.data
             };
-        case types.FETCH_JOBS_SUCCESS:
+        case types.FETCH_JOB_SUCCESS:
             return {
                 ...state,
                 jobs: action.data

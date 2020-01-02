@@ -222,7 +222,6 @@ const data = [
     ],
   },
 ];
-const data1 = [];
 
 class HomeContainer extends Component {
   constructor(props) {
@@ -231,7 +230,6 @@ class HomeContainer extends Component {
     this.state = {
       isLoading: true,
       inputSearch: '',
-      data: data1,
       item: {},
       jobs: [],
     };
@@ -262,7 +260,7 @@ class HomeContainer extends Component {
             borderTopRightRadius: 30,
           },
         }}>
-        <JobDetail item={this.state.item} data={this.state.data} />
+        <JobDetail item={this.state.item} data={this.state.jobs} />
       </RBSheet>
     );
   }
@@ -276,14 +274,14 @@ class HomeContainer extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'fetch_job_success') {
-      console.log('linhnt componentWillReceiveProps FETCH_JOB_SUCCESS');
-      this.setState({isLoading:false});
+      this.setState({isLoading: false,jobs: nextProps.jobs});
+      nextProps.changeMsgCode('');
     }
   }
 
   render() {
-    // console.log('linhnt render',this.state.isLoading)
-    const {props, inputSearch} = this.props;
+    const {props, inputSearch, jobs} = this.props;
+    console.log('linhnt render', jobs.length);
     return (
       <View style={[styles.body, {backgroundColor: '#d8d8d8'}]}>
         {this._renderRBSheet()}
@@ -351,7 +349,7 @@ class HomeContainer extends Component {
               <FlatList
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}
-                data={this.state.data}
+                data={this.state.jobs}
                 renderItem={({item: rowData}) => {
                   return (
                     <TouchableOpacity
@@ -372,7 +370,7 @@ class HomeContainer extends Component {
               <FlatList
                 showsHorizontalScrollIndicator={false}
                 horizontal={false}
-                data={this.state.data}
+                data={this.state.jobs}
                 renderItem={({item: rowData}) => {
                   return <JobNewItem item={rowData} />;
                 }}
@@ -391,7 +389,7 @@ class HomeContainer extends Component {
               <FlatList
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}
-                data={this.state.data}
+                data={this.state.jobs}
                 renderItem={({item: rowData}) => {
                   return (
                     <Image
@@ -412,7 +410,6 @@ class HomeContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('linhnt mapStateToProps', state);
   return {
     msg_code: state.home.msg_code,
     jobs: state.home.jobs,
