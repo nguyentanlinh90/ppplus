@@ -36,7 +36,6 @@ class SplashContainer extends Component {
     return (
       <LinearGradient colors={['#FEBE10', '#F0532D']} style={styles.container}>
         <View style={stylesSplash.image}>
-          <Text>SplashContainer</Text>
         </View>
       </LinearGradient>
     );

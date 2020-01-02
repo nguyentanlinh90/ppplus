@@ -15,13 +15,18 @@ export class JobHotItem extends Component {
     let colorOfBgTrending;
     let textTrending;
     let textColorTrending;
+    //1:mới, 2: hot, 3: Gấp
     if (item.trending == 1) {
       colorOfBgTrending = '#CAF4CF';
       textTrending = 'Mới';
       textColorTrending = '#63D471';
-    } else {
+    } else if(item.trending == 2){
       colorOfBgTrending = '#FFE2E2';
       textTrending = 'Hot';
+      textColorTrending = '#FF3434';
+    } else{
+      colorOfBgTrending = '#FFE2E2';
+      textTrending = 'Gấp';
       textColorTrending = '#FF3434';
     }
     return (

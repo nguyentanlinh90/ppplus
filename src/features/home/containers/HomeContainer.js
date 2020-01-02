@@ -281,7 +281,6 @@ class HomeContainer extends Component {
 
   render() {
     const {props, inputSearch, jobs} = this.props;
-    console.log('linhnt render', jobs.length);
     return (
       <View style={[styles.body, {backgroundColor: '#d8d8d8'}]}>
         {this._renderRBSheet()}
