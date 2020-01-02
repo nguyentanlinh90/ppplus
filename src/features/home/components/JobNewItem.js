@@ -38,21 +38,24 @@ export class JobHotItem extends Component {
             }}>
             {item.jobTitle}
           </Text>
-          <Text
+          <View
             style={{
               backgroundColor: colorOfBgTrending,
               borderRadius: 30,
-              paddingStart: 10,
-              paddingBottom: 2,
-              paddingEnd: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingTop: 2,
               fontSize: 12,
-              color: textColorTrending,
             }}>
-            {textTrending}
-          </Text>
+            <Text
+              style={{
+                paddingStart: 10,
+                paddingBottom: 2,
+                paddingEnd: 10,
+                paddingTop: 2,
+                fontSize: 12,
+                color: textColorTrending,
+              }}>
+              {textTrending}
+            </Text>
+          </View>
         </View>
 
         <View style={{flexDirection: 'row'}}>

@@ -4,7 +4,7 @@ import {View, Text} from 'react-native';
 import styles from '../../../styles/styles';
 import stylesSplash from '../../splash/styles/styles';
 import LinearGradient from 'react-native-linear-gradient';
-import {SCREEN_RETRO_1} from '../../../api/screen';
+import {SCREEN_RETRO} from '../../../api/screen';
 import {SCREEN_PROFILE} from '../../../api/screen';
 import {SCREEN_HOME} from '../../../api/screen';
 import {SCREEN_MAIN} from '../../../api/screen';

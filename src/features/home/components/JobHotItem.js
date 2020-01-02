@@ -49,24 +49,24 @@ export class JobHotItem extends Component {
               <Text style={{flex: 1, fontSize: 16, fontWeight: 'bold'}}>
                 {item.merchantName}
               </Text>
-              <View style={{
+              <View
+                style={{
                   backgroundColor: colorOfBgTrending,
                   borderRadius: 30,
                   fontSize: 12,
                 }}>
-              <Text
-                style={{
-                  paddingStart: 10,
-                  paddingBottom: 2,
-                  paddingEnd: 10,
-                  paddingTop: 2,
-                  fontSize: 12,
-                  color: textColorTrending,
-                }}>
-                {textTrending}
-              </Text>
+                <Text
+                  style={{
+                    paddingStart: 10,
+                    paddingBottom: 2,
+                    paddingEnd: 10,
+                    paddingTop: 2,
+                    fontSize: 12,
+                    color: textColorTrending,
+                  }}>
+                  {textTrending}
+                </Text>
               </View>
-              
             </View>
             <Rating
               imageSize={16}

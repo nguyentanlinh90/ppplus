@@ -358,7 +358,6 @@ export default StyleSheet.create({
     position: 'absolute',
     marginStart: 16,
     marginEnd: 16,
-    marginTop: 50,
   },
   txtHeaderTitle: {
     fontSize: 24,

@@ -4,7 +4,7 @@ import {View, Text, ScrollView} from 'react-native';
 import stylesRetro from '../styles/styles';
 import Swiper from 'react-native-swiper';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
-class RetroContainer1 extends Component {
+class RetroContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -80,4 +80,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(RetroContainer1);
+export default connect(mapStateToProps, {})(RetroContainer);

@@ -3,8 +3,7 @@ import * as types from '../../../api/types';
 
 const initialState = {
     msg_code: '',
-    revenue:[],
-    setting:[]
+    jobs:[]
 };
 
 export default function entities(state = initialState, action) {
@@ -17,16 +16,12 @@ export default function entities(state = initialState, action) {
                 ...state,
                 msg_code: action.data
             };
-        case types.FETCH_REVENUE_SUCCESS:
+        case types.FETCH_JOBS_SUCCESS:
             return {
                 ...state,
-                revenue: action.data
+                jobs: action.data
             };
-        case types.FETCH_SETTING_SUCCESS:
-            return {
-                ...state,
-                setting: action.data
-            };
+        
         default:
             return state;
     }
