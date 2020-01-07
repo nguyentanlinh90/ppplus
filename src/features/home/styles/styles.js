@@ -417,7 +417,7 @@ export default StyleSheet.create({
   groupContent: {
     width: '100%',
     padding: 16,
-    backgroundColor: c_ffffff,
+    backgroundColor: '#FEF5F3',
   },
   txtTitleGroupContent: {
     fontSize: 16,

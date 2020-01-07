@@ -15,11 +15,19 @@ import Notification from '../features/notification/containers/NotificationContai
 import Profile from '../features/profile/containers/ProfileContainer';
 import FillProfile from '../features/profile/containers/FillProfileContainer';
 import Main from '../features/main/MainContainer';
+import Info from '../features/info/containers/InfoContainer';
+import ConfirmInfo from '../features/info/containers/ConfirmInfoContainer';
 
 const Stack = createStackNavigator(
   {
     Splash: {
       screen: Splash,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Main: {
+      screen: Main,
       navigationOptions: {
         header: null,
       },
@@ -97,13 +105,19 @@ const Stack = createStackNavigator(
         header: null,
       },
     },
-
-    Main: {
-      screen: Main,
+    Info: {
+      screen: Info,
       navigationOptions: {
         header: null,
       },
     },
+    ConfirmInfo: {
+      screen: ConfirmInfo,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    
   },
   {
     initialRouteName: 'Splash',

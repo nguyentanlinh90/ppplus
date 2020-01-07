@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import styles from '../../../styles/styles';
 import stylesSplash from '../../splash/styles/styles';
 import LinearGradient from 'react-native-linear-gradient';
@@ -9,6 +9,8 @@ import {SCREEN_PROFILE} from '../../../api/screen';
 import {SCREEN_HOME} from '../../../api/screen';
 import {SCREEN_MAIN} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
+import {SCREEN_INFO} from '../../../api/screen';
+import {SCREEN_CONFIRM_INFO} from '../../../api/screen';
 class SplashContainer extends Component {
   constructor(props) {
     super(props);
@@ -25,9 +27,9 @@ class SplashContainer extends Component {
       // });
       // this.props.navigation.dispatch(SCREEN_PROFILE);
       this.props.navigation.dispatch({
-        key: SCREEN_RETRO,
+        key: SCREEN_MAIN,
         type: 'ReplaceCurrentScreen',
-        routeName: SCREEN_RETRO,
+        routeName: SCREEN_MAIN,
         params: {},
       });
     }, 1000);
@@ -35,10 +37,12 @@ class SplashContainer extends Component {
   render() {
     const {} = this.props;
     return (
-      <LinearGradient colors={['#FEBE10', '#F0532D']} style={styles.container}>
-        <View style={stylesSplash.image}>
-        </View>
-      </LinearGradient>
+      <View style={{flex:1}}>
+        <Image
+          resizeMode="contain"
+          source={require('../../../assets/images/bg.png')}
+        />
+      </View>
     );
   }
 }
