@@ -3,6 +3,7 @@ import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styleHome from '../styles/styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {Rating} from 'react-native-elements';
+import moment from 'moment';
 export class JobHotItem extends Component {
   constructor(props) {
     super(props);
@@ -71,8 +72,9 @@ export class JobHotItem extends Component {
               source={require('../../../assets/images/ic-calendar.png')}
               style={styleHome.imgInfoJob}
             />
-            <Text style={styleHome.txtInfoJob}>
-              {item.timeStart} - {item.timeEnd}
+            <Text numberOfLines={1} style={styleHome.txtInfoJob}>
+              {moment(item.timeStart).format('DD/MM/YYYY')} -{' '}
+              {moment(item.timeEnd).format('DD/MM/YYYY')}
             </Text>
           </View>
           <View

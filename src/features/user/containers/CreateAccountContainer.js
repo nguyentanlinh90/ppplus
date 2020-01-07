@@ -24,7 +24,7 @@ export class CreateAccountContainer extends Component {
 
     this.state = {
       phone: '',
-      code: '',
+      referral_code: '',
       isLoading: false,
       isConnecting: false,
     };
@@ -64,16 +64,16 @@ export class CreateAccountContainer extends Component {
     if (type == 'phone') {
       const strPhone = convertPhone(text);
       this.setState({phone: strPhone});
-    } else if (type == 'code') {
-      this.setState({code: text});
+    } else if (type == 'referral_code') {
+      this.setState({referral_code: text});
     }
   };
 
   handleCreateAccount = () => {
     const {doCreateAccount} = this.props;
-    const {phone, code} = this.state;
+    const {phone, referral_code} = this.state;
 
-    if (phone != '' || code != '') {
+    if (phone != '' || referral_code != '') {
       var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
       if (!regEx.test(phone)) {
         this.dropdown.alertWithType(
@@ -84,7 +84,7 @@ export class CreateAccountContainer extends Component {
       } else {
         if (this.state.isConnecting) {
           this.setState({isLoading: true});
-          doCreateAccount(phone, code);
+          doCreateAccount(phone, referral_code);
         } else {
           this.dropdown.alertWithType(
             'error',
@@ -114,12 +114,15 @@ export class CreateAccountContainer extends Component {
     } else if (nextProps.msg_code == 'create_account_success') {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      this.props.navigation.dispatch({
-        key: SCREEN_SET_PASSWORD,
-        type: 'ReplaceCurrentScreen',
-        routeName: SCREEN_SET_PASSWORD,
-        params: {},
-      });
+
+      if ('phone' in nextProps.state.user.user) {
+        this.props.navigation.dispatch({
+          key: SCREEN_SET_PASSWORD,
+          type: 'ReplaceCurrentScreen',
+          routeName: SCREEN_SET_PASSWORD,
+          params: nextProps.state.user.user,
+        });
+      }
     }
   }
 
@@ -127,6 +130,12 @@ export class CreateAccountContainer extends Component {
     return (
       <View style={styles.body}>
         <SafeAreaView>
+          <Spinner
+            visible={this.state.isLoading}
+            color={'white'}
+            size={'large'}
+            textStyle={{color: '#fff'}}
+          />
           <StatusBar backgroundColor="#000" barStyle="light-content" />
           <View style={{height: '100%'}}>
             <View style={[{height: '55%'}]}>
@@ -143,21 +152,14 @@ export class CreateAccountContainer extends Component {
                       navigation={this.props.navigation}
                       onChangeText={this.onChangeText}
                       phone={this.state.phone}
-                      code={this.state.code}
+                      referral_code={this.state.referral_code}
                     />
                   </View>
                 </KeyboardAvoidingView>
               </View>
             </View>
           </View>
-          <Spinner
-            visible={this.state.isLoading}
-            textContent={'Loading...'}
-            color={'#fff'}
-            size={'large'}
-            textStyle={{color: '#fff'}}
-            animation={'fade'}
-          />
+
           <DropdownAlert
             ref={ref => (this.dropdown = ref)}
             defaultContainer={styles.defaultContainerLogin}

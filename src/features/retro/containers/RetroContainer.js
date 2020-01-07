@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import React, {Component} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import stylesRetro from '../styles/styles';
-import Swiper from 'react-native-swiper';
+import Swiper from 'react-native-web-swiper';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 class RetroContainer extends Component {
   constructor(props) {
@@ -43,24 +43,25 @@ class RetroContainer extends Component {
           </Text>
         </View>
         <Swiper
-          style={stylesRetro.boxImage}
-          showsButtons={false}
-          dotColor="#FEBE10"
-          activeDotColor="#F0532D"
+          controlsProps={{
+            prevPos: false,
+            nextPos: false,
+            dotStyle: {dotColor: '#FEBE10'},
+            dotActiveStyle: {backgroundColor: '#F0532D'},
+          }}
           onIndexChanged={index => {
-            console.log('index >>> ', index);
             this.setState({
               currentPage: index,
             });
           }}>
-          <View style={stylesRetro.slide1}>
-            <Text style={stylesRetro.text}>0</Text>
+          <View style={{backgroundColor: '#432', flex: 1}}>
+            <Text>Slide 1</Text>
           </View>
-          <View style={stylesRetro.slide2}>
-            <Text style={stylesRetro.text}>1</Text>
+          <View style={{backgroundColor: '#498', flex: 1}}>
+            <Text>Slide 2</Text>
           </View>
-          <View style={stylesRetro.slide3}>
-            <Text style={stylesRetro.text}>2</Text>
+          <View style={{backgroundColor: '#987', flex: 1}}>
+            <Text>Slide 3</Text>
           </View>
         </Swiper>
         <View style={stylesRetro.boxContent}>

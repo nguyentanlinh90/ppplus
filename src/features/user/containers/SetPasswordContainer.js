@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import SetPassWordForm from '../components/SetPasswordForm';
-import {doSetPassword} from '../actions/index';
+import {doSetPasswordAccount} from '../actions/index';
 import DropdownAlert from 'react-native-dropdownalert';
 import styles from '../../../styles/styles';
 import styleUser from '../styles/styles';
@@ -65,13 +65,15 @@ export class SetPasswordContainer extends Component {
   };
 
   handleSetPassword = () => {
-    const {doSetPassword} = this.props;
+    const {doSetPasswordAccount} = this.props;
     const {password} = this.state;
 
     if (password != '') {
       if (this.state.isConnecting) {
         this.setState({isLoading: true});
-        doSetPassword(password);
+        let user = this.props.state.user.user; // get user model from CreateAccountContainer
+        user['password'] = password; // set password
+        doSetPasswordAccount(user);
       } else {
         this.dropdown.alertWithType(
           'error',
@@ -80,26 +82,19 @@ export class SetPasswordContainer extends Component {
         );
       }
     } else {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Vui lòng nhập mật khẩu',
-      );
+      this.dropdown.alertWithType('error', 'Lỗi', 'Vui lòng nhập mật khẩu');
     }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == 'set_password_error') {
+    if (nextProps.msg_code == 'set_password_account_error') {
       this.setState({isLoading: false});
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Mật khẩu không hợp lệ',
-      );
+      this.dropdown.alertWithType('error', 'Lỗi', 'Mật khẩu không hợp lệ');
       nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == 'set_password_success') {
+    } else if (nextProps.msg_code == 'set_password_account_success') {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
+      console.log('linhnt xxx', nextProps.state.user.user)
       this.props.navigation.dispatch({
         key: SCREEN_LOGIN,
         type: 'ReplaceCurrentScreen',
@@ -162,6 +157,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  doSetPassword,
+  doSetPasswordAccount,
   changeMsgCode,
 })(SetPasswordContainer);

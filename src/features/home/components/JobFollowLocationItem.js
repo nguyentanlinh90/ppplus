@@ -9,23 +9,48 @@ export class JobFollowLocationItem extends Component {
     this.state = {};
   }
 
+  formatToWeekDay = day => {
+    switch (day) {
+      case 1:
+        return 'Thứ 2';
+      case 2:
+        return 'Thứ 3';
+      case 3:
+        return 'Thứ 4';
+      case 4:
+        return 'Thứ 5';
+      case 5:
+        return 'Thứ 6';
+      case 6:
+        return 'Thứ 7';
+      case 7:
+        return 'Chủ Nhật';
+    }
+  };
+
   render() {
     const {item} = this.props;
+    console.log('linhnt', item);
     let weekDay = '';
     for (let i = 0; i < item.weekDay.length; i++) {
       if (i == 0) {
-        weekDay = item.weekDay[i];
+        weekDay = this.formatToWeekDay(item.weekDay[i]);
       } else {
-        weekDay = weekDay + ' - ' + item.weekDay[i];
+        weekDay = weekDay + ' - ' + this.formatToWeekDay(item.weekDay[i]);
       }
     }
 
     let hourDay = '';
     for (let i = 0; i < item.hourDay.length; i++) {
       if (i == 0) {
-        hourDay = item.hourDay[i];
+        hourDay = item.hourDay[i].startTime + ' - ' + item.hourDay[i].endTime;
       } else {
-        hourDay = hourDay + ' ; ' + item.hourDay[i];
+        hourDay =
+          hourDay +
+          ' ; ' +
+          item.hourDay[i].startTime +
+          ' - ' +
+          item.hourDay[i].endTime;
       }
     }
 

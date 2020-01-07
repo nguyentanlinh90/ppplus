@@ -292,8 +292,8 @@ class HomeContainer extends Component {
           textStyle={{color: '#fff'}}
         />
         <SafeAreaView style={styles.container}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={{justifyContent: 'center'}}>
+          
+            {/* <View style={{justifyContent: 'center'}}>
               <Image
                 resizeMode="stretch"
                 source={require('../../../assets/images/bg-home-header.png')}
@@ -316,7 +316,7 @@ class HomeContainer extends Component {
                   <Text style={stylesHome.txtHeaderRegister}>Đăng ký</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </View> */}
             <View style={stylesHome.boxSearch}>
               <View style={stylesHome.inputSearch}>
                 <TextInput
@@ -340,6 +340,7 @@ class HomeContainer extends Component {
                 />
               </View>
             </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
             {/* hot job */}
             <View style={stylesHome.groupContent}>
               <Text style={stylesHome.txtTitleGroupContent}>

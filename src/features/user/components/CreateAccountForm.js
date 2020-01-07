@@ -11,7 +11,7 @@ export class CreateAccountForm extends Component {
   }
 
   render() {
-    const {onChangeText, handleCreateAccount, phone, code} = this.props;
+    const {onChangeText, handleCreateAccount, phone, referral_code} = this.props;
     return (
       <View>
         <Text style={styleUser.txtCreateAccount}>Tạo tài khoản</Text>
@@ -38,9 +38,9 @@ export class CreateAccountForm extends Component {
             keyboardType="default"
             returnKeyType="next"
             placeholder="Nhập mã giới thiệu"
-            value={code}
-            name="code"
-            onChangeText={text => onChangeText(text, 'code')}
+            value={referral_code}
+            name="referral_code"
+            onChangeText={text => onChangeText(text, 'referral_code')}
           />
         </View>
         <View style={styleUser.viewAgree}>

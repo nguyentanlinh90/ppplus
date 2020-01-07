@@ -16,6 +16,7 @@ import RadioForm, {
   RadioButtonLabel,
 } from 'react-native-simple-radio-button';
 import LinearGradient from 'react-native-linear-gradient';
+import moment from 'moment';
 import styleHome from '../styles/styles';
 import ArrowInBox from '../../../components/ArrowInBox';
 import JobFollowLocationItem from '../components/JobFollowLocationItem';
@@ -168,7 +169,8 @@ export class JobHotItem extends Component {
               Thời gian
             </Text>
             <Text style={{flex: 1, color: c_1c1c1c, fontSize: 16}}>
-              {item.timeStart} - {item.timeEnd}
+              {moment(item.timeStart).format('DD/MM/YYYY')} -{' '}
+              {moment(item.timeEnd).format('DD/MM/YYYY')}
             </Text>
           </View>
           <View style={{height: 5, backgroundColor: c_d8d8d8}} />
@@ -220,10 +222,10 @@ export class JobHotItem extends Component {
           </TouchableOpacity>
           <FlatList
             showsHorizontalScrollIndicator={false}
-            data={item.listJob}
+            data={item.jobDetails}
             renderItem={({item: rowData}) => {
               return (
-                <TouchableOpacity activeOpacity={0.5} onPress={() => {}}>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
                   <JobFollowLocationItem item={rowData} />
                 </TouchableOpacity>
               );

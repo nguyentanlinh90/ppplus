@@ -3,6 +3,7 @@ import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styleHome from '../styles/styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {Rating} from 'react-native-elements';
+import moment from 'moment';
 export class JobHotItem extends Component {
   constructor(props) {
     super(props);
@@ -20,11 +21,11 @@ export class JobHotItem extends Component {
       colorOfBgTrending = '#CAF4CF';
       textTrending = 'Mới';
       textColorTrending = '#63D471';
-    } else if(item.trending == 2){
+    } else if (item.trending == 2) {
       colorOfBgTrending = '#FFE2E2';
       textTrending = 'Hot';
       textColorTrending = '#FF3434';
-    } else{
+    } else {
       colorOfBgTrending = '#FFE2E2';
       textTrending = 'Gấp';
       textColorTrending = '#FF3434';
@@ -110,7 +111,9 @@ export class JobHotItem extends Component {
             source={require('../../../assets/images/ic-sex.png')}
             style={styleHome.imgInfoJob}
           />
-          <Text style={styleHome.txtInfoJob}>{item.sex}</Text>
+          <Text style={styleHome.txtInfoJob}>
+            {item.gender == 0 ? 'Nữ' : 'Nam'}
+          </Text>
         </View>
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
@@ -130,8 +133,9 @@ export class JobHotItem extends Component {
             source={require('../../../assets/images/ic-calendar.png')}
             style={styleHome.imgInfoJob}
           />
-          <Text style={styleHome.txtInfoJob}>
-            {item.timeStart} - {item.timeEnd}
+          <Text numberOfLines={1} adjustsFontSizeToFit   allowFontScaling style={styleHome.txtInfoJob}>
+            {moment(item.timeStart).format('DD/MM/YYYY')} -{' '}
+            {moment(item.timeEnd).format('DD/MM/YYYY')}
           </Text>
         </View>
       </View>

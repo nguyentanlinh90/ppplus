@@ -8,6 +8,7 @@ import {SCREEN_RETRO} from '../../../api/screen';
 import {SCREEN_PROFILE} from '../../../api/screen';
 import {SCREEN_HOME} from '../../../api/screen';
 import {SCREEN_MAIN} from '../../../api/screen';
+import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 class SplashContainer extends Component {
   constructor(props) {
     super(props);
@@ -24,9 +25,9 @@ class SplashContainer extends Component {
       // });
       // this.props.navigation.dispatch(SCREEN_PROFILE);
       this.props.navigation.dispatch({
-        key: SCREEN_MAIN,
+        key: SCREEN_RETRO,
         type: 'ReplaceCurrentScreen',
-        routeName: SCREEN_MAIN,
+        routeName: SCREEN_RETRO,
         params: {},
       });
     }, 1000);
