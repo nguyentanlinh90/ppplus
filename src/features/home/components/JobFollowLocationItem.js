@@ -3,6 +3,9 @@ import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styleHome from '../styles/styles';
 import {Rating} from 'react-native-elements';
 import {c_F0532D, c_1c1c1c, c_ffffff} from '../../../utils/constants';
+import CheckBox from 'react-native-check-box';
+import CBChecked from '../../../components/CBChecked';
+import CBUnChecked from '../../../components/CBUnChecked';
 export class JobFollowLocationItem extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +33,6 @@ export class JobFollowLocationItem extends Component {
 
   render() {
     const {item} = this.props;
-    console.log('linhnt', item);
     let weekDay = '';
     for (let i = 0; i < item.weekDay.length; i++) {
       if (i == 0) {
@@ -66,16 +68,17 @@ export class JobFollowLocationItem extends Component {
             }}>
             {item.nameStore}
           </Text>
-          <Image
-            resizeMode="contain"
-            source={require('../../../assets/images/ic-location.png')}
-            style={{width: 24, height: 24}}
+          <CheckBox
+            onClick={() => {}}
+            isChecked={true}
+            checkedImage={<CBChecked />}
+            unCheckedImage={<CBUnChecked />}
           />
         </View>
         <View style={styleHome.jobFollowLocationDetail}>
           <Image
             resizeMode="contain"
-            source={require('../../../assets/images/ic-location.png')}
+            source={require('../../../assets/images/ic-building.png')}
           />
           <Text style={styleHome.jobFollowLocationTxtDetail}>
             {item.address}
@@ -84,14 +87,14 @@ export class JobFollowLocationItem extends Component {
         <View style={styleHome.jobFollowLocationDetail}>
           <Image
             resizeMode="contain"
-            source={require('../../../assets/images/ic-location.png')}
+            source={require('../../../assets/images/ic-calendar.png')}
           />
           <Text style={styleHome.jobFollowLocationTxtDetail}>{weekDay}</Text>
         </View>
         <View style={styleHome.jobFollowLocationDetail}>
           <Image
             resizeMode="contain"
-            source={require('../../../assets/images/ic-location.png')}
+            source={require('../../../assets/images/ic-time.png')}
           />
           <Text style={styleHome.jobFollowLocationTxtDetail}>{hourDay}</Text>
         </View>

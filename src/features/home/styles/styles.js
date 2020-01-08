@@ -438,17 +438,17 @@ export default StyleSheet.create({
     width: 200,
     borderRadius: 6,
     marginEnd: 10,
-    margin:1,
+    margin: 1,
     padding: 12,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     borderRadius: 10,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowOpacity: 0.3,
     shadowRadius: 1,
     shadowOffset: {
       height: 0,
-      width: 0
-    }
+      width: 0,
+    },
   },
   jobFollowLocationContainer: {
     borderRadius: 6,
@@ -465,4 +465,59 @@ export default StyleSheet.create({
     marginBottom: 5,
   },
   jobFollowLocationTxtDetail: {color: c_1c1c1c, fontSize: 16, marginLeft: 10},
+  jobDetailTop: {
+    flexDirection: 'row',
+    marginStart: 16,
+    marginEnd: 16,
+  },
+  jobDetailLogo:{width: 84, height: 84, borderRadius: 6},
+  jobDetailTopInfo:{
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginStart: 10,
+    marginEnd: 10,
+  },
+  jobDetailLine:{
+    height: 1,
+    backgroundColor: '#d8d8d8',
+    marginStart: 16,
+    marginEnd: 16,
+  },
+  jobDetailTitle:{
+    color: '#d8d8d8',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 16,
+    marginTop: 16,
+  },
+  jobDetailIconBoxSelect:{
+    height: 44,
+    borderColor: '#d8d8d8',
+    borderWidth: 1,
+    borderRadius: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 10,
+    paddingEnd: 10,
+  },
+  jobDetailBoxSubmit:{
+    borderRadius: 22,
+    borderStyle: 'solid',
+    height: 50,
+    margin: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  jobDetailButtonSelectAddress:{
+    
+      textAlign: 'center',
+      color: '#fff',
+      fontSize: 18,
+      paddingTop: 8,
+      paddingBottom: 8,
+      paddingEnd: 25,
+      paddingStart: 25,
+    
+  }
 });

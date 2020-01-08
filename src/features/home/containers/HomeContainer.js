@@ -249,7 +249,7 @@ class HomeContainer extends Component {
   _renderRBSheet() {
     return (
       <RBSheet
-        height={screenHeight - 80}
+        height={screenHeight}
         ref={ref => {
           this.jobHotDetail = ref;
         }}

@@ -27,9 +27,9 @@ class SplashContainer extends Component {
       // });
       // this.props.navigation.dispatch(SCREEN_PROFILE);
       this.props.navigation.dispatch({
-        key: SCREEN_INFO,
+        key: SCREEN_MAIN,
         type: 'ReplaceCurrentScreen',
-        routeName: SCREEN_INFO,
+        routeName: SCREEN_MAIN,
         params: {},
       });
     }, 1000);

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styleHome from '../styles/styles';
-import LinearGradient from 'react-native-linear-gradient';
 import {Rating} from 'react-native-elements';
 import moment from 'moment';
 export class JobHotItem extends Component {
