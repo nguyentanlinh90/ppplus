@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {SafeAreaView} from 'react-native';
+import {View, SafeAreaView, Image} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from '../../../styles/styles';
@@ -17,7 +17,9 @@ class InfoContainer extends Component {
       genderMale: false,
       genderFeMale: false,
       yearOfBirth: new Date().getFullYear() - 18,
-      city: 'Hồ Chí Minh',
+      city: 'Chọn địa điểm làm việc',
+      isJobLongTerm: false,
+      isJobShortTerm: false,
     };
   }
   _onChangeText = (text, type) => {
@@ -55,11 +57,20 @@ class InfoContainer extends Component {
     this.props.navigation.navigate(SCREEN_CONFIRM_INFO);
   };
 
+  _setJobDuration = isLongTerm => {
+    if (isLongTerm) this.setState({isJobLongTerm: !this.state.isJobLongTerm});
+    else this.setState({isJobShortTerm: !this.state.isJobShortTerm});
+  };
+
   render() {
     const {} = this.props;
     return (
-      <LinearGradient colors={['#FEBE10', '#F0532D']} style={styles.container}>
-        <SafeAreaView style={stylesInfo.container}>
+      <View style={{flex: 1}}>
+        <Image
+          style={{width: '100%', height: '100%', position: 'absolute'}}
+          source={require('../../../assets/images/bg.png')}
+        />
+        <SafeAreaView style={[stylesInfo.container]}>
           <InfoForm
             onChangeText={this._onChangeText}
             lastName={this.state.lastName}
@@ -71,10 +82,13 @@ class InfoContainer extends Component {
             yearOfBirth={this.state.yearOfBirth}
             selectCity={this._selectCity}
             city={this.state.city}
+            setJobDuration={this._setJobDuration}
+            jobLongTerm={this.state.isJobLongTerm}
+            jobShortTerm={this.state.isJobShortTerm}
             openHomeScreen={this._openConfirm}
           />
         </SafeAreaView>
-      </LinearGradient>
+      </View>
     );
   }
 }

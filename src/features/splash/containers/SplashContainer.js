@@ -27,9 +27,9 @@ class SplashContainer extends Component {
       // });
       // this.props.navigation.dispatch(SCREEN_PROFILE);
       this.props.navigation.dispatch({
-        key: SCREEN_MAIN,
+        key: SCREEN_INFO,
         type: 'ReplaceCurrentScreen',
-        routeName: SCREEN_MAIN,
+        routeName: SCREEN_INFO,
         params: {},
       });
     }, 1000);
@@ -37,9 +37,9 @@ class SplashContainer extends Component {
   render() {
     const {} = this.props;
     return (
-      <View style={{flex:1}}>
+      <View >
         <Image
-          resizeMode="contain"
+          style={{width:'100%', height:'100%'}}
           source={require('../../../assets/images/bg.png')}
         />
       </View>

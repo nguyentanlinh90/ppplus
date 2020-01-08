@@ -57,7 +57,7 @@ export default StyleSheet.create({
   txtSelect: {color: '#2b2b2b', fontSize:16, flex: 1},
   viewSelect:{
     borderWidth: 1,
-    borderColor: '#d8d8d8',
+    borderColor: '#F0532D',
     borderRadius: 6,
     height: 200,
   },
@@ -91,4 +91,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     lineHeight: 24,
   },
+  containerCheckBox:{flex: 1, flexDirection: 'row', alignItems: 'center'},
+  checkbox:{flex: 1, padding: 10}
 });

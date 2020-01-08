@@ -10,9 +10,14 @@ import {
 import CheckBox from 'react-native-check-box';
 import LinearGradient from 'react-native-linear-gradient';
 import {ScrollView} from 'react-native-gesture-handler';
-import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox';
 import styles from '../../../styles/styles';
 import stylesInfo from '../styles/styles';
+import CBChecked from '../../../components/CBChecked';
+import CBUnChecked from '../../../components/CBUnChecked';
+import RadioChecked from '../../../components/RadioChecked';
+import RadioUnChecked from '../../../components/RadioUnChecked';
+import ArrowInBox from '../../../components/ArrowInBox';
+import {jewelStyle} from '../../../utils/constants';
 const listCity = require('../../../assets/json/city.json');
 
 export default class InfoContainer_1 extends Component {
@@ -20,19 +25,23 @@ export default class InfoContainer_1 extends Component {
     super(props);
     this.state = {
       isShowYOB: false,
-      isShowCity: false,
-      isChecked_1: true,
-      isChecked_2: false,
+      isShowCity: true,
     };
   }
 
-  _renderIconArrow = () => {
-    return (
-      <Image
-        resizeMode="contain"
-        source={require('../../../assets/images/ic-picker.png')}
-      />
-    );
+  varIndustryGroup = [];
+  _boxSelectStyle = function(color) {
+    return {
+      width: '100%',
+      height: 44,
+      borderColor: color,
+      borderWidth: 1,
+      borderRadius: 6,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingStart: 10,
+      paddingEnd: 10,
+    };
   };
 
   render() {
@@ -47,7 +56,10 @@ export default class InfoContainer_1 extends Component {
       yearOfBirth,
       selectCity,
       city,
-      openHomeScreen
+      setJobDuration,
+      jobLongTerm,
+      jobShortTerm,
+      openHomeScreen,
     } = this.props;
 
     var listYear = [];
@@ -63,7 +75,7 @@ export default class InfoContainer_1 extends Component {
           với bạn!
         </Text>
         <View style={stylesInfo.viewFill}>
-          <Text style={stylesInfo.titleContent}>1. Họ và tên</Text>
+           <Text style={stylesInfo.titleContent}>1. Họ và tên</Text>
           <View style={stylesInfo.flexRow}>
             <View style={[stylesInfo.boxInput, {marginEnd: 10}]}>
               <TextInput
@@ -87,39 +99,40 @@ export default class InfoContainer_1 extends Component {
                 onChangeText={text => onChangeText(text, 'firstName')}
               />
             </View>
-          </View>
+          </View> 
           <Text style={stylesInfo.titleContent}>2. Giới tính</Text>
           <View style={stylesInfo.flexRow}>
-            <View style={{flex: 1}}>
-              <CircleCheckBox
-                styleLabel={{fontSize: 16, color: '#1c1c1c', marginStart: 20}}
-                checked={genderMale}
-                onToggle={checked => handleGenderSelect(true, checked)}
-                label="Nam"
-                outerColor="#1c1c1c"
-                innerColor="#F0532D"
-                innerSize={10}
+            <View style={stylesInfo.containerCheckBox}>
+              <CheckBox
+                style={stylesInfo.checkbox}
+                onClick={() => handleGenderSelect(true, !genderMale)}
+                isChecked={genderMale}
+                rightText={'Nam'}
+                checkedImage={<RadioChecked />}
+                unCheckedImage={<RadioUnChecked />}
               />
             </View>
-            <View style={{flex: 1}}>
-              <CircleCheckBox
-                styleLabel={{fontSize: 16, color: '#1c1c1c', marginStart: 20}}
-                checked={genderFeMale}
-                onToggle={checked => handleGenderSelect(false, checked)}
-                label="Nữ"
-                outerColor="#1c1c1c"
-                innerColor="#F0532D"
-                innerSize={10}
+            <View style={stylesInfo.containerCheckBox}>
+              <CheckBox
+                style={stylesInfo.checkbox}
+                onClick={() => handleGenderSelect(false, !genderFeMale)}
+                isChecked={genderFeMale}
+                rightText={'Nữ'}
+                checkedImage={<RadioChecked />}
+                unCheckedImage={<RadioUnChecked />}
               />
             </View>
           </View>
           <Text style={stylesInfo.titleContent}>3. Năm sinh</Text>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => this.setState({isShowYOB: true})}>
-            <View style={stylesInfo.boxSelect}>
+            onPress={() => this.setState({isShowYOB: !this.state.isShowYOB})}>
+            <View
+              style={this._boxSelectStyle(
+                this.state.isShowYOB ? '#F0532D' : '#d8d8d8',
+              )}>
               <Text style={stylesInfo.txtSelect}>{yearOfBirth}</Text>
-              {this._renderIconArrow()}
+              {<ArrowInBox />}
             </View>
           </TouchableOpacity>
           {this.state.isShowYOB ? (
@@ -136,6 +149,7 @@ export default class InfoContainer_1 extends Component {
                       this.setState({isShowYOB: false});
                     }}>
                     <Text style={stylesInfo.txtViewSelect}>{rowData}</Text>
+
                     <View style={stylesInfo.lineSelect} />
                   </TouchableOpacity>
                 );
@@ -146,10 +160,13 @@ export default class InfoContainer_1 extends Component {
           <Text style={stylesInfo.titleContent}>4. Địa điểm làm việc</Text>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => this.setState({isShowCity: true})}>
-            <View style={stylesInfo.boxSelect}>
+            onPress={() => this.setState({isShowCity: !this.state.isShowCity})}>
+            <View
+              style={this._boxSelectStyle(
+                this.state.isShowCity ? '#F0532D' : '#d8d8d8',
+              )}>
               <Text style={stylesInfo.txtSelect}>{city}</Text>
-              {this._renderIconArrow()}
+              {<ArrowInBox />}
             </View>
           </TouchableOpacity>
           {this.state.isShowCity ? (
@@ -165,10 +182,21 @@ export default class InfoContainer_1 extends Component {
                       selectCity(rowData.city);
                       this.setState({isShowCity: false});
                     }}>
-                    <View style={{flexDirection: 'row'}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingEnd: 10,
+                      }}>
                       <Text style={stylesInfo.txtViewSelect}>
                         {rowData.city}
                       </Text>
+                      <CheckBox
+                        onClick={() => {}}
+                        isChecked={true}
+                        checkedImage={<CBChecked />}
+                        unCheckedImage={<CBUnChecked />}
+                      />
                     </View>
                     <View style={stylesInfo.lineSelect} />
                   </TouchableOpacity>
@@ -179,34 +207,30 @@ export default class InfoContainer_1 extends Component {
           ) : null}
           <Text style={stylesInfo.titleContent}>6. Thời lượng công việc</Text>
           <View style={{flexDirection: 'row'}}>
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+            <View style={stylesInfo.containerCheckBox}>
               <CheckBox
-                style={{flex: 1, padding: 10}}
-                onClick={() => {
-                  this.setState({
-                    isChecked: !this.state.isChecked_1,
-                  });
-                }}
-                isChecked={this.state.isChecked_1}
+                style={stylesInfo.checkbox}
+                onClick={() => setJobDuration(true)}
+                isChecked={jobLongTerm}
                 rightText={'Dài hạn'}
-                checkedCheckBoxColor="#F0532D"
+                checkedImage={<CBChecked />}
+                unCheckedImage={<CBUnChecked />}
               />
             </View>
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+            <View style={stylesInfo.containerCheckBox}>
               <CheckBox
-                style={{flex: 1, padding: 10}}
-                onClick={() => {
-                  this.setState({
-                    isChecked: !this.state.isChecked_2,
-                  });
-                }}
-                isChecked={this.state.isChecked_2}
+                style={stylesInfo.checkbox}
+                onClick={() => setJobDuration(false)}
+                isChecked={jobShortTerm}
                 rightText={'Ngắn hạn'}
-                checkedCheckBoxColor="#F0532D"
+                checkedImage={<CBChecked />}
+                unCheckedImage={<CBUnChecked />}
               />
             </View>
           </View>
-          <TouchableOpacity activeOpacity={0.7} onPress={() => openHomeScreen()}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => openHomeScreen()}>
             <LinearGradient
               colors={['#F0532D', '#FEBE10']}
               useAngle={true}
