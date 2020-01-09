@@ -22,6 +22,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 import {changeMsgCode, getJobs} from '../actions/index';
 const data = [
@@ -279,6 +280,21 @@ class HomeContainer extends Component {
     }
   }
 
+  _boxImgStyle = function() {
+    return {
+      ...Platform.select({
+        ios: {
+          height: getStatusBarHeight() + 57,
+        },
+        android: {
+          height: 57,
+        },
+      }),
+      width: '100%',
+      position: 'absolute',
+    };
+  };
+
   render() {
     const {props, inputSearch, jobs} = this.props;
     return (
@@ -286,7 +302,6 @@ class HomeContainer extends Component {
         {this._renderRBSheet()}
         <Spinner
           visible={this.state.isLoading}
-          // textContent={'Loading...'}
           color={'white'}
           size={'large'}
           textStyle={{color: '#fff'}}
@@ -294,18 +309,12 @@ class HomeContainer extends Component {
         <Image
           resizeMode="stretch"
           source={require('../../../assets/images/bg-home-header.png')}
-          style={{width: '100%', height: 102, position: 'absolute'}}
+          style={this._boxImgStyle()}
         />
         <SafeAreaView style={styles.container}>
           <View>
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginStart: 16,
-                  height: 35,
-                  alignItems:'center',
-                }}>
+              <View style={stylesHome.viewUser}>
                 <Text style={{fontSize: 16, color: '#fff'}}>Xin chào,</Text>
                 <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
                   Tiên

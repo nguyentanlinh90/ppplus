@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Image,
+  AsyncStorage
 } from 'react-native';
 import InputOTPForm from '../components/InputOTPForm';
 import {doInputOTP} from '../actions/index';
@@ -87,6 +88,7 @@ export class InputOTPContainer extends Component {
       if (this.state.isConnecting) {
         this.setState({isLoading: true});
         // doInputOTP(otpCode);
+        AsyncStorage.setItem('login', '1');
         this.props.navigation.dispatch({
           key: SCREEN_MAIN,
           type: 'ReplaceCurrentScreen',

@@ -520,4 +520,10 @@ export default StyleSheet.create({
     paddingEnd: 25,
     paddingStart: 25,
   },
+  viewUser: {
+    flexDirection: 'row',
+    marginStart: 16,
+    height: 35,
+    alignItems: 'center',
+  },
 });
