@@ -117,11 +117,11 @@ export class BasicInfoForm extends Component {
               <TextInput
                 style={stylesProfile.txtInputBasicInfo}
                 returnKeyType="go"
-                value={firstName}
-                name="hight"
+                value={height}
+                name="height"
                 placeholder="Nhập chiều cao"
                 keyboardType="numeric"
-                onChangeText={text => onChangeText(text, 'hight')}
+                onChangeText={text => onChangeText(text, 'height')}
               />
               {/* {this._renderIconArrow()} */}
             </View>
@@ -133,7 +133,7 @@ export class BasicInfoForm extends Component {
               <TextInput
                 style={stylesProfile.txtInputBasicInfo}
                 returnKeyType="go"
-                value={firstName}
+                value={weight}
                 name="weight"
                 placeholder="Nhập cân nặng"
                 keyboardType="numeric"

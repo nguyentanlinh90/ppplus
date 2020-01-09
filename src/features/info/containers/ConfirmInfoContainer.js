@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, SafeAreaView, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from '../../../styles/styles';
 import stylesInfo from '../styles/styles';
-import {SCREEN_HOME} from '../../../api/screen';
+import {SCREEN_MAIN} from '../../../api/screen';
 
 class ConfirmInfoContainer extends Component {
   constructor(props) {
@@ -14,9 +14,9 @@ class ConfirmInfoContainer extends Component {
 
   _openHomeScreen = () => {
     this.props.navigation.dispatch({
-      key: SCREEN_HOME,
+      key: SCREEN_MAIN,
       type: 'ReplaceCurrentScreen',
-      routeName: SCREEN_HOME,
+      routeName: SCREEN_MAIN,
       params: {},
     });
   };
@@ -24,12 +24,14 @@ class ConfirmInfoContainer extends Component {
   render() {
     const {} = this.props;
     return (
-      <LinearGradient
-        colors={['#FEBE10', '#F0532D']}
-        style={[styles.container, {justifyContent: 'center'}]}>
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <Image
+          style={{width: '100%', height: '100%', position: 'absolute'}}
+          source={require('../../../assets/images/bg.png')}
+        />
+
         <View
           style={{
-            height: 300,
             backgroundColor: '#fff',
             marginStart: 20,
             marginEnd: 20,
@@ -68,7 +70,7 @@ class ConfirmInfoContainer extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-      </LinearGradient>
+      </View>
     );
   }
 }

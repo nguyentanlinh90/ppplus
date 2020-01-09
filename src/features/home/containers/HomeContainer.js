@@ -249,7 +249,7 @@ class HomeContainer extends Component {
   _renderRBSheet() {
     return (
       <RBSheet
-        height={screenHeight}
+        height={Platform.OS === 'ios' ? screenHeight - 35 : screenHeight}
         ref={ref => {
           this.jobHotDetail = ref;
         }}
@@ -274,7 +274,7 @@ class HomeContainer extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'fetch_job_success') {
-      this.setState({isLoading: false,jobs: nextProps.jobs});
+      this.setState({isLoading: false, jobs: nextProps.jobs});
       nextProps.changeMsgCode('');
     }
   }
@@ -291,56 +291,56 @@ class HomeContainer extends Component {
           size={'large'}
           textStyle={{color: '#fff'}}
         />
+        <Image
+          resizeMode="stretch"
+          source={require('../../../assets/images/bg-home-header.png')}
+          style={{width: '100%', height: 102, position: 'absolute'}}
+        />
         <SafeAreaView style={styles.container}>
-          
-            {/* <View style={{justifyContent: 'center'}}>
-              <Image
-                resizeMode="stretch"
-                source={require('../../../assets/images/bg-home-header.png')}
-                style={{width: '100%', height: 221}}
-              />
-              <View style={stylesHome.viewHeader}>
-                <Text style={stylesHome.txtHeaderTitle}>
-                  Chào mừng đến với PP+
+          <View>
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginStart: 16,
+                  height: 35,
+                  alignItems:'center',
+                }}>
+                <Text style={{fontSize: 16, color: '#fff'}}>Xin chào,</Text>
+                <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
+                  Tiên
                 </Text>
-                <Text style={stylesHome.txtHeaderDes}>
-                  Banjo tote bag bicycle rights, High Life sartorial cray craft
-                  beer.
-                </Text>
-                <TouchableOpacity
-                  style={stylesHome.boxHeaderRegister}
-                  activeOpacity={0.8}
-                  onPress={() => {
-                    props.navigation.navigate(SCREEN_CREATE_ACCOUNT);
-                  }}>
-                  <Text style={stylesHome.txtHeaderRegister}>Đăng ký</Text>
-                </TouchableOpacity>
               </View>
-            </View> */}
-            <View style={stylesHome.boxSearch}>
-              <View style={stylesHome.inputSearch}>
-                <TextInput
-                  style={stylesHome.txtInputSearch}
-                  value={inputSearch}
-                  placeholder="Tìm kiếm"
-                  onChangeText={text => this.onChangeText(text, 'inputSearch')}
-                  underlineColorAndroid="transparent"
-                />
-                <View style={stylesHome.buttonFilter}>
-                  <Image
-                    resizeMode="contain"
-                    source={require('../../../assets/images/ic-search.png')}
-                  />
+              <View>
+                <View style={[stylesHome.boxSearch]}>
+                  <View style={stylesHome.inputSearch}>
+                    <TextInput
+                      style={stylesHome.txtInputSearch}
+                      value={inputSearch}
+                      placeholder="Tìm kiếm"
+                      onChangeText={text =>
+                        this.onChangeText(text, 'inputSearch')
+                      }
+                      underlineColorAndroid="transparent"
+                    />
+                    <View style={stylesHome.buttonFilter}>
+                      <Image
+                        resizeMode="contain"
+                        source={require('../../../assets/images/ic-search.png')}
+                      />
+                    </View>
+                  </View>
+                  <View style={stylesHome.buttonFilter}>
+                    <Image
+                      resizeMode="contain"
+                      source={require('../../../assets/images/ic-filter.png')}
+                    />
+                  </View>
                 </View>
               </View>
-              <View style={stylesHome.buttonFilter}>
-                <Image
-                  resizeMode="contain"
-                  source={require('../../../assets/images/ic-filter.png')}
-                />
-              </View>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false}>
+          </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
             {/* hot job */}
             <View style={stylesHome.groupContent}>
               <Text style={stylesHome.txtTitleGroupContent}>

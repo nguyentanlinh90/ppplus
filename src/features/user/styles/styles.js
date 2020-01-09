@@ -209,20 +209,14 @@ export default StyleSheet.create({
     borderRadius: 50,
   },
   boxLogin: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    ...Platform.select({
-      ios: {
-        height: '79%',
-      },
-      android: {
-        height: '77%',
-      },
-    }),
+    paddingLeft: 16,
+    paddingRight: 16,
+    height:'100%',
+    justifyContent:'center'
   },
   inputLogin: {
     height: 48,
-    width: '88%',
+    flex:1,
     fontSize: 19,
     paddingStart: 10,
     ...Platform.select({
@@ -233,6 +227,12 @@ export default StyleSheet.create({
         paddingTop: 16,
       },
     }),
+  },
+  boxShowPass:{
+    width: 48,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputCreateAccount: {
     height: 48,
@@ -263,6 +263,7 @@ export default StyleSheet.create({
     textDecorationLine: 'underline',
     color: '#333333',
     fontSize: 16,
+    marginStart: 5,
   },
   textForgetPass: {
     textAlign: 'right',
@@ -271,7 +272,7 @@ export default StyleSheet.create({
   },
   textNotYetAccount: {
     textAlign: 'center',
-    marginTop:17,
+    marginTop: 17,
     color: '#F0532D',
     fontSize: 16,
   },
@@ -280,17 +281,17 @@ export default StyleSheet.create({
     color: '#1C1C1C',
     fontSize: 24,
     fontWeight: 'bold',
-    marginTop:5
+    marginTop: 5,
   },
   txtDesCallSp: {
     textAlign: 'center',
     fontSize: 16,
-    marginTop:10,
-    marginBottom:15,
+    marginTop: 10,
+    marginBottom: 15,
     color: '#757575',
   },
   textSendOTPAgain: {
-    marginStart:5,
+    marginStart: 5,
     color: '#F0532D',
     fontSize: 16,
   },
@@ -593,7 +594,7 @@ export default StyleSheet.create({
     marginRight: 10,
   },
   imgCallSp: {
-    alignContent:'center',
+    alignContent: 'center',
     width: 156,
     height: 144,
     marginTop: 10,

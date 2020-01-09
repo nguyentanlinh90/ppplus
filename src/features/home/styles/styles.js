@@ -386,7 +386,9 @@ export default StyleSheet.create({
   },
   boxSearch: {
     flexDirection: 'row',
-    margin: 10,
+    marginStart: 10,
+    marginEnd: 10,
+    marginBottom: 10,
   },
   inputSearch: {
     flex: 1,
@@ -470,29 +472,29 @@ export default StyleSheet.create({
     marginStart: 16,
     marginEnd: 16,
   },
-  jobDetailLogo:{width: 84, height: 84, borderRadius: 6},
-  jobDetailTopInfo:{
+  jobDetailLogo: {width: 84, height: 84, borderRadius: 6},
+  jobDetailTopInfo: {
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'center',
     marginStart: 10,
     marginEnd: 10,
   },
-  jobDetailLine:{
+  jobDetailLine: {
     height: 1,
     backgroundColor: '#d8d8d8',
     marginStart: 16,
     marginEnd: 16,
   },
-  jobDetailTitle:{
+  jobDetailTitle: {
     color: '#d8d8d8',
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 16,
     marginTop: 16,
   },
-  jobDetailIconBoxSelect:{
-    height: 44,
+  jobDetailIconBoxSelect: {
+    height: 50,
     borderColor: '#d8d8d8',
     borderWidth: 1,
     borderRadius: 6,
@@ -501,7 +503,7 @@ export default StyleSheet.create({
     paddingLeft: 10,
     paddingEnd: 10,
   },
-  jobDetailBoxSubmit:{
+  jobDetailBoxSubmit: {
     borderRadius: 22,
     borderStyle: 'solid',
     height: 50,
@@ -509,15 +511,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  jobDetailButtonSelectAddress:{
-    
-      textAlign: 'center',
-      color: '#fff',
-      fontSize: 18,
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingEnd: 25,
-      paddingStart: 25,
-    
-  }
+  jobDetailButtonSelectAddress: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 18,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingEnd: 25,
+    paddingStart: 25,
+  },
 });

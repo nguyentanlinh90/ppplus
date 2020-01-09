@@ -9,15 +9,31 @@ import LinearGradient from 'react-native-linear-gradient';
 export default class LocationPicker extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      location: this.props.location,
+      district: 'Quận Bình Thạnh',
+      city: 'Hồ Chí Minh',
+      citySelected: ['Hồ Chí Minh'],
+      districtSelected: ['Quận Bình Thạnh'],
+    };
   }
 
+  _selectCity = city => {
+    this.setState({city: city});
+  };
+  _selectDistrict = district => {
+    this.setState({district: district});
+  };
+
   render() {
-    const {handleClose, visible, city, district} = this.props;
-
-    const citySelected = ['Hồ Chí Minh'];
-
-    const districtSelected = ['Quận 3'];
+    const {
+      handleClose,
+      visible,
+      cityList,
+      districtList,
+      locationSelect,
+      location,
+    } = this.props;
 
     return (
       <Modal
@@ -29,8 +45,9 @@ export default class LocationPicker extends Component {
         animationInTiming={300}
         animationOut={'slideOutDown'}
         animationOutTiming={300}
-        isVisible={visible}>
-        <View style={{height: '100%'}}>
+        isVisible={visible}
+        style={{margin: 15}}>
+        <View style={{height: '100%', marginTop: 100}}>
           <View
             style={{
               backgroundColor: '#fff',
@@ -51,23 +68,31 @@ export default class LocationPicker extends Component {
                   marginLeft: 5,
                   flex: 1,
                 }}>
-                Test Test
+                {this.state.district + ', '+this.state.city}
               </Text>
               <ArrowInBox />
             </View>
-            <TagsView all={city} selected={citySelected} isExclusive={true} />
+            <TagsView
+              isCity={true}
+              all={cityList}
+              selected={this.state.citySelected}
+              isExclusive={true}
+              selectCity={this._selectCity}
+            />
             <View
               style={{
                 width: '100%',
-                height: 0.1,
-                backgroundColor: '#757575',
-                marginBottom: 10,
+                height: 0.5,
+                backgroundColor: '#d8d8d8',
+                marginBottom: 5,
               }}
             />
             <TagsView
-              all={district}
-              selected={districtSelected}
+              isDistrict={true}
+              all={districtList}
+              selected={this.state.districtSelected}
               isExclusive={true}
+              selectDistrict={this._selectDistrict}
             />
             <TouchableOpacity activeOpacity={0.7} onPress={() => handleClose()}>
               <LinearGradient

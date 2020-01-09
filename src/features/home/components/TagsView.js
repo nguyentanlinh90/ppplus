@@ -36,6 +36,14 @@ export default class TagsView extends Component {
       selected = addOrRemove(this.state.selected, tag);
     }
 
+    if (this.props.isCity) {
+      this.props.selectCity(tag);
+    }
+
+    if (this.props.isDistrict) {
+      this.props.selectDistrict(tag);
+    }
+
     this.setState({
       selected,
     });
@@ -71,7 +79,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     padding: 15,
   },
 });

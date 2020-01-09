@@ -27,20 +27,23 @@ class SplashContainer extends Component {
       // });
       // this.props.navigation.dispatch(SCREEN_PROFILE);
       this.props.navigation.dispatch({
-        key: SCREEN_MAIN,
+        key: SCREEN_RETRO,
         type: 'ReplaceCurrentScreen',
-        routeName: SCREEN_MAIN,
+        routeName: SCREEN_RETRO,
         params: {},
       });
-    }, 1000);
+    }, 5000);
   }
   render() {
     const {} = this.props;
     return (
-      <View >
+      <View style={{justifyContent:'center', alignItems:'center'}}>
         <Image
           style={{width:'100%', height:'100%'}}
           source={require('../../../assets/images/bg.png')}
+        />
+        <Image style={{position:'absolute'}}
+          source={require('../../../assets/images/ic-splash.png')}
         />
       </View>
     );

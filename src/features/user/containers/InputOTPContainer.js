@@ -15,7 +15,7 @@ import styleUser from '../styles/styles';
 import {changeMsgCode} from '../../home/actions/index';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
-import {SCREEN_LOGIN} from '../../../api/screen';
+import {SCREEN_MAIN} from '../../../api/screen';
 
 export class InputOTPContainer extends Component {
   constructor(props) {
@@ -83,10 +83,16 @@ export class InputOTPContainer extends Component {
     const {doInputOTP} = this.props;
     const {otpCode} = this.state;
 
-    if (otpCode != '') {
+    if (otpCode != '' && otpCode.length > 5) {
       if (this.state.isConnecting) {
         this.setState({isLoading: true});
-        doInputOTP(otpCode);
+        // doInputOTP(otpCode);
+        this.props.navigation.dispatch({
+          key: SCREEN_MAIN,
+          type: 'ReplaceCurrentScreen',
+          routeName: SCREEN_MAIN,
+          params: {},
+        });
       } else {
         this.dropdown.alertWithType(
           'error',
@@ -95,7 +101,11 @@ export class InputOTPContainer extends Component {
         );
       }
     } else {
-      this.dropdown.alertWithType('error', 'Lỗi', 'Vui lòng nhập mật khẩu');
+      this.dropdown.alertWithType(
+        'error',
+        'Lỗi',
+        'Vui lòng nhập 6 ký tự mã OTP',
+      );
     }
   };
 

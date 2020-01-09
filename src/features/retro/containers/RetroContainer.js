@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import React, {Component} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, Image} from 'react-native';
 import stylesRetro from '../styles/styles';
 import Swiper from 'react-native-web-swiper';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
@@ -9,25 +9,26 @@ class RetroContainer extends Component {
     super(props);
     this.state = {
       currentPage: 0,
+      title: 'Bỏ qua',
     };
   }
   _getTitle() {
     if (this.state.currentPage == 1) {
-      return 'Title 1';
+      return 'Retro occupy org';
     } else if (this.state.currentPage == 2) {
-      return 'Title 2';
+      return 'Tousled food truck';
     } else {
-      return 'Title 0';
+      return 'Portland ugh';
     }
   }
 
   _getContent() {
     if (this.state.currentPage == 1) {
-      return 'Content 1';
+      return 'Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap. Hashtag.';
     } else if (this.state.currentPage == 2) {
-      return 'Content 2';
+      return 'Synth polaroid bitters chillwave pickled. Vegan disrupt tousled, Portland keffiyeh aesthetic food.';
     } else {
-      return 'Content 0';
+      return 'Kogi Cosby sweater ethical squid irony disrupt, organic tote bag gluten-free XOXO wolf typewriter.';
     }
   }
   render() {
@@ -39,7 +40,7 @@ class RetroContainer extends Component {
             onPress={() => {
               this.props.navigation.navigate(SCREEN_CREATE_ACCOUNT);
             }}>
-            Bỏ qua
+            {this.state.title}
           </Text>
         </View>
         <Swiper
@@ -54,14 +55,38 @@ class RetroContainer extends Component {
               currentPage: index,
             });
           }}>
-          <View style={{backgroundColor: '#432', flex: 1}}>
-            <Text>Slide 1</Text>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              resizeMode="contain"
+              source={require('../../../assets/images/retro-1.png')}
+            />
           </View>
-          <View style={{backgroundColor: '#498', flex: 1}}>
-            <Text>Slide 2</Text>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              resizeMode="contain"
+              source={require('../../../assets/images/retro-2.png')}
+            />
           </View>
-          <View style={{backgroundColor: '#987', flex: 1}}>
-            <Text>Slide 3</Text>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              resizeMode="contain"
+              source={require('../../../assets/images/retro-3.png')}
+            />
           </View>
         </Swiper>
         <View style={stylesRetro.boxContent}>

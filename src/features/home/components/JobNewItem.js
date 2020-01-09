@@ -32,7 +32,7 @@ export class JobHotItem extends Component {
             style={{
               flex: 1,
               fontSize: 16,
-              fontWeight: '900',
+              fontWeight: '500',
               paddingEnd: 5,
               marginBottom: 10,
               color: '#1C1C1C',
@@ -58,7 +58,6 @@ export class JobHotItem extends Component {
             </Text>
           </View>
         </View>
-
         <View style={{flexDirection: 'row'}}>
           <View
             style={{
@@ -93,7 +92,7 @@ export class JobHotItem extends Component {
           </View>
         </View>
         <View
-          style={{height: 1, backgroundColor: '#f1f1f1', marginTop: 5}}></View>
+          style={{height: 0.5, backgroundColor: '#d8d8d8', marginTop: 5, marginBottom:5}}></View>
       </View>
     );
   }

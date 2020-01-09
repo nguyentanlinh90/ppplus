@@ -18,6 +18,7 @@ class InfoContainer extends Component {
       genderFeMale: false,
       yearOfBirth: new Date().getFullYear() - 18,
       city: 'Chọn địa điểm làm việc',
+      industry: 'Chọn nhóm ngành',
       isJobLongTerm: false,
       isJobShortTerm: false,
     };
@@ -50,7 +51,31 @@ class InfoContainer extends Component {
   };
 
   _selectCity = citySelect => {
-    this.setState({city: citySelect});
+    if (this.state.city.includes(citySelect)) {
+      this.setState({
+        city: this.state.city.replace(citySelect, ''),
+      });
+    }
+    this.setState({
+      city: (this.state.city + ', ' + citySelect).replace(
+        'Chọn địa điểm làm việc, ',
+        '',
+      ),
+    });
+  };
+
+  _selectIndustry = industrySelect => {
+    if (this.state.industry.includes(industrySelect)) {
+      this.setState({
+        industry: this.state.industry.replace(industrySelect, ''),
+      });
+    }
+    this.setState({
+      industry: (this.state.industry + ', ' + industrySelect).replace(
+        'Chọn nhóm ngành, ',
+        '',
+      ),
+    });
   };
 
   _openConfirm = () => {
@@ -82,6 +107,8 @@ class InfoContainer extends Component {
             yearOfBirth={this.state.yearOfBirth}
             selectCity={this._selectCity}
             city={this.state.city}
+            selectIndustry={this._selectIndustry}
+            industry={this.state.industry}
             setJobDuration={this._setJobDuration}
             jobLongTerm={this.state.isJobLongTerm}
             jobShortTerm={this.state.isJobShortTerm}

@@ -16,17 +16,20 @@ import {convertPhone} from '../../../api/helpers';
 import {changeMsgCode} from '../../home/actions/index';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
-import {SCREEN_SET_PASSWORD} from '../../../api/screen';
+import {SCREEN_INPUT_OTP} from '../../../api/screen';
 
 export class CreateAccountContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      phone: '',
-      referral_code: '',
+      phone: '0988473737',
+      referral_code: 'jdlssdf',
+      password: '123456',
+      passwordAgain: '123456',
       isLoading: false,
       isConnecting: false,
+      isAgree: false,
     };
     this.handleCreateAccount = this.handleCreateAccount.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
@@ -66,14 +69,57 @@ export class CreateAccountContainer extends Component {
       this.setState({phone: strPhone});
     } else if (type == 'referral_code') {
       this.setState({referral_code: text});
+    } else if (type == 'password') {
+      this.setState({password: text});
+    } else if (type == 'passwordAgain') {
+      this.setState({passwordAgain: text});
     }
   };
 
   handleCreateAccount = () => {
     const {doCreateAccount} = this.props;
-    const {phone, referral_code} = this.state;
+    const {phone, referral_code, password, passwordAgain} = this.state;
 
-    if (phone != '' || referral_code != '') {
+    if (
+      phone == '' ||
+      referral_code == '' ||
+      password == '' ||
+      passwordAgain == ''
+    ) {
+      this.dropdown.alertWithType(
+        'error',
+        'Lỗi',
+        'Vui lòng nhập đầy đủ thông tin',
+      );
+      return;
+    }
+    if (password.length < 6) {
+      this.dropdown.alertWithType(
+        'error',
+        'Lỗi',
+        'Mật khẩu phải dài hơn 6 ký tự',
+      );
+      return;
+    }
+    if (password != passwordAgain) {
+      this.dropdown.alertWithType(
+        'error',
+        'Lỗi',
+        'Xác nhận mật khẩu không đúng',
+      );
+      return;
+    }
+
+    if (!this.state.isAgree) {
+      this.dropdown.alertWithType(
+        'error',
+        'Lỗi',
+        'Bạn chưa đồng ý với điều khoản',
+      );
+      return;
+    }
+
+    if (phone != '') {
       var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
       if (!regEx.test(phone)) {
         this.dropdown.alertWithType(
@@ -93,80 +139,75 @@ export class CreateAccountContainer extends Component {
           );
         }
       }
-    } else {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Vui lòng nhập đầy đủ số điện thoại và mã giới thiệu',
-      );
     }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == 'create_account_error') {
-      this.setState({isLoading: false});
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Số điện thoại hoặc mã giới thiệu không đúng',
-      );
-      nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == 'create_account_success') {
-      this.setState({isLoading: false});
-      nextProps.changeMsgCode('');
+    // if (nextProps.msg_code == 'create_account_error') {
+    //   this.setState({isLoading: false});
+    //   this.dropdown.alertWithType(
+    //     'error',
+    //     'Lỗi',
+    //     'Số điện thoại hoặc mã giới thiệu không đúng',
+    //   );
+    //   nextProps.changeMsgCode('');
+    // } else if (nextProps.msg_code == 'create_account_success') {
+    //   this.setState({isLoading: false});
+    //   nextProps.changeMsgCode('');
 
-      if ('phone' in nextProps.state.user.user) {
-        this.props.navigation.dispatch({
-          key: SCREEN_SET_PASSWORD,
-          type: 'ReplaceCurrentScreen',
-          routeName: SCREEN_SET_PASSWORD,
-          params: nextProps.state.user.user,
-        });
-      }
-    }
+    //   if ('phone' in nextProps.state.user.user) {
+    //     this.props.navigation.dispatch({
+    //       key: SCREEN_SET_PASSWORD,
+    //       type: 'ReplaceCurrentScreen',
+    //       routeName: SCREEN_SET_PASSWORD,
+    //       params: nextProps.state.user.user,
+    //     });
+    //   }
+    // }
+    // hard code
+    this.props.navigation.dispatch({
+      key: SCREEN_INPUT_OTP,
+      type: 'ReplaceCurrentScreen',
+      routeName: SCREEN_INPUT_OTP,
+      params: nextProps.state.user.user,
+    });
+  }
+
+  _setAgree=() =>{
+    this.setState({isAgree: !this.state.isAgree});
   }
 
   render() {
     return (
-      <View style={styles.body}>
-        <SafeAreaView>
-          <Spinner
-            visible={this.state.isLoading}
-            color={'white'}
-            size={'large'}
-            textStyle={{color: '#fff'}}
-          />
-          <StatusBar backgroundColor="#000" barStyle="light-content" />
-          <View style={{height: '100%'}}>
-            <View style={[{height: '55%'}]}>
-              <View style={styleUser.boxLogin}>
-                <KeyboardAvoidingView behavior="padding" enabled>
-                  <View
-                    style={{
-                      paddingTop: '35%',
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                    }}>
-                    <CreateAccountForm
-                      handleCreateAccount={this.handleCreateAccount}
-                      navigation={this.props.navigation}
-                      onChangeText={this.onChangeText}
-                      phone={this.state.phone}
-                      referral_code={this.state.referral_code}
-                    />
-                  </View>
-                </KeyboardAvoidingView>
-              </View>
-            </View>
-          </View>
+      <SafeAreaView>
+        <Spinner
+          visible={this.state.isLoading}
+          color={'white'}
+          size={'large'}
+          textStyle={{color: '#fff'}}
+        />
+        <View style={styleUser.boxLogin}>
+          <KeyboardAvoidingView behavior="padding" enabled>
+            <CreateAccountForm
+              handleCreateAccount={this.handleCreateAccount}
+              navigation={this.props.navigation}
+              onChangeText={this.onChangeText}
+              phone={this.state.phone}
+              referral_code={this.state.referral_code}
+              password={this.state.password}
+              passwordAgain={this.state.passwordAgain}
+              setAgree={this._setAgree}
+              isAgree={this.state.isAgree}
+            />
+          </KeyboardAvoidingView>
+        </View>
 
-          <DropdownAlert
-            ref={ref => (this.dropdown = ref)}
-            defaultContainer={styles.defaultContainerLogin}
-            defaultTextContainer={styles.defaultTextContainerLogin}
-          />
-        </SafeAreaView>
-      </View>
+        <DropdownAlert
+          ref={ref => (this.dropdown = ref)}
+          defaultContainer={styles.defaultContainerLogin}
+          defaultTextContainer={styles.defaultTextContainerLogin}
+        />
+      </SafeAreaView>
     );
   }
 }

@@ -19,7 +19,7 @@ export default StyleSheet.create({
     paddingStart: 16,
     paddingEnd: 16,
     paddingBottom: 25,
-    marginBottom:25
+    marginBottom: 25,
   },
   titleContent: {
     color: '#000',
@@ -54,22 +54,30 @@ export default StyleSheet.create({
     paddingStart: 10,
     paddingEnd: 10,
   },
-  txtSelect: {color: '#2b2b2b', fontSize:16, flex: 1},
-  viewSelect:{
+  txtSelect: {color: '#2b2b2b', fontSize: 16, flex: 1,paddingTop: 10,
+  paddingBottom: 10,
+  lineHeight: 25,},
+  viewSelect: {
     borderWidth: 1,
     borderColor: '#F0532D',
     borderRadius: 6,
     height: 200,
+    
   },
-  txtViewSelect:{
+  infoBoxSelect:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingEnd: 10,
+  },
+  txtViewSelect: {
     height: 44,
     color: '#000',
     fontSize: 16,
-    textAlignVertical: 'center',
     paddingStart: 10,
-    flex:1
+    flex: 1,
+    paddingTop: 14,
   },
-  lineSelect:{
+  lineSelect: {
     height: 0.5,
     backgroundColor: '#d8d8d8',
     marginStart: 10,
@@ -91,6 +99,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     lineHeight: 24,
   },
-  containerCheckBox:{flex: 1, flexDirection: 'row', alignItems: 'center'},
-  checkbox:{flex: 1, padding: 10}
+  containerCheckBox: {flex: 1, flexDirection: 'row', alignItems: 'center'},
+  checkbox: {flex: 1, padding: 10},
 });

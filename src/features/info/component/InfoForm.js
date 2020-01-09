@@ -20,12 +20,40 @@ import ArrowInBox from '../../../components/ArrowInBox';
 import {jewelStyle} from '../../../utils/constants';
 const listCity = require('../../../assets/json/city.json');
 
+const listIndustry = [
+  {
+    id: '1',
+    name: 'Bia, rượu, thuốc lá',
+  },
+  {
+    id: '2',
+    name: 'Sữa',
+  },
+  {
+    id: '3',
+    name: 'Chăm sóc cá nhân',
+  },
+  {
+    id: '4',
+    name: 'Điện tử tiêu dùng',
+  },
+  {
+    id: '5',
+    name: 'Thức uống giải khát',
+  },
+  {
+    id: '6',
+    name: 'Thực phẩm đóng gói',
+  },
+];
+
 export default class InfoContainer_1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isShowYOB: false,
-      isShowCity: true,
+      isShowCity: false,
+      isShowIndustry: false,
     };
   }
 
@@ -33,7 +61,6 @@ export default class InfoContainer_1 extends Component {
   _boxSelectStyle = function(color) {
     return {
       width: '100%',
-      height: 44,
       borderColor: color,
       borderWidth: 1,
       borderRadius: 6,
@@ -56,6 +83,8 @@ export default class InfoContainer_1 extends Component {
       yearOfBirth,
       selectCity,
       city,
+      selectIndustry,
+      industry,
       setJobDuration,
       jobLongTerm,
       jobShortTerm,
@@ -75,7 +104,7 @@ export default class InfoContainer_1 extends Component {
           với bạn!
         </Text>
         <View style={stylesInfo.viewFill}>
-           <Text style={stylesInfo.titleContent}>1. Họ và tên</Text>
+          <Text style={stylesInfo.titleContent}>1. Họ và tên</Text>
           <View style={stylesInfo.flexRow}>
             <View style={[stylesInfo.boxInput, {marginEnd: 10}]}>
               <TextInput
@@ -99,7 +128,7 @@ export default class InfoContainer_1 extends Component {
                 onChangeText={text => onChangeText(text, 'firstName')}
               />
             </View>
-          </View> 
+          </View>
           <Text style={stylesInfo.titleContent}>2. Giới tính</Text>
           <View style={stylesInfo.flexRow}>
             <View style={stylesInfo.containerCheckBox}>
@@ -176,24 +205,16 @@ export default class InfoContainer_1 extends Component {
               data={listCity}
               renderItem={({item: rowData}) => {
                 return (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      selectCity(rowData.city);
-                      this.setState({isShowCity: false});
-                    }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        paddingEnd: 10,
-                      }}>
+                  <TouchableOpacity activeOpacity={0.8}>
+                    <View style={stylesInfo.infoBoxSelect}>
                       <Text style={stylesInfo.txtViewSelect}>
                         {rowData.city}
                       </Text>
                       <CheckBox
-                        onClick={() => {}}
-                        isChecked={true}
+                        onClick={() => {
+                          selectCity(rowData.city);
+                        }}
+                        isChecked={city.includes(rowData.city) ? true : false}
                         checkedImage={<CBChecked />}
                         unCheckedImage={<CBUnChecked />}
                       />
@@ -205,6 +226,54 @@ export default class InfoContainer_1 extends Component {
               keyExtractor={(item, index) => index}
             />
           ) : null}
+
+          {/* //kdjals */}
+          <Text style={stylesInfo.titleContent}>4. Nhóm ngành</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() =>
+              this.setState({isShowIndustry: !this.state.isShowIndustry})
+            }>
+            <View
+              style={this._boxSelectStyle(
+                this.state.isShowIndustry ? '#F0532D' : '#d8d8d8',
+              )}>
+              <Text style={stylesInfo.txtSelect}>{industry}</Text>
+              {<ArrowInBox />}
+            </View>
+          </TouchableOpacity>
+          {this.state.isShowIndustry ? (
+            <FlatList
+              visibility={this.state.isShowIndustry}
+              style={stylesInfo.viewSelect}
+              data={listIndustry}
+              renderItem={({item: rowData}) => {
+                return (
+                  <TouchableOpacity activeOpacity={0.8}>
+                    <View style={stylesInfo.infoBoxSelect}>
+                      <Text style={stylesInfo.txtViewSelect}>
+                        {rowData.name}
+                      </Text>
+                      <CheckBox
+                        onClick={() => {
+                          selectIndustry(rowData.name);
+                        }}
+                        isChecked={
+                          industry.includes(rowData.name) ? true : false
+                        }
+                        checkedImage={<CBChecked />}
+                        unCheckedImage={<CBUnChecked />}
+                      />
+                    </View>
+                    <View style={stylesInfo.lineSelect} />
+                  </TouchableOpacity>
+                );
+              }}
+              keyExtractor={(item, index) => index}
+            />
+          ) : null}
+          {/* //dkajsklda */}
+
           <Text style={stylesInfo.titleContent}>6. Thời lượng công việc</Text>
           <View style={{flexDirection: 'row'}}>
             <View style={stylesInfo.containerCheckBox}>

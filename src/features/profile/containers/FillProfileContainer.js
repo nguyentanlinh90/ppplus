@@ -122,6 +122,7 @@ class FillProfileContainer extends Component {
       console.log('Response = ', response);
       if (response.didCancel) {
       } else if (response.error) {
+        console.log('linhnt',response.error)
       } else if (response.customButton) {
       } else {
         if (numberOfImage == IMAGE_AVATAR) {

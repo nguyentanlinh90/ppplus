@@ -1,7 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {View} from 'react-native';
+import {View, SafeAreaView, Image} from 'react-native';
 import styles from '../../../styles/styles';
+import {Text} from 'native-base';
 
 class MessageContainer extends Component {
   constructor(props) {
@@ -12,8 +13,29 @@ class MessageContainer extends Component {
   render() {
     const {props} = this.props;
     return (
-      <View style={[styles.body,{backgroundColor:'#456'}]}>
-      </View>
+      <SafeAreaView>
+        <Text
+          style={{
+            fontSize: 24,
+            color: '#1c1c1c',
+            fontWeight: 'bold',
+            padding: 16,
+          }}>
+          Tin nhắn
+        </Text>
+        <View style={{height: 5, backgroundColor: '#e3e3e3'}}></View>
+        <View style={{alignItems: 'center', marginTop: 40}}>
+          <Image source={require('../../../assets/images/ic-no-message.png')} />
+          <Text
+            style={{
+              fontSize: 16,
+              color: '#1c1c1c',
+              marginTop: 20,
+            }}>
+            Bạn không có tin nhắn
+          </Text>
+        </View>
+      </SafeAreaView>
     );
   }
 }
