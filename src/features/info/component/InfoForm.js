@@ -227,7 +227,6 @@ export default class InfoContainer_1 extends Component {
             />
           ) : null}
 
-          {/* //kdjals */}
           <Text style={stylesInfo.titleContent}>4. Nhóm ngành</Text>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -272,7 +271,6 @@ export default class InfoContainer_1 extends Component {
               keyExtractor={(item, index) => index}
             />
           ) : null}
-          {/* //dkajsklda */}
 
           <Text style={stylesInfo.titleContent}>6. Thời lượng công việc</Text>
           <View style={{flexDirection: 'row'}}>

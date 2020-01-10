@@ -7,6 +7,7 @@ import styles from '../../../styles/styles';
 import stylesInfo from '../styles/styles';
 import InfoForm from '../component/InfoForm';
 import {SCREEN_CONFIRM_INFO} from '../../../api/screen';
+import {select_location, select_industry} from '../../../utils/constants';
 
 class InfoContainer extends Component {
   constructor(props) {
@@ -17,8 +18,8 @@ class InfoContainer extends Component {
       genderMale: false,
       genderFeMale: false,
       yearOfBirth: new Date().getFullYear() - 18,
-      city: 'Chọn địa điểm làm việc',
-      industry: 'Chọn nhóm ngành',
+      city: select_location,
+      industry: select_industry,
       isJobLongTerm: false,
       isJobShortTerm: false,
     };
@@ -52,13 +53,18 @@ class InfoContainer extends Component {
 
   _selectCity = citySelect => {
     if (this.state.city.includes(citySelect)) {
-      this.setState({
-        city: this.state.city.replace(citySelect, ''),
-      });
+      var cityTemp = this.state.city
+        .replace(citySelect + '; ', '')
+        .replace(citySelect, '');
+      if (cityTemp == '') {
+        cityTemp = select_location;
+      }
+      this.setState({city: cityTemp});
+      return;
     }
     this.setState({
-      city: (this.state.city + ', ' + citySelect).replace(
-        'Chọn địa điểm làm việc, ',
+      city: (this.state.city + '; ' + citySelect).replace(
+        select_location + '; ',
         '',
       ),
     });
@@ -66,13 +72,18 @@ class InfoContainer extends Component {
 
   _selectIndustry = industrySelect => {
     if (this.state.industry.includes(industrySelect)) {
-      this.setState({
-        industry: this.state.industry.replace(industrySelect, ''),
-      });
+      var industryTemp = this.state.industry
+        .replace(industrySelect + '; ', '')
+        .replace(industrySelect, '');
+      if (industryTemp == '') {
+        industryTemp = select_industry;
+      }
+      this.setState({industry: industryTemp});
+      return;
     }
     this.setState({
-      industry: (this.state.industry + ', ' + industrySelect).replace(
-        'Chọn nhóm ngành, ',
+      industry: (this.state.industry + '; ' + industrySelect).replace(
+        select_industry + '; ',
         '',
       ),
     });
