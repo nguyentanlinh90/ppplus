@@ -10,11 +10,8 @@ export default class LocationPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: this.props.location,
-      district: 'Quận Bình Thạnh',
-      city: 'Hồ Chí Minh',
-      citySelected: ['Hồ Chí Minh'],
-      districtSelected: ['Quận Bình Thạnh'],
+      district: this.props.district,
+      city: this.props.city,
     };
   }
 
@@ -31,8 +28,8 @@ export default class LocationPicker extends Component {
       visible,
       cityList,
       districtList,
-      locationSelect,
-      location,
+      city,
+      district,
     } = this.props;
 
     return (
@@ -68,14 +65,14 @@ export default class LocationPicker extends Component {
                   marginLeft: 5,
                   flex: 1,
                 }}>
-                {this.state.district + ', '+this.state.city}
+                {this.state.district + ', ' + this.state.city}
               </Text>
               <ArrowInBox />
             </View>
             <TagsView
               isCity={true}
               all={cityList}
-              selected={this.state.citySelected}
+              selected={[city]}
               isExclusive={true}
               selectCity={this._selectCity}
             />
@@ -90,11 +87,13 @@ export default class LocationPicker extends Component {
             <TagsView
               isDistrict={true}
               all={districtList}
-              selected={this.state.districtSelected}
+              selected={[district]}
               isExclusive={true}
               selectDistrict={this._selectDistrict}
             />
-            <TouchableOpacity activeOpacity={0.7} onPress={() => handleClose()}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => handleClose(this.state.city, this.state.district)}>
               <LinearGradient
                 colors={['#F0532D', '#FEBE10']}
                 useAngle={true}

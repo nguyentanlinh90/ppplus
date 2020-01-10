@@ -21,7 +21,14 @@ import BookmarkChecked from '../../../components/BookmarkChecked';
 import BookmarkUnChecked from '../../../components/BookmarkUnChecked';
 import LocationPicker from '../components/LocationPicker';
 
-var cityList = ['Hà Nội', 'Hồ Chí Minh', 'Huế', 'Đà Nẵng', 'Hải Phòng', 'Nghệ An'];
+var cityList = [
+  'Hà Nội',
+  'Hồ Chí Minh',
+  'Huế',
+  'Đà Nẵng',
+  'Hải Phòng',
+  'Nghệ An',
+];
 
 var district = [
   'Quận 1',
@@ -41,16 +48,17 @@ export default class JobHotItem extends Component {
       jobBookMark: false,
       cityList: cityList,
       districtList: district,
-      location:'Quận Bình Thạnh, Hồ Chí Minh'
+      city: 'Hồ Chí Minh',
+      district: 'Quận 1',
     };
   }
-  _closeSelectLocation = () => {
-    this.setState({showLocationSelect: false});
+  _closeSelectLocation = (citySelect, districtSelect) => {
+    this.setState({
+      showLocationSelect: false,
+      city: citySelect,
+      district: districtSelect,
+    });
   };
-
-  _location=(locationSelect)=>{
-    this.setState({location:locationSelect});
-  }
 
   render() {
     const {item, data} = this.props;
@@ -81,8 +89,8 @@ export default class JobHotItem extends Component {
                 visible={this.state.showLocationSelect}
                 cityList={this.state.cityList}
                 districtList={this.state.districtList}
-                locationSelect={this._location}
-                location={this.state.location}
+                city={this.state.city}
+                district={this.state.district}
               />
             </View>
             <View>
@@ -143,7 +151,7 @@ export default class JobHotItem extends Component {
                 onPress={() => {
                   this.setState({showLocationSelect: true});
                 }}
-                style={{margin: 16}}>
+                style={{marginStart: 16, marginEnd: 16, marginBottom: 16}}>
                 <View style={styleHome.jobDetailIconBoxSelect}>
                   <Image
                     resizeMode="contain"
@@ -157,7 +165,7 @@ export default class JobHotItem extends Component {
                       marginLeft: 5,
                       flex: 1,
                     }}>
-                    {this.state.location}
+                    {this.state.district + ', ' + this.state.city}
                   </Text>
                   <ArrowInBox />
                 </View>
@@ -174,9 +182,47 @@ export default class JobHotItem extends Component {
                 }}
                 keyExtractor={(item, index) => index}
               />
-              <View
-                style={{height: 5, backgroundColor: '#d8d8d8', marginTop: 6}}
-              />
+              <View style={styleHome.jobDetailViewLine} />
+              <Text style={styleHome.jobDetailTitle}>MÔ TẢ CÔNG VIỆC</Text>
+              <Text style={styleHome.jobFollowLocationTxtDetail}>
+                - Giới thiệu và quảng bá sản phẩm của công ty {'\n'}- Tư vấn và
+                bánhàng ĐTDĐ OPPO {'\n'}- Ghi nhận thông tin bán hàng, cập nhật
+                thị trường {'\n'}- Giải quyết thắc mắc của khách hàng về sản
+                phẩm
+              </Text>
+              <View style={styleHome.jobDetailViewLine} />
+              <Text style={styleHome.jobDetailTitle}>YÊU CẦU</Text>
+              <View style={styleHome.jobDetailBoxRequest}>
+                <Text style={styleHome.jobDetailTxtTitleRequest}>Độ tuổi</Text>
+                <Text style={styleHome.jobDetailTxtContentRequest}>18 tuổi - 25 tuổi</Text>
+              </View>
+              <View style={styleHome.jobDetailLineRequest} />
+              <View style={styleHome.jobDetailBoxRequest}>
+                <Text style={styleHome.jobDetailTxtTitleRequest}>Giới tính</Text>
+                <Text style={styleHome.jobDetailTxtContentRequest}>Nữ</Text>
+              </View>
+              <View style={styleHome.jobDetailLineRequest} />
+              <View style={styleHome.jobDetailBoxRequest}>
+                <Text style={styleHome.jobDetailTxtTitleRequest}>Ngoại hình</Text>
+                <Text style={styleHome.jobDetailTxtContentRequest}>Ưa nhìn</Text>
+              </View>
+              <View style={styleHome.jobDetailLineRequest} />
+              <View style={styleHome.jobDetailBoxRequest}>
+                <Text style={styleHome.jobDetailTxtTitleRequest}>Chiều cao</Text>
+                <Text style={styleHome.jobDetailTxtContentRequest}>>1m58</Text>
+              </View>
+              <View style={styleHome.jobDetailLineRequest} />
+              <View style={styleHome.jobDetailBoxRequest}>
+                <Text style={styleHome.jobDetailTxtTitleRequest}>Cân nặng</Text>
+                <Text style={styleHome.jobDetailTxtContentRequest}>45 - 60</Text>
+              </View>
+              <View style={styleHome.jobDetailLineRequest} />
+              <View style={styleHome.jobDetailBoxRequest}>
+                <Text style={styleHome.jobDetailTxtTitleRequest}>Đồng phục</Text>
+                <Text style={styleHome.jobDetailTxtContentRequest}>Công ty cấp</Text>
+              </View>
+              <View style={styleHome.jobDetailViewLine} />
+
               <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
                 <LinearGradient
                   colors={['#F0532D', '#FEBE10']}

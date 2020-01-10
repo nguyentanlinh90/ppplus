@@ -55,6 +55,7 @@ class InfoContainer extends Component {
     if (this.state.city.includes(citySelect)) {
       var cityTemp = this.state.city
         .replace(citySelect + '; ', '')
+        .replace('; ' + citySelect, '')
         .replace(citySelect, '');
       if (cityTemp == '') {
         cityTemp = select_location;
@@ -74,6 +75,7 @@ class InfoContainer extends Component {
     if (this.state.industry.includes(industrySelect)) {
       var industryTemp = this.state.industry
         .replace(industrySelect + '; ', '')
+        .replace('; ' + industrySelect, '')
         .replace(industrySelect, '');
       if (industryTemp == '') {
         industryTemp = select_industry;

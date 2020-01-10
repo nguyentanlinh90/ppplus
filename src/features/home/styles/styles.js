@@ -476,6 +476,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 16,
     marginTop: 16,
+    marginBottom:16
   },
   jobDetailIconBoxSelect: {
     height: 50,
@@ -510,4 +511,21 @@ export default StyleSheet.create({
     height: 35,
     alignItems: 'center',
   },
+  jobDetailViewLine:{
+    height: 5,
+    backgroundColor: '#d8d8d8',
+    marginTop: 16,
+    marginBottom: 16,
+  },
+  jobDetailBoxRequest:{
+    flexDirection: 'row',
+    height: 40,
+    marginStart: 16,
+    marginEnd: 16,
+    alignItems:'center'
+  },
+  jobDetailTxtTitleRequest:{color: '#757575', fontSize: 16, flex: 1},
+  jobDetailTxtContentRequest:{color: '#1c1c1c', fontSize: 16, flex: 1},
+  jobDetailLineRequest:{backgroundColor: '#757575', height:0.2},
+
 });
