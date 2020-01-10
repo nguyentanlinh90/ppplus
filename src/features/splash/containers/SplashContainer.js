@@ -24,7 +24,7 @@ class SplashContainer extends Component {
   }
   componentDidMount() {
     setTimeout(() => {
-      if (this.state.isLogin) {
+      if (!this.state.isLogin) {
         this.props.navigation.dispatch({
           key: SCREEN_MAIN,
           type: 'ReplaceCurrentScreen',

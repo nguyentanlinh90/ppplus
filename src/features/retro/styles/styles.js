@@ -1,26 +1,19 @@
 import {StyleSheet, Platform} from 'react-native';
 
 export default StyleSheet.create({
-  boxIgnore: {
-    flexDirection: 'column',
-
-    ...Platform.select({
-      ios: {
-        marginTop: 50,
-      },
-      android: {
-        marginTop: 20,
-      },
-    }),
+  viewIgnore: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    width: 100,
+    alignSelf: 'flex-end',
   },
   txtIgnore: {
-    textAlign: 'right',
-    margin: 20,
-    fontSize: 18,
+    fontSize: 16,
+    color: '#2b2b2b',
     fontWeight: 'bold',
   },
 
-  boxImage: {},
   txtTitleContent: {
     textAlign: 'center',
     margin: 10,
@@ -58,5 +51,25 @@ export default StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
-  boxContent: {height: '30%'},
+  boxContent: {},
+  buttonLogin: {
+    borderRadius: 5,
+    borderColor: '#b4b8c7',
+    borderStyle: 'solid',
+    height: 44,
+    marginStart: 20,
+    marginEnd: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  txtLogin: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  viewPage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

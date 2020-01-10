@@ -1,13 +1,4 @@
 import {StyleSheet, Platform} from 'react-native';
-import {
-  c_ffffff,
-  c_1c1c1c,
-  c_F0532D,
-  c_d8d8d8,
-  c_e3e3e3,
-  c_757575,
-  c_2b2b2b,
-} from '../../../utils/constants';
 
 export default StyleSheet.create({
   container: {
@@ -50,18 +41,18 @@ export default StyleSheet.create({
     borderRadius: 30 / 2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
   },
   name: {
     textAlign: 'center',
-    color: c_1c1c1c,
+    color: '#1c1c1c',
     marginTop: 10,
     fontSize: 16,
     fontWeight: 'bold',
   },
   viewReward: {flexDirection: 'row', justifyContent: 'center'},
   boxReward: {
-    backgroundColor: c_F0532D,
+    backgroundColor: '#F0532D',
     flexDirection: 'row',
     alignSelf: 'flex-start',
     padding: 10,
@@ -70,18 +61,18 @@ export default StyleSheet.create({
     borderRadius: 5,
   },
   boxRewardStar: {width: 20, height: 20, marginEnd: 10},
-  boxRewardTextReward: {color: c_ffffff, fontSize: 14},
-  boxRewardTextPoint: {color: c_ffffff, fontSize: 14, fontWeight: 'bold'},
+  boxRewardTextReward: {color: '#fff', fontSize: 14},
+  boxRewardTextPoint: {color: '#fff', fontSize: 14, fontWeight: 'bold'},
   boxItem: {
     height: 45,
     flexDirection: 'row',
     paddingStart: 14,
     alignItems: 'center',
   },
-  boxItemTitle: {color: c_1c1c1c, fontSize: 16, marginStart: 10},
-  boxItemIndicator: {backgroundColor: c_d8d8d8, height: 1, marginStart: 14},
+  boxItemTitle: {color: '#1c1c1c', fontSize: 16, marginStart: 10},
+  boxItemIndicator: {backgroundColor: '#d8d8d8', height: 1, marginStart: 14},
   txtSave: {
-    color: c_F0532D,
+    color: '#F0532D',
     fontSize: 18,
     fontWeight: 'bold',
     padding: 16,
@@ -92,7 +83,7 @@ export default StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     borderStyle: 'dashed',
-    borderColor: c_e3e3e3,
+    borderColor: '#e3e3e3',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -118,7 +109,7 @@ export default StyleSheet.create({
   },
   txtBasicInfo: {
     flex: 1,
-    color: c_d8d8d8,
+    color: '#d8d8d8',
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -137,23 +128,23 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   boxIndicatorFill: {
-    backgroundColor: c_d8d8d8,
+    backgroundColor: '#d8d8d8',
     height: 10,
   },
   containerBasicInfo: {flexDirection: 'row', marginBottom: 20},
   boxBasicInfo: {flex: 1, marginEnd: 10},
-  txtTitleBasicInfo: {color: c_757575, marginBottom: 5, fontSize: 16},
+  txtTitleBasicInfo: {color: '#757575', marginBottom: 5, fontSize: 16},
   boxInputBasicInfo: {
     width: '100%',
     height: 44,
-    borderColor: c_d8d8d8,
+    borderColor: '#d8d8d8',
     borderWidth: 1,
     borderRadius: 6,
   },
   boxPickerBasicInfo: {
     width: '100%',
     height: 44,
-    borderColor: c_d8d8d8,
+    borderColor: '#d8d8d8',
     borderWidth: 1,
     borderRadius: 6,
     flexDirection: 'row',
@@ -164,7 +155,7 @@ export default StyleSheet.create({
   txtInputBasicInfo: {
     height: 44,
     width: '100%',
-    color: c_2b2b2b,
+    color: '#2b2b2b',
     fontSize: 16,
     paddingEnd: 5,
     paddingStart: 5,
@@ -175,7 +166,7 @@ export default StyleSheet.create({
   },
   btSelectGender: {
     textAlign: 'center',
-    color: c_ffffff,
+    color: '#fff',
     fontSize: 18,
     paddingTop: 8,
     paddingBottom: 8,

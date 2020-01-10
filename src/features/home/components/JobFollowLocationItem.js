@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styleHome from '../styles/styles';
 import {Rating} from 'react-native-elements';
-import {c_F0532D, c_1c1c1c, c_ffffff} from '../../../utils/constants';
 import CheckBox from 'react-native-check-box';
 import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
@@ -62,7 +61,7 @@ export class JobFollowLocationItem extends Component {
           <Text
             style={{
               flex: 1,
-              color: c_F0532D,
+              color: '#F0532D',
               fontSize: 16,
               fontWeight: 'bold',
             }}>

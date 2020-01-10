@@ -117,6 +117,7 @@ export default StyleSheet.create({
   },
   defaultContainerLogin: {
     paddingLeft: 10,
+    paddingEnd:20,
     height: 120,
     paddingTop: 20,
   },
@@ -124,6 +125,7 @@ export default StyleSheet.create({
     height: 100,
     marginTop: 30,
     marginLeft: 20,
+    marginEnd:20
   },
   defaultContainerRedeem: {
     paddingLeft: 10,

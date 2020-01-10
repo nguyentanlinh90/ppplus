@@ -16,8 +16,11 @@ import {convertPhone} from '../../../api/helpers';
 import {changeMsgCode} from '../../home/actions/index';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
-import {SCREEN_INPUT_PHONE_NUMBER} from '../../../api/screen';
+import {FORGOT_PASSWORD} from '../../../utils/constants';
+import {SCREEN_INPUT_OTP} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
+import {SCREEN_MAIN} from '../../../api/screen';
+
 export class LoginContainer extends Component {
   constructor(props) {
     super(props);
@@ -70,7 +73,34 @@ export class LoginContainer extends Component {
   };
 
   handleForgetPassword = () => {
-    this.props.navigation.navigate(SCREEN_INPUT_PHONE_NUMBER);
+    const {phone} = this.state;
+
+    if (phone == '') {
+      this.dropdown.alertWithType(
+        'error',
+        'Lỗi',
+        'Vui lòng nhập số điện thoại để chúng tôi có thể gửi mã xác nhận',
+      );
+      return;
+    }
+
+    if (phone != '') {
+      var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
+      if (!regEx.test(phone)) {
+        this.dropdown.alertWithType(
+          'error',
+          'Lỗi',
+          'Số điện thoại không đúng định dạng.',
+        );
+      } else {
+        this.props.navigation.dispatch({
+          key: SCREEN_INPUT_OTP,
+          type: 'ReplaceCurrentScreen',
+          routeName: SCREEN_INPUT_OTP,
+          params: {typeScreen: FORGOT_PASSWORD},
+        });
+      }
+    }
   };
 
   handleNotYetAccount = () => {
@@ -81,7 +111,7 @@ export class LoginContainer extends Component {
     const {doLogin} = this.props;
     const {phone, password} = this.state;
 
-    if (phone != '' || password != '') {
+    if (phone != '' && password != '') {
       var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
       if (!regEx.test(phone)) {
         this.dropdown.alertWithType(
@@ -110,7 +140,7 @@ export class LoginContainer extends Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'login_error') {
       this.setState({isLoading: false});
       this.dropdown.alertWithType(
@@ -122,7 +152,13 @@ export class LoginContainer extends Component {
     } else if (nextProps.msg_code == 'login_success') {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      this.props.navigation.goBack()
+      // this.props.navigation.goBack();
+      this.props.navigation.dispatch({
+        key: SCREEN_MAIN,
+        type: 'ReplaceCurrentScreen',
+        routeName: SCREEN_MAIN,
+        params: {},
+      });
     }
   }
 

@@ -30,7 +30,7 @@ export class InputPhoneNumberContainer extends Component {
       phoneNumber: '',
       isLoading: false,
       isConnecting: false,
-      popUpVisible: true,
+      popUpVisible: false,
     };
     this.handleInputPhoneNumber = this.handleInputPhoneNumber.bind(this);
     this.onChangeText = this.onChangeText.bind(this);

@@ -34,6 +34,21 @@ export const doCreateAccount = (phone, referral_code) => async dispatch => {
   }
 };
 
+export const doLogin = (phone, password) => async dispatch => {
+  const path = 'login';
+  const params = {
+    phone: phone,
+    password: password,
+    token: '',
+  };
+
+  await dispatch(
+    fetchDataSuccess(types.CHANGE_MSG_CODE, 'login_success'),
+  );
+
+};
+
+
 export const doSetPasswordAccount = (params) => async dispatch => {
   const path = 'update_account';
  

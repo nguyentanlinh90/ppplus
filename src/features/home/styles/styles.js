@@ -8,22 +8,6 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {
-  c_ffffff,
-  c_A6D0F1,
-  c_0097F2,
-  c_f8f8f8,
-  c_333333,
-  c_848484,
-  c_FFC200,
-  c_CDEBFF,
-  c_5793a6,
-  c_F0532D,
-  c_757575,
-  c_000000,
-  c_1c1c1c,
-  c_d8d8d8,
-} from '../../../utils/constants';
 
 export default StyleSheet.create({
   homeHeader: {
@@ -49,7 +33,7 @@ export default StyleSheet.create({
     }),
   },
   txtTime: {
-    color: c_ffffff,
+    color: '#fff',
     fontSize: 14,
   },
   boxRevenue: {
@@ -58,7 +42,7 @@ export default StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 6,
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
   },
   boxVenueLeft: {
     width: '50%',
@@ -66,7 +50,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderRightWidth: 0.5,
     borderStyle: 'solid',
-    borderColor: c_A6D0F1,
+    borderColor: '#A6D0F1',
   },
   boxVenueRight: {
     width: '50%',
@@ -75,25 +59,25 @@ export default StyleSheet.create({
   },
   txtVenue: {
     fontSize: 16,
-    color: c_ffffff,
+    color: '#fff',
     lineHeight: 25,
     opacity: 0.69,
   },
   txtValue: {
     fontSize: 18,
-    color: c_ffffff,
+    color: '#fff',
     fontWeight: 'bold',
   },
   boxBtnCamera: {
     width: '100%',
     marginBottom: 40,
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
   },
   txtUpdateAvatar: {
     marginLeft: 10,
     fontSize: 18,
     fontWeight: 'bold',
-    color: c_ffffff,
+    color: '#fff',
   },
   btnUpdateAvatar: {
     width: '100%',
@@ -127,7 +111,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   boxRegulation: {
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
     height: getSizeBoxRegulation(),
   },
   boxRegulationChild: {
@@ -137,7 +121,7 @@ export default StyleSheet.create({
   txtRegulation: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: c_0097F2,
+    color: '#0097F2',
     marginBottom: 5,
   },
   boxRow: {
@@ -185,7 +169,7 @@ export default StyleSheet.create({
     marginTop: 20,
     borderBottomWidth: 1,
     borderStyle: 'solid',
-    borderColor: c_f8f8f8,
+    borderColor: '#f8f8f8',
     paddingBottom: 15,
     flexDirection: 'row',
   },
@@ -219,7 +203,7 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   txtMonth: {
-    color: c_333333,
+    color: '#333333',
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -232,7 +216,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   txtTarget: {
-    color: c_333333,
+    color: '#333333',
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'right',
@@ -252,10 +236,10 @@ export default StyleSheet.create({
   txtIncomeChild: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: c_0097F2,
+    color: '#0097F2',
   },
   txtIncome: {
-    color: c_848484,
+    color: '#848484',
     fontSize: 15,
     marginTop: 6,
   },
@@ -272,10 +256,10 @@ export default StyleSheet.create({
   txtRewardValue: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: c_FFC200,
+    color: '#FFC200',
   },
   txtReward: {
-    color: c_848484,
+    color: '#848484',
     fontSize: 15,
     marginTop: 6,
   },
@@ -285,13 +269,13 @@ export default StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 6,
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
     flexDirection: 'row',
   },
   txtTotalReward: {
     marginTop: 10,
     marginLeft: 10,
-    color: c_848484,
+    color: '#848484',
     fontSize: 14,
   },
   boxCoin: {
@@ -300,7 +284,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   boxBtnUse: {
-    backgroundColor: c_CDEBFF,
+    backgroundColor: '#CDEBFF',
     height: 38,
     width: '90%',
     borderRadius: 60,
@@ -314,7 +298,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   boxModal: {
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
     height: 170,
     borderRadius: 8,
   },
@@ -327,7 +311,7 @@ export default StyleSheet.create({
   txtLabelModal: {
     justifyContent: 'center',
     fontWeight: 'bold',
-    color: c_ffffff,
+    color: '#fff',
   },
   groupBtnModal: {
     flexDirection: 'row',
@@ -338,7 +322,7 @@ export default StyleSheet.create({
     width: '43%',
     marginRight: 10,
     marginLeft: 15,
-    backgroundColor: c_0097F2,
+    backgroundColor: '#0097F2',
     height: 45,
     justifyContent: 'center',
     alignItems: 'center',
@@ -348,7 +332,7 @@ export default StyleSheet.create({
     width: '43%',
     marginRight: 10,
     marginLeft: 10,
-    backgroundColor: c_5793a6,
+    backgroundColor: '#5793a6',
     height: 45,
     justifyContent: 'center',
     alignItems: 'center',
@@ -361,17 +345,17 @@ export default StyleSheet.create({
   },
   txtHeaderTitle: {
     fontSize: 24,
-    color: c_ffffff,
+    color: '#fff',
     fontWeight: 'bold',
   },
   txtHeaderDes: {
     fontSize: 16,
-    color: c_ffffff,
+    color: '#fff',
     fontWeight: 'normal',
     marginTop: 10,
   },
   boxHeaderRegister: {
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
     borderRadius: 22,
     width: 120,
     height: 35,
@@ -381,7 +365,7 @@ export default StyleSheet.create({
   },
   txtHeaderRegister: {
     fontSize: 16,
-    color: c_F0532D,
+    color: '#F0532D',
     fontWeight: 'bold',
   },
   boxSearch: {
@@ -393,14 +377,14 @@ export default StyleSheet.create({
   inputSearch: {
     flex: 1,
     height: 44,
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
     borderRadius: 5,
     flexDirection: 'row',
   },
   buttonFilter: {
     width: 44,
     height: 44,
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
     marginStart: 10,
     borderRadius: 5,
     alignItems: 'center',
@@ -413,7 +397,7 @@ export default StyleSheet.create({
   txtInputSearch: {
     flex: 1,
     marginStart: 5,
-    backgroundColor: c_ffffff,
+    backgroundColor: '#fff',
     fontSize: 16,
   },
   groupContent: {
@@ -429,7 +413,7 @@ export default StyleSheet.create({
   txtInfoJob: {
     flex: 1,
     fontSize: 14,
-    color: c_757575,
+    color: '#757575',
   },
   imgInfoJob: {
     width: 18,
@@ -454,7 +438,7 @@ export default StyleSheet.create({
   },
   jobFollowLocationContainer: {
     borderRadius: 6,
-    borderColor: c_F0532D,
+    borderColor: '#F0532D',
     borderWidth: 1,
     padding: 16,
     marginStart: 16,
@@ -466,7 +450,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginBottom: 5,
   },
-  jobFollowLocationTxtDetail: {color: c_1c1c1c, fontSize: 16, marginLeft: 10},
+  jobFollowLocationTxtDetail: {color: '#1c1c1c', fontSize: 16, marginLeft: 10},
   jobDetailTop: {
     flexDirection: 'row',
     marginStart: 16,

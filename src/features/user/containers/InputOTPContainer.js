@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Image,
-  AsyncStorage
+  AsyncStorage,
 } from 'react-native';
 import InputOTPForm from '../components/InputOTPForm';
 import {doInputOTP} from '../actions/index';
@@ -16,7 +16,8 @@ import styleUser from '../styles/styles';
 import {changeMsgCode} from '../../home/actions/index';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
-import {SCREEN_MAIN} from '../../../api/screen';
+import {FORGOT_PASSWORD} from '../../../utils/constants';
+import {SCREEN_INFO, SCREEN_MAIN} from '../../../api/screen';
 
 export class InputOTPContainer extends Component {
   constructor(props) {
@@ -88,13 +89,23 @@ export class InputOTPContainer extends Component {
       if (this.state.isConnecting) {
         this.setState({isLoading: true});
         // doInputOTP(otpCode);
-        AsyncStorage.setItem('login', '1');
-        this.props.navigation.dispatch({
-          key: SCREEN_MAIN,
-          type: 'ReplaceCurrentScreen',
-          routeName: SCREEN_MAIN,
-          params: {},
-        });
+
+        if (this.props.navigation.state.params.typeScreen == FORGOT_PASSWORD) {
+          this.props.navigation.dispatch({
+            key: SCREEN_MAIN,
+            type: 'ReplaceCurrentScreen',
+            routeName: SCREEN_MAIN,
+            params: {},
+          });
+        } else {
+          AsyncStorage.setItem('login', '1');
+          this.props.navigation.dispatch({
+            key: SCREEN_INFO,
+            type: 'ReplaceCurrentScreen',
+            routeName: SCREEN_INFO,
+            params: {},
+          });
+        }
       } else {
         this.dropdown.alertWithType(
           'error',

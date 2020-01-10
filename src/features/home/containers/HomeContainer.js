@@ -250,7 +250,7 @@ class HomeContainer extends Component {
   _renderRBSheet() {
     return (
       <RBSheet
-        height={Platform.OS === 'ios' ? screenHeight - 35 : screenHeight}
+        height={Platform.OS === 'ios' ? screenHeight - getStatusBarHeight() : screenHeight}
         ref={ref => {
           this.jobHotDetail = ref;
         }}

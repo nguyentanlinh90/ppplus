@@ -3,7 +3,6 @@ import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import Splash from '../features/splash/containers/SplashContainer';
 import Login from '../features/user/containers/LoginContainer';
-import OTP from '../features/user/containers/OTPContainer';
 import Home from '../features/home/containers/HomeContainer';
 import Retro from '../features/retro/containers/RetroContainer';
 import CreateAccount from '../features/user/containers/CreateAccountContainer';
@@ -82,12 +81,6 @@ const Stack = createStackNavigator(
     },
     InputPhoneNumber: {
       screen: InputPhoneNumber,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    OTP: {
-      screen: OTP,
       navigationOptions: {
         header: null,
       },

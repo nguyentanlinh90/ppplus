@@ -54,6 +54,7 @@
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-smooth-pincode-input": "^1.0.7",
     "react-native-sqlite-storage": "^4.1.0",
+    "react-native-status-bar-height": "^2.4.0",
     "react-native-svg": "^9.9.4",
     "react-native-tab-navigator": "^0.3.4",
     "react-native-tab-view": "^2.10.0",
