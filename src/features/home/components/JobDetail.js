@@ -59,6 +59,7 @@ export default class JobHotItem extends Component {
       district: districtSelect,
     });
   };
+  _selectJobFollowLocationItem = () => {};
 
   render() {
     const {item, data} = this.props;
@@ -80,165 +81,161 @@ export default class JobHotItem extends Component {
       }
     }
     return (
-      <SafeAreaView>
-        <ScrollView>
-          <View>
-            <View style={{position: 'absolute'}}>
-              <LocationPicker
-                handleClose={this._closeSelectLocation}
-                visible={this.state.showLocationSelect}
-                cityList={this.state.cityList}
-                districtList={this.state.districtList}
-                city={this.state.city}
-                district={this.state.district}
-              />
-            </View>
-            <View>
-              <View style={[styleHome.jobDetailTop]}>
-                <Image
-                  resizeMode="cover"
-                  source={{uri: item.logoUrl}}
-                  style={styleHome.jobDetailLogo}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{borderRadius: 30, marginTop: -30, backgroundColor: '#fff'}}>
+        <View style={styleHome.jobDetailIndicator} />
+        <View style={{position: 'absolute'}}>
+          <LocationPicker
+            handleClose={this._closeSelectLocation}
+            visible={this.state.showLocationSelect}
+            cityList={this.state.cityList}
+            districtList={this.state.districtList}
+            city={this.state.city}
+            district={this.state.district}
+          />
+        </View>
+        <View>
+          <View style={[styleHome.jobDetailTop]}>
+            <Image
+              resizeMode="cover"
+              source={{uri: item.logoUrl}}
+              style={styleHome.jobDetailLogo}
+            />
+            <View style={styleHome.jobDetailTopInfo}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <Text style={{flex: 1, fontSize: 18, fontWeight: 'bold'}}>
+                  {item.jobTitle}
+                </Text>
+                <CheckBox
+                  onClick={() => {
+                    this.setState({jobBookMark: !this.state.jobBookMark});
+                  }}
+                  isChecked={this.state.jobBookMark}
+                  checkedImage={<BookmarkChecked />}
+                  unCheckedImage={<BookmarkUnChecked />}
                 />
-                <View style={styleHome.jobDetailTopInfo}>
-                  <View style={{flexDirection: 'row', marginBottom: 5}}>
-                    <Text style={{flex: 1, fontSize: 18, fontWeight: 'bold'}}>
-                      {item.jobTitle}
-                    </Text>
-                    <CheckBox
-                      onClick={() => {
-                        this.setState({jobBookMark: !this.state.jobBookMark});
-                      }}
-                      isChecked={this.state.jobBookMark}
-                      checkedImage={<BookmarkChecked />}
-                      unCheckedImage={<BookmarkUnChecked />}
-                    />
-                  </View>
-                  <Rating imageSize={18} readonly startingValue={item.rating} />
-                </View>
               </View>
-              <View style={{flexDirection: 'row', margin: 16}}>
-                <Text style={{flex: 1, color: '#757575', fontSize: 16}}>
-                  Vị trí
-                </Text>
-                <Text style={{flex: 1, color: '#1c1c1c', fontSize: 16}}>
-                  {item.position}
-                </Text>
-              </View>
-              <View style={styleHome.jobDetailLine} />
-              <View style={{flexDirection: 'row', margin: 16}}>
-                <Text style={{flex: 1, color: '#757575', fontSize: 16}}>
-                  Số lượng
-                </Text>
-                <Text style={{flex: 1, color: '#1c1c1c', fontSize: 16}}>
-                  {item.amount}
-                </Text>
-              </View>
-              <View style={styleHome.jobDetailLine} />
-              <View style={{flexDirection: 'row', margin: 16}}>
-                <Text style={{flex: 1, color: '#757575', fontSize: 16}}>
-                  Thời gian
-                </Text>
-                <Text style={{flex: 1, color: '#1c1c1c', fontSize: 16}}>
-                  {moment(item.timeStart).format('DD/MM/YYYY')} -{' '}
-                  {moment(item.timeEnd).format('DD/MM/YYYY')}
-                </Text>
-              </View>
-              <View style={{height: 5, backgroundColor: '#d8d8d8'}} />
-              <Text style={styleHome.jobDetailTitle}>ĐỊA ĐIỂM LÀM VIỆC</Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  this.setState({showLocationSelect: true});
-                }}
-                style={{marginStart: 16, marginEnd: 16, marginBottom: 16}}>
-                <View style={styleHome.jobDetailIconBoxSelect}>
-                  <Image
-                    resizeMode="contain"
-                    source={require('../../../assets/images/ic-location.png')}
-                    style={{width: 24, height: 24}}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: '#757575',
-                      marginLeft: 5,
-                      flex: 1,
-                    }}>
-                    {this.state.district + ', ' + this.state.city}
-                  </Text>
-                  <ArrowInBox />
-                </View>
-              </TouchableOpacity>
-              <FlatList
-                showsHorizontalScrollIndicator={false}
-                data={item.jobDetails}
-                renderItem={({item: rowData}) => {
-                  return (
-                    <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
-                      <JobFollowLocationItem item={rowData} />
-                    </TouchableOpacity>
-                  );
-                }}
-                keyExtractor={(item, index) => index}
-              />
-              <View style={styleHome.jobDetailViewLine} />
-              <Text style={styleHome.jobDetailTitle}>MÔ TẢ CÔNG VIỆC</Text>
-              <Text style={styleHome.jobFollowLocationTxtDetail}>
-                - Giới thiệu và quảng bá sản phẩm của công ty {'\n'}- Tư vấn và
-                bánhàng ĐTDĐ OPPO {'\n'}- Ghi nhận thông tin bán hàng, cập nhật
-                thị trường {'\n'}- Giải quyết thắc mắc của khách hàng về sản
-                phẩm
-              </Text>
-              <View style={styleHome.jobDetailViewLine} />
-              <Text style={styleHome.jobDetailTitle}>YÊU CẦU</Text>
-              <View style={styleHome.jobDetailBoxRequest}>
-                <Text style={styleHome.jobDetailTxtTitleRequest}>Độ tuổi</Text>
-                <Text style={styleHome.jobDetailTxtContentRequest}>18 tuổi - 25 tuổi</Text>
-              </View>
-              <View style={styleHome.jobDetailLineRequest} />
-              <View style={styleHome.jobDetailBoxRequest}>
-                <Text style={styleHome.jobDetailTxtTitleRequest}>Giới tính</Text>
-                <Text style={styleHome.jobDetailTxtContentRequest}>Nữ</Text>
-              </View>
-              <View style={styleHome.jobDetailLineRequest} />
-              <View style={styleHome.jobDetailBoxRequest}>
-                <Text style={styleHome.jobDetailTxtTitleRequest}>Ngoại hình</Text>
-                <Text style={styleHome.jobDetailTxtContentRequest}>Ưa nhìn</Text>
-              </View>
-              <View style={styleHome.jobDetailLineRequest} />
-              <View style={styleHome.jobDetailBoxRequest}>
-                <Text style={styleHome.jobDetailTxtTitleRequest}>Chiều cao</Text>
-                <Text style={styleHome.jobDetailTxtContentRequest}>>1m58</Text>
-              </View>
-              <View style={styleHome.jobDetailLineRequest} />
-              <View style={styleHome.jobDetailBoxRequest}>
-                <Text style={styleHome.jobDetailTxtTitleRequest}>Cân nặng</Text>
-                <Text style={styleHome.jobDetailTxtContentRequest}>45 - 60</Text>
-              </View>
-              <View style={styleHome.jobDetailLineRequest} />
-              <View style={styleHome.jobDetailBoxRequest}>
-                <Text style={styleHome.jobDetailTxtTitleRequest}>Đồng phục</Text>
-                <Text style={styleHome.jobDetailTxtContentRequest}>Công ty cấp</Text>
-              </View>
-              <View style={styleHome.jobDetailViewLine} />
-
-              <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
-                <LinearGradient
-                  colors={['#F0532D', '#FEBE10']}
-                  useAngle={true}
-                  angle={-90}
-                  style={styleHome.jobDetailBoxSubmit}>
-                  <Text
-                    style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-                    Ứng Tuyển Ngay
-                  </Text>
-                </LinearGradient>
-              </TouchableOpacity>
+              <Rating imageSize={18} readonly startingValue={item.rating} />
             </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
+          <View style={{flexDirection: 'row', margin: 16}}>
+            <Text style={{flex: 1, color: '#757575', fontSize: 16}}>
+              Vị trí
+            </Text>
+            <Text style={{flex: 1, color: '#1c1c1c', fontSize: 16}}>
+              Nhân viên
+            </Text>
+          </View>
+          <View style={styleHome.jobDetailLine} />
+          <View style={{flexDirection: 'row', margin: 16}}>
+            <Text style={{flex: 1, color: '#757575', fontSize: 16}}>
+              Số lượng
+            </Text>
+            <Text style={{flex: 1, color: '#1c1c1c', fontSize: 16}}>
+              {item.amount}
+            </Text>
+          </View>
+          <View style={styleHome.jobDetailLine} />
+          <View style={{flexDirection: 'row', margin: 16}}>
+            <Text style={{flex: 1, color: '#757575', fontSize: 16}}>
+              Thời gian
+            </Text>
+            <Text style={{flex: 1, color: '#1c1c1c', fontSize: 16}}>
+              {moment(item.timeStart).format('DD/MM/YYYY')} -{' '}
+              {moment(item.timeEnd).format('DD/MM/YYYY')}
+            </Text>
+          </View>
+          <View style={{height: 5, backgroundColor: '#d8d8d8'}} />
+          <Text style={styleHome.jobDetailTitle}>ĐỊA ĐIỂM LÀM VIỆC</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              this.setState({showLocationSelect: true});
+            }}
+            style={{marginStart: 16, marginEnd: 16, marginBottom: 16}}>
+            <View style={styleHome.jobDetailIconBoxSelect}>
+              <Image
+                resizeMode="contain"
+                source={require('../../../assets/images/ic-location.png')}
+                style={{width: 24, height: 24}}
+              />
+              <Text style={styleHome.jobDetailBoxLocation}>
+                {this.state.district + ', ' + this.state.city}
+              </Text>
+              <ArrowInBox />
+            </View>
+          </TouchableOpacity>
+          <FlatList
+            scrollEnabled={false}
+            showsHorizontalScrollIndicator={false}
+            data={item.jobDetails}
+            renderItem={({item: rowData}) => {
+              return (
+                <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
+                  <JobFollowLocationItem item={rowData} />
+                </TouchableOpacity>
+              );
+            }}
+            keyExtractor={(item, index) => index}
+          />
+          <View style={styleHome.jobDetailViewLine} />
+          <Text style={styleHome.jobDetailTitle}>MÔ TẢ CÔNG VIỆC</Text>
+          <Text style={styleHome.jobFollowLocationTxtDetail}>
+            - Giới thiệu và quảng bá sản phẩm của công ty {'\n'}- Tư vấn và
+            bánhàng ĐTDĐ OPPO {'\n'}- Ghi nhận thông tin bán hàng, cập nhật thị
+            trường {'\n'}- Giải quyết thắc mắc của khách hàng về sản phẩm
+          </Text>
+          <View style={styleHome.jobDetailViewLine} />
+          <Text style={styleHome.jobDetailTitle}>YÊU CẦU</Text>
+          <View style={styleHome.jobDetailBoxRequest}>
+            <Text style={styleHome.jobDetailTxtTitleRequest}>Độ tuổi</Text>
+            <Text style={styleHome.jobDetailTxtContentRequest}>
+              18 tuổi - 25 tuổi
+            </Text>
+          </View>
+          <View style={styleHome.jobDetailLineRequest} />
+          <View style={styleHome.jobDetailBoxRequest}>
+            <Text style={styleHome.jobDetailTxtTitleRequest}>Giới tính</Text>
+            <Text style={styleHome.jobDetailTxtContentRequest}>Nữ</Text>
+          </View>
+          <View style={styleHome.jobDetailLineRequest} />
+          <View style={styleHome.jobDetailBoxRequest}>
+            <Text style={styleHome.jobDetailTxtTitleRequest}>Ngoại hình</Text>
+            <Text style={styleHome.jobDetailTxtContentRequest}>Ưa nhìn</Text>
+          </View>
+          <View style={styleHome.jobDetailLineRequest} />
+          <View style={styleHome.jobDetailBoxRequest}>
+            <Text style={styleHome.jobDetailTxtTitleRequest}>Chiều cao</Text>
+            <Text style={styleHome.jobDetailTxtContentRequest}>>1m58</Text>
+          </View>
+          <View style={styleHome.jobDetailLineRequest} />
+          <View style={styleHome.jobDetailBoxRequest}>
+            <Text style={styleHome.jobDetailTxtTitleRequest}>Cân nặng</Text>
+            <Text style={styleHome.jobDetailTxtContentRequest}>45 - 60</Text>
+          </View>
+          <View style={styleHome.jobDetailLineRequest} />
+          <View style={styleHome.jobDetailBoxRequest}>
+            <Text style={styleHome.jobDetailTxtTitleRequest}>Đồng phục</Text>
+            <Text style={styleHome.jobDetailTxtContentRequest}>
+              Công ty cấp
+            </Text>
+          </View>
+          <View style={styleHome.jobDetailViewLine} />
+
+          <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
+            <LinearGradient
+              colors={['#F0532D', '#FEBE10']}
+              useAngle={true}
+              angle={-90}
+              style={styleHome.jobDetailBoxSubmit}>
+              <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                Ứng Tuyển Ngay
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     );
   }
 }

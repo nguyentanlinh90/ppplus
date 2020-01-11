@@ -16,6 +16,13 @@ class MainContainer extends Component {
     };
   }
 
+  componentDidMount(){
+    console.log('linhnt main componentDidMount')
+  }
+  
+  componentWillUnmount(){
+    console.log('linhnt  main componentWillUnmount')
+  }
   render() {
     return (
       <TabNavigator style={styles.container} tabBarStyle={styles.tabNavigator}>

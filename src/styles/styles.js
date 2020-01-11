@@ -4,8 +4,6 @@ import {getSizeNav, getSizeTopNav} from '../api/helpers';
 
 export default StyleSheet.create({
   body: {
-    margin: 0,
-    padding: 0,
     height: '100%',
     backgroundColor: '#fafafa',
   },

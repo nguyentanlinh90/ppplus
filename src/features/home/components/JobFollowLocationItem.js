@@ -8,7 +8,9 @@ import CBUnChecked from '../../../components/CBUnChecked';
 export class JobFollowLocationItem extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isSelect: false,
+    };
   }
 
   formatToWeekDay = day => {
@@ -68,8 +70,10 @@ export class JobFollowLocationItem extends Component {
             {item.nameStore}
           </Text>
           <CheckBox
-            onClick={() => {}}
-            isChecked={true}
+            onClick={() => {
+              this.setState({isSelect: !this.state.isSelect});
+            }}
+            isChecked={this.state.isSelect}
             checkedImage={<CBChecked />}
             unCheckedImage={<CBUnChecked />}
           />

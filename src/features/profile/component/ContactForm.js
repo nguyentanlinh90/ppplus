@@ -34,7 +34,7 @@ export class BasicInfoForm extends Component {
         <View style={stylesProfile.boxPickerBasicInfo}>
           <TextInput
             style={stylesProfile.txtInputBasicInfo}
-            returnKeyType="go"
+            returnKeyType="done"
             value={contact}
             name="contact"
             placeholder="Nhập địa chỉ"

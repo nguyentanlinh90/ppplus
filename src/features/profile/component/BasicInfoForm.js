@@ -57,7 +57,7 @@ export class BasicInfoForm extends Component {
             <View style={stylesProfile.boxInputBasicInfo}>
               <TextInput
                 style={stylesProfile.txtInputBasicInfo}
-                returnKeyType="go"
+                returnKeyType="next"
                 value={lastName}
                 name="lastName"
                 placeholder="Nhập họ và tên đệm"
@@ -70,7 +70,7 @@ export class BasicInfoForm extends Component {
             <View style={stylesProfile.boxInputBasicInfo}>
               <TextInput
                 style={stylesProfile.txtInputBasicInfo}
-                returnKeyType="go"
+                returnKeyType="next"
                 value={firstName}
                 name="firstName"
                 placeholder="Nhập tên"
@@ -100,8 +100,7 @@ export class BasicInfoForm extends Component {
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => showGenderSelect()}>
-              <View
-                style={stylesProfile.boxPickerBasicInfo}>
+              <View style={stylesProfile.boxPickerBasicInfo}>
                 <Text style={[stylesProfile.txtPicker, {color: '#757575'}]}>
                   {gender}
                 </Text>
@@ -116,7 +115,7 @@ export class BasicInfoForm extends Component {
             <View style={stylesProfile.boxPickerBasicInfo}>
               <TextInput
                 style={stylesProfile.txtInputBasicInfo}
-                returnKeyType="go"
+                returnKeyType="next"
                 value={height}
                 name="height"
                 placeholder="Nhập chiều cao"
@@ -128,11 +127,10 @@ export class BasicInfoForm extends Component {
           </View>
           <View style={stylesProfile.boxBasicInfo}>
             <Text style={stylesProfile.txtTitleBasicInfo}>Cân nặng (kg)*</Text>
-            <View
-              style={stylesProfile.boxPickerBasicInfo}>
+            <View style={stylesProfile.boxPickerBasicInfo}>
               <TextInput
                 style={stylesProfile.txtInputBasicInfo}
-                returnKeyType="go"
+                returnKeyType="next"
                 value={weight}
                 name="weight"
                 placeholder="Nhập cân nặng"
@@ -152,7 +150,7 @@ export class BasicInfoForm extends Component {
             ]}>
             <TextInput
               style={stylesProfile.txtInputBasicInfo}
-              returnKeyType="go"
+              returnKeyType="next"
               value={measure_1}
               name="measure_1"
               placeholder="Vòng 1"
@@ -168,7 +166,7 @@ export class BasicInfoForm extends Component {
             ]}>
             <TextInput
               style={stylesProfile.txtInputBasicInfo}
-              returnKeyType="go"
+              returnKeyType="next"
               value={measure_2}
               name="measure_2"
               placeholder="Vòng 2"
@@ -180,7 +178,7 @@ export class BasicInfoForm extends Component {
           <View style={[stylesProfile.boxPickerBasicInfo, {flex: 1}]}>
             <TextInput
               style={stylesProfile.txtInputBasicInfo}
-              returnKeyType="go"
+              returnKeyType="done"
               value={measure_3}
               name="measure_3"
               placeholder="Vòng 3"

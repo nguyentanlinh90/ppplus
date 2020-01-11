@@ -1,29 +1,41 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {View, SafeAreaView, Image} from 'react-native';
+import {View, SafeAreaView, Image, Text, RefreshControl} from 'react-native';
 import styles from '../../../styles/styles';
-import {Text} from 'native-base';
+import SpinnerComponent from '../../../components/Spinner';
+import {ScrollView} from 'react-native-gesture-handler';
 
 class MessageContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: true,
+      refreshing: false,
+      messages: [],
+    };
+    console.log('linhnt constructor');
   }
 
-  render() {
-    const {props} = this.props;
-    return (
-      <SafeAreaView>
-        <Text
-          style={{
-            fontSize: 24,
-            color: '#1c1c1c',
-            fontWeight: 'bold',
-            padding: 16,
-          }}>
-          Tin nhắn
-        </Text>
-        <View style={{height: 5, backgroundColor: '#e3e3e3'}}></View>
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    this._fetchData();
+  };
+  _fetchData = () => {
+    
+    setTimeout(() => {
+      this.setState({refreshing:false})
+    }, 3000);
+  };
+
+  _checkData = () => {
+    if (this.state.messages.length > 0) {
+      return (
+        <View>
+          <Text> Data</Text>
+        </View>
+      );
+    } else {
+      return (
         <View style={{alignItems: 'center', marginTop: 40}}>
           <Image source={require('../../../assets/images/ic-no-message.png')} />
           <Text
@@ -35,6 +47,50 @@ class MessageContainer extends Component {
             Bạn không có tin nhắn
           </Text>
         </View>
+      );
+    }
+  };
+
+  componentDidMount() {
+    console.log('linhnt componentDidMount');
+    setTimeout(() => {
+      this.setState({isLoading: false});
+    }, 3000);
+  }
+
+  componentWillUnmount() {
+    console.log('linhnt componentWillUnmount');
+  }
+
+  render() {
+    console.log('linhnt render');
+
+    const {props} = this.props;
+    return (
+      <SafeAreaView>
+        <SpinnerComponent visible={this.state.isLoading} />
+        <Text
+          style={{
+            fontSize: 24,
+            color: '#1c1c1c',
+            fontWeight: 'bold',
+            padding: 16,
+          }}>
+          Tin nhắn
+        </Text>
+        <View style={{height: 5, backgroundColor: '#e3e3e3'}} />
+        {(this.state.isLoading) ? null : (
+          <ScrollView
+          style={{height:'100%'}}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }>
+            {this._checkData()}
+          </ScrollView>
+        )}
       </SafeAreaView>
     );
   }

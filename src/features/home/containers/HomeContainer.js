@@ -10,11 +10,11 @@ import {
   FlatList,
   SafeAreaView,
   Dimensions,
+  RefreshControl,
 } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import styles from '../../../styles/styles';
-import stylesHome from '../../../features/home/styles/styles';
+import styles from '../../../features/home/styles/styles';
+import SpinnerComponent from '../../../components/Spinner';
 import JobHotItem from '../components/JobHotItem';
 import JobNewItem from '../components/JobNewItem';
 import JobDetail from '../components/JobDetail';
@@ -230,6 +230,7 @@ class HomeContainer extends Component {
 
     this.state = {
       isLoading: true,
+      refreshing: false,
       inputSearch: '',
       item: {},
       jobs: [],
@@ -250,168 +251,181 @@ class HomeContainer extends Component {
   _renderRBSheet() {
     return (
       <RBSheet
-        height={Platform.OS === 'ios' ? screenHeight - getStatusBarHeight() : screenHeight}
+        height={Platform.OS === 'ios' ? screenHeight : screenHeight}
         ref={ref => {
           this.jobHotDetail = ref;
         }}
-        closeOnDragDown={true}
-        customStyles={{
-          container: {
-            borderTopLeftRadius: 30,
-            borderTopRightRadius: 30,
-          },
-        }}>
-        <JobDetail item={this.state.item} data={this.state.jobs} />
+        closeOnDragDown={false}
+        closeOnPressBack={true} // just android
+        // customStyles={{
+        //   container: {
+        //     borderTopLeftRadius: 30,
+        //     borderTopRightRadius: 30,
+        //   },
+        // }}
+      >
+        <View style={{paddingBottom: Platform.OS === 'ios' ? 110 : 100}}>
+          <View
+            style={{
+              height: Platform.OS === 'ios' ? getStatusBarHeight() + 100 : 100,
+              backgroundColor: '#00A161',
+            }}>
+            <TouchableOpacity
+              style={styles.jobDetailBoxButtonBack}
+              onPress={() => {
+                this.jobHotDetail.close();
+              }}>
+              <Image source={require('../../../assets/images/ic-back.png')} />
+            </TouchableOpacity>
+          </View>
+          <JobDetail item={this.state.item} data={this.state.jobs} />
+        </View>
       </RBSheet>
     );
   }
-  fetchData = () => {
+
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    this._fetchData();
+  };
+  _fetchData = () => {
     const {getJobs} = this.props;
     getJobs();
   };
   componentDidMount() {
-    this.fetchData();
+    this._fetchData();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'fetch_job_success') {
-      this.setState({isLoading: false, jobs: nextProps.jobs});
+      this.setState({
+        isLoading: false,
+        refreshing: false,
+        jobs: nextProps.jobs,
+      });
       nextProps.changeMsgCode('');
     }
   }
 
-  _boxImgStyle = function() {
-    return {
-      ...Platform.select({
-        ios: {
-          height: getStatusBarHeight() + 57,
-        },
-        android: {
-          height: 57,
-        },
-      }),
-      width: '100%',
-      position: 'absolute',
-    };
-  };
-
   render() {
     const {props, inputSearch, jobs} = this.props;
     return (
-      <View style={[styles.body, {backgroundColor: '#d8d8d8'}]}>
+      <View style={styles.container}>
         {this._renderRBSheet()}
-        <Spinner
-          visible={this.state.isLoading}
-          color={'white'}
-          size={'large'}
-          textStyle={{color: '#fff'}}
-        />
+        <SpinnerComponent visible={this.state.isLoading} />
         <Image
-          resizeMode="stretch"
           source={require('../../../assets/images/bg-home-header.png')}
-          style={this._boxImgStyle()}
+          style={styles.boxImgHeader}
         />
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView>
           <View>
-            <View>
-              <View style={stylesHome.viewUser}>
-                <Text style={{fontSize: 16, color: '#fff'}}>Xin chào,</Text>
-                <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
-                  Tiên
-                </Text>
-              </View>
-              <View>
-                <View style={[stylesHome.boxSearch]}>
-                  <View style={stylesHome.inputSearch}>
-                    <TextInput
-                      style={stylesHome.txtInputSearch}
-                      value={inputSearch}
-                      placeholder="Tìm kiếm"
-                      onChangeText={text =>
-                        this.onChangeText(text, 'inputSearch')
-                      }
-                      underlineColorAndroid="transparent"
-                    />
-                    <View style={stylesHome.buttonFilter}>
-                      <Image
-                        resizeMode="contain"
-                        source={require('../../../assets/images/ic-search.png')}
-                      />
-                    </View>
-                  </View>
-                  <View style={stylesHome.buttonFilter}>
-                    <Image
-                      resizeMode="contain"
-                      source={require('../../../assets/images/ic-filter.png')}
-                    />
-                  </View>
+            <View style={styles.viewUser}>
+              <Text style={{fontSize: 16, color: '#fff'}}>Xin chào,</Text>
+              <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
+                Tiên
+              </Text>
+            </View>
+            <View style={[styles.boxSearch]}>
+              <View style={styles.inputSearch}>
+                <TextInput
+                  style={styles.txtInputSearch}
+                  value={inputSearch}
+                  placeholder="Tìm kiếm"
+                  onChangeText={text => this.onChangeText(text, 'inputSearch')}
+                  underlineColorAndroid="transparent"
+                />
+                <View style={styles.buttonFilter}>
+                  <Image
+                    source={require('../../../assets/images/ic-search.png')}
+                  />
                 </View>
+              </View>
+              <View style={styles.buttonFilter}>
+                <Image
+                  source={require('../../../assets/images/ic-filter.png')}
+                />
               </View>
             </View>
           </View>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {/* hot job */}
-            <View style={stylesHome.groupContent}>
-              <Text style={stylesHome.txtTitleGroupContent}>
-                Công việc hot nhất
-              </Text>
-              <FlatList
-                showsHorizontalScrollIndicator={false}
-                horizontal={true}
-                data={this.state.jobs}
-                renderItem={({item: rowData}) => {
-                  return (
-                    <TouchableOpacity
-                      activeOpacity={0.5}
-                      onPress={() => this._onPress(rowData)}>
-                      <JobHotItem item={rowData} />
-                    </TouchableOpacity>
-                  );
-                }}
-                keyExtractor={(item, index) => index}
-              />
-            </View>
-            {/* new job */}
-            <View style={[stylesHome.groupContent, {marginTop: 10}]}>
-              <Text style={stylesHome.txtTitleGroupContent}>
-                Công việc mới nhất
-              </Text>
-              <FlatList
-                showsHorizontalScrollIndicator={false}
-                horizontal={false}
-                data={this.state.jobs}
-                renderItem={({item: rowData}) => {
-                  return <JobNewItem item={rowData} />;
-                }}
-                keyExtractor={(item, index) => index}
-              />
-            </View>
-            <View
-              style={[
-                stylesHome.groupContent,
-                {marginTop: 10},
-                {marginBottom: 10},
-              ]}>
-              <Text style={stylesHome.txtTitleGroupContent}>
-                Thương hiệu hàng đầu
-              </Text>
-              <FlatList
-                showsHorizontalScrollIndicator={false}
-                horizontal={true}
-                data={this.state.jobs}
-                renderItem={({item: rowData}) => {
-                  return (
-                    <Image
-                      resizeMode="contain"
-                      source={{uri: rowData.logoUrl}}
-                      style={{width: 94, height: 59}}
-                    />
-                  );
-                }}
-                keyExtractor={(item, index) => index}
-              />
-            </View>
-          </ScrollView>
+          {!this.state.isLoading ? (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                />
+              }>
+              <View style={styles.groupContent}>
+                <Text style={styles.txtTitleGroupContent}>
+                  Công việc hot nhất
+                </Text>
+                <FlatList
+                  style={{padding: 16}}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
+                  data={this.state.jobs}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={() => this._onPress(rowData)}>
+                        <JobHotItem item={rowData} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+              </View>
+              <View style={[styles.groupContent, {marginTop: 10}]}>
+                <Text style={styles.txtTitleGroupContent}>
+                  Công việc mới nhất
+                </Text>
+                <FlatList
+                  style={{padding: 16, backgroundColor: '#fff'}}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={false}
+                  data={this.state.jobs}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={() => this._onPress(rowData)}>
+                        <JobNewItem item={rowData} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+              </View>
+              <View
+                style={[
+                  styles.groupContent,
+                  {marginTop: 10},
+                  {marginBottom: 10},
+                ]}>
+                <Text style={styles.txtTitleGroupContent}>
+                  Thương hiệu hàng đầu
+                </Text>
+                <FlatList
+                  style={{backgroundColor: '#fff', paddingBottom: 16}}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
+                  data={this.state.jobs}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <Image
+                        resizeMode="contain"
+                        source={{uri: rowData.logoUrl}}
+                        style={{width: 94, height: 59}}
+                      />
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+              </View>
+            </ScrollView>
+          ) : null}
         </SafeAreaView>
       </View>
     );

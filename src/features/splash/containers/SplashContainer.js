@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Image, AsyncStorage} from 'react-native';
+
 import {SCREEN_RETRO, SCREEN_INPUT_OTP} from '../../../api/screen';
 import {SCREEN_PROFILE} from '../../../api/screen';
 import {SCREEN_MAIN} from '../../../api/screen';
@@ -26,9 +27,9 @@ class SplashContainer extends Component {
     setTimeout(() => {
       if (this.state.isLogin) {
         this.props.navigation.dispatch({
-          key: SCREEN_INFO,
+          key: SCREEN_MAIN,
           type: 'ReplaceCurrentScreen',
-          routeName: SCREEN_INFO,
+          routeName: SCREEN_MAIN,
           params: {},
         });
       } else {

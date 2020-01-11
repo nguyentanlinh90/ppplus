@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Image,
+  AsyncStorage
 } from 'react-native';
 import LoginForm from '../components/LoginForm';
 import {doLogin} from '../actions/index';
@@ -153,6 +154,7 @@ export class LoginContainer extends Component {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
       // this.props.navigation.goBack();
+      AsyncStorage.setItem('login', '1');
       this.props.navigation.dispatch({
         key: SCREEN_MAIN,
         type: 'ReplaceCurrentScreen',

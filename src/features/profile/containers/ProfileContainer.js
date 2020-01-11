@@ -5,7 +5,7 @@ import ProgressCircle from 'react-native-progress-circle';
 import styles from '../../../styles/styles';
 import stylesProfile from '../styles/styles';
 import {SCREEN_FILL_PROFILE} from '../../../api/screen';
-
+import DropdownAlert from 'react-native-dropdownalert';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -19,11 +19,20 @@ class ProfileContainer extends Component {
     this.setState({name: data});
   };
 
+  _showAlert = () => {
+    this.dropdown.alertWithType('error', 'Lỗi', 'Chức năng chưa hoàn thiện');
+  };
+
   render() {
     const {props, percentage, name} = this.props;
     return (
-      <ScrollView style={stylesProfile.container}>
-        <View>
+      <View>
+        <DropdownAlert
+          ref={ref => (this.dropdown = ref)}
+          defaultContainer={styles.defaultContainerLogin}
+          defaultTextContainer={styles.defaultTextContainerLogin}
+        />
+        <ScrollView style={stylesProfile.container}>
           <TouchableOpacity
             style={stylesProfile.viewEdit}
             activeOpacity={0.8}
@@ -68,39 +77,49 @@ class ProfileContainer extends Component {
             </View>
           </View>
           <View style={{backgroundColor: '#d8d8d8', height: 5}} />
-          <View style={stylesProfile.boxItem}>
+          <TouchableOpacity
+            style={stylesProfile.boxItem}
+            onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-program.png')}
             />
             <Text style={stylesProfile.boxItemTitle}>Chương trình</Text>
-          </View>
+          </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
-          <View style={stylesProfile.boxItem}>
+          <TouchableOpacity
+            style={stylesProfile.boxItem}
+            onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-history.png')}
             />
             <Text style={stylesProfile.boxItemTitle}>Lịch sử</Text>
-          </View>
+          </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
-          <View style={stylesProfile.boxItem}>
+          <TouchableOpacity
+            style={stylesProfile.boxItem}
+            onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-gift.png')}
             />
             <Text style={stylesProfile.boxItemTitle}>Ưu đãi</Text>
-          </View>
+          </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
-          <View style={stylesProfile.boxItem}>
+          <TouchableOpacity
+            style={stylesProfile.boxItem}
+            onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-add-friend.png')}
             />
             <Text style={stylesProfile.boxItemTitle}>Mời bạn bè</Text>
-          </View>
+          </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
-          <View style={stylesProfile.boxItem}>
+          <TouchableOpacity
+            style={stylesProfile.boxItem}
+            onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-process.png')}
@@ -108,43 +127,51 @@ class ProfileContainer extends Component {
             <Text style={stylesProfile.boxItemTitle}>
               Quy trình làm việc và chế độ phúc lợi
             </Text>
-          </View>
+          </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
-          <View style={stylesProfile.boxItem}>
+          <TouchableOpacity
+            style={stylesProfile.boxItem}
+            onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-tutorial.png')}
             />
             <Text style={stylesProfile.boxItemTitle}>Hướng dẫn</Text>
-          </View>
+          </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
-          <View style={stylesProfile.boxItem}>
+          <TouchableOpacity
+            style={stylesProfile.boxItem}
+            onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-sp.png')}
             />
             <Text style={stylesProfile.boxItemTitle}>Hỗ trợ</Text>
-          </View>
+          </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
-          <View style={stylesProfile.boxItem}>
+          <TouchableOpacity
+            style={stylesProfile.boxItem}
+            onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-star-gray.png')}
             />
             <Text style={stylesProfile.boxItemTitle}>Đánh giá ứng dụng</Text>
-          </View>
+          </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
-          <View style={stylesProfile.boxItem}>
+          <TouchableOpacity
+            style={stylesProfile.boxItem}
+            onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-logout.png')}
             />
             <Text style={stylesProfile.boxItemTitle}>Đăng xuất</Text>
-          </View>
+          </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
           <View style={{height: 45}}></View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }

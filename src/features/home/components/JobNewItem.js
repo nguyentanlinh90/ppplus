@@ -92,7 +92,7 @@ export class JobHotItem extends Component {
           </View>
         </View>
         <View
-          style={{height: 0.5, backgroundColor: '#d8d8d8', marginTop: 5, marginBottom:5}}></View>
+          style={{height: 0.5, backgroundColor: '#d8d8d8', marginTop: 10, marginBottom:10}}></View>
       </View>
     );
   }

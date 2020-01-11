@@ -8,8 +8,13 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 export default StyleSheet.create({
+  container: {
+    backgroundColor: '#d8d8d8',
+    flex: 1,
+    paddingBottom: Platform.OS === 'ios' ? 110 : 100,
+  },
   homeHeader: {
     ...Platform.select({
       ios: {
@@ -402,13 +407,13 @@ export default StyleSheet.create({
   },
   groupContent: {
     width: '100%',
-    padding: 16,
     backgroundColor: '#FEF5F3',
   },
   txtTitleGroupContent: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 10,
+    padding: 16,
+    backgroundColor: '#fff',
   },
   txtInfoJob: {
     flex: 1,
@@ -476,7 +481,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 16,
     marginTop: 16,
-    marginBottom:16
+    marginBottom: 16,
   },
   jobDetailIconBoxSelect: {
     height: 50,
@@ -491,10 +496,11 @@ export default StyleSheet.create({
   jobDetailBoxSubmit: {
     borderRadius: 22,
     borderStyle: 'solid',
-    height: 50,
+    height: 44,
     margin: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 50,
   },
   jobDetailButtonSelectAddress: {
     textAlign: 'center',
@@ -511,21 +517,47 @@ export default StyleSheet.create({
     height: 35,
     alignItems: 'center',
   },
-  jobDetailViewLine:{
+  jobDetailViewLine: {
     height: 5,
     backgroundColor: '#d8d8d8',
     marginTop: 16,
     marginBottom: 16,
   },
-  jobDetailBoxRequest:{
+  jobDetailBoxRequest: {
     flexDirection: 'row',
     height: 40,
     marginStart: 16,
     marginEnd: 16,
-    alignItems:'center'
+    alignItems: 'center',
   },
-  jobDetailTxtTitleRequest:{color: '#757575', fontSize: 16, flex: 1},
-  jobDetailTxtContentRequest:{color: '#1c1c1c', fontSize: 16, flex: 1},
-  jobDetailLineRequest:{backgroundColor: '#757575', height:0.2},
-
+  jobDetailTxtTitleRequest: {color: '#757575', fontSize: 16, flex: 1},
+  jobDetailTxtContentRequest: {color: '#1c1c1c', fontSize: 16, flex: 1},
+  jobDetailLineRequest: {backgroundColor: '#757575', height: 0.2},
+  jobDetailBoxButtonBack: {
+    width: 60,
+    height: 70,
+    marginTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  jobDetailBoxLocation: {
+    fontSize: 16,
+    color: '#757575',
+    marginLeft: 5,
+    flex: 1,
+  },
+  jobDetailIndicator: {
+    width: 100,
+    height: 5,
+    backgroundColor: '#d8d8d8',
+    marginBottom: 10,
+    marginTop: 15,
+    borderRadius: 30,
+    alignSelf: 'center',
+  },
+  boxImgHeader: {
+    height: Platform.OS === 'ios' ? getStatusBarHeight() + 57 : 57,
+    width: '100%',
+    position: 'absolute',
+  },
 });
