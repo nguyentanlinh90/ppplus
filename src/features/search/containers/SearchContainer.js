@@ -46,6 +46,7 @@ class MessageContainer extends Component {
             />
           </View>
           <TouchableOpacity
+            activeOpacity={0.8}
             onPress={() => {
               this.props.navigation.goBack();
             }}>

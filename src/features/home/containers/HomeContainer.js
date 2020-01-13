@@ -400,7 +400,7 @@ class HomeContainer extends Component {
       </ScrollView>
     );
   };
-  _openSearch = (props) => {
+  _openSearch = props => {
     props.navigation.navigate(SCREEN_SEARCH);
   };
   componentDidMount() {
@@ -445,23 +445,19 @@ class HomeContainer extends Component {
             </Text>
           </View>
           <View style={[styles.boxSearch]}>
-            <View style={styles.inputSearch}>
-              <TextInput
-                style={styles.txtInputSearch}
-                placeholder="Tìm kiếm"
-                onFocus={() => {
-                  this._openSearch(props);
-                }}
-              />
-              <TouchableOpacity
-                style={styles.buttonFilter}
-                onPress={() => this._openSearch(props)}>
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.inputSearch}
+              onPress={() => this._openSearch(props)}>
+              <Text style={styles.txtSearch}>Tìm kiếm</Text>
+              <View style={styles.buttonFilter}>
                 <Image
                   source={require('../../../assets/images/ic-search.png')}
                 />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={styles.buttonFilter}
               onPress={() => {
                 this.setState({isOpenFilter: true});

@@ -398,11 +398,12 @@ export default StyleSheet.create({
     width: 24,
     height: 24,
   },
-  txtInputSearch: {
+  txtSearch: {
     flex: 1,
-    marginStart: 5,
-    backgroundColor: '#fff',
+    color: '#d8d8d8',
     fontSize: 16,
+    alignSelf: 'center',
+    marginStart: 16,
   },
   groupContent: {
     width: '100%',
