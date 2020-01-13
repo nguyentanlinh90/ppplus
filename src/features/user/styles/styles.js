@@ -211,12 +211,12 @@ export default StyleSheet.create({
   boxLogin: {
     paddingLeft: 16,
     paddingRight: 16,
-    height:'100%',
-    justifyContent:'center'
+    height: '100%',
+    justifyContent: 'center',
   },
   inputLogin: {
     height: 48,
-    flex:1,
+    flex: 1,
     fontSize: 19,
     paddingStart: 10,
     ...Platform.select({
@@ -228,7 +228,7 @@ export default StyleSheet.create({
       },
     }),
   },
-  boxShowPass:{
+  boxShowPass: {
     width: 48,
     height: 48,
     justifyContent: 'center',
@@ -267,14 +267,17 @@ export default StyleSheet.create({
   },
   textForgetPass: {
     textAlign: 'right',
+    alignSelf: 'flex-end',
     color: '#F0532D',
     fontSize: 16,
+    padding: 5,
   },
   textNotYetAccount: {
-    textAlign: 'center',
     marginTop: 17,
     color: '#F0532D',
     fontSize: 16,
+    alignSelf: 'center',
+    padding: 5,
   },
   textTitleCallSp: {
     textAlign: 'center',

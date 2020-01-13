@@ -7,6 +7,8 @@ import {
   StatusBar,
   Image,
   AsyncStorage,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import LoginForm from '../components/LoginForm';
 import {doLogin} from '../actions/index';
@@ -95,7 +97,7 @@ export class LoginContainer extends Component {
           'Số điện thoại không đúng định dạng.',
         );
       } else {
-        dispatchScreen(this.props, SCREEN_RETRO, {
+        dispatchScreen(this.props, SCREEN_INPUT_OTP, {
           typeScreen: SCREEN_INPUT_OTP,
         });
       }
@@ -160,6 +162,7 @@ export class LoginContainer extends Component {
 
   render() {
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.body}>
         <SafeAreaView style={{backgroundColor: '#ffffff', flex: 1}}>
           <StatusBar backgroundColor="#000" barStyle="light-content" />
@@ -202,6 +205,7 @@ export class LoginContainer extends Component {
           />
         </SafeAreaView>
       </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

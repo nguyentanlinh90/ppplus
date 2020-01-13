@@ -243,6 +243,10 @@ class HomeContainer extends Component {
     this.setState({item: item});
     this.jobHotDetail.open();
   }
+
+  _closeRBSheet=()=>{
+    this.jobHotDetail.close();
+  }
   _renderRBSheet() {
     return (
       <RBSheet
@@ -268,12 +272,12 @@ class HomeContainer extends Component {
             <TouchableOpacity
               style={styles.jobDetailBoxButtonBack}
               onPress={() => {
-                this.jobHotDetail.close();
+                this._closeRBSheet();
               }}>
               <Image source={require('../../../assets/images/ic-back.png')} />
             </TouchableOpacity>
           </View>
-          <JobDetail item={this.state.item} data={this.state.jobs} />
+          <JobDetail item={this.state.item} data={this.state.jobs} submit={this._closeRBSheet}/>
         </View>
       </RBSheet>
     );
@@ -335,6 +339,9 @@ class HomeContainer extends Component {
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
+            // tintColor={'#098'}
+            // titleColor={'#000'}
+            // title={'Cập nhật'}
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh.bind(this)}
           />

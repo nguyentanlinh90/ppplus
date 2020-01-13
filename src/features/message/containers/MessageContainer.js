@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {View, SafeAreaView, Image, Text, RefreshControl} from 'react-native';
-import styles from '../../../styles/styles';
+import styles from '../styles/styles';
 import SpinnerComponent from '../../../components/Spinner';
 import {ScrollView} from 'react-native-gesture-handler';
 
@@ -21,10 +21,9 @@ class MessageContainer extends Component {
     this._fetchData();
   };
   _fetchData = () => {
-    
     setTimeout(() => {
-      this.setState({refreshing:false})
-    }, 3000);
+      this.setState({refreshing: false});
+    }, 1000);
   };
 
   _checkData = () => {
@@ -55,7 +54,7 @@ class MessageContainer extends Component {
     console.log('linhnt componentDidMount');
     setTimeout(() => {
       this.setState({isLoading: false});
-    }, 3000);
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -63,25 +62,16 @@ class MessageContainer extends Component {
   }
 
   render() {
-    console.log('linhnt render');
+    // const {props, messages} = this.props;
 
-    const {props} = this.props;
     return (
-      <SafeAreaView >
+      <SafeAreaView>
         <SpinnerComponent visible={this.state.isLoading} />
-        <Text
-          style={{
-            fontSize: 24,
-            color: '#1c1c1c',
-            fontWeight: 'bold',
-            padding: 16,
-          }}>
-          Tin nhắn
-        </Text>
+        <Text style={styles.title}>Tin nhắn</Text>
         <View style={{height: 5, backgroundColor: '#e3e3e3'}} />
-        {(this.state.isLoading) ? null : (
+        {this.state.isLoading ? null : (
           <ScrollView
-          style={{height:'100%'}}
+            style={{height: '100%'}}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}

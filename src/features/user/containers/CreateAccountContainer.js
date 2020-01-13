@@ -6,7 +6,10 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Image,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
+import {convertPhone} from "../../../api/helpers";
 import CreateAccountForm from '../components/CreateAccountForm';
 import {doCreateAccount} from '../actions/index';
 import DropdownAlert from 'react-native-dropdownalert';
@@ -178,6 +181,7 @@ export class CreateAccountContainer extends Component {
 
   render() {
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView>
         <Spinner
           visible={this.state.isLoading}
@@ -207,6 +211,7 @@ export class CreateAccountContainer extends Component {
           defaultTextContainer={styles.defaultTextContainerLogin}
         />
       </SafeAreaView>
+      </TouchableWithoutFeedback>
     );
   }
 }

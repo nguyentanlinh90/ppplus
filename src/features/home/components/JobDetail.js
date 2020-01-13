@@ -61,7 +61,7 @@ export default class JobHotItem extends Component {
   _selectJobFollowLocationItem = () => {};
 
   render() {
-    const {item, data} = this.props;
+    const {item, data, submit} = this.props;
     if (this.state.listLocation.length == 0) {
       for (let i = 0; i < data.length; i++) {
         const itemLocation = data[i].location;
@@ -222,7 +222,7 @@ export default class JobHotItem extends Component {
           </View>
           <View style={styleHome.jobDetailViewLine} />
 
-          <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => submit()}>
             <LinearGradient
               colors={['#F0532D', '#FEBE10']}
               useAngle={true}

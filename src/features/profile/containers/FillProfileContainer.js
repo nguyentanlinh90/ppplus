@@ -122,8 +122,13 @@ class FillProfileContainer extends Component {
 
     ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
+        console.log('linhnt didCancel');
       } else if (response.error) {
+        console.log('linhnt error');
+
       } else if (response.customButton) {
+        console.log('linhnt customButton');
+
       } else {
         if (numberOfImage == IMAGE_AVATAR) {
           this.setState({

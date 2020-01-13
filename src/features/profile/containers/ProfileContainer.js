@@ -36,11 +36,6 @@ class ProfileContainer extends Component {
     return (
       <SafeAreaView>
         <ScrollView>
-          <DropdownAlert
-            ref={ref => (this.dropdown = ref)}
-            defaultContainer={styles.defaultContainerLogin}
-            defaultTextContainer={styles.defaultTextContainerLogin}
-          />
           <TouchableOpacity
             style={stylesProfile.viewEdit}
             activeOpacity={0.8}
@@ -178,6 +173,11 @@ class ProfileContainer extends Component {
           </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
         </ScrollView>
+        <DropdownAlert
+          ref={ref => (this.dropdown = ref)}
+          defaultContainer={styles.defaultContainerLogin}
+          defaultTextContainer={styles.defaultTextContainerLogin}
+        />
       </SafeAreaView>
     );
   }
