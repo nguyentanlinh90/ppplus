@@ -35,7 +35,7 @@ class MainContainer extends Component {
             />
           )}
           renderSelectedIcon={() => (
-            <View style={{alignItems: 'center'}}>
+            <View style={{alignItems: 'center', marginTop:10}}>
               <Image
                 resizeMode="contain"
                 source={require('../../assets/images/ic-home-select.png')}

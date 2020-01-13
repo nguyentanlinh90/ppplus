@@ -2,7 +2,7 @@ import {StyleSheet, Platform, Dimensions} from 'react-native';
 import {getBottomSpace} from 'react-native-iphone-x-helper';
 import {getSizeNav, getSizeTopNav} from '../api/helpers';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-
+const dimen = Dimensions.get('window');
 export default StyleSheet.create({
   body: {
     height: '100%',
@@ -12,18 +12,18 @@ export default StyleSheet.create({
     flex: 1,
   },
   tabNavigator: {
-    backgroundColor:'#fff',
-    alignItems:'center',
-    ...Platform.select({
-      ios: {
-        height: 70,
-      },
-      android: {
-        height: 60,
-      },
-    }),
+    backgroundColor: '#fff',
+    alignItems: 'center',
+
+    height:
+      (Platform.OS === 'ios' &&
+        (dimen.height === 812 || dimen.width === 812)) ||
+      dimen.height === 896 ||
+      dimen.width === 896
+        ? 70
+        : 60,
   },
-  
+
   mainContent: {
     paddingTop: 0,
     paddingLeft: 10,
@@ -117,7 +117,7 @@ export default StyleSheet.create({
   },
   defaultContainerLogin: {
     paddingLeft: 10,
-    paddingEnd:20,
+    paddingEnd: 20,
     height: 120,
     paddingTop: 20,
   },
@@ -125,7 +125,7 @@ export default StyleSheet.create({
     height: 100,
     marginTop: 30,
     marginLeft: 20,
-    marginEnd:20
+    marginEnd: 20,
   },
   defaultContainerRedeem: {
     paddingLeft: 10,
@@ -180,13 +180,14 @@ export default StyleSheet.create({
     width: 25,
     height: 25,
     backgroundColor: 'transparent',
+    marginTop:10
   },
   circleMenu: {
     width: 5,
     height: 5,
     borderRadius: 100 / 2,
     backgroundColor: '#F0532D',
-    marginTop:5
+    marginTop: 5,
   },
   cbbModalIos: {
     borderWidth: 0,
