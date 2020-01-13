@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Image, AsyncStorage} from 'react-native';
 
-import {SCREEN_RETRO, SCREEN_INPUT_OTP} from '../../../api/screen';
+import {SCREEN_RETRO, SCREEN_INPUT_OTP, SCREEN_FILL_PROFILE} from '../../../api/screen';
 import {SCREEN_PROFILE} from '../../../api/screen';
 import {SCREEN_MAIN} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 import {SCREEN_INFO} from '../../../api/screen';
 import {SCREEN_CONFIRM_INFO} from '../../../api/screen';
+import {dispatchScreen} from '../../../utils/utils';
 class SplashContainer extends Component {
   constructor(props) {
     super(props);
@@ -26,19 +27,9 @@ class SplashContainer extends Component {
   componentDidMount() {
     setTimeout(() => {
       if (this.state.isLogin) {
-        this.props.navigation.dispatch({
-          key: SCREEN_MAIN,
-          type: 'ReplaceCurrentScreen',
-          routeName: SCREEN_MAIN,
-          params: {},
-        });
+        dispatchScreen(this.props, SCREEN_MAIN,{});
       } else {
-        this.props.navigation.dispatch({
-          key: SCREEN_RETRO,
-          type: 'ReplaceCurrentScreen',
-          routeName: SCREEN_RETRO,
-          params: {},
-        });
+        dispatchScreen(this.props, SCREEN_RETRO,{});
       }
     }, 3000);
   }

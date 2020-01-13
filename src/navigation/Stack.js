@@ -15,6 +15,7 @@ import FillProfile from '../features/profile/containers/FillProfileContainer';
 import Main from '../features/main/MainContainer';
 import Info from '../features/info/containers/InfoContainer';
 import ConfirmInfo from '../features/info/containers/ConfirmInfoContainer';
+import Search from '../features/search/containers/SearchContainer';
 
 const Stack = createStackNavigator(
   {
@@ -103,7 +104,12 @@ const Stack = createStackNavigator(
         header: null,
       },
     },
-    
+    Search: {
+      screen: Search,
+      navigationOptions: {
+        header: null,
+      },
+    },
   },
   {
     initialRouteName: 'Splash',

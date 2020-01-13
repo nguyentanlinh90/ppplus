@@ -67,7 +67,7 @@ class MessageContainer extends Component {
 
     const {props} = this.props;
     return (
-      <SafeAreaView>
+      <SafeAreaView >
         <SpinnerComponent visible={this.state.isLoading} />
         <Text
           style={{

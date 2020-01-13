@@ -12,7 +12,6 @@ import {doCreateAccount} from '../actions/index';
 import DropdownAlert from 'react-native-dropdownalert';
 import styles from '../../../styles/styles';
 import styleUser from '../styles/styles';
-import {convertPhone} from '../../../api/helpers';
 import {changeMsgCode} from '../../home/actions/index';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
@@ -23,8 +22,8 @@ export class CreateAccountContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '0988473737',
-      referral_code: 'jdlssdf',
+      phone: '0988422495',
+      referral_code: 'GOTIT',
       password: '123456',
       passwordAgain: '123456',
       isLoading: false,

@@ -1,17 +1,25 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import styles from '../../../styles/styles';
 import stylesProfile from '../styles/styles';
 import {SCREEN_FILL_PROFILE} from '../../../api/screen';
 import DropdownAlert from 'react-native-dropdownalert';
+
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       percentage: 70,
-      name: 'Nguyễn Ngọc Tiên',
+      name: 'Nguyễn Tấn Linh',
     };
   }
 
@@ -26,13 +34,13 @@ class ProfileContainer extends Component {
   render() {
     const {props, percentage, name} = this.props;
     return (
-      <View>
-        <DropdownAlert
-          ref={ref => (this.dropdown = ref)}
-          defaultContainer={styles.defaultContainerLogin}
-          defaultTextContainer={styles.defaultTextContainerLogin}
-        />
-        <ScrollView style={stylesProfile.container}>
+      <SafeAreaView>
+        <ScrollView>
+          <DropdownAlert
+            ref={ref => (this.dropdown = ref)}
+            defaultContainer={styles.defaultContainerLogin}
+            defaultTextContainer={styles.defaultTextContainerLogin}
+          />
           <TouchableOpacity
             style={stylesProfile.viewEdit}
             activeOpacity={0.8}
@@ -169,9 +177,8 @@ class ProfileContainer extends Component {
             <Text style={stylesProfile.boxItemTitle}>Đăng xuất</Text>
           </TouchableOpacity>
           <View style={stylesProfile.boxItemIndicator} />
-          <View style={{height: 45}}></View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }

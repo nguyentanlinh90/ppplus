@@ -1,6 +1,7 @@
 import {StyleSheet, Platform, Dimensions} from 'react-native';
 import {getBottomSpace} from 'react-native-iphone-x-helper';
 import {getSizeNav, getSizeTopNav} from '../api/helpers';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 export default StyleSheet.create({
   body: {
@@ -22,6 +23,7 @@ export default StyleSheet.create({
       },
     }),
   },
+  
   mainContent: {
     paddingTop: 0,
     paddingLeft: 10,

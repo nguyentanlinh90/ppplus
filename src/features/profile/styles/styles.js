@@ -1,15 +1,16 @@
 import {StyleSheet, Platform} from 'react-native';
-
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 export default StyleSheet.create({
   container: {
     ...Platform.select({
       ios: {
-        marginTop: 33,
+        marginTop: getStatusBarHeight(),
+        marginBottom: 50,
       },
     }),
   },
   viewEdit: {
-    alignSelf:'flex-end'
+    alignSelf: 'flex-end',
   },
   viewCircleAvatar: {
     alignItems: 'center',

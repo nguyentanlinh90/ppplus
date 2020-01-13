@@ -77,9 +77,9 @@ class RetroContainer extends Component {
           controlsProps={{
             prevPos: false,
             nextPos: false,
-            dotStyle: {dotColor: '#F6C8A1'},
             dotActiveStyle: {backgroundColor: '#F0532D'},
             dotsTouchable: true,
+            dotProps: {badgeStyle: {backgroundColor: '#F6C8A1'}},
           }}
           currentPage={this.state.currentPage}
           onIndexChanged={index => {

@@ -20,3 +20,4 @@ export const SCREEN_INPUT_OTP = 'InputOTP';
 export const SCREEN_INPUT_PHONE_NUMBER = 'InputPhoneNumber';
 export const SCREEN_INFO = 'Info';
 export const SCREEN_CONFIRM_INFO = 'ConfirmInfo';
+export const SCREEN_SEARCH = 'Search';

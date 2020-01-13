@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {View, StyleSheet, Text, Image} from 'react-native';
+import {View, StyleSheet, Text, Image, SafeAreaView} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from '../home/containers/HomeContainer';
 import Message from '../message/containers/MessageContainer';
@@ -16,16 +16,15 @@ class MainContainer extends Component {
     };
   }
 
-  componentDidMount(){
-    console.log('linhnt main componentDidMount')
-  }
-  
-  componentWillUnmount(){
-    console.log('linhnt  main componentWillUnmount')
-  }
+  componentDidMount() {}
+
+  componentWillUnmount() {}
   render() {
     return (
-      <TabNavigator style={styles.container} tabBarStyle={styles.tabNavigator}>
+      <TabNavigator
+        style={styles.container}
+        tabBarStyle={styles.tabNavigator}
+        sceneStyle={{backgroundColor: '#fff'}}>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'home'}
           renderIcon={() => (

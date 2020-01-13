@@ -13,7 +13,6 @@ export default StyleSheet.create({
   container: {
     backgroundColor: '#d8d8d8',
     flex: 1,
-    paddingBottom: Platform.OS === 'ios' ? 110 : 100,
   },
   homeHeader: {
     ...Platform.select({

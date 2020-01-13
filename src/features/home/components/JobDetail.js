@@ -13,7 +13,6 @@ import {Rating} from 'react-native-elements';
 import CheckBox from 'react-native-check-box';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
-import Modal from 'react-native-modal';
 import styleHome from '../styles/styles';
 import ArrowInBox from '../../../components/ArrowInBox';
 import JobFollowLocationItem from '../components/JobFollowLocationItem';
@@ -83,7 +82,7 @@ export default class JobHotItem extends Component {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{borderRadius: 30, marginTop: -30, backgroundColor: '#fff'}}>
+        style={{borderRadius: 20, marginTop: -30, backgroundColor: '#fff'}}>
         <View style={styleHome.jobDetailIndicator} />
         <View style={{position: 'absolute'}}>
           <LocationPicker

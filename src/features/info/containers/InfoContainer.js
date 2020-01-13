@@ -13,8 +13,8 @@ class InfoContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: 'Tiên',
-      lastName: 'Nguyễn Ngọc',
+      firstName: 'Linh',
+      lastName: 'Nguyễn Tấn',
       genderMale: false,
       genderFeMale: false,
       yearOfBirth: new Date().getFullYear() - 18,

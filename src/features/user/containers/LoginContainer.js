@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Image,
-  AsyncStorage
+  AsyncStorage,
 } from 'react-native';
 import LoginForm from '../components/LoginForm';
 import {doLogin} from '../actions/index';
@@ -21,19 +21,20 @@ import {FORGOT_PASSWORD} from '../../../utils/constants';
 import {SCREEN_INPUT_OTP} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 import {SCREEN_MAIN} from '../../../api/screen';
+import {dispatchScreen} from '../../../utils/utils';
 
 export class LoginContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      phone: '',
-      password: '',
+      phone: '0988422495',
+      password: '123456',
       isLoading: false,
       isConnecting: false,
     };
-    this.handleLogin = this.handleLogin.bind(this);
-    this.onChangeText = this.onChangeText.bind(this);
+    this._handleLogin = this._handleLogin.bind(this);
+    this._onChangeText = this._onChangeText.bind(this);
   }
 
   componentDidMount() {
@@ -64,7 +65,7 @@ export class LoginContainer extends Component {
     });
   };
 
-  onChangeText = (text, type) => {
+  _onChangeText = (text, type) => {
     if (type == 'phone') {
       const strPhone = convertPhone(text);
       this.setState({phone: strPhone});
@@ -73,7 +74,7 @@ export class LoginContainer extends Component {
     }
   };
 
-  handleForgetPassword = () => {
+  _handleForgetPassword = () => {
     const {phone} = this.state;
 
     if (phone == '') {
@@ -94,21 +95,18 @@ export class LoginContainer extends Component {
           'Số điện thoại không đúng định dạng.',
         );
       } else {
-        this.props.navigation.dispatch({
-          key: SCREEN_INPUT_OTP,
-          type: 'ReplaceCurrentScreen',
-          routeName: SCREEN_INPUT_OTP,
-          params: {typeScreen: FORGOT_PASSWORD},
+        dispatchScreen(this.props, SCREEN_RETRO, {
+          typeScreen: SCREEN_INPUT_OTP,
         });
       }
     }
   };
 
-  handleNotYetAccount = () => {
+  _handleNotYetAccount = () => {
     this.props.navigation.navigate(SCREEN_CREATE_ACCOUNT);
   };
 
-  handleLogin = () => {
+  _handleLogin = () => {
     const {doLogin} = this.props;
     const {phone, password} = this.state;
 
@@ -155,12 +153,8 @@ export class LoginContainer extends Component {
       nextProps.changeMsgCode('');
       // this.props.navigation.goBack();
       AsyncStorage.setItem('login', '1');
-      this.props.navigation.dispatch({
-        key: SCREEN_MAIN,
-        type: 'ReplaceCurrentScreen',
-        routeName: SCREEN_MAIN,
-        params: {},
-      });
+
+      dispatchScreen(this.props, SCREEN_MAIN, {});
     }
   }
 
@@ -180,11 +174,11 @@ export class LoginContainer extends Component {
                       paddingRight: 10,
                     }}>
                     <LoginForm
-                      handleForgetPassword={this.handleForgetPassword}
-                      handleLogin={this.handleLogin}
-                      handleNotYetAccount={this.handleNotYetAccount}
+                      handleForgetPassword={this._handleForgetPassword}
+                      handleLogin={this._handleLogin}
+                      handleNotYetAccount={this._handleNotYetAccount}
                       navigation={this.props.navigation}
-                      onChangeText={this.onChangeText}
+                      onChangeText={this._onChangeText}
                       phone={this.state.phone}
                       password={this.state.password}
                     />
