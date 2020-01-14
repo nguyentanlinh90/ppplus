@@ -24,8 +24,9 @@ import {SCREEN_CREATE_ACCOUNT, SCREEN_SEARCH} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-
 import {changeMsgCode, getJobs} from '../actions/index';
+const dimensions = Dimensions.get('window');
+
 const data = [
   {
     id: 9,
@@ -335,7 +336,11 @@ class HomeContainer extends Component {
   _renderContent = () => {
     return (
       <ScrollView
-        style={{marginBottom: Platform.OS == 'ios' ? 20 : 10}}
+        style={{marginBottom:  Platform.OS === 'ios' &&
+      (dimensions.height === 812 ||
+        dimensions.width === 812 ||
+        dimensions.height === 896 ||
+        dimensions.width === 896) ? 15 : 0}}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl

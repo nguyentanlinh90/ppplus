@@ -2,7 +2,7 @@ import {StyleSheet, Platform, Dimensions} from 'react-native';
 import {getBottomSpace} from 'react-native-iphone-x-helper';
 import {getSizeNav, getSizeTopNav} from '../api/helpers';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-const dimen = Dimensions.get('window');
+const dimensions = Dimensions.get('window');
 export default StyleSheet.create({
   body: {
     height: '100%',
@@ -12,16 +12,25 @@ export default StyleSheet.create({
     flex: 1,
   },
   tabNavigator: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
     alignItems: 'center',
+    height: 55,
 
-    height:
-      (Platform.OS === 'ios' &&
-        (dimen.height === 812 || dimen.width === 812)) ||
-      dimen.height === 896 ||
-      dimen.width === 896
-        ? 70
-        : 60,
+    marginBottom:
+      Platform.OS === 'ios' &&
+      (dimensions.height === 812 ||
+        dimensions.width === 812 ||
+        dimensions.height === 896 ||
+        dimensions.width === 896)
+        ? 15
+        : 0,
+  },
+
+  imgNav: {
+    width: 25,
+    height: 25,
+    backgroundColor: 'transparent',
+    marginTop: 5,
   },
 
   mainContent: {
@@ -176,12 +185,7 @@ export default StyleSheet.create({
     marginTop: 3,
     marginBottom: 10,
   },
-  imgNav: {
-    width: 25,
-    height: 25,
-    backgroundColor: 'transparent',
-    marginTop:10
-  },
+
   circleMenu: {
     width: 5,
     height: 5,

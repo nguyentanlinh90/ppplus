@@ -16,6 +16,8 @@ class SplashContainer extends Component {
       isLogin: false,
     };
     this.checkLogin();
+    console.disableYellowBox = true
+
   }
 
   async checkLogin() {

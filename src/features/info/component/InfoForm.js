@@ -227,7 +227,7 @@ export default class InfoContainer_1 extends Component {
             />
           ) : null}
 
-          <Text style={stylesInfo.titleContent}>4. Nhóm ngành</Text>
+          <Text style={stylesInfo.titleContent}>5. Nhóm ngành</Text>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() =>
