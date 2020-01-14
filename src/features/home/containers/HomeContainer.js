@@ -336,11 +336,6 @@ class HomeContainer extends Component {
   _renderContent = () => {
     return (
       <ScrollView
-        style={{marginBottom:  Platform.OS === 'ios' &&
-      (dimensions.height === 812 ||
-        dimensions.width === 812 ||
-        dimensions.height === 896 ||
-        dimensions.width === 896) ? 15 : 0}}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl

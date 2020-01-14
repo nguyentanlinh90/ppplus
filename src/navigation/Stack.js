@@ -12,7 +12,7 @@ import Message from '../features/message/containers/MessageContainer';
 import Notification from '../features/notification/containers/NotificationContainer';
 import Profile from '../features/profile/containers/ProfileContainer';
 import FillProfile from '../features/profile/containers/FillProfileContainer';
-import Main from '../features/main/MainContainer';
+import Main from '../features/main/containers/MainContainer';
 import Info from '../features/info/containers/InfoContainer';
 import ConfirmInfo from '../features/info/containers/ConfirmInfoContainer';
 import Search from '../features/search/containers/SearchContainer';

@@ -2,11 +2,11 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {View, StyleSheet, Text, Image, SafeAreaView} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
-import Home from '../home/containers/HomeContainer';
-import Message from '../message/containers/MessageContainer';
-import Notification from '../notification/containers/NotificationContainer';
-import Profile from '../profile/containers/ProfileContainer';
-import styles from '../../styles/styles';
+import Home from '../../home/containers/HomeContainer';
+import Message from '../../message/containers/MessageContainer';
+import Notification from '../../notification/containers/NotificationContainer';
+import Profile from '../../profile/containers/ProfileContainer';
+import styles from '../styles/styles';
 
 class MainContainer extends Component {
   constructor(props) {
@@ -23,14 +23,14 @@ class MainContainer extends Component {
     return (
       <TabNavigator
         style={styles.container}
-        tabBarStyle={styles.tabNavigator}
-        sceneStyle={{backgroundColor: '#fff'}}>
+        tabBarStyle={styles.tabBarStyle}
+        sceneStyle={styles.sceneStyle}>
         <TabNavigator.Item
           selected={this.state.selectedTab === 'home'}
           renderIcon={() => (
             <Image
               resizeMode="contain"
-              source={require('../../assets/images/ic-home-unselect.png')}
+              source={require('../../../assets/images/ic-home-unselect.png')}
               style={styles.imgNav}
             />
           )}
@@ -38,7 +38,7 @@ class MainContainer extends Component {
             <View style={{alignItems: 'center', marginTop:10}}>
               <Image
                 resizeMode="contain"
-                source={require('../../assets/images/ic-home-select.png')}
+                source={require('../../../assets/images/ic-home-select.png')}
                 style={styles.imgNav}
               />
               <View style={styles.circleMenu} />
@@ -53,7 +53,7 @@ class MainContainer extends Component {
           renderIcon={() => (
             <Image
               resizeMode="contain"
-              source={require('../../assets/images/ic-message-unselect.png')}
+              source={require('../../../assets/images/ic-message-unselect.png')}
               style={styles.imgNav}
             />
           )}
@@ -61,7 +61,7 @@ class MainContainer extends Component {
             <View style={{alignItems: 'center'}}>
               <Image
                 resizeMode="contain"
-                source={require('../../assets/images/ic-message-select.png')}
+                source={require('../../../assets/images/ic-message-select.png')}
                 style={styles.imgNav}
               />
               <View style={styles.circleMenu} />
@@ -76,7 +76,7 @@ class MainContainer extends Component {
           renderIcon={() => (
             <Image
               resizeMode="contain"
-              source={require('../../assets/images/ic-noti-unselect.png')}
+              source={require('../../../assets/images/ic-noti-unselect.png')}
               style={styles.imgNav}
             />
           )}
@@ -84,7 +84,7 @@ class MainContainer extends Component {
             <View style={{alignItems: 'center'}}>
               <Image
                 resizeMode="contain"
-                source={require('../../assets/images/ic-noti-select.png')}
+                source={require('../../../assets/images/ic-noti-select.png')}
                 style={styles.imgNav}
               />
               <View style={styles.circleMenu} />
@@ -99,7 +99,7 @@ class MainContainer extends Component {
           renderIcon={() => (
             <Image
               resizeMode="contain"
-              source={require('../../assets/images/ic-profile-unselect.png')}
+              source={require('../../../assets/images/ic-profile-unselect.png')}
               style={styles.imgNav}
             />
           )}
@@ -107,7 +107,7 @@ class MainContainer extends Component {
             <View style={{alignItems: 'center'}}>
               <Image
                 resizeMode="contain"
-                source={require('../../assets/images/ic-profile-select.png')}
+                source={require('../../../assets/images/ic-profile-select.png')}
                 style={styles.imgNav}
               />
               <View style={styles.circleMenu} />
