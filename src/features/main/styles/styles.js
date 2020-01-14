@@ -30,9 +30,12 @@ export default StyleSheet.create({
         : 55,
   },
 
+  viewSelect: {alignItems: 'center', marginTop: 10},
+
   imgNav: {
     width: 25,
     height: 25,
+    marginTop: 10,
   },
   circleMenu: {
     width: 5,

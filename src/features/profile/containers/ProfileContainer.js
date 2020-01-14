@@ -9,8 +9,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
-import styles from '../../../styles/styles';
-import stylesProfile from '../styles/styles';
+import rootStyles from '../../../styles/styles';
+import styles from '../styles/styles';
 import {SCREEN_FILL_PROFILE} from '../../../api/screen';
 import DropdownAlert from 'react-native-dropdownalert';
 
@@ -37,7 +37,7 @@ class ProfileContainer extends Component {
       <SafeAreaView>
         <ScrollView>
           <TouchableOpacity
-            style={stylesProfile.viewEdit}
+            style={styles.viewEdit}
             activeOpacity={0.8}
             onPress={() => {
               props.navigation.navigate(SCREEN_FILL_PROFILE, {
@@ -50,7 +50,7 @@ class ProfileContainer extends Component {
               style={{margin: 16}}
             />
           </TouchableOpacity>
-          <View style={stylesProfile.viewCircleAvatar}>
+          <View style={styles.viewCircleAvatar}>
             <ProgressCircle
               percent={this.state.percentage}
               radius={58}
@@ -62,121 +62,121 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={{uri: 'http://via.placeholder.com/100x100'}}
-              style={stylesProfile.circleAvatar}
+              style={styles.circleAvatar}
             />
           </View>
-          <Text style={stylesProfile.name}>{this.state.name}</Text>
-          <View style={stylesProfile.viewReward}>
-            <View style={stylesProfile.boxReward}>
+          <Text style={styles.name}>{this.state.name}</Text>
+          <View style={styles.viewReward}>
+            <View style={styles.boxReward}>
               <Image
                 resizeMode="contain"
                 source={require('../../../assets/images/ic-star.png')}
-                style={stylesProfile.boxRewardStar}
+                style={styles.boxRewardStar}
               />
-              <Text style={stylesProfile.boxRewardTextReward}>
+              <Text style={styles.boxRewardTextReward}>
                 Điểm thưởng{' '}
               </Text>
-              <Text style={stylesProfile.boxRewardTextPoint}>3,480</Text>
+              <Text style={styles.boxRewardTextPoint}>3,480</Text>
             </View>
           </View>
           <View style={{backgroundColor: '#d8d8d8', height: 5}} />
           <TouchableOpacity
-            style={stylesProfile.boxItem}
+            style={styles.boxItem}
             onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-program.png')}
             />
-            <Text style={stylesProfile.boxItemTitle}>Chương trình</Text>
+            <Text style={styles.boxItemTitle}>Chương trình</Text>
           </TouchableOpacity>
-          <View style={stylesProfile.boxItemIndicator} />
+          <View style={styles.boxItemIndicator} />
           <TouchableOpacity
-            style={stylesProfile.boxItem}
+            style={styles.boxItem}
             onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-history.png')}
             />
-            <Text style={stylesProfile.boxItemTitle}>Lịch sử</Text>
+            <Text style={styles.boxItemTitle}>Lịch sử</Text>
           </TouchableOpacity>
-          <View style={stylesProfile.boxItemIndicator} />
+          <View style={styles.boxItemIndicator} />
           <TouchableOpacity
-            style={stylesProfile.boxItem}
+            style={styles.boxItem}
             onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-gift.png')}
             />
-            <Text style={stylesProfile.boxItemTitle}>Ưu đãi</Text>
+            <Text style={styles.boxItemTitle}>Ưu đãi</Text>
           </TouchableOpacity>
-          <View style={stylesProfile.boxItemIndicator} />
+          <View style={styles.boxItemIndicator} />
           <TouchableOpacity
-            style={stylesProfile.boxItem}
+            style={styles.boxItem}
             onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-add-friend.png')}
             />
-            <Text style={stylesProfile.boxItemTitle}>Mời bạn bè</Text>
+            <Text style={styles.boxItemTitle}>Mời bạn bè</Text>
           </TouchableOpacity>
-          <View style={stylesProfile.boxItemIndicator} />
+          <View style={styles.boxItemIndicator} />
           <TouchableOpacity
-            style={stylesProfile.boxItem}
+            style={styles.boxItem}
             onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-process.png')}
             />
-            <Text style={stylesProfile.boxItemTitle}>
+            <Text style={styles.boxItemTitle}>
               Quy trình làm việc và chế độ phúc lợi
             </Text>
           </TouchableOpacity>
-          <View style={stylesProfile.boxItemIndicator} />
+          <View style={styles.boxItemIndicator} />
           <TouchableOpacity
-            style={stylesProfile.boxItem}
+            style={styles.boxItem}
             onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-tutorial.png')}
             />
-            <Text style={stylesProfile.boxItemTitle}>Hướng dẫn</Text>
+            <Text style={styles.boxItemTitle}>Hướng dẫn</Text>
           </TouchableOpacity>
-          <View style={stylesProfile.boxItemIndicator} />
+          <View style={styles.boxItemIndicator} />
           <TouchableOpacity
-            style={stylesProfile.boxItem}
+            style={styles.boxItem}
             onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-sp.png')}
             />
-            <Text style={stylesProfile.boxItemTitle}>Hỗ trợ</Text>
+            <Text style={styles.boxItemTitle}>Hỗ trợ</Text>
           </TouchableOpacity>
-          <View style={stylesProfile.boxItemIndicator} />
+          <View style={styles.boxItemIndicator} />
           <TouchableOpacity
-            style={stylesProfile.boxItem}
+            style={styles.boxItem}
             onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-star-gray.png')}
             />
-            <Text style={stylesProfile.boxItemTitle}>Đánh giá ứng dụng</Text>
+            <Text style={styles.boxItemTitle}>Đánh giá ứng dụng</Text>
           </TouchableOpacity>
-          <View style={stylesProfile.boxItemIndicator} />
+          <View style={styles.boxItemIndicator} />
           <TouchableOpacity
-            style={stylesProfile.boxItem}
+            style={styles.boxItem}
             onPress={() => this._showAlert()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-logout.png')}
             />
-            <Text style={stylesProfile.boxItemTitle}>Đăng xuất</Text>
+            <Text style={styles.boxItemTitle}>Đăng xuất</Text>
           </TouchableOpacity>
-          <View style={stylesProfile.boxItemIndicator} />
+          <View style={styles.boxItemIndicator} />
         </ScrollView>
         <DropdownAlert
           ref={ref => (this.dropdown = ref)}
-          defaultContainer={styles.defaultContainerLogin}
-          defaultTextContainer={styles.defaultTextContainerLogin}
+          defaultContainer={rootStyles.defaultContainerDropdown}
+          defaultTextContainer={rootStyles.defaultTextContainerDropdown}
         />
       </SafeAreaView>
     );

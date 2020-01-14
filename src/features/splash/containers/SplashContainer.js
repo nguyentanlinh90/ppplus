@@ -2,12 +2,18 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Image, AsyncStorage} from 'react-native';
 
-import {SCREEN_RETRO, SCREEN_INPUT_OTP, SCREEN_FILL_PROFILE} from '../../../api/screen';
-import {SCREEN_PROFILE} from '../../../api/screen';
-import {SCREEN_MAIN} from '../../../api/screen';
-import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
-import {SCREEN_INFO} from '../../../api/screen';
-import {SCREEN_CONFIRM_INFO} from '../../../api/screen';
+import {
+  SCREEN_RETRO,
+  SCREEN_PROFILE,
+  SCREEN_MAIN,
+  SCREEN_INFO,
+  SCREEN_INPUT_OTP,
+  SCREEN_FILL_PROFILE,
+  SCREEN_CREATE_ACCOUNT,
+  SCREEN_INPUT_PHONE_NUMBER,
+  SCREEN_CONFIRM_INFO,
+  SCREEN_LOGIN,
+} from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
 class SplashContainer extends Component {
   constructor(props) {
@@ -16,8 +22,7 @@ class SplashContainer extends Component {
       isLogin: false,
     };
     this.checkLogin();
-    console.disableYellowBox = true
-
+    console.disableYellowBox = true;
   }
 
   async checkLogin() {
@@ -29,9 +34,9 @@ class SplashContainer extends Component {
   componentDidMount() {
     setTimeout(() => {
       if (this.state.isLogin) {
-        dispatchScreen(this.props, SCREEN_MAIN,{});
+        dispatchScreen(this.props, SCREEN_LOGIN, {});
       } else {
-        dispatchScreen(this.props, SCREEN_RETRO,{});
+        dispatchScreen(this.props, SCREEN_RETRO, {});
       }
     }, 3000);
   }

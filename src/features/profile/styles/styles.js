@@ -174,4 +174,5 @@ export default StyleSheet.create({
     paddingEnd: 25,
     paddingStart: 25,
   },
+
 });

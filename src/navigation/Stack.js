@@ -7,7 +7,6 @@ import Home from '../features/home/containers/HomeContainer';
 import Retro from '../features/retro/containers/RetroContainer';
 import CreateAccount from '../features/user/containers/CreateAccountContainer';
 import InputOTP from '../features/user/containers/InputOTPContainer';
-import InputPhoneNumber from '../features/user/containers/InputPhoneNumberContainer';
 import Message from '../features/message/containers/MessageContainer';
 import Notification from '../features/notification/containers/NotificationContainer';
 import Profile from '../features/profile/containers/ProfileContainer';
@@ -73,12 +72,7 @@ const Stack = createStackNavigator(
         header: null,
       },
     },
-    InputPhoneNumber: {
-      screen: InputPhoneNumber,
-      navigationOptions: {
-        header: null,
-      },
-    },
+
     Home: {
       screen: Home,
       navigationOptions: {

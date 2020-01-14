@@ -35,7 +35,7 @@ class MainContainer extends Component {
             />
           )}
           renderSelectedIcon={() => (
-            <View style={{alignItems: 'center', marginTop:10}}>
+            <View style={styles.viewSelect}>
               <Image
                 resizeMode="contain"
                 source={require('../../../assets/images/ic-home-select.png')}
@@ -58,7 +58,7 @@ class MainContainer extends Component {
             />
           )}
           renderSelectedIcon={() => (
-            <View style={{alignItems: 'center'}}>
+            <View style={styles.viewSelect}>
               <Image
                 resizeMode="contain"
                 source={require('../../../assets/images/ic-message-select.png')}
@@ -81,7 +81,7 @@ class MainContainer extends Component {
             />
           )}
           renderSelectedIcon={() => (
-            <View style={{alignItems: 'center'}}>
+            <View style={styles.viewSelect}>
               <Image
                 resizeMode="contain"
                 source={require('../../../assets/images/ic-noti-select.png')}
@@ -104,7 +104,7 @@ class MainContainer extends Component {
             />
           )}
           renderSelectedIcon={() => (
-            <View style={{alignItems: 'center'}}>
+            <View style={styles.viewSelect}>
               <Image
                 resizeMode="contain"
                 source={require('../../../assets/images/ic-profile-select.png')}

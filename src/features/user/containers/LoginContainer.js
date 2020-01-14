@@ -8,13 +8,13 @@ import {
   Image,
   AsyncStorage,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 import LoginForm from '../components/LoginForm';
 import {doLogin} from '../actions/index';
 import DropdownAlert from 'react-native-dropdownalert';
-import styles from '../../../styles/styles';
-import styleUser from '../styles/styles';
+import rootStyles from '../../../styles/styles';
+import styles from '../styles/styles';
 import {convertPhone} from '../../../api/helpers';
 import {changeMsgCode} from '../../home/actions/index';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -163,48 +163,46 @@ export class LoginContainer extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.body}>
-        <SafeAreaView style={{backgroundColor: '#ffffff', flex: 1}}>
-          <StatusBar backgroundColor="#000" barStyle="light-content" />
-          <View style={{height: '100%'}}>
-            <View style={[{height: '55%'}]}>
-              <View style={styleUser.boxLogin}>
-                <KeyboardAvoidingView behavior="padding" enabled>
-                  <View
-                    style={{
-                      paddingTop: '35%',
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                    }}>
-                    <LoginForm
-                      handleForgetPassword={this._handleForgetPassword}
-                      handleLogin={this._handleLogin}
-                      handleNotYetAccount={this._handleNotYetAccount}
-                      navigation={this.props.navigation}
-                      onChangeText={this._onChangeText}
-                      phone={this.state.phone}
-                      password={this.state.password}
-                    />
-                  </View>
-                </KeyboardAvoidingView>
+        <View style={{flex:1}}>
+            <StatusBar backgroundColor="#000" barStyle="light-content" />
+            <View style={{height: '100%'}}>
+              <View style={[{height: '55%'}]}>
+                <View style={styles.boxLogin}>
+                  <KeyboardAvoidingView behavior="padding" enabled>
+                    <View
+                      style={{
+                        paddingTop: '35%',
+                        paddingLeft: 10,
+                        paddingRight: 10,
+                      }}>
+                      <LoginForm
+                        handleForgetPassword={this._handleForgetPassword}
+                        handleLogin={this._handleLogin}
+                        handleNotYetAccount={this._handleNotYetAccount}
+                        navigation={this.props.navigation}
+                        onChangeText={this._onChangeText}
+                        phone={this.state.phone}
+                        password={this.state.password}
+                      />
+                    </View>
+                  </KeyboardAvoidingView>
+                </View>
               </View>
             </View>
-          </View>
-          <Spinner
-            visible={this.state.isLoading}
-            textContent={'Loading...'}
-            color={'#fff'}
-            size={'large'}
-            textStyle={{color: '#fff'}}
-            animation={'fade'}
-          />
-          <DropdownAlert
-            ref={ref => (this.dropdown = ref)}
-            defaultContainer={styles.defaultContainerLogin}
-            defaultTextContainer={styles.defaultTextContainerLogin}
-          />
-        </SafeAreaView>
-      </View>
+            <Spinner
+              visible={this.state.isLoading}
+              textContent={'Loading...'}
+              color={'#fff'}
+              size={'large'}
+              textStyle={{color: '#fff'}}
+              animation={'fade'}
+            />
+            <DropdownAlert
+              ref={ref => (this.dropdown = ref)}
+              defaultContainer={rootStyles.defaultContainerDropdown}
+              defaultTextContainer={rootStyles.defaultTextContainerDropdown}
+            />
+        </View>
       </TouchableWithoutFeedback>
     );
   }

@@ -13,8 +13,8 @@ import {convertPhone} from "../../../api/helpers";
 import CreateAccountForm from '../components/CreateAccountForm';
 import {doCreateAccount} from '../actions/index';
 import DropdownAlert from 'react-native-dropdownalert';
-import styles from '../../../styles/styles';
-import styleUser from '../styles/styles';
+import rootStyles from '../../../styles/styles';
+import styles from '../styles/styles';
 import {changeMsgCode} from '../../home/actions/index';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
@@ -189,7 +189,7 @@ export class CreateAccountContainer extends Component {
           size={'large'}
           textStyle={{color: '#fff'}}
         />
-        <View style={styleUser.boxLogin}>
+        <View style={styles.boxLogin}>
           <KeyboardAvoidingView behavior="padding" enabled>
             <CreateAccountForm
               handleCreateAccount={this.handleCreateAccount}
@@ -207,8 +207,8 @@ export class CreateAccountContainer extends Component {
 
         <DropdownAlert
           ref={ref => (this.dropdown = ref)}
-          defaultContainer={styles.defaultContainerLogin}
-          defaultTextContainer={styles.defaultTextContainerLogin}
+          defaultContainer={rootStyles.defaultContainerDropdown}
+          defaultTextContainer={rootStyles.defaultTextContainerDropdown}
         />
       </SafeAreaView>
       </TouchableWithoutFeedback>
