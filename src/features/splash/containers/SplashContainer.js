@@ -34,7 +34,7 @@ class SplashContainer extends Component {
   componentDidMount() {
     setTimeout(() => {
       if (this.state.isLogin) {
-        dispatchScreen(this.props, SCREEN_LOGIN, {});
+        dispatchScreen(this.props, SCREEN_MAIN, {});
       } else {
         dispatchScreen(this.props, SCREEN_RETRO, {});
       }

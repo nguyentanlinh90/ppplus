@@ -2,30 +2,24 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import Splash from '../features/splash/containers/SplashContainer';
-import Login from '../features/user/containers/LoginContainer';
-import Home from '../features/home/containers/HomeContainer';
 import Retro from '../features/retro/containers/RetroContainer';
 import CreateAccount from '../features/user/containers/CreateAccountContainer';
 import InputOTP from '../features/user/containers/InputOTPContainer';
+import Login from '../features/user/containers/LoginContainer';
+import Info from '../features/info/containers/InfoContainer';
+import ConfirmInfo from '../features/info/containers/ConfirmInfoContainer';
+import Main from '../features/main/containers/MainContainer';
+import Home from '../features/home/containers/HomeContainer';
+import Search from '../features/search/containers/SearchContainer';
 import Message from '../features/message/containers/MessageContainer';
 import Notification from '../features/notification/containers/NotificationContainer';
 import Profile from '../features/profile/containers/ProfileContainer';
 import FillProfile from '../features/profile/containers/FillProfileContainer';
-import Main from '../features/main/containers/MainContainer';
-import Info from '../features/info/containers/InfoContainer';
-import ConfirmInfo from '../features/info/containers/ConfirmInfoContainer';
-import Search from '../features/search/containers/SearchContainer';
 
 const Stack = createStackNavigator(
   {
     Splash: {
       screen: Splash,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Main: {
-      screen: Main,
       navigationOptions: {
         header: null,
       },
@@ -38,6 +32,49 @@ const Stack = createStackNavigator(
     },
     CreateAccount: {
       screen: CreateAccount,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    InputOTP: {
+      screen: InputOTP,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Login: {
+      screen: Login,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Info: {
+      screen: Info,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    ConfirmInfo: {
+      screen: ConfirmInfo,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Main: {
+      screen: Main,
+      navigationOptions: {
+        header: null,
+      },
+    },
+
+    Home: {
+      screen: Home,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Search: {
+      screen: Search,
       navigationOptions: {
         header: null,
       },
@@ -62,44 +99,6 @@ const Stack = createStackNavigator(
     },
     FillProfile: {
       screen: FillProfile,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    InputOTP: {
-      screen: InputOTP,
-      navigationOptions: {
-        header: null,
-      },
-    },
-
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        header: null,
-      },
-    },
-
-    Login: {
-      screen: Login,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Info: {
-      screen: Info,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    ConfirmInfo: {
-      screen: ConfirmInfo,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Search: {
-      screen: Search,
       navigationOptions: {
         header: null,
       },
