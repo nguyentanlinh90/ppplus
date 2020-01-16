@@ -7,13 +7,14 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  AsyncStorage
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
-import {SCREEN_FILL_PROFILE} from '../../../api/screen';
+import {SCREEN_FILL_PROFILE, SCREEN_SPLASH} from '../../../api/screen';
 import DropdownAlert from 'react-native-dropdownalert';
-
+import {dispatchScreen} from '../../../utils/utils';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -73,9 +74,7 @@ class ProfileContainer extends Component {
                 source={require('../../../assets/images/ic-star.png')}
                 style={styles.boxRewardStar}
               />
-              <Text style={styles.boxRewardTextReward}>
-                Điểm thưởng{' '}
-              </Text>
+              <Text style={styles.boxRewardTextReward}>Điểm thưởng </Text>
               <Text style={styles.boxRewardTextPoint}>3,480</Text>
             </View>
           </View>
@@ -164,7 +163,10 @@ class ProfileContainer extends Component {
           <View style={styles.boxItemIndicator} />
           <TouchableOpacity
             style={styles.boxItem}
-            onPress={() => this._showAlert()}>
+            onPress={() => {
+              AsyncStorage.setItem('login', '0');
+              dispatchScreen(props, SCREEN_SPLASH, {});
+            }}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-logout.png')}

@@ -4,15 +4,7 @@ import {View, Image, AsyncStorage} from 'react-native';
 
 import {
   SCREEN_RETRO,
-  SCREEN_PROFILE,
   SCREEN_MAIN,
-  SCREEN_INFO,
-  SCREEN_INPUT_OTP,
-  SCREEN_FILL_PROFILE,
-  SCREEN_CREATE_ACCOUNT,
-  SCREEN_INPUT_PHONE_NUMBER,
-  SCREEN_CONFIRM_INFO,
-  SCREEN_LOGIN,
 } from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
 class SplashContainer extends Component {
@@ -27,7 +19,7 @@ class SplashContainer extends Component {
 
   async checkLogin() {
     var loginStatus = await AsyncStorage.getItem('login');
-    if (loginStatus) {
+    if (loginStatus && loginStatus == '1') {
       this.setState({isLogin: true});
     }
   }

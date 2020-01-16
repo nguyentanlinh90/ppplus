@@ -238,6 +238,8 @@ class HomeContainer extends Component {
       item: {},
       jobs: [],
     };
+
+    console.disableYellowBox = true;
   }
 
   _onPress(item) {
@@ -245,9 +247,9 @@ class HomeContainer extends Component {
     this.jobHotDetail.open();
   }
 
-  _closeRBSheet=()=>{
+  _closeRBSheet = () => {
     this.jobHotDetail.close();
-  }
+  };
   _renderRBSheet() {
     return (
       <RBSheet
@@ -278,7 +280,11 @@ class HomeContainer extends Component {
               <Image source={require('../../../assets/images/ic-back.png')} />
             </TouchableOpacity>
           </View>
-          <JobDetail item={this.state.item} data={this.state.jobs} submit={this._closeRBSheet}/>
+          <JobDetail
+            item={this.state.item}
+            data={this.state.jobs}
+            submit={this._closeRBSheet}
+          />
         </View>
       </RBSheet>
     );
@@ -348,8 +354,10 @@ class HomeContainer extends Component {
         }>
         <View style={styles.groupContent}>
           <Text style={styles.txtTitleGroupContent}>Công việc hot nhất</Text>
+
           <FlatList
-            style={{padding: 16}}
+            contentContainerStyle={{paddingStart: 16, paddingBottom:16, paddingTop:16}}
+            style={{}}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
             data={this.state.jobs}

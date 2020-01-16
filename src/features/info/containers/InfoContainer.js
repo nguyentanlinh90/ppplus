@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import styles from '../../../styles/styles';
 import stylesInfo from '../styles/styles';
 import InfoForm from '../component/InfoForm';
-import {SCREEN_CONFIRM_INFO} from '../../../api/screen';
+import {SCREEN_MAIN} from '../../../api/screen';
 import {select_location, select_industry} from '../../../utils/constants';
 
 class InfoContainer extends Component {
@@ -92,7 +92,7 @@ class InfoContainer extends Component {
   };
 
   _openConfirm = () => {
-    this.props.navigation.navigate(SCREEN_CONFIRM_INFO);
+    this.props.navigation.navigate(SCREEN_MAIN);
   };
 
   _setJobDuration = isLongTerm => {

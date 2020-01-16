@@ -428,8 +428,7 @@ export default StyleSheet.create({
   jobHotItemContainer: {
     width: 200,
     borderRadius: 6,
-    marginEnd: 10,
-    margin: 1,
+    marginEnd: 16,
     padding: 12,
     backgroundColor: '#ffffff',
     borderRadius: 10,

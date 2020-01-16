@@ -9,7 +9,6 @@ class MessageContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
       refreshing: false,
       messages: [],
     };
@@ -50,23 +49,25 @@ class MessageContainer extends Component {
     }
   };
 
-  componentDidMount() {
-    console.log('linhnt componentDidMount');
-    setTimeout(() => {
-      this.setState({isLoading: false});
-    }, 1000);
-  }
+  // componentDidMount() {
+  //   console.log('linhnt componentDidMount');
+  //   setTimeout(() => {
+  //     this.props.handleRenderLoading('message');
+  //   }, 1000);
+  // }
 
   componentWillUnmount() {
     console.log('linhnt componentWillUnmount');
   }
 
   render() {
-    // const {props, messages} = this.props;
+    const {props} = this.props;
 
+    
+
+    console.log('linhnt render');
     return (
       <SafeAreaView>
-        <SpinnerComponent visible={this.state.isLoading} />
         <Text style={styles.title}>Tin nhắn</Text>
         <View style={{height: 5, backgroundColor: '#e3e3e3'}} />
         {this.state.isLoading ? null : (

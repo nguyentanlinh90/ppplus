@@ -9,7 +9,6 @@ class NotificationContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
       refreshing: false,
       messages: [],
     };
@@ -71,7 +70,6 @@ class NotificationContainer extends Component {
     const {props} = this.props;
     return (
       <SafeAreaView>
-        <SpinnerComponent visible={this.state.isLoading} />
         <Text
           style={{
             fontSize: 24,
