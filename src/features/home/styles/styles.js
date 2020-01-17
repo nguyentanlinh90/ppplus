@@ -1,15 +1,11 @@
 import {StyleSheet, Platform, Dimensions} from 'react-native';
-import {
-  getSizeLogo,
-  getSizeImageHome,
-} from '../../../api/helpers';
+import {getSizeLogo, getSizeImageHome} from '../../../api/helpers';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 export default StyleSheet.create({
-
   boxSearch: {
     flexDirection: 'row',
     marginStart: 10,
@@ -17,18 +13,12 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   inputSearch: {
-    flex: 1,
     height: 44,
-    backgroundColor: '#fff',
-    borderRadius: 5,
     flexDirection: 'row',
   },
-  buttonFilter: {
+  imgBoxSearch: {
     width: 44,
     height: 44,
-    backgroundColor: '#fff',
-    marginStart: 10,
-    borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -153,6 +143,7 @@ export default StyleSheet.create({
     marginStart: 16,
     height: 35,
     alignItems: 'center',
+    alignSelf:'flex-start',
   },
   jobDetailViewLine: {
     height: 5,

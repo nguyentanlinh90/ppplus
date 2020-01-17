@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Card} from 'react-native-elements';
 import {
   View,
   Image,
@@ -13,6 +12,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import {Card} from 'react-native-shadow-cards';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import styles from '../../../features/home/styles/styles';
 import SpinnerComponent from '../../../components/Spinner';
@@ -369,7 +369,7 @@ class HomeContainer extends Component {
         <View style={[styles.groupContent, {marginTop: 10}]}>
           <Text style={styles.txtTitleGroupContent}>Công việc mới nhất</Text>
           <FlatList
-            style={{paddingStart: 16, marginTop:10, marginEnd:16}}
+            style={{paddingStart: 16, marginTop: 10, marginEnd: 16}}
             data={this.state.jobs}
             renderItem={({item: rowData}) => {
               return (
@@ -445,31 +445,46 @@ class HomeContainer extends Component {
         <View
           style={{paddingTop: Platform.OS == 'ios' ? getStatusBarHeight() : 0}}>
           <View style={styles.viewUser}>
-            <Text style={{fontSize: 16, color: '#fff'}}>Xin chào,</Text>
+            <Text style={{fontSize: 16, color: '#fff'}}>Xin chào, </Text>
             <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
               Linh
             </Text>
           </View>
+
           <View style={[styles.boxSearch]}>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={styles.inputSearch}
-              onPress={() => this._openSearch(props)}>
-              <Text style={styles.txtSearch}>Tìm kiếm</Text>
-              <View style={styles.buttonFilter}>
+            <Card
+              style={{flex: 1}}
+              cornerRadius={6}
+              elevation={1.5}
+              opacity={0.2}>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={styles.inputSearch}
+                onPress={() => this._openSearch(props)}>
+                <Text style={styles.txtSearch}>Tìm kiếm</Text>
+                <View style={styles.imgBoxSearch}>
+                  <Image
+                    source={require('../../../assets/images/ic-search.png')}
+                  />
+                </View>
+              </TouchableOpacity>
+            </Card>
+            <Card
+              style={{width: 44, height: 44, marginStart: 10}}
+              cornerRadius={6}
+              elevation={1.5}
+              opacity={0.2}>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                style={styles.imgBoxSearch}
+                onPress={() => {
+                  this.setState({isOpenFilter: true});
+                }}>
                 <Image
-                  source={require('../../../assets/images/ic-search.png')}
+                  source={require('../../../assets/images/ic-filter.png')}
                 />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.buttonFilter}
-              onPress={() => {
-                this.setState({isOpenFilter: true});
-              }}>
-              <Image source={require('../../../assets/images/ic-filter.png')} />
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </Card>
           </View>
         </View>
         <ScrollView
