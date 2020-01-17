@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
-import styleHome from '../styles/styles';
+import {Card} from 'react-native-shadow-cards';
+import styles from '../styles/styles';
 import {Rating} from 'react-native-elements';
 import moment from 'moment';
 export class JobHotItem extends Component {
@@ -30,7 +31,11 @@ export class JobHotItem extends Component {
       textColorTrending = '#FF3434';
     }
     return (
-      <View style={styleHome.jobHotItemContainer}>
+      <Card
+        style={{width: 200, marginEnd: 16, padding: 12}}
+        cornerRadius={6}
+        elevation={1.5}
+        opacity={0.4}>
         <View
           style={{
             height: 44,
@@ -51,7 +56,9 @@ export class JobHotItem extends Component {
               marginEnd: 5,
             }}>
             <View style={{flexDirection: 'row'}}>
-              <Text numberOfLines={1} style={{flex: 1, fontSize: 16, fontWeight: 'bold'}}>
+              <Text
+                numberOfLines={1}
+                style={{flex: 1, fontSize: 16, fontWeight: 'bold'}}>
                 {item.merchantName}
               </Text>
               <View
@@ -89,56 +96,76 @@ export class JobHotItem extends Component {
             fontWeight: '700',
             marginTop: 5,
             marginBottom: 5,
-            color:'#1c1c1c'
+            color: '#1c1c1c',
           }}>
           {item.jobTitle}
         </Text>
         <View
-          style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 5,
+          }}>
           <Image
             resizeMode="stretch"
             source={require('../../../assets/images/ic-dob.png')}
-            style={styleHome.imgInfoJob}
+            style={styles.imgInfoJob}
           />
-          <Text style={styleHome.txtInfoJob}>
+          <Text style={styles.txtInfoJob}>
             {item.ageMin} - {item.ageMax} tuổi
           </Text>
         </View>
         <View
-          style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 5,
+          }}>
           <Image
             resizeMode="contain"
             source={require('../../../assets/images/ic-sex.png')}
-            style={styleHome.imgInfoJob}
+            style={styles.imgInfoJob}
           />
-          <Text style={styleHome.txtInfoJob}>
+          <Text style={styles.txtInfoJob}>
             {item.gender == 0 ? 'Nữ' : 'Nam'}
           </Text>
         </View>
         <View
-          style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 5,
+          }}>
           <Image
             resizeMode="contain"
             source={require('../../../assets/images/ic-location.png')}
-            style={styleHome.imgInfoJob}
+            style={styles.imgInfoJob}
           />
-          <Text numberOfLines={1} style={styleHome.txtInfoJob}>
+          <Text numberOfLines={1} style={styles.txtInfoJob}>
             {item.location}
           </Text>
         </View>
         <View
-          style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 5,
+          }}>
           <Image
             resizeMode="stretch"
             source={require('../../../assets/images/ic-calendar.png')}
-            style={styleHome.imgInfoJob}
+            style={styles.imgInfoJob}
           />
-          <Text numberOfLines={1} adjustsFontSizeToFit   allowFontScaling style={styleHome.txtInfoJob}>
+          <Text
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            allowFontScaling
+            style={styles.txtInfoJob}>
             {moment(item.timeStart).format('DD/MM/YYYY')} -{' '}
             {moment(item.timeEnd).format('DD/MM/YYYY')}
           </Text>
         </View>
-      </View>
+      </Card>
     );
   }
 }

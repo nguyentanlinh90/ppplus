@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 import {View, SafeAreaView, Image} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import styles from '../../../styles/styles';
-import stylesInfo from '../styles/styles';
+import styles from '../styles/styles';
 import InfoForm from '../component/InfoForm';
 import {SCREEN_MAIN} from '../../../api/screen';
 import {select_location, select_industry} from '../../../utils/constants';
@@ -108,7 +107,7 @@ class InfoContainer extends Component {
           style={{width: '100%', height: '100%', position: 'absolute'}}
           source={require('../../../assets/images/bg.png')}
         />
-        <SafeAreaView style={[stylesInfo.container]}>
+        <SafeAreaView style={[styles.container]}>
           <InfoForm
             onChangeText={this._onChangeText}
             lastName={this.state.lastName}

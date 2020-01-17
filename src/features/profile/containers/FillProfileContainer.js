@@ -25,8 +25,7 @@ import {
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
-import styles from '../../../styles/styles';
-import stylesProfile from '../styles/styles';
+import styles from '../styles/styles';
 import AddImageComponent from '../component/AddImageComponent';
 import BasicInfoForm from '../component/BasicInfoForm';
 import LevelForm from '../component/LevelForm';
@@ -244,7 +243,7 @@ class FillProfileContainer extends Component {
                 genderValue: genderValueTmp,
               })
             }>
-            <Text style={stylesProfile.btSelectGender}>Đồng ý</Text>
+            <Text style={styles.btSelectGender}>Đồng ý</Text>
           </TouchableOpacity>
         </View>
       </Dialog>
@@ -278,7 +277,7 @@ class FillProfileContainer extends Component {
                 levelValue: levelValueTmp,
               })
             }>
-            <Text style={stylesProfile.btSelectGender}>Đồng ý</Text>
+            <Text style={styles.btSelectGender}>Đồng ý</Text>
           </TouchableOpacity>
         </View>
       </Dialog>
@@ -290,19 +289,19 @@ class FillProfileContainer extends Component {
     return (
       <KeyboardShift>
         {() => (
-          <ScrollView style={stylesProfile.container}>
+          <ScrollView style={styles.container}>
             {this._renderDOBPicker()}
             {this._renderGenderPicker()}
             {this._renderLevelPicker()}
             <TouchableOpacity
-              style={stylesProfile.viewEdit}
+              style={styles.viewEdit}
               onPress={() => {
                 this.props.navigation.state.params.onGoBack('Linh Nguyen');
                 this.props.navigation.goBack();
               }}>
-              <Text style={stylesProfile.txtSave}>Save</Text>
+              <Text style={styles.txtSave}>Save</Text>
             </TouchableOpacity>
-            <View style={stylesProfile.viewCircleAvatar}>
+            <View style={styles.viewCircleAvatar}>
               <ProgressCircle
                 percent={this.state.percentage}
                 radius={58}
@@ -314,13 +313,13 @@ class FillProfileContainer extends Component {
               <Image
                 resizeMode="cover"
                 source={{uri: this.state.urlAvatar}}
-                style={stylesProfile.circleAvatarFill}
+                style={styles.circleAvatarFill}
               />
-              <View style={stylesProfile.viewCamera}>
+              <View style={styles.viewCamera}>
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => this._handleOpenImage(IMAGE_AVATAR)}>
-                  <View style={stylesProfile.boxCamera}>
+                  <View style={styles.boxCamera}>
                     <Image
                       resizeMode="contain"
                       source={require('../../../assets/images/ic-camera.png')}
@@ -341,18 +340,18 @@ class FillProfileContainer extends Component {
               handleOpenImage={this._handleOpenImage}
               handleCloseImage={this._handleCloseImage}
             />
-            <View style={[stylesProfile.boxIndicatorFill, {height: 5}]} />
+            <View style={[styles.boxIndicatorFill, {height: 5}]} />
             <Collapse
               isCollapsed={this.state.isCollapsedBasicInfo}
               onToggle={isCollapsed =>
                 this.setState({isCollapsedBasicInfo: isCollapsed})
               }>
               <CollapseHeader>
-                <View style={stylesProfile.boxTitleFill}>
-                  <Text style={stylesProfile.txtBasicInfo}>
+                <View style={styles.boxTitleFill}>
+                  <Text style={styles.txtBasicInfo}>
                     THÔNG TIN CƠ BẢN
                   </Text>
-                  <View style={stylesProfile.boxArrow}>
+                  <View style={styles.boxArrow}>
                     {this.state.isCollapsedBasicInfo ? (
                       <Image
                         resizeMode="contain"
@@ -384,16 +383,16 @@ class FillProfileContainer extends Component {
                 />
               </CollapseBody>
             </Collapse>
-            <View style={stylesProfile.boxIndicatorFill} />
+            <View style={styles.boxIndicatorFill} />
             <Collapse
               isCollapsed={this.state.isCollapsedLevel}
               onToggle={isCollapsed =>
                 this.setState({isCollapsedLevel: isCollapsed})
               }>
               <CollapseHeader>
-                <View style={stylesProfile.boxTitleFill}>
-                  <Text style={stylesProfile.txtBasicInfo}>TRÌNH ĐỘ</Text>
-                  <View style={stylesProfile.boxArrow}>
+                <View style={styles.boxTitleFill}>
+                  <Text style={styles.txtBasicInfo}>TRÌNH ĐỘ</Text>
+                  <View style={styles.boxArrow}>
                     {this.state.isCollapsedLevel ? (
                       <Image
                         resizeMode="contain"
@@ -417,18 +416,18 @@ class FillProfileContainer extends Component {
                 />
               </CollapseBody>
             </Collapse>
-            <View style={stylesProfile.boxIndicatorFill} />
+            <View style={styles.boxIndicatorFill} />
             <Collapse
               isCollapsed={this.state.isCollapsedContact}
               onToggle={isCollapsed =>
                 this.setState({isCollapsedContact: isCollapsed})
               }>
               <CollapseHeader>
-                <View style={stylesProfile.boxTitleFill}>
-                  <Text style={stylesProfile.txtBasicInfo}>
+                <View style={styles.boxTitleFill}>
+                  <Text style={styles.txtBasicInfo}>
                     THÔNG TIN LIÊN LẠC
                   </Text>
-                  <View style={stylesProfile.boxArrow}>
+                  <View style={styles.boxArrow}>
                     {this.state.isCollapsedContact ? (
                       <Image
                         resizeMode="contain"

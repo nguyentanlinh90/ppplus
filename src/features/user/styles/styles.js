@@ -5,34 +5,6 @@ import {
 } from 'react-native-responsive-screen';
 
 export default StyleSheet.create({
-  body: {
-    paddingTop: 30,
-    paddingLeft: 15,
-    paddingRight: 15,
-    alignItems: 'center',
-  },
-  container: {
-    backgroundColor: '#fff',
-  },
-  formContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    height: 48,
-    width: '88%',
-    paddingTop: 15,
-    fontSize: 16,
-  },
-  buttonContainer: {
-    borderRadius: 22,
-    borderColor: '#b4b8c7',
-    borderStyle: 'solid',
-    height: 50,
-    marginTop: 20,
-    backgroundColor: '#2980b6',
-    paddingVertical: 15,
-  },
   buttonContinue: {
     borderRadius: 5,
     borderColor: '#b4b8c7',
@@ -41,15 +13,7 @@ export default StyleSheet.create({
     marginTop: 30,
     paddingVertical: 15,
   },
-  buttonDeactiveContainer: {
-    borderRadius: 22,
-    borderColor: '#b4b8c7',
-    borderStyle: 'solid',
-    height: 50,
-    marginTop: 20,
-    backgroundColor: '#cccccc',
-    paddingVertical: 15,
-  },
+
   buttonText: {
     fontSize: 21,
     fontWeight: 'bold',
@@ -58,13 +22,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     lineHeight: 24,
   },
-  txtLogin: {
-    paddingBottom: 20,
-    fontSize: 32,
-    color: '#0093EE',
-    fontWeight: 'bold',
-    lineHeight: 35,
-  },
+
   txtCreateAccount: {
     paddingBottom: 20,
     fontSize: 24,
@@ -89,125 +47,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
   },
-  groupIcon: {
-    alignItems: 'center',
-    width: '12%',
-    paddingLeft: 7,
-    paddingTop: -1,
-  },
-  txtForgot: {
-    textAlign: 'right',
-    fontSize: 16,
-    lineHeight: 19,
-    color: '#0093EE',
-  },
-  groupTxtRegister: {
-    flexDirection: 'row',
-    paddingTop: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  boxTxtRegister: {
-    color: '#9D9D9D',
-    fontSize: 16,
-    lineHeight: 19,
-    height: 19,
-  },
-  boxRowItem: {
-    width: '100%',
-    borderBottomWidth: 0.3,
-    borderStyle: 'solid',
-    borderColor: '#9D9D9D',
-  },
-  boxVoucher: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  boxRow: {
-    height: 80,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  boxLeft: {
-    marginLeft: 10,
-    width: '40%',
-    paddingBottom: 5,
-    justifyContent: 'center',
-  },
-  boxRight: {
-    width: '60%',
-    paddingBottom: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  boxSearch: {
-    width: '100%',
-    padding: 12,
-    borderWidth: 0.7,
-    borderColor: '#A7A7A7',
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  txtSearch: {
-    fontSize: 19,
-    lineHeight: 21,
-    color: '#A7A7A7',
-  },
-  txtTitle1: {
-    fontSize: 19,
-    lineHeight: 21,
-    color: 'black',
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  txtTitleRight: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  txtExpire: {
-    fontSize: 14,
-    color: '#B0B0B0',
-  },
-  txtDate: {
-    fontSize: 14,
-    lineHeight: 18,
-  },
-  txtRow: {
-    width: '90%',
-    fontSize: 18,
-    color: '#333333',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  txtOTP: {
-    color: '#9D9D9D',
-    fontSize: 19,
-  },
-  txtBack: {
-    color: '#0097F2',
-    fontSize: 16,
-    marginTop: 15,
-    marginBottom: 8,
-  },
-  txtDesc: {
-    fontSize: 16,
-    color: '#333333',
-  },
-  phone: {
-    height: 20,
-    width: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  boxImagePhone: {
-    backgroundColor: '#eceff0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 42,
-    width: 42,
-    borderRadius: 50,
-  },
+
   boxLogin: {
     paddingLeft: 16,
     paddingRight: 16,

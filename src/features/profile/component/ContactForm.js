@@ -8,7 +8,7 @@ import {
   Picker,
 } from 'react-native';
 
-import stylesProfile from '../styles/styles';
+import styles from '../styles/styles';
 
 export class BasicInfoForm extends Component {
   constructor(props) {
@@ -30,10 +30,10 @@ export class BasicInfoForm extends Component {
 
     return (
       <View style={{marginEnd: 16, marginStart: 16, paddingBottom: 20}}>
-        <Text style={stylesProfile.txtTitleBasicInfo}>Địa chỉ</Text>
-        <View style={stylesProfile.boxPickerBasicInfo}>
+        <Text style={styles.txtTitleBasicInfo}>Địa chỉ</Text>
+        <View style={styles.boxPickerBasicInfo}>
           <TextInput
-            style={stylesProfile.txtInputBasicInfo}
+            style={styles.txtInputBasicInfo}
             returnKeyType="done"
             value={contact}
             name="contact"

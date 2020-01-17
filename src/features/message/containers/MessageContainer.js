@@ -10,7 +10,6 @@ class MessageContainer extends Component {
     super(props);
     this.state = {
       refreshing: false,
-      messages: [],
     };
     console.log('linhnt constructor');
   }
@@ -26,7 +25,7 @@ class MessageContainer extends Component {
   };
 
   _checkData = () => {
-    if (this.state.messages.length > 0) {
+    if (this.props.messages.length > 0) {
       return (
         <View>
           <Text> Data</Text>

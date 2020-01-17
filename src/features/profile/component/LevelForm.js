@@ -8,7 +8,7 @@ import {
   Picker,
 } from 'react-native';
 
-import stylesProfile from '../styles/styles';
+import styles from '../styles/styles';
 
 export class BasicInfoForm extends Component {
   constructor(props) {
@@ -44,24 +44,24 @@ export class BasicInfoForm extends Component {
 
     return (
       <View style={{marginEnd: 16, marginStart: 16, paddingBottom:20}}>
-          <Text style={stylesProfile.txtTitleBasicInfo}>Học vấn</Text>
+          <Text style={styles.txtTitleBasicInfo}>Học vấn</Text>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => showLevelSelect()}>
             <View
               style={
-                stylesProfile.boxPickerBasicInfo}>
-              <Text style={[stylesProfile.txtPicker, {color: '#757575'}]}>
+                styles.boxPickerBasicInfo}>
+              <Text style={[styles.txtPicker, {color: '#757575'}]}>
                 {level}
               </Text>
               {this._renderIconArrow()}
             </View>
           </TouchableOpacity>
-          <Text style={[stylesProfile.txtTitleBasicInfo,{marginTop:20}]}>Chuyên ngành</Text>
+          <Text style={[styles.txtTitleBasicInfo,{marginTop:20}]}>Chuyên ngành</Text>
           <View
-              style={stylesProfile.boxPickerBasicInfo}>
+              style={styles.boxPickerBasicInfo}>
               <TextInput
-                style={stylesProfile.txtInputBasicInfo}
+                style={styles.txtInputBasicInfo}
                 returnKeyType="done"
                 value={major}
                 name="major"

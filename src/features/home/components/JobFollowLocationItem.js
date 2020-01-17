@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
-import styleHome from '../styles/styles';
+import styles from '../styles/styles';
 import {Rating} from 'react-native-elements';
 import CheckBox from 'react-native-check-box';
 import CBChecked from '../../../components/CBChecked';
@@ -58,7 +58,7 @@ export class JobFollowLocationItem extends Component {
     }
 
     return (
-      <View style={styleHome.jobFollowLocationContainer}>
+      <View style={styles.jobFollowLocationContainer}>
         <View style={{flexDirection: 'row', marginBottom: 5}}>
           <Text
             style={{
@@ -78,28 +78,28 @@ export class JobFollowLocationItem extends Component {
             unCheckedImage={<CBUnChecked />}
           />
         </View>
-        <View style={styleHome.jobFollowLocationDetail}>
+        <View style={styles.jobFollowLocationDetail}>
           <Image
             resizeMode="contain"
             source={require('../../../assets/images/ic-building.png')}
           />
-          <Text style={styleHome.jobFollowLocationTxtDetail}>
+          <Text style={styles.jobFollowLocationTxtDetail}>
             {item.address}
           </Text>
         </View>
-        <View style={styleHome.jobFollowLocationDetail}>
+        <View style={styles.jobFollowLocationDetail}>
           <Image
             resizeMode="contain"
             source={require('../../../assets/images/ic-calendar.png')}
           />
-          <Text style={styleHome.jobFollowLocationTxtDetail}>{weekDay}</Text>
+          <Text style={styles.jobFollowLocationTxtDetail}>{weekDay}</Text>
         </View>
-        <View style={styleHome.jobFollowLocationDetail}>
+        <View style={styles.jobFollowLocationDetail}>
           <Image
             resizeMode="contain"
             source={require('../../../assets/images/ic-time.png')}
           />
-          <Text style={styleHome.jobFollowLocationTxtDetail}>{hourDay}</Text>
+          <Text style={styles.jobFollowLocationTxtDetail}>{hourDay}</Text>
         </View>
       </View>
     );

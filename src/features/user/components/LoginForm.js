@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import styleUser from '../styles/styles';
+import styles from '../styles/styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import CheckBox from 'react-native-check-box';
@@ -25,11 +25,11 @@ export class LoginForm extends Component {
     } = this.props;
     return (
       <View>
-        <Text style={styleUser.txtCreateAccount}>Đăng Nhập</Text>
-        <Text style={styleUser.txtNumberPhone}>Số điện thoại</Text>
-        <View style={styleUser.groupInput}>
+        <Text style={styles.txtCreateAccount}>Đăng Nhập</Text>
+        <Text style={styles.txtNumberPhone}>Số điện thoại</Text>
+        <View style={styles.groupInput}>
           <TextInput
-            style={styleUser.inputLogin}
+            style={styles.inputLogin}
             autoCapitalize="none"
             autoCorrect={true}
             keyboardType="numeric"
@@ -40,10 +40,10 @@ export class LoginForm extends Component {
             onChangeText={text => onChangeText(text, 'phone')}
           />
         </View>
-        <Text style={styleUser.txtNumberPhone}>Mật khẩu</Text>
-        <View style={[styleUser.groupInput, {marginBottom: 14}]}>
+        <Text style={styles.txtNumberPhone}>Mật khẩu</Text>
+        <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
-            style={styleUser.inputLogin}
+            style={styles.inputLogin}
             returnKeyType="go"
             value={password}
             name="password"
@@ -51,7 +51,7 @@ export class LoginForm extends Component {
             onChangeText={text => onChangeText(text, 'password')}
             secureTextEntry={this.state.isShowPass}
           />
-          <View style={styleUser.boxShowPass}>
+          <View style={styles.boxShowPass}>
             <CheckBox
               onClick={() => {
                 this.setState({isShowPass: !this.state.isShowPass});
@@ -64,7 +64,7 @@ export class LoginForm extends Component {
         </View>
 
         <Text
-          style={styleUser.textForgetPass}
+          style={styles.textForgetPass}
           onPress={() => handleForgetPassword()}>
           Quên mật khẩu
         </Text>
@@ -74,12 +74,12 @@ export class LoginForm extends Component {
             colors={['#F0532D', '#FEBE10']}
             useAngle={true}
             angle={-90}
-            style={styleUser.buttonContinue}>
-            <Text style={styleUser.buttonText}>Tiếp Tục</Text>
+            style={styles.buttonContinue}>
+            <Text style={styles.buttonText}>Tiếp Tục</Text>
           </LinearGradient>
         </TouchableOpacity>
         <Text
-          style={styleUser.textNotYetAccount}
+          style={styles.textNotYetAccount}
           onPress={() => handleNotYetAccount()}>
           Chưa có tài khoản?
         </Text>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
-import styleHome from '../styles/styles';
+import styles from '../styles/styles';
 import ArrowInBox from '../../../components/ArrowInBox';
 import TagsView from '../components/TagsView';
 import LinearGradient from 'react-native-linear-gradient';
@@ -52,7 +52,7 @@ export default class LocationPicker extends Component {
               alignItems: 'center',
               paddingBottom: 20,
             }}>
-            <View style={styleHome.jobDetailIconBoxSelect}>
+            <View style={styles.jobDetailIconBoxSelect}>
               <Image
                 resizeMode="contain"
                 source={require('../../../assets/images/ic-location.png')}

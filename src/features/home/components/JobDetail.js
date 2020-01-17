@@ -13,7 +13,7 @@ import {Rating} from 'react-native-elements';
 import CheckBox from 'react-native-check-box';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
-import styleHome from '../styles/styles';
+import styles from '../styles/styles';
 import ArrowInBox from '../../../components/ArrowInBox';
 import JobFollowLocationItem from '../components/JobFollowLocationItem';
 import BookmarkChecked from '../../../components/BookmarkChecked';
@@ -83,7 +83,7 @@ export default class JobHotItem extends Component {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{borderRadius: 20, marginTop: -30, backgroundColor: '#fff'}}>
-        <View style={styleHome.jobDetailIndicator} />
+        <View style={styles.jobDetailIndicator} />
         <View style={{position: 'absolute'}}>
           <LocationPicker
             handleClose={this._closeSelectLocation}
@@ -95,13 +95,13 @@ export default class JobHotItem extends Component {
           />
         </View>
         <View>
-          <View style={[styleHome.jobDetailTop]}>
+          <View style={[styles.jobDetailTop]}>
             <Image
               resizeMode="cover"
               source={{uri: item.logoUrl}}
-              style={styleHome.jobDetailLogo}
+              style={styles.jobDetailLogo}
             />
-            <View style={styleHome.jobDetailTopInfo}>
+            <View style={styles.jobDetailTopInfo}>
               <View style={{flexDirection: 'row', marginBottom: 5}}>
                 <Text style={{flex: 1, fontSize: 18, fontWeight: 'bold'}}>
                   {item.jobTitle}
@@ -126,7 +126,7 @@ export default class JobHotItem extends Component {
               Nhân viên
             </Text>
           </View>
-          <View style={styleHome.jobDetailLine} />
+          <View style={styles.jobDetailLine} />
           <View style={{flexDirection: 'row', margin: 16}}>
             <Text style={{flex: 1, color: '#757575', fontSize: 16}}>
               Số lượng
@@ -135,7 +135,7 @@ export default class JobHotItem extends Component {
               {item.amount}
             </Text>
           </View>
-          <View style={styleHome.jobDetailLine} />
+          <View style={styles.jobDetailLine} />
           <View style={{flexDirection: 'row', margin: 16}}>
             <Text style={{flex: 1, color: '#757575', fontSize: 16}}>
               Thời gian
@@ -146,20 +146,20 @@ export default class JobHotItem extends Component {
             </Text>
           </View>
           <View style={{height: 5, backgroundColor: '#d8d8d8'}} />
-          <Text style={styleHome.jobDetailTitle}>ĐỊA ĐIỂM LÀM VIỆC</Text>
+          <Text style={styles.jobDetailTitle}>ĐỊA ĐIỂM LÀM VIỆC</Text>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => {
               this.setState({showLocationSelect: true});
             }}
             style={{marginStart: 16, marginEnd: 16, marginBottom: 16}}>
-            <View style={styleHome.jobDetailIconBoxSelect}>
+            <View style={styles.jobDetailIconBoxSelect}>
               <Image
                 resizeMode="contain"
                 source={require('../../../assets/images/ic-location.png')}
                 style={{width: 24, height: 24}}
               />
-              <Text style={styleHome.jobDetailBoxLocation}>
+              <Text style={styles.jobDetailBoxLocation}>
                 {this.state.district + ', ' + this.state.city}
               </Text>
               <ArrowInBox />
@@ -178,56 +178,56 @@ export default class JobHotItem extends Component {
             }}
             keyExtractor={(item, index) => index}
           />
-          <View style={styleHome.jobDetailViewLine} />
-          <Text style={styleHome.jobDetailTitle}>MÔ TẢ CÔNG VIỆC</Text>
-          <Text style={styleHome.jobFollowLocationTxtDetail}>
+          <View style={styles.jobDetailViewLine} />
+          <Text style={styles.jobDetailTitle}>MÔ TẢ CÔNG VIỆC</Text>
+          <Text style={styles.jobFollowLocationTxtDetail}>
             - Giới thiệu và quảng bá sản phẩm của công ty {'\n'}- Tư vấn và
             bánhàng ĐTDĐ OPPO {'\n'}- Ghi nhận thông tin bán hàng, cập nhật thị
             trường {'\n'}- Giải quyết thắc mắc của khách hàng về sản phẩm
           </Text>
-          <View style={styleHome.jobDetailViewLine} />
-          <Text style={styleHome.jobDetailTitle}>YÊU CẦU</Text>
-          <View style={styleHome.jobDetailBoxRequest}>
-            <Text style={styleHome.jobDetailTxtTitleRequest}>Độ tuổi</Text>
-            <Text style={styleHome.jobDetailTxtContentRequest}>
+          <View style={styles.jobDetailViewLine} />
+          <Text style={styles.jobDetailTitle}>YÊU CẦU</Text>
+          <View style={styles.jobDetailBoxRequest}>
+            <Text style={styles.jobDetailTxtTitleRequest}>Độ tuổi</Text>
+            <Text style={styles.jobDetailTxtContentRequest}>
               18 tuổi - 25 tuổi
             </Text>
           </View>
-          <View style={styleHome.jobDetailLineRequest} />
-          <View style={styleHome.jobDetailBoxRequest}>
-            <Text style={styleHome.jobDetailTxtTitleRequest}>Giới tính</Text>
-            <Text style={styleHome.jobDetailTxtContentRequest}>Nữ</Text>
+          <View style={styles.jobDetailLineRequest} />
+          <View style={styles.jobDetailBoxRequest}>
+            <Text style={styles.jobDetailTxtTitleRequest}>Giới tính</Text>
+            <Text style={styles.jobDetailTxtContentRequest}>Nữ</Text>
           </View>
-          <View style={styleHome.jobDetailLineRequest} />
-          <View style={styleHome.jobDetailBoxRequest}>
-            <Text style={styleHome.jobDetailTxtTitleRequest}>Ngoại hình</Text>
-            <Text style={styleHome.jobDetailTxtContentRequest}>Ưa nhìn</Text>
+          <View style={styles.jobDetailLineRequest} />
+          <View style={styles.jobDetailBoxRequest}>
+            <Text style={styles.jobDetailTxtTitleRequest}>Ngoại hình</Text>
+            <Text style={styles.jobDetailTxtContentRequest}>Ưa nhìn</Text>
           </View>
-          <View style={styleHome.jobDetailLineRequest} />
-          <View style={styleHome.jobDetailBoxRequest}>
-            <Text style={styleHome.jobDetailTxtTitleRequest}>Chiều cao</Text>
-            <Text style={styleHome.jobDetailTxtContentRequest}>>1m58</Text>
+          <View style={styles.jobDetailLineRequest} />
+          <View style={styles.jobDetailBoxRequest}>
+            <Text style={styles.jobDetailTxtTitleRequest}>Chiều cao</Text>
+            <Text style={styles.jobDetailTxtContentRequest}>>1m58</Text>
           </View>
-          <View style={styleHome.jobDetailLineRequest} />
-          <View style={styleHome.jobDetailBoxRequest}>
-            <Text style={styleHome.jobDetailTxtTitleRequest}>Cân nặng</Text>
-            <Text style={styleHome.jobDetailTxtContentRequest}>45 - 60</Text>
+          <View style={styles.jobDetailLineRequest} />
+          <View style={styles.jobDetailBoxRequest}>
+            <Text style={styles.jobDetailTxtTitleRequest}>Cân nặng</Text>
+            <Text style={styles.jobDetailTxtContentRequest}>45 - 60</Text>
           </View>
-          <View style={styleHome.jobDetailLineRequest} />
-          <View style={styleHome.jobDetailBoxRequest}>
-            <Text style={styleHome.jobDetailTxtTitleRequest}>Đồng phục</Text>
-            <Text style={styleHome.jobDetailTxtContentRequest}>
+          <View style={styles.jobDetailLineRequest} />
+          <View style={styles.jobDetailBoxRequest}>
+            <Text style={styles.jobDetailTxtTitleRequest}>Đồng phục</Text>
+            <Text style={styles.jobDetailTxtContentRequest}>
               Công ty cấp
             </Text>
           </View>
-          <View style={styleHome.jobDetailViewLine} />
+          <View style={styles.jobDetailViewLine} />
 
           <TouchableOpacity activeOpacity={0.8} onPress={() => submit()}>
             <LinearGradient
               colors={['#F0532D', '#FEBE10']}
               useAngle={true}
               angle={-90}
-              style={styleHome.jobDetailBoxSubmit}>
+              style={styles.jobDetailBoxSubmit}>
               <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
                 Ứng Tuyển Ngay
               </Text>

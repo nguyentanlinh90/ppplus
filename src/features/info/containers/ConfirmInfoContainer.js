@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import styles from '../../../styles/styles';
-import stylesInfo from '../styles/styles';
+import styles from '../styles/styles';
 import {SCREEN_MAIN} from '../../../api/screen';
 
 class ConfirmInfoContainer extends Component {
@@ -52,8 +51,8 @@ class ConfirmInfoContainer extends Component {
               colors={['#F0532D', '#FEBE10']}
               useAngle={true}
               angle={-90}
-              style={stylesInfo.buttonDone}>
-              <Text style={stylesInfo.txtDone}>Xác nhận</Text>
+              style={styles.buttonDone}>
+              <Text style={styles.txtDone}>Xác nhận</Text>
             </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity

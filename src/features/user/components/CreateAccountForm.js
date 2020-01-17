@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import styleUser from '../styles/styles';
+import styles from '../styles/styles';
 import LinearGradient from 'react-native-linear-gradient';
 import CheckBox from 'react-native-check-box';
 import CBChecked from '../../../components/CBChecked';
@@ -29,11 +29,11 @@ export class CreateAccountForm extends Component {
     } = this.props;
     return (
       <View>
-        <Text style={styleUser.txtCreateAccount}>Tạo tài khoản</Text>
-        <Text style={styleUser.txtNumberPhone}>Số điện thoại</Text>
-        <View style={styleUser.groupInput}>
+        <Text style={styles.txtCreateAccount}>Tạo tài khoản</Text>
+        <Text style={styles.txtNumberPhone}>Số điện thoại</Text>
+        <View style={styles.groupInput}>
           <TextInput
-            style={styleUser.inputCreateAccount}
+            style={styles.inputCreateAccount}
             autoCapitalize="none"
             autoCorrect={true}
             keyboardType="numeric"
@@ -44,10 +44,10 @@ export class CreateAccountForm extends Component {
             onChangeText={text => onChangeText(text, 'phone')}
           />
         </View>
-        <Text style={styleUser.txtNumberPhone}>Mã giới thiệu</Text>
-        <View style={[styleUser.groupInput, {marginBottom: 14}]}>
+        <Text style={styles.txtNumberPhone}>Mã giới thiệu</Text>
+        <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
-            style={styleUser.inputCreateAccount}
+            style={styles.inputCreateAccount}
             autoCapitalize="none"
             autoCorrect={true}
             keyboardType="default"
@@ -58,11 +58,11 @@ export class CreateAccountForm extends Component {
             onChangeText={text => onChangeText(text, 'referral_code')}
           />
         </View>
-        <Text style={styleUser.txtNumberPhone}>Mã mật khẩu</Text>
-        <View style={[styleUser.groupInput, {marginBottom: 14}]}>
+        <Text style={styles.txtNumberPhone}>Mã mật khẩu</Text>
+        <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             maxLength={20}
-            style={styleUser.inputLogin}
+            style={styles.inputLogin}
             secureTextEntry={this.state.isShowPass}
             returnKeyType="go"
             value={password}
@@ -70,7 +70,7 @@ export class CreateAccountForm extends Component {
             placeholder="Nhập mật khẩu"
             onChangeText={text => onChangeText(text, 'password')}
           />
-          <View style={styleUser.boxShowPass}>
+          <View style={styles.boxShowPass}>
             <CheckBox
               onClick={() => {
                 this.setState({isShowPass: !this.state.isShowPass});
@@ -81,19 +81,19 @@ export class CreateAccountForm extends Component {
             />
           </View>
         </View>
-        <Text style={styleUser.txtNumberPhone}>Xác nhận lại mật khẩu</Text>
-        <View style={[styleUser.groupInput, {marginBottom: 14}]}>
+        <Text style={styles.txtNumberPhone}>Xác nhận lại mật khẩu</Text>
+        <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             secureTextEntry={this.state.isShowPassAgain}
             maxLength={20}
-            style={styleUser.inputLogin}
+            style={styles.inputLogin}
             returnKeyType="go"
             value={passwordAgain}
             name="passwordAgain"
             placeholder="Xác nhận lại mật khẩu"
             onChangeText={text => onChangeText(text, 'passwordAgain')}
           />
-          <View style={styleUser.boxShowPass}>
+          <View style={styles.boxShowPass}>
             <CheckBox
               onClick={() => {
                 this.setState({isShowPassAgain: !this.state.isShowPassAgain});
@@ -104,14 +104,14 @@ export class CreateAccountForm extends Component {
             />
           </View>
         </View>
-        <View style={styleUser.viewAgree}>
+        <View style={styles.viewAgree}>
           <CheckBox
             onClick={() => setAgree()}
             isChecked={isAgree}
             checkedImage={<CBChecked />}
             unCheckedImage={<CBUnChecked />}
           />
-          <Text style={styleUser.textAgree}>
+          <Text style={styles.textAgree}>
             Tôi đồng ý các điều khoản hoạt động của PP+
           </Text>
         </View>
@@ -122,8 +122,8 @@ export class CreateAccountForm extends Component {
             colors={['#F0532D', '#FEBE10']}
             useAngle={true}
             angle={-90}
-            style={styleUser.buttonContinue}>
-            <Text style={styleUser.buttonText}>Tiếp Tục</Text>
+            style={styles.buttonContinue}>
+            <Text style={styles.buttonText}>Tiếp Tục</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

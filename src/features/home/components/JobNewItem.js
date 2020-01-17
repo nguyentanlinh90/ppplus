@@ -3,6 +3,8 @@ import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styleHome from '../styles/styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {Rating} from 'react-native-elements';
+import {Card} from 'react-native-shadow-cards';
+
 import moment from 'moment';
 export class JobHotItem extends Component {
   constructor(props) {
@@ -25,7 +27,11 @@ export class JobHotItem extends Component {
       textColorTrending = '#FF3434';
     }
     return (
-      <View style={{marginBottom: 10}}>
+      <Card
+        style={{padding: 12, marginBottom: 10, width: '100%'}}
+        cornerRadius={6}
+        elevation={1}
+        opacity={0.4}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text
             numberOfLines={1}
@@ -91,9 +97,7 @@ export class JobHotItem extends Component {
             <Text style={styleHome.txtInfoJob}>{item.location}</Text>
           </View>
         </View>
-        <View
-          style={{height: 0.5, backgroundColor: '#d8d8d8', marginTop: 10, marginBottom:10}}></View>
-      </View>
+      </Card>
     );
   }
 }

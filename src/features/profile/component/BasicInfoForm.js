@@ -8,7 +8,7 @@ import {
   Picker,
 } from 'react-native';
 
-import stylesProfile from '../styles/styles';
+import styles from '../styles/styles';
 
 export class BasicInfoForm extends Component {
   constructor(props) {
@@ -51,12 +51,12 @@ export class BasicInfoForm extends Component {
 
     return (
       <View style={{marginEnd: 16, marginStart: 16}}>
-        <View style={stylesProfile.containerBasicInfo}>
-          <View style={stylesProfile.boxBasicInfo}>
-            <Text style={stylesProfile.txtTitleBasicInfo}>Họ và tên đệm*</Text>
-            <View style={stylesProfile.boxInputBasicInfo}>
+        <View style={styles.containerBasicInfo}>
+          <View style={styles.boxBasicInfo}>
+            <Text style={styles.txtTitleBasicInfo}>Họ và tên đệm*</Text>
+            <View style={styles.boxInputBasicInfo}>
               <TextInput
-                style={stylesProfile.txtInputBasicInfo}
+                style={styles.txtInputBasicInfo}
                 returnKeyType="next"
                 value={lastName}
                 name="lastName"
@@ -65,11 +65,11 @@ export class BasicInfoForm extends Component {
               />
             </View>
           </View>
-          <View style={stylesProfile.boxBasicInfo}>
-            <Text style={stylesProfile.txtTitleBasicInfo}>Tên*</Text>
-            <View style={stylesProfile.boxInputBasicInfo}>
+          <View style={styles.boxBasicInfo}>
+            <Text style={styles.txtTitleBasicInfo}>Tên*</Text>
+            <View style={styles.boxInputBasicInfo}>
               <TextInput
-                style={stylesProfile.txtInputBasicInfo}
+                style={styles.txtInputBasicInfo}
                 returnKeyType="next"
                 value={firstName}
                 name="firstName"
@@ -79,29 +79,29 @@ export class BasicInfoForm extends Component {
             </View>
           </View>
         </View>
-        <View style={stylesProfile.containerBasicInfo}>
-          <View style={stylesProfile.boxBasicInfo}>
-            <Text style={stylesProfile.txtTitleBasicInfo}>
+        <View style={styles.containerBasicInfo}>
+          <View style={styles.boxBasicInfo}>
+            <Text style={styles.txtTitleBasicInfo}>
               Ngày tháng năm sinh*
             </Text>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => showDateTimePicker()}>
-              <View style={stylesProfile.boxPickerBasicInfo}>
-                <Text style={[stylesProfile.txtPicker, {color: '#757575'}]}>
+              <View style={styles.boxPickerBasicInfo}>
+                <Text style={[styles.txtPicker, {color: '#757575'}]}>
                   {txtDOB}
                 </Text>
                 {this._renderIconArrow()}
               </View>
             </TouchableOpacity>
           </View>
-          <View style={stylesProfile.boxBasicInfo}>
-            <Text style={stylesProfile.txtTitleBasicInfo}>Giới tính*</Text>
+          <View style={styles.boxBasicInfo}>
+            <Text style={styles.txtTitleBasicInfo}>Giới tính*</Text>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => showGenderSelect()}>
-              <View style={stylesProfile.boxPickerBasicInfo}>
-                <Text style={[stylesProfile.txtPicker, {color: '#757575'}]}>
+              <View style={styles.boxPickerBasicInfo}>
+                <Text style={[styles.txtPicker, {color: '#757575'}]}>
                   {gender}
                 </Text>
                 {this._renderIconArrow()}
@@ -109,12 +109,12 @@ export class BasicInfoForm extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={stylesProfile.containerBasicInfo}>
-          <View style={stylesProfile.boxBasicInfo}>
-            <Text style={stylesProfile.txtTitleBasicInfo}>Chiều cao (cm)*</Text>
-            <View style={stylesProfile.boxPickerBasicInfo}>
+        <View style={styles.containerBasicInfo}>
+          <View style={styles.boxBasicInfo}>
+            <Text style={styles.txtTitleBasicInfo}>Chiều cao (cm)*</Text>
+            <View style={styles.boxPickerBasicInfo}>
               <TextInput
-                style={stylesProfile.txtInputBasicInfo}
+                style={styles.txtInputBasicInfo}
                 returnKeyType="next"
                 value={height}
                 name="height"
@@ -125,11 +125,11 @@ export class BasicInfoForm extends Component {
               {/* {this._renderIconArrow()} */}
             </View>
           </View>
-          <View style={stylesProfile.boxBasicInfo}>
-            <Text style={stylesProfile.txtTitleBasicInfo}>Cân nặng (kg)*</Text>
-            <View style={stylesProfile.boxPickerBasicInfo}>
+          <View style={styles.boxBasicInfo}>
+            <Text style={styles.txtTitleBasicInfo}>Cân nặng (kg)*</Text>
+            <View style={styles.boxPickerBasicInfo}>
               <TextInput
-                style={stylesProfile.txtInputBasicInfo}
+                style={styles.txtInputBasicInfo}
                 returnKeyType="next"
                 value={weight}
                 name="weight"
@@ -141,15 +141,15 @@ export class BasicInfoForm extends Component {
             </View>
           </View>
         </View>
-        <Text style={stylesProfile.txtTitleBasicInfo}>Số đo 3 vòng</Text>
-        <View style={stylesProfile.containerBasicInfo}>
+        <Text style={styles.txtTitleBasicInfo}>Số đo 3 vòng</Text>
+        <View style={styles.containerBasicInfo}>
           <View
             style={[
-              stylesProfile.boxPickerBasicInfo,
+              styles.boxPickerBasicInfo,
               {flex: 1, marginEnd: 10},
             ]}>
             <TextInput
-              style={stylesProfile.txtInputBasicInfo}
+              style={styles.txtInputBasicInfo}
               returnKeyType="next"
               value={measure_1}
               name="measure_1"
@@ -161,11 +161,11 @@ export class BasicInfoForm extends Component {
           </View>
           <View
             style={[
-              stylesProfile.boxPickerBasicInfo,
+              styles.boxPickerBasicInfo,
               {flex: 1, marginEnd: 10},
             ]}>
             <TextInput
-              style={stylesProfile.txtInputBasicInfo}
+              style={styles.txtInputBasicInfo}
               returnKeyType="next"
               value={measure_2}
               name="measure_2"
@@ -175,9 +175,9 @@ export class BasicInfoForm extends Component {
             />
             {this._renderIconArrow()}
           </View>
-          <View style={[stylesProfile.boxPickerBasicInfo, {flex: 1}]}>
+          <View style={[styles.boxPickerBasicInfo, {flex: 1}]}>
             <TextInput
-              style={stylesProfile.txtInputBasicInfo}
+              style={styles.txtInputBasicInfo}
               returnKeyType="done"
               value={measure_3}
               name="measure_3"

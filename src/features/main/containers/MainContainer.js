@@ -16,6 +16,7 @@ class MainContainer extends Component {
     this.state = {
       selectedTab: 'home',
       isLoading: false,
+      messages:[]
     };
   }
 
@@ -35,10 +36,13 @@ class MainContainer extends Component {
     this.setState({isLoading: true});
   };
 
-  _loadData = () => {
+  _loadData = (tab) => {
     this._showLoading();
     setTimeout(() => {
       this._hideLoading();
+      if(tab=='message'){
+        this.setState({messages:[]})
+      }
     }, 1000);
   };
 
@@ -95,9 +99,9 @@ class MainContainer extends Component {
             )}
             onPress={() => {
               this._selectTab('message');
-              this._loadData();
+              this._loadData('message');
             }}>
-            <Message props={this.props} />
+            <Message messages={this.state.messages} props={this.props} />
           </TabNavigator.Item>
 
           <TabNavigator.Item

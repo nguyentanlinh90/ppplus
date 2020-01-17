@@ -30,7 +30,7 @@ class SplashContainer extends Component {
       } else {
         dispatchScreen(this.props, SCREEN_RETRO, {});
       }
-    }, 3000);
+    }, 1000);
   }
   render() {
     const {} = this.props;

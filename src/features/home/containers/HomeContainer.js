@@ -334,30 +334,23 @@ class HomeContainer extends Component {
 
   _renderNoData = () => {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{fontSize: 22}}>Không có dữ liệu</Text>
+      <View style={{alignItems: 'center'}}>
+        <Text style={{fontSize: 22, marginTop: 200}}>Không có dữ liệu</Text>
       </View>
     );
   };
   _renderContent = () => {
     return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            // tintColor={'#098'}
-            // titleColor={'#000'}
-            // title={'Cập nhật'}
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh.bind(this)}
-          />
-        }>
+      <View>
         <View style={styles.groupContent}>
           <Text style={styles.txtTitleGroupContent}>Công việc hot nhất</Text>
 
           <FlatList
-            contentContainerStyle={{paddingStart: 16, paddingBottom:16, paddingTop:16}}
-            style={{}}
+            contentContainerStyle={{
+              paddingStart: 16,
+              paddingBottom: 16,
+              paddingTop: 16,
+            }}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
             data={this.state.jobs}
@@ -376,9 +369,7 @@ class HomeContainer extends Component {
         <View style={[styles.groupContent, {marginTop: 10}]}>
           <Text style={styles.txtTitleGroupContent}>Công việc mới nhất</Text>
           <FlatList
-            style={{padding: 16, backgroundColor: '#fff'}}
-            showsHorizontalScrollIndicator={false}
-            horizontal={false}
+            style={{paddingStart: 16, marginTop:10, marginEnd:16}}
             data={this.state.jobs}
             renderItem={({item: rowData}) => {
               return (
@@ -412,7 +403,7 @@ class HomeContainer extends Component {
             keyExtractor={(item, index) => index}
           />
         </View>
-      </ScrollView>
+      </View>
     );
   };
   _openSearch = props => {
@@ -481,11 +472,23 @@ class HomeContainer extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        {!this.state.isLoading
-          ? this.state.jobs.length > 0
-            ? this._renderContent()
-            : this._renderNoData()
-          : null}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              // tintColor={'#098'}
+              // titleColor={'#000'}
+              // title={'Cập nhật'}
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh.bind(this)}
+            />
+          }>
+          {!this.state.isLoading
+            ? this.state.jobs.length > 0
+              ? this._renderContent()
+              : this._renderNoData()
+            : null}
+        </ScrollView>
       </View>
     );
   }

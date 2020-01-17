@@ -10,8 +10,7 @@ import {
 import CheckBox from 'react-native-check-box';
 import LinearGradient from 'react-native-linear-gradient';
 import {ScrollView} from 'react-native-gesture-handler';
-import styles from '../../../styles/styles';
-import stylesInfo from '../styles/styles';
+import styles from '../styles/styles';
 import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
 import RadioChecked from '../../../components/RadioChecked';
@@ -99,17 +98,17 @@ export default class InfoContainer_1 extends Component {
 
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={stylesInfo.title}>
+        <Text style={styles.title}>
           Hãy cho chúng tôi biết thêm về bạn, PP+ sẽ cung cấp công việc phù hợp
           với bạn!
         </Text>
-        <View style={stylesInfo.viewFill}>
-          <Text style={stylesInfo.titleContent}>1. Họ và tên</Text>
-          <View style={stylesInfo.flexRow}>
-            <View style={[stylesInfo.boxInput, {marginEnd: 10}]}>
+        <View style={styles.viewFill}>
+          <Text style={styles.titleContent}>1. Họ và tên</Text>
+          <View style={styles.flexRow}>
+            <View style={[styles.boxInput, {marginEnd: 10}]}>
               <TextInput
                 numberOfLines={1}
-                style={stylesInfo.txtInput}
+                style={styles.txtInput}
                 returnKeyType="go"
                 value={lastName}
                 name="lastName"
@@ -117,10 +116,10 @@ export default class InfoContainer_1 extends Component {
                 onChangeText={text => onChangeText(text, 'lastName')}
               />
             </View>
-            <View style={stylesInfo.boxInput}>
+            <View style={styles.boxInput}>
               <TextInput
                 numberOfLines={1}
-                style={stylesInfo.txtInput}
+                style={styles.txtInput}
                 returnKeyType="go"
                 value={firstName}
                 name="firstName"
@@ -129,11 +128,11 @@ export default class InfoContainer_1 extends Component {
               />
             </View>
           </View>
-          <Text style={stylesInfo.titleContent}>2. Giới tính</Text>
-          <View style={stylesInfo.flexRow}>
-            <View style={stylesInfo.containerCheckBox}>
+          <Text style={styles.titleContent}>2. Giới tính</Text>
+          <View style={styles.flexRow}>
+            <View style={styles.containerCheckBox}>
               <CheckBox
-                style={stylesInfo.checkbox}
+                style={styles.checkbox}
                 onClick={() => handleGenderSelect(true, !genderMale)}
                 isChecked={genderMale}
                 rightText={'Nam'}
@@ -141,9 +140,9 @@ export default class InfoContainer_1 extends Component {
                 unCheckedImage={<RadioUnChecked />}
               />
             </View>
-            <View style={stylesInfo.containerCheckBox}>
+            <View style={styles.containerCheckBox}>
               <CheckBox
-                style={stylesInfo.checkbox}
+                style={styles.checkbox}
                 onClick={() => handleGenderSelect(false, !genderFeMale)}
                 isChecked={genderFeMale}
                 rightText={'Nữ'}
@@ -152,7 +151,7 @@ export default class InfoContainer_1 extends Component {
               />
             </View>
           </View>
-          <Text style={stylesInfo.titleContent}>3. Năm sinh</Text>
+          <Text style={styles.titleContent}>3. Năm sinh</Text>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => this.setState({isShowYOB: !this.state.isShowYOB})}>
@@ -160,14 +159,14 @@ export default class InfoContainer_1 extends Component {
               style={this._boxSelectStyle(
                 this.state.isShowYOB ? '#F0532D' : '#d8d8d8',
               )}>
-              <Text style={stylesInfo.txtSelect}>{yearOfBirth}</Text>
+              <Text style={styles.txtSelect}>{yearOfBirth}</Text>
               {<ArrowInBox />}
             </View>
           </TouchableOpacity>
           {this.state.isShowYOB ? (
             <FlatList
               visibility={this.state.isShowYOB}
-              style={stylesInfo.viewSelect}
+              style={styles.viewSelect}
               data={listYear}
               renderItem={({item: rowData}) => {
                 return (
@@ -177,16 +176,16 @@ export default class InfoContainer_1 extends Component {
                       selectYearOfBirth(rowData);
                       this.setState({isShowYOB: false});
                     }}>
-                    <Text style={stylesInfo.txtViewSelect}>{rowData}</Text>
+                    <Text style={styles.txtViewSelect}>{rowData}</Text>
 
-                    <View style={stylesInfo.lineSelect} />
+                    <View style={styles.lineSelect} />
                   </TouchableOpacity>
                 );
               }}
               keyExtractor={(item, index) => index}
             />
           ) : null}
-          <Text style={stylesInfo.titleContent}>4. Địa điểm làm việc</Text>
+          <Text style={styles.titleContent}>4. Địa điểm làm việc</Text>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => this.setState({isShowCity: !this.state.isShowCity})}>
@@ -194,20 +193,20 @@ export default class InfoContainer_1 extends Component {
               style={this._boxSelectStyle(
                 this.state.isShowCity ? '#F0532D' : '#d8d8d8',
               )}>
-              <Text style={stylesInfo.txtSelect}>{city}</Text>
+              <Text style={styles.txtSelect}>{city}</Text>
               {<ArrowInBox />}
             </View>
           </TouchableOpacity>
           {this.state.isShowCity ? (
             <FlatList
               visibility={this.state.isShowCity}
-              style={stylesInfo.viewSelect}
+              style={styles.viewSelect}
               data={listCity}
               renderItem={({item: rowData}) => {
                 return (
                   <TouchableOpacity activeOpacity={0.8}>
-                    <View style={stylesInfo.infoBoxSelect}>
-                      <Text style={stylesInfo.txtViewSelect}>
+                    <View style={styles.infoBoxSelect}>
+                      <Text style={styles.txtViewSelect}>
                         {rowData.city}
                       </Text>
                       <CheckBox
@@ -219,7 +218,7 @@ export default class InfoContainer_1 extends Component {
                         unCheckedImage={<CBUnChecked />}
                       />
                     </View>
-                    <View style={stylesInfo.lineSelect} />
+                    <View style={styles.lineSelect} />
                   </TouchableOpacity>
                 );
               }}
@@ -227,7 +226,7 @@ export default class InfoContainer_1 extends Component {
             />
           ) : null}
 
-          <Text style={stylesInfo.titleContent}>5. Nhóm ngành</Text>
+          <Text style={styles.titleContent}>5. Nhóm ngành</Text>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() =>
@@ -237,20 +236,20 @@ export default class InfoContainer_1 extends Component {
               style={this._boxSelectStyle(
                 this.state.isShowIndustry ? '#F0532D' : '#d8d8d8',
               )}>
-              <Text style={stylesInfo.txtSelect}>{industry}</Text>
+              <Text style={styles.txtSelect}>{industry}</Text>
               {<ArrowInBox />}
             </View>
           </TouchableOpacity>
           {this.state.isShowIndustry ? (
             <FlatList
               visibility={this.state.isShowIndustry}
-              style={stylesInfo.viewSelect}
+              style={styles.viewSelect}
               data={listIndustry}
               renderItem={({item: rowData}) => {
                 return (
                   <TouchableOpacity activeOpacity={0.8}>
-                    <View style={stylesInfo.infoBoxSelect}>
-                      <Text style={stylesInfo.txtViewSelect}>
+                    <View style={styles.infoBoxSelect}>
+                      <Text style={styles.txtViewSelect}>
                         {rowData.name}
                       </Text>
                       <CheckBox
@@ -264,7 +263,7 @@ export default class InfoContainer_1 extends Component {
                         unCheckedImage={<CBUnChecked />}
                       />
                     </View>
-                    <View style={stylesInfo.lineSelect} />
+                    <View style={styles.lineSelect} />
                   </TouchableOpacity>
                 );
               }}
@@ -272,11 +271,11 @@ export default class InfoContainer_1 extends Component {
             />
           ) : null}
 
-          <Text style={stylesInfo.titleContent}>6. Thời lượng công việc</Text>
+          <Text style={styles.titleContent}>6. Thời lượng công việc</Text>
           <View style={{flexDirection: 'row'}}>
-            <View style={stylesInfo.containerCheckBox}>
+            <View style={styles.containerCheckBox}>
               <CheckBox
-                style={stylesInfo.checkbox}
+                style={styles.checkbox}
                 onClick={() => setJobDuration(true)}
                 isChecked={jobLongTerm}
                 rightText={'Dài hạn'}
@@ -284,9 +283,9 @@ export default class InfoContainer_1 extends Component {
                 unCheckedImage={<CBUnChecked />}
               />
             </View>
-            <View style={stylesInfo.containerCheckBox}>
+            <View style={styles.containerCheckBox}>
               <CheckBox
-                style={stylesInfo.checkbox}
+                style={styles.checkbox}
                 onClick={() => setJobDuration(false)}
                 isChecked={jobShortTerm}
                 rightText={'Ngắn hạn'}
@@ -302,8 +301,8 @@ export default class InfoContainer_1 extends Component {
               colors={['#F0532D', '#FEBE10']}
               useAngle={true}
               angle={-90}
-              style={stylesInfo.buttonDone}>
-              <Text style={stylesInfo.txtDone}>Hoàn Thành</Text>
+              style={styles.buttonDone}>
+              <Text style={styles.txtDone}>Hoàn Thành</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
-import stylesProfile from '../styles/styles';
+import styles from '../styles/styles';
 
 export class AddImageComponent extends Component {
   constructor(props) {
@@ -37,17 +37,17 @@ export class AddImageComponent extends Component {
     } = this.props;
 
     return (
-      <View style={stylesProfile.containerAddImage}>
+      <View style={styles.containerAddImage}>
         {!showButtonAdd_1 ? (
-          <View style={stylesProfile.boxShowImage}>
+          <View style={styles.boxShowImage}>
             <Image
               resizeMode="stretch"
               source={{uri: urlImage_1}}
-              style={stylesProfile.imageLoad}
+              style={styles.imageLoad}
             />
-            <View style={stylesProfile.boxClose}>
+            <View style={styles.boxClose}>
               <TouchableOpacity
-                style={stylesProfile.boxButtonAdd}
+                style={styles.boxButtonAdd}
                 activeOpacity={0.8}
                 onPress={() => handleCloseImage(1)}>
                 {this.renderImageClose()}
@@ -55,26 +55,26 @@ export class AddImageComponent extends Component {
             </View>
           </View>
         ) : (
-          <View style={stylesProfile.boxAddImage}>
+          <View style={styles.boxAddImage}>
             <TouchableOpacity
-              style={stylesProfile.boxButtonAdd}
+              style={styles.boxButtonAdd}
               activeOpacity={0.8}
               onPress={() => handleOpenImage(1)}>
               {this.renderImagePlus()}
             </TouchableOpacity>
           </View>
         )}
-        <View style={stylesProfile.boxAddImage}>
+        <View style={styles.boxAddImage}>
           {!showButtonAdd_2 ? (
-            <View style={stylesProfile.boxShowImage}>
+            <View style={styles.boxShowImage}>
               <Image
                 resizeMode="stretch"
                 source={{uri: urlImage_2}}
-                style={stylesProfile.imageLoad}
+                style={styles.imageLoad}
               />
-              <View style={stylesProfile.boxClose}>
+              <View style={styles.boxClose}>
                 <TouchableOpacity
-                  style={stylesProfile.boxButtonAdd}
+                  style={styles.boxButtonAdd}
                   activeOpacity={0.8}
                   onPress={() => handleCloseImage(2)}>
                   {this.renderImageClose()}
@@ -82,9 +82,9 @@ export class AddImageComponent extends Component {
               </View>
             </View>
           ) : (
-            <View style={stylesProfile.boxAddImage}>
+            <View style={styles.boxAddImage}>
               <TouchableOpacity
-                style={stylesProfile.boxButtonAdd}
+                style={styles.boxButtonAdd}
                 activeOpacity={0.8}
                 onPress={() => handleOpenImage(2)}>
                 {this.renderImagePlus()}
@@ -92,17 +92,17 @@ export class AddImageComponent extends Component {
             </View>
           )}
         </View>
-        <View style={stylesProfile.boxAddImage}>
+        <View style={styles.boxAddImage}>
           {!showButtonAdd_3 ? (
-            <View style={stylesProfile.boxShowImage}>
+            <View style={styles.boxShowImage}>
               <Image
                 resizeMode="stretch"
                 source={{uri: urlImage_3}}
-                style={stylesProfile.imageLoad}
+                style={styles.imageLoad}
               />
-              <View style={stylesProfile.boxClose}>
+              <View style={styles.boxClose}>
                 <TouchableOpacity
-                  style={stylesProfile.boxButtonAdd}
+                  style={styles.boxButtonAdd}
                   activeOpacity={0.8}
                   onPress={() => handleCloseImage(3)}>
                   {this.renderImageClose()}
@@ -110,9 +110,9 @@ export class AddImageComponent extends Component {
               </View>
             </View>
           ) : (
-            <View style={stylesProfile.boxAddImage}>
+            <View style={styles.boxAddImage}>
               <TouchableOpacity
-                style={stylesProfile.boxButtonAdd}
+                style={styles.boxButtonAdd}
                 activeOpacity={0.8}
                 onPress={() => handleOpenImage(3)}>
                 {this.renderImagePlus()}
@@ -120,17 +120,17 @@ export class AddImageComponent extends Component {
             </View>
           )}
         </View>
-        <View style={stylesProfile.boxAddImage}>
+        <View style={styles.boxAddImage}>
           {!showButtonAdd_4 ? (
-            <View style={stylesProfile.boxShowImage}>
+            <View style={styles.boxShowImage}>
               <Image
                 resizeMode="stretch"
                 source={{uri: urlImage_4}}
-                style={stylesProfile.imageLoad}
+                style={styles.imageLoad}
               />
-              <View style={stylesProfile.boxClose}>
+              <View style={styles.boxClose}>
                 <TouchableOpacity
-                  style={stylesProfile.boxButtonAdd}
+                  style={styles.boxButtonAdd}
                   activeOpacity={0.8}
                   onPress={() => handleCloseImage(4)}>
                   {this.renderImageClose()}
@@ -138,9 +138,9 @@ export class AddImageComponent extends Component {
               </View>
             </View>
           ) : (
-            <View style={stylesProfile.boxAddImage}>
+            <View style={styles.boxAddImage}>
               <TouchableOpacity
-                style={stylesProfile.boxButtonAdd}
+                style={styles.boxButtonAdd}
                 activeOpacity={0.8}
                 onPress={() => handleOpenImage(4)}>
                 {this.renderImagePlus()}
