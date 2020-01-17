@@ -6,6 +6,11 @@ import {
 } from 'react-native-responsive-screen';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 export default StyleSheet.create({
+  container: {
+    backgroundColor: '#d8d8d8',
+    flex: 1,
+  },
+
   boxSearch: {
     flexDirection: 'row',
     marginStart: 10,
