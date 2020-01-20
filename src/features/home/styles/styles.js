@@ -145,7 +145,7 @@ export default StyleSheet.create({
   },
   viewUser: {
     flexDirection: 'row',
-    marginStart: 16,
+    marginStart: 10,
     height: 35,
     alignItems: 'center',
     alignSelf:'flex-start',
