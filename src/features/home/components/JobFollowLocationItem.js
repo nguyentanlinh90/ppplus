@@ -58,7 +58,11 @@ export class JobFollowLocationItem extends Component {
     }
 
     return (
-      <View style={styles.jobFollowLocationContainer}>
+      <TouchableOpacity
+        onPress={() => {
+          this.setState({isSelect: !this.state.isSelect});
+        }}
+        style={styles.jobFollowLocationContainer}>
         <View style={{flexDirection: 'row', marginBottom: 5}}>
           <Text
             style={{
@@ -70,9 +74,6 @@ export class JobFollowLocationItem extends Component {
             {item.nameStore}
           </Text>
           <CheckBox
-            onClick={() => {
-              this.setState({isSelect: !this.state.isSelect});
-            }}
             isChecked={this.state.isSelect}
             checkedImage={<CBChecked />}
             unCheckedImage={<CBUnChecked />}
@@ -83,9 +84,7 @@ export class JobFollowLocationItem extends Component {
             resizeMode="contain"
             source={require('../../../assets/images/ic-building.png')}
           />
-          <Text style={styles.jobFollowLocationTxtDetail}>
-            {item.address}
-          </Text>
+          <Text style={styles.jobFollowLocationTxtDetail}>{item.address}</Text>
         </View>
         <View style={styles.jobFollowLocationDetail}>
           <Image
@@ -101,7 +100,7 @@ export class JobFollowLocationItem extends Component {
           />
           <Text style={styles.jobFollowLocationTxtDetail}>{hourDay}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

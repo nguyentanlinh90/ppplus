@@ -204,15 +204,14 @@ export default class InfoContainer_1 extends Component {
               data={listCity}
               renderItem={({item: rowData}) => {
                 return (
-                  <TouchableOpacity activeOpacity={0.8}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                      selectCity(rowData.city);
+                    }}>
                     <View style={styles.infoBoxSelect}>
-                      <Text style={styles.txtViewSelect}>
-                        {rowData.city}
-                      </Text>
+                      <Text style={styles.txtViewSelect}>{rowData.city}</Text>
                       <CheckBox
-                        onClick={() => {
-                          selectCity(rowData.city);
-                        }}
                         isChecked={city.includes(rowData.city) ? true : false}
                         checkedImage={<CBChecked />}
                         unCheckedImage={<CBUnChecked />}
@@ -247,15 +246,14 @@ export default class InfoContainer_1 extends Component {
               data={listIndustry}
               renderItem={({item: rowData}) => {
                 return (
-                  <TouchableOpacity activeOpacity={0.8}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                      selectIndustry(rowData.name);
+                    }}>
                     <View style={styles.infoBoxSelect}>
-                      <Text style={styles.txtViewSelect}>
-                        {rowData.name}
-                      </Text>
+                      <Text style={styles.txtViewSelect}>{rowData.name}</Text>
                       <CheckBox
-                        onClick={() => {
-                          selectIndustry(rowData.name);
-                        }}
                         isChecked={
                           industry.includes(rowData.name) ? true : false
                         }

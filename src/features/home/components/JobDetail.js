@@ -171,9 +171,7 @@ export default class JobHotItem extends Component {
             data={item.jobDetails}
             renderItem={({item: rowData}) => {
               return (
-                <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
                   <JobFollowLocationItem item={rowData} />
-                </TouchableOpacity>
               );
             }}
             keyExtractor={(item, index) => index}
