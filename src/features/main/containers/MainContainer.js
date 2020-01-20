@@ -16,7 +16,7 @@ class MainContainer extends Component {
     this.state = {
       selectedTab: 'home',
       isLoading: false,
-      messages:[]
+      messages: [],
     };
   }
 
@@ -26,9 +26,6 @@ class MainContainer extends Component {
 
   _reloadTab = tab => {};
 
-  _selectTab = tab => {
-    this.setState({selectedTab: tab});
-  };
   _hideLoading = () => {
     this.setState({isLoading: false});
   };
@@ -36,14 +33,19 @@ class MainContainer extends Component {
     this.setState({isLoading: true});
   };
 
-  _loadData = (tab) => {
+  _loadData = tab => {
     this._showLoading();
     setTimeout(() => {
       this._hideLoading();
-      if(tab=='message'){
-        this.setState({messages:[]})
+      if (tab == 'message') {
+        this.setState({messages: []});
       }
     }, 1000);
+  };
+
+  _openTab = tabName => {
+    if (this.state.selectedTab != tabName)
+      this.setState({selectedTab: tabName});
   };
 
   render() {
@@ -74,7 +76,9 @@ class MainContainer extends Component {
                 <View style={styles.circleMenu} />
               </View>
             )}
-            onPress={() => this.setState({selectedTab: 'home'})}>
+            onPress={() => {
+              this._openTab('home');
+            }}>
             <Home props={this.props} />
           </TabNavigator.Item>
 
@@ -98,7 +102,8 @@ class MainContainer extends Component {
               </View>
             )}
             onPress={() => {
-              this._selectTab('message');
+              this._openTab('message');
+              return;
               this._loadData('message');
             }}>
             <Message messages={this.state.messages} props={this.props} />
@@ -124,7 +129,8 @@ class MainContainer extends Component {
               </View>
             )}
             onPress={() => {
-              this._selectTab('notification');
+              this._openTab('notification');
+              return;
               this._loadData();
             }}>
             <Notification props={this.props} />
@@ -149,7 +155,7 @@ class MainContainer extends Component {
                 <View style={styles.circleMenu} />
               </View>
             )}
-            onPress={() => this.setState({selectedTab: 'profile'})}>
+            onPress={() => this._openTab('profile')}>
             <Profile props={this.props} />
           </TabNavigator.Item>
         </TabNavigator>
