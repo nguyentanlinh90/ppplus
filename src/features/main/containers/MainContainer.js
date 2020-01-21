@@ -1,6 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {View, StyleSheet, Text, Image, SafeAreaView} from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
+import DropdownAlert from 'react-native-dropdownalert';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from '../../home/containers/HomeContainer';
 import Message from '../../message/containers/MessageContainer';
@@ -14,10 +16,12 @@ class MainContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isConnecting: false,
       selectedTab: 'home',
       isLoading: false,
       messages: [],
     };
+    this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
   }
 
   componentDidMount() {}
@@ -46,6 +50,25 @@ class MainContainer extends Component {
   _openTab = tabName => {
     if (this.state.selectedTab != tabName)
       this.setState({selectedTab: tabName});
+  };
+
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      'connectionChange',
+      this._handleConnectivityChange,
+    );
+  }
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this._handleConnectivityChange,
+    );
+  }
+
+  _handleConnectivityChange = () => {
+    NetInfo.isConnected.fetch().done(isConnected => {
+      this.setState({isConnecting: isConnected});
+    });
   };
 
   render() {
@@ -159,6 +182,7 @@ class MainContainer extends Component {
             <Profile props={this.props} />
           </TabNavigator.Item>
         </TabNavigator>
+        <DropdownAlert ref={ref => (this.dropdown = ref)} />
       </View>
     );
   }

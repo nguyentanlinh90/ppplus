@@ -58,7 +58,6 @@ export default class JobHotItem extends Component {
       district: districtSelect,
     });
   };
-  _selectJobFollowLocationItem = () => {};
 
   render() {
     const {item, data, submit} = this.props;

@@ -231,6 +231,7 @@ class HomeContainer extends Component {
     super(props);
 
     this.state = {
+      colorHeaderJobDetail: '',
       isLoading: true,
       refreshing: false,
       isOpenFilter: false,
@@ -239,10 +240,25 @@ class HomeContainer extends Component {
       jobs: [],
     };
 
-    console.disableYellowBox = true;
+    // console.disableYellowBox = true;
   }
 
-  _onPress(item) {
+  _randomColor = () => {
+    var colorCode =
+      'rgb(' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ')';
+
+    this.setState({
+      colorHeaderJobDetail: colorCode,
+    });
+  };
+  _onClickItem(item) {
+    this._randomColor();
     this.setState({item: item});
     this.jobHotDetail.open();
   }
@@ -270,7 +286,7 @@ class HomeContainer extends Component {
           <View
             style={{
               height: Platform.OS === 'ios' ? getStatusBarHeight() + 100 : 100,
-              backgroundColor: '#00A161',
+              backgroundColor: this.state.colorHeaderJobDetail,
             }}>
             <TouchableOpacity
               style={styles.jobDetailBoxButtonBack}
@@ -358,7 +374,7 @@ class HomeContainer extends Component {
               return (
                 <TouchableOpacity
                   activeOpacity={0.5}
-                  onPress={() => this._onPress(rowData)}>
+                  onPress={() => this._onClickItem(rowData)}>
                   <JobHotItem item={rowData} />
                 </TouchableOpacity>
               );
@@ -375,7 +391,7 @@ class HomeContainer extends Component {
               return (
                 <TouchableOpacity
                   activeOpacity={0.5}
-                  onPress={() => this._onPress(rowData)}>
+                  onPress={() => this._onClickItem(rowData)}>
                   <JobNewItem item={rowData} />
                 </TouchableOpacity>
               );
