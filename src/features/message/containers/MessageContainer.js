@@ -11,7 +11,6 @@ class MessageContainer extends Component {
     this.state = {
       refreshing: false,
     };
-    console.log('linhnt constructor');
   }
 
   _onRefresh = () => {
@@ -49,22 +48,17 @@ class MessageContainer extends Component {
   };
 
   // componentDidMount() {
-  //   console.log('linhnt componentDidMount');
   //   setTimeout(() => {
   //     this.props.handleRenderLoading('message');
   //   }, 1000);
   // }
 
   componentWillUnmount() {
-    console.log('linhnt componentWillUnmount');
   }
 
   render() {
     const {props} = this.props;
 
-    
-
-    console.log('linhnt render');
     return (
       <SafeAreaView>
         <Text style={styles.title}>Tin nhắn</Text>

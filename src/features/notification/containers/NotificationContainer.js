@@ -12,7 +12,6 @@ class NotificationContainer extends Component {
       refreshing: false,
       messages: [],
     };
-    console.log('linhnt constructor');
   }
 
   _onRefresh = () => {
@@ -54,18 +53,15 @@ class NotificationContainer extends Component {
   };
 
   componentDidMount() {
-    console.log('linhnt componentDidMount');
     setTimeout(() => {
       this.setState({isLoading: false});
     }, 3000);
   }
 
   componentWillUnmount() {
-    console.log('linhnt componentWillUnmount');
   }
 
   render() {
-    console.log('linhnt render');
 
     const {props} = this.props;
     return (
