@@ -17,6 +17,8 @@ export default class AlertJob extends Component {
       timeEnd,
       jobTitle,
       jobAddress,
+      closeAlertJob,
+      openStartJob,
     } = this.props;
 
     return (
@@ -39,7 +41,9 @@ export default class AlertJob extends Component {
           }}>
           <TouchableOpacity
             style={{width: '100%', alignItems: 'flex-end'}}
-            onPress={() => this.setState({isOpenFilter: false})}>
+            onPress={() => {
+              closeAlertJob();
+            }}>
             <Image
               source={require('../../../assets/images/ic-close-1.png')}
               style={{
@@ -91,7 +95,9 @@ export default class AlertJob extends Component {
           </View>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => {}}
+            onPress={() => {
+              openStartJob();
+            }}
             style={{
               height: 44,
               width: '100%',

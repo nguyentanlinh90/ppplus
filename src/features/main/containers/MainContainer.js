@@ -10,7 +10,7 @@ import Notification from '../../notification/containers/NotificationContainer';
 import Profile from '../../profile/containers/ProfileContainer';
 import SpinnerComponent from '../../../components/Spinner';
 import AlertJob from '../../activity/components/AlertJob';
-
+import {SCREEN_START_JOB} from '../../../api/screen';
 import styles from '../styles/styles';
 
 class MainContainer extends Component {
@@ -73,6 +73,18 @@ class MainContainer extends Component {
     });
   };
 
+  _closeAlertJob = () => {
+    this.setState({showJobAlert: false});
+  };
+
+  _openStartJob = () => {
+    this._closeAlertJob();
+    this.props.navigation.navigate(SCREEN_START_JOB, {
+      jobTitle: 'Ra Mắt OPPO F7',
+      timeStart: '13:00',
+      timeEnd: '17:00',
+    });
+  };
   render() {
     return (
       <View style={{flex: 1}}>
@@ -84,6 +96,8 @@ class MainContainer extends Component {
           timeEnd="17:00"
           jobTitle="Ra Mắt OPPO F7"
           jobAddress="12 Nguyễn Thị Minh Khai, P. Đa Kao, Q. 1, Tp. Hồ Chí Minh."
+          closeAlertJob={this._closeAlertJob}
+          openStartJob={this._openStartJob}
         />
 
         <TabNavigator

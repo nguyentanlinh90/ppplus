@@ -15,6 +15,7 @@ import Message from '../features/message/containers/MessageContainer';
 import Notification from '../features/notification/containers/NotificationContainer';
 import Profile from '../features/profile/containers/ProfileContainer';
 import FillProfile from '../features/profile/containers/FillProfileContainer';
+import StartJob from '../features/activity/containers/StartJobContainer';
 
 const Stack = createStackNavigator(
   {
@@ -99,6 +100,12 @@ const Stack = createStackNavigator(
     },
     FillProfile: {
       screen: FillProfile,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    StartJob: {
+      screen: StartJob,
       navigationOptions: {
         header: null,
       },
