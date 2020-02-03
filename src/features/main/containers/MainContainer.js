@@ -9,6 +9,7 @@ import Message from '../../message/containers/MessageContainer';
 import Notification from '../../notification/containers/NotificationContainer';
 import Profile from '../../profile/containers/ProfileContainer';
 import SpinnerComponent from '../../../components/Spinner';
+import AlertJob from '../../activity/components/AlertJob';
 
 import styles from '../styles/styles';
 
@@ -20,6 +21,7 @@ class MainContainer extends Component {
       selectedTab: 'home',
       isLoading: false,
       messages: [],
+      showJobAlert: true,
     };
     this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
   }
@@ -75,6 +77,14 @@ class MainContainer extends Component {
     return (
       <View style={{flex: 1}}>
         <SpinnerComponent visible={this.state.isLoading} />
+        <AlertJob
+          visible={this.state.showJobAlert}
+          name="Linh"
+          timeStart="13:00"
+          timeEnd="17:00"
+          jobTitle="Ra Mắt OPPO F7"
+          jobAddress="12 Nguyễn Thị Minh Khai, P. Đa Kao, Q. 1, Tp. Hồ Chí Minh."
+        />
 
         <TabNavigator
           style={styles.container}
