@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import styles from '../styles/styles';
-import LinearGradient from 'react-native-linear-gradient';
+import BgButton from '../../../components/BgButton';
 import CheckBox from 'react-native-check-box';
 import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
@@ -25,7 +25,7 @@ export class CreateAccountForm extends Component {
       password,
       passwordAgain,
       setAgree,
-      isAgree
+      isAgree,
     } = this.props;
     return (
       <View>
@@ -117,14 +117,11 @@ export class CreateAccountForm extends Component {
         </View>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => handleCreateAccount()}>
-          <LinearGradient
-            colors={['#F0532D', '#FEBE10']}
-            useAngle={true}
-            angle={-90}
-            style={styles.buttonContinue}>
-            <Text style={styles.buttonText}>Tiếp Tục</Text>
-          </LinearGradient>
+          onPress={() => handleCreateAccount()}
+          style={styles.buttonContinue}>
+          <BgButton />
+
+          <Text style={styles.buttonText}>Tiếp Tục</Text>
         </TouchableOpacity>
       </View>
     );

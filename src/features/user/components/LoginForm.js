@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import styles from '../styles/styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import LinearGradient from 'react-native-linear-gradient';
 import CheckBox from 'react-native-check-box';
 import CBShowPass from '../../../components/CBShowPass';
 import CBHidePass from '../../../components/CBHidePass';
+import BgButton from '../../../components/BgButton';
+
 export class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -69,14 +70,12 @@ export class LoginForm extends Component {
           Quên mật khẩu
         </Text>
 
-        <TouchableOpacity activeOpacity={0.7} onPress={() => handleLogin()}>
-          <LinearGradient
-            colors={['#F0532D', '#FEBE10']}
-            useAngle={true}
-            angle={-90}
-            style={styles.buttonContinue}>
-            <Text style={styles.buttonText}>Tiếp Tục</Text>
-          </LinearGradient>
+        <TouchableOpacity
+          style={styles.buttonContinue}
+          activeOpacity={0.7}
+          onPress={() => handleLogin()}>
+          <BgButton />
+          <Text style={styles.buttonText}>Tiếp Tục</Text>
         </TouchableOpacity>
         <Text
           style={styles.textNotYetAccount}

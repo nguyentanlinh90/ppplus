@@ -126,13 +126,11 @@ export default StyleSheet.create({
     paddingEnd: 10,
   },
   jobDetailBoxSubmit: {
-    borderRadius: 22,
-    borderStyle: 'solid',
     height: 44,
     margin: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 50,
+    marginBottom: 80,
   },
   jobDetailButtonSelectAddress: {
     textAlign: 'center',
@@ -148,7 +146,7 @@ export default StyleSheet.create({
     marginStart: 10,
     height: 35,
     alignItems: 'center',
-    alignSelf:'flex-start',
+    alignSelf: 'flex-start',
   },
   jobDetailViewLine: {
     height: 5,

@@ -53,9 +53,6 @@ export default StyleSheet.create({
   },
   boxContent: {},
   buttonLogin: {
-    borderRadius: 5,
-    borderColor: '#b4b8c7',
-    borderStyle: 'solid',
     height: 44,
     marginStart: 20,
     marginEnd: 20,

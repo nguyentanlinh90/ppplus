@@ -8,7 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
-import LinearGradient from 'react-native-linear-gradient';
+import BgButton from '../../../components/BgButton';
 import {ScrollView} from 'react-native-gesture-handler';
 import styles from '../styles/styles';
 import CBChecked from '../../../components/CBChecked';
@@ -294,14 +294,11 @@ export default class InfoContainer_1 extends Component {
           </View>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => openHomeScreen()}>
-            <LinearGradient
-              colors={['#F0532D', '#FEBE10']}
-              useAngle={true}
-              angle={-90}
-              style={styles.buttonDone}>
-              <Text style={styles.txtDone}>Hoàn Thành</Text>
-            </LinearGradient>
+            onPress={() => openHomeScreen()}
+            style={styles.buttonContinue}>
+          <BgButton />
+
+          <Text style={styles.txtDone}>Hoàn Thành</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

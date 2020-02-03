@@ -8,9 +8,9 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import stylesRetro from '../styles/styles';
+import styles from '../styles/styles';
 import Swiper from 'react-native-web-swiper';
-import LinearGradient from 'react-native-linear-gradient';
+import BgButton from '../../../components/BgButton';
 
 import {SCREEN_LOGIN} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
@@ -64,13 +64,13 @@ class RetroContainer extends Component {
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         {this.state.currentPage != 2 ? (
           <TouchableOpacity
-            style={stylesRetro.viewIgnore}
+            style={styles.viewIgnore}
             activeOpacity={0.7}
             onPress={() => this.setState({currentPage: 2})}>
-            <Text style={stylesRetro.txtIgnore}></Text>
+            <Text style={styles.txtIgnore}></Text>
           </TouchableOpacity>
         ) : (
-          <View style={stylesRetro.viewIgnore} />
+          <View style={styles.viewIgnore} />
         )}
 
         <Swiper
@@ -87,51 +87,44 @@ class RetroContainer extends Component {
               currentPage: index,
             });
           }}>
-          <View style={stylesRetro.viewPage}>
+          <View style={styles.viewPage}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/retro-1.png')}
             />
           </View>
-          <View style={stylesRetro.viewPage}>
+          <View style={styles.viewPage}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/retro-2.png')}
             />
           </View>
-          <View style={stylesRetro.viewPage}>
+          <View style={styles.viewPage}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/retro-3.png')}
             />
           </View>
         </Swiper>
-        <View style={stylesRetro.boxContent}>
-          <Text style={stylesRetro.txtTitleContent}>{this._getTitle()}</Text>
-          <Text style={stylesRetro.txtContent}>{this._getContent()}</Text>
+        <View style={styles.boxContent}>
+          <Text style={styles.txtTitleContent}>{this._getTitle()}</Text>
+          <Text style={styles.txtContent}>{this._getContent()}</Text>
           {this.state.currentPage == 2 ? (
             <View style={{height: 128, justifyContent: 'center'}}>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => this._openLoginScreen()}>
-                <LinearGradient
-                  colors={['#F0532D', '#FEBE10']}
-                  useAngle={true}
-                  angle={-90}
-                  style={stylesRetro.buttonLogin}>
-                  <Text style={stylesRetro.txtLogin}>Đăng nhập</Text>
-                </LinearGradient>
+                onPress={() => this._openLoginScreen()}
+                style={styles.buttonLogin}>
+                <BgButton />
+                <Text style={styles.txtLogin}>Đăng nhập</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => this._openCreateAccountScreen()}>
-                <LinearGradient
-                  colors={['#F0532D', '#FEBE10']}
-                  useAngle={true}
-                  angle={-90}
-                  style={[stylesRetro.buttonLogin, {marginTop: 10}]}>
-                  <Text style={stylesRetro.txtLogin}>Tạo tài khoản</Text>
-                </LinearGradient>
+                onPress={() => this._openCreateAccountScreen()}
+                style={[styles.buttonLogin, {marginTop: 10}]}>
+                <BgButton />
+
+                <Text style={styles.txtLogin}>Tạo tài khoản</Text>
               </TouchableOpacity>
             </View>
           ) : (

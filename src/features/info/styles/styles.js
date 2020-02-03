@@ -54,17 +54,21 @@ export default StyleSheet.create({
     paddingStart: 10,
     paddingEnd: 10,
   },
-  txtSelect: {color: '#2b2b2b', fontSize: 16, flex: 1,paddingTop: 10,
-  paddingBottom: 10,
-  lineHeight: 25,},
+  txtSelect: {
+    color: '#2b2b2b',
+    fontSize: 16,
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
+    lineHeight: 25,
+  },
   viewSelect: {
     borderWidth: 1,
     borderColor: '#F0532D',
     borderRadius: 6,
     height: 200,
-    
   },
-  infoBoxSelect:{
+  infoBoxSelect: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingEnd: 10,
@@ -101,4 +105,11 @@ export default StyleSheet.create({
   },
   containerCheckBox: {flex: 1, flexDirection: 'row', alignItems: 'center'},
   checkbox: {flex: 1, padding: 10},
+  buttonContinue: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
 });

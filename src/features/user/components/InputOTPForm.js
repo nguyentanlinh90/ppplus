@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import styles from '../styles/styles';
-import LinearGradient from 'react-native-linear-gradient';
+import BgButton from '../../../components/BgButton';
 
 export class InputOTPForm extends Component {
   constructor(props) {
@@ -35,14 +35,13 @@ export class InputOTPForm extends Component {
           <Text style={styles.textSendOTPAgain}>{timeSendAgain}s</Text>
         </View>
 
-        <TouchableOpacity activeOpacity={0.7} onPress={() => handleInputOTP()}>
-          <LinearGradient
-            colors={['#F0532D', '#FEBE10']}
-            useAngle={true}
-            angle={-90}
-            style={styles.buttonContinue}>
-            <Text style={styles.buttonText}>Tiếp Tục</Text>
-          </LinearGradient>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => handleInputOTP()}
+          style={styles.buttonContinue}>
+          <BgButton />
+
+          <Text style={styles.buttonText}>Tiếp Tục</Text>
         </TouchableOpacity>
       </View>
     );

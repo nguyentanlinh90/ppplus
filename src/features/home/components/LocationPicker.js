@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import styles from '../styles/styles';
 import ArrowInBox from '../../../components/ArrowInBox';
 import TagsView from '../components/TagsView';
-import LinearGradient from 'react-native-linear-gradient';
+import BgButton from '../../../components/BgButton';
 
 export default class LocationPicker extends Component {
   constructor(props) {
@@ -93,29 +93,22 @@ export default class LocationPicker extends Component {
             />
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => handleClose(this.state.city, this.state.district)}>
-              <LinearGradient
-                colors={['#F0532D', '#FEBE10']}
-                useAngle={true}
-                angle={-90}
+              onPress={() => handleClose(this.state.city, this.state.district)}
+              style={{
+                height: 40,
+                width: 100,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <BgButton />
+              <Text
                 style={{
-                  borderRadius: 5,
-                  borderColor: '#b4b8c7',
-                  borderStyle: 'solid',
-                  height: 40,
-                  width: 100,
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                  color: '#fff',
                 }}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 'bold',
-                    color: '#fff',
-                  }}>
-                  OK
-                </Text>
-              </LinearGradient>
+                OK
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import {Rating} from 'react-native-elements';
 import CheckBox from 'react-native-check-box';
-import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import styles from '../styles/styles';
 import ArrowInBox from '../../../components/ArrowInBox';
@@ -19,6 +18,7 @@ import JobFollowLocationItem from '../components/JobFollowLocationItem';
 import BookmarkChecked from '../../../components/BookmarkChecked';
 import BookmarkUnChecked from '../../../components/BookmarkUnChecked';
 import LocationPicker from '../components/LocationPicker';
+import BgButton from '../../../components/BgButton';
 
 var cityList = [
   'Hà Nội',
@@ -219,16 +219,13 @@ export default class JobHotItem extends Component {
           </View>
           <View style={styles.jobDetailViewLine} />
 
-          <TouchableOpacity activeOpacity={0.8} onPress={() => submit()}>
-            <LinearGradient
-              colors={['#F0532D', '#FEBE10']}
-              useAngle={true}
-              angle={-90}
-              style={styles.jobDetailBoxSubmit}>
-              <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => submit()}
+          style={styles.jobDetailBoxSubmit}>
+            <BgButton/>
+            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
                 Ứng Tuyển Ngay
               </Text>
-            </LinearGradient>
+            
           </TouchableOpacity>
         </View>
       </ScrollView>
