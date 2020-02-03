@@ -174,5 +174,29 @@ export default StyleSheet.create({
     paddingEnd: 25,
     paddingStart: 25,
   },
-
+  popupLogoutTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+  popupLogoutContent: {fontSize: 16, alignSelf: 'center', marginBottom: 30},
+  popupLogoutButtonNo: {
+    flex: 1,
+    backgroundColor: '#F0932D',
+    marginEnd: 20,
+    borderRadius: 6,
+  },
+  popupLogoutButtonYes: {
+    flex: 1,
+    backgroundColor: '#F0932D',
+    borderRadius: 6,
+  },
+  popupLogoutButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+    alignSelf: 'center',
+    padding: 10,
+  },
 });

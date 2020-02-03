@@ -7,20 +7,23 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  AsyncStorage
+  AsyncStorage,
 } from 'react-native';
+import Modal from 'react-native-modal';
 import ProgressCircle from 'react-native-progress-circle';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
-import {SCREEN_FILL_PROFILE, SCREEN_SPLASH} from '../../../api/screen';
+import {SCREEN_FILL_PROFILE, SCREEN_LOGIN} from '../../../api/screen';
 import DropdownAlert from 'react-native-dropdownalert';
 import {dispatchScreen} from '../../../utils/utils';
+import PopUpYesNo from '../../../components/PopUpYesNo';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       percentage: 70,
       name: 'Nguyễn Tấn Linh',
+      showPopUpLogout: false,
     };
   }
 
@@ -32,10 +35,53 @@ class ProfileContainer extends Component {
     this.dropdown.alertWithType('error', 'Lỗi', 'Chức năng chưa hoàn thiện');
   };
 
+  _handleLogout = isLogout => {
+    this.setState({showPopUpLogout: false});
+  };
+  _renderPopUpLogout = props => {
+    return (
+      <Modal
+        backdropOpacity={0.4}
+        backdropColor="#000"
+        useNativeDriver={true}
+        animationIn={'slideInUp'}
+        animationInTiming={300}
+        animationOut={'slideOutDown'}
+        animationOutTiming={300}
+        isVisible={this.state.showPopUpLogout}
+        style={{margin: 20}}>
+        <View style={{backgroundColor: '#fff', borderRadius: 10, padding: 30}}>
+          <Text style={styles.popupLogoutTitle}>{'Thông báo'}</Text>
+          <Text style={styles.popupLogoutContent}>
+            {'Bạn có chắc chắn muốn đăng xuất không?'}
+          </Text>
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({showPopUpLogout: false});
+              }}
+              style={styles.popupLogoutButtonNo}>
+              <Text style={styles.popupLogoutButtonText}>Huỷ</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                AsyncStorage.setItem('login', '0');
+                dispatchScreen(props, SCREEN_LOGIN, {});
+              }}
+              style={styles.popupLogoutButtonYes}>
+              <Text style={styles.popupLogoutButtonText}>Đồng ý</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
   render() {
     const {props, percentage, name} = this.props;
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{flex: 1}}>
+        {this._renderPopUpLogout(props)}
         <ScrollView>
           <TouchableOpacity
             style={styles.viewEdit}
@@ -164,8 +210,7 @@ class ProfileContainer extends Component {
           <TouchableOpacity
             style={styles.boxItem}
             onPress={() => {
-              AsyncStorage.setItem('login', '0');
-              dispatchScreen(props, SCREEN_SPLASH, {});
+              this.setState({showPopUpLogout: true});
             }}>
             <Image
               resizeMode="contain"

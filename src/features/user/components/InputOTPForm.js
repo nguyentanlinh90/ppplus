@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 export class InputOTPForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {};``
+    this.state = {};
   }
 
   render() {
