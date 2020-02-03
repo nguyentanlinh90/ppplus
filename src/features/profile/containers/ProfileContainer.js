@@ -16,7 +16,6 @@ import styles from '../styles/styles';
 import {SCREEN_FILL_PROFILE, SCREEN_LOGIN} from '../../../api/screen';
 import DropdownAlert from 'react-native-dropdownalert';
 import {dispatchScreen} from '../../../utils/utils';
-import PopUpYesNo from '../../../components/PopUpYesNo';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
