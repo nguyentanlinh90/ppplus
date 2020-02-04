@@ -28,6 +28,7 @@
     "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-native": "^0.61.5",
+    "react-native-actionsheet": "^2.4.2",
     "react-native-barcode-builder": "^1.0.5",
     "react-native-check-box": "^2.1.7",
     "react-native-dash": "0.0.11",

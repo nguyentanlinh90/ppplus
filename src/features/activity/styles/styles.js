@@ -46,6 +46,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  imgCheckIn:{
+    height: 219,
+    borderRadius: 6,
+    marginEnd: 16,
+    marginStart: 16,
+    marginBottom: 16,
+  },
   buttonTakePicture: {
     height: 35,
     width: 160,

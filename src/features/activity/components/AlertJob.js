@@ -57,7 +57,8 @@ export default class AlertJob extends Component {
           <Text style={{fontSize: 16, marginTop: 10, color: '#1c1c1c'}}>
             Bạn có ca làm việc vào lúc
           </Text>
-          <View style={{backgroundColor: '#FEF0ED', marginTop: 8}}>
+          <View
+            style={{backgroundColor: '#FEF0ED', marginTop: 8, borderRadius: 6}}>
             <Text
               style={{
                 fontSize: 16,
@@ -68,7 +69,7 @@ export default class AlertJob extends Component {
                 paddingEnd: 12,
                 paddingTop: 7,
               }}>
-              {timeStart} ~ {timeEnd}
+              {timeStart} - {timeEnd}
             </Text>
           </View>
           <View style={{marginTop: 16, flexDirection: 'row'}}>

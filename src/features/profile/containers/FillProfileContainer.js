@@ -37,16 +37,6 @@ const IMAGE_1 = 1;
 const IMAGE_2 = 2;
 const IMAGE_3 = 3;
 
-const options = {
-  title: 'Chọn ảnh',
-  cancelButtonTitle: 'Hủy',
-  takePhotoButtonTitle: 'Chụp từ Camera',
-  chooseFromLibraryButtonTitle: 'Chọn từ thư viện',
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
-};
 var list_Gender = [
   {label: 'Nam     ', value: 0},
   {label: 'Nữ', value: 1},
@@ -117,6 +107,17 @@ class FillProfileContainer extends Component {
   };
 
   _handleOpenImage = numberOfImage => {
+    let options = {
+      title: 'Chọn ảnh',
+      cancelButtonTitle: 'Hủy',
+      takePhotoButtonTitle: 'Chụp từ Camera',
+      chooseFromLibraryButtonTitle: 'Chọn từ thư viện',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
     const {urlImage} = this.props;
 
     ImagePicker.showImagePicker(options, response => {

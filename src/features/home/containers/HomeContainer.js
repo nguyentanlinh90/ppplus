@@ -269,18 +269,17 @@ class HomeContainer extends Component {
   _renderRBSheet() {
     return (
       <RBSheet
-        height={Platform.OS === 'ios' ? screenHeight : screenHeight}
+        height={screenHeight}
         ref={ref => {
           this.jobHotDetail = ref;
         }}
         closeOnDragDown={false}
         closeOnPressBack={true} // just android
-        // customStyles={{
-        //   container: {
-        //     borderTopLeftRadius: 30,
-        //     borderTopRightRadius: 30,
-        //   },
-        // }}
+        customStyles={{
+          container: {
+          },
+          wrapper:{}
+        }}
       >
         <View style={{paddingBottom: Platform.OS === 'ios' ? 110 : 100}}>
           <View
