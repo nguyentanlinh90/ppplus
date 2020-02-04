@@ -51,7 +51,7 @@ class StartJobContainer extends Component {
       } else if (response.customButton) {
         alert(response.customButton);
       } else {
-        alert(response.width+" : "+response.height);
+        // alert(response.width + ' : ' + response.height);
         this.setState({
           // filePath: response,
           // fileData: response.data,
