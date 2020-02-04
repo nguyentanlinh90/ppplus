@@ -276,11 +276,9 @@ class HomeContainer extends Component {
         closeOnDragDown={false}
         closeOnPressBack={true} // just android
         customStyles={{
-          container: {
-          },
-          wrapper:{}
-        }}
-      >
+          container: {},
+          wrapper: {},
+        }}>
         <View style={{paddingBottom: Platform.OS === 'ios' ? 110 : 100}}>
           <View
             style={{

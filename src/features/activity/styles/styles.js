@@ -1,4 +1,5 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+const screenWidth = Math.round(Dimensions.get('window').width);
 
 export default StyleSheet.create({
   buttonContinueDisable: {
@@ -37,22 +38,15 @@ export default StyleSheet.create({
     marginStart: 5,
   },
   bgCheckIn: {
-    height: 219,
+    alignSelf:'center',
+    height: 220,
+    width:screenWidth-32,
     borderRadius: 6,
     backgroundColor: '#f1f1f1',
-    marginEnd: 16,
-    marginStart: 16,
-    marginBottom: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  imgCheckIn:{
-    height: 219,
-    borderRadius: 6,
-    marginEnd: 16,
-    marginStart: 16,
-    marginBottom: 16,
-  },
+  
   buttonTakePicture: {
     height: 35,
     width: 160,
@@ -71,6 +65,7 @@ export default StyleSheet.create({
     fontSize: 14,
     marginStart: 16,
     marginEnd: 16,
+    marginTop:16
   },
   txtHeader: {
     color: '#1c1c1c',

@@ -17,6 +17,7 @@ import styles from '../styles/styles';
 import BgButton from '../../../components/BgButton';
 import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
+import AlertInvalidCheckIn from '../components/AlertInvalidCheckIn';
 class StartJobContainer extends Component {
   constructor(props) {
     super(props);
@@ -25,11 +26,17 @@ class StartJobContainer extends Component {
       reason_2: false,
       reason_3: false,
       fileUri: '',
+      widthImg: Math.round(Dimensions.get('window').width) - 32, //32 -  mean padding left and right
+      heightImg: 220,
+      showAlertInvalidCheckIn: false,
     };
   }
   _openCamera = () => {
     let options = {
+      quality: 1.0,
+      cameraType: 'front',
       mediaType: 'photo',
+      rotation: 0,
       storageOptions: {
         skipBackup: true,
         path: 'images',
@@ -37,24 +44,19 @@ class StartJobContainer extends Component {
       },
     };
     ImagePicker.launchCamera(options, response => {
-      console.log('linhnt Response = ', response);
-
       if (response.didCancel) {
-        console.log('linhnt User cancelled image picker');
+        alert('response didCancel');
       } else if (response.error) {
-        console.log('linhnt ImagePicker Error: ', response.error);
+        alert(response.error);
       } else if (response.customButton) {
-        console.log(
-          'linhnt User tapped custom button: ',
-          response.customButton,
-        );
         alert(response.customButton);
       } else {
-        const source = {uri: response.uri};
-        console.log('linhnt response', JSON.stringify(response));
+        alert(response.width+" : "+response.height);
         this.setState({
           // filePath: response,
           // fileData: response.data,
+          //calculate height of image follow width image after capture
+          heightImg: (response.height * this.state.widthImg) / response.width,
           fileUri: response.uri,
         });
       }
@@ -73,18 +75,10 @@ class StartJobContainer extends Component {
     return (
       <ActionSheet
         ref={o => (this.optionsEdit = o)}
-        //Title of the Bottom Sheet
-        // title={'Which one do you like ?'}
-        //Options Array to show in bottom sheet
         options={optionArray}
-        //Define cancel button index in the option array
-        //this will take the cancel option in bottom and will highlight it
         cancelButtonIndex={2}
-        //If you want to highlight any specific option you can use below prop
         destructiveButtonIndex={1}
         onPress={index => {
-          //Clicking on the option will give you the index of the option clicked
-          // alert(optionArray[index]);
           if (index == 0) {
             this._openCamera();
           } else if (index == 1) {
@@ -94,12 +88,33 @@ class StartJobContainer extends Component {
       />
     );
   };
+  _doCheckIn = () => {
+    //do check in
+    this._openAlertCheckIn();
+  };
+  _openAlertCheckIn = () => {
+    this.setState({showAlertInvalidCheckIn: true});
+  };
+
+  _closeAlertCheckIn = () => {
+    this.setState({showAlertInvalidCheckIn: false});
+  };
+
+  _checkInAgain = () => {
+    this._closeAlertCheckIn();
+    //do check in again
+  };
 
   render() {
     const {navigation} = this.props;
     return (
       <SafeAreaView style={{flex: 1}}>
         {this._optionsEdit()}
+        <AlertInvalidCheckIn
+          visible={this.state.showAlertInvalidCheckIn}
+          closeAlertCheckIn={this._closeAlertCheckIn}
+          checkInAgain={this._checkInAgain}
+        />
         <View style={{flex: 1}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity
@@ -176,7 +191,7 @@ class StartJobContainer extends Component {
             <View style={styles.indicator} />
             <View style={styles.boxCheckIn}>
               <Text style={styles.txtHeader}>Check </Text>
-              {this.state.fileUri == '' ? (
+              {this.state.fileUri != '' ? (
                 <TouchableOpacity
                   style={styles.buttonEdit}
                   onPress={() => {
@@ -217,7 +232,12 @@ class StartJobContainer extends Component {
               <Image
                 resizeMode="stretch"
                 source={{uri: this.state.fileUri}}
-                style={styles.imgCheckIn}
+                style={{
+                  width: this.state.widthImg,
+                  height: this.state.heightImg,
+                  borderRadius: 6,
+                  alignSelf: 'center',
+                }}
               />
             )}
 
@@ -231,7 +251,9 @@ class StartJobContainer extends Component {
         {this.state.fileUri != '' ? (
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => {}}
+            onPress={() => {
+              this._doCheckIn();
+            }}
             style={styles.buttonContinue}>
             <BgButton />
             <Text style={styles.txtContinue}>Tiếp Tục</Text>
