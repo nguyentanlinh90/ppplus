@@ -1,5 +1,4 @@
 import {StyleSheet, Platform, Dimensions} from 'react-native';
-import {getBottomSpace} from 'react-native-iphone-x-helper';
 const dimensions = Dimensions.get('window');
 export default StyleSheet.create({
   container: {

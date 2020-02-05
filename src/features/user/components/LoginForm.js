@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import styles from '../styles/styles';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CheckBox from 'react-native-check-box';
 import CBShowPass from '../../../components/CBShowPass';
 import CBHidePass from '../../../components/CBHidePass';

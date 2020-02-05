@@ -15,11 +15,7 @@ import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {Dialog} from 'react-native-simple-dialogs';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
+import RadioForm from 'react-native-simple-radio-button';
 import {
   Collapse,
   CollapseHeader,

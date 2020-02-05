@@ -21,7 +21,7 @@ class MainContainer extends Component {
       selectedTab: 'home',
       isLoading: false,
       messages: [],
-      showJobAlert: true,
+      showJobAlert: false, //=true for phase 2
     };
     this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
   }

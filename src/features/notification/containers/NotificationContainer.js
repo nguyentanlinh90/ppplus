@@ -1,9 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {View, SafeAreaView, Image, Text, RefreshControl} from 'react-native';
+import {View, SafeAreaView, ScrollView, Image, Text, RefreshControl} from 'react-native';
 import styles from '../../../styles/styles';
 import SpinnerComponent from '../../../components/Spinner';
-import {ScrollView} from 'react-native-gesture-handler';
 
 class NotificationContainer extends Component {
   constructor(props) {

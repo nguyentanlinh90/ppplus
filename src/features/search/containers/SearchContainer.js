@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {
   View,
   SafeAreaView,
+  ScrollView,
   Image,
   Text,
   TouchableOpacity,
@@ -12,7 +13,6 @@ import {
 } from 'react-native';
 import styles from '../styles/styles';
 import SpinnerComponent from '../../../components/Spinner';
-import {ScrollView} from 'react-native-gesture-handler';
 
 class MessageContainer extends Component {
   constructor(props) {

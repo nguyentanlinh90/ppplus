@@ -1,9 +1,5 @@
 import {StyleSheet, Platform, Dimensions} from 'react-native';
 import {getSizeLogo, getSizeImageHome} from '../../../api/helpers';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 export default StyleSheet.create({
   container: {

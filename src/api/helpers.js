@@ -1,12 +1,6 @@
 import * as apiVersion from './version';
 import {AsyncStorage, Dimensions, Platform} from "react-native";
 import {API_HOSTNAME} from './constants';
-import VersionNumber from 'react-native-version-number';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {getBottomSpace} from "react-native-iphone-x-helper";
-
-const appVersion = VersionNumber.appVersion;
-
 
 export const fetchDataSuccess = (type, data) => ({type: type, data});
 
@@ -458,7 +452,3 @@ export const checkPrice =(branch, amount)=> {
     return flag;
 }
 
-export const getVersion = ()=>{
-    const version = VersionNumber.appVersion;
-    return version;
-}

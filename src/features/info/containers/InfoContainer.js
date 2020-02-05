@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, SafeAreaView, Image} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {View, SafeAreaView, ScrollView, Image} from 'react-native';
 import styles from '../styles/styles';
 import InfoForm from '../component/InfoForm';
 import {SCREEN_MAIN} from '../../../api/screen';

@@ -13,7 +13,7 @@ import Modal from 'react-native-modal';
 import ProgressCircle from 'react-native-progress-circle';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
-import {SCREEN_FILL_PROFILE, SCREEN_LOGIN} from '../../../api/screen';
+import {SCREEN_FILL_PROFILE, SCREEN_RETRO} from '../../../api/screen';
 import DropdownAlert from 'react-native-dropdownalert';
 import {dispatchScreen} from '../../../utils/utils';
 class ProfileContainer extends Component {
@@ -65,7 +65,7 @@ class ProfileContainer extends Component {
             <TouchableOpacity
               onPress={() => {
                 AsyncStorage.setItem('login', '0');
-                dispatchScreen(props, SCREEN_LOGIN, {});
+                dispatchScreen(props, SCREEN_RETRO, {});
               }}
               style={styles.popupLogoutButtonYes}>
               <Text style={styles.popupLogoutButtonText}>Đồng ý</Text>

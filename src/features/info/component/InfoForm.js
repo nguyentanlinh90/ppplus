@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  ScrollView
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import BgButton from '../../../components/BgButton';
-import {ScrollView} from 'react-native-gesture-handler';
 import styles from '../styles/styles';
 import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';

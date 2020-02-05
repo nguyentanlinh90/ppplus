@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   Dimensions,
   RefreshControl,
+  ScrollView
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {Card} from 'react-native-shadow-cards';
@@ -19,7 +20,6 @@ import SpinnerComponent from '../../../components/Spinner';
 import JobHotItem from '../components/JobHotItem';
 import JobNewItem from '../components/JobNewItem';
 import JobDetail from '../components/JobDetail';
-import {ScrollView} from 'react-native-gesture-handler';
 import {SCREEN_CREATE_ACCOUNT, SCREEN_SEARCH} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
