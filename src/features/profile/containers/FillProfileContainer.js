@@ -11,10 +11,9 @@ import {
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import ImagePicker from 'react-native-image-picker';
-
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import {Dialog} from 'react-native-simple-dialogs';
+import Modal from 'react-native-modal';
 import RadioForm from 'react-native-simple-radio-button';
 import {
   Collapse,
@@ -119,9 +118,7 @@ class FillProfileContainer extends Component {
     ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
       } else if (response.error) {
-
       } else if (response.customButton) {
-
       } else {
         if (numberOfImage == IMAGE_AVATAR) {
           this.setState({
@@ -211,10 +208,23 @@ class FillProfileContainer extends Component {
   _renderGenderPicker() {
     let genderValueTmp = this.state.genderValue;
     return (
-      <Dialog
-        visible={this.state.showGenderSelect}
-        onTouchOutside={() => this.setState({showGenderSelect: false})}>
-        <View style={{alignItems: 'center'}}>
+      <Modal
+        backdropOpacity={0.4}
+        backdropColor="#000"
+        useNativeDriver={true}
+        animationIn={'slideInUp'}
+        animationInTiming={300}
+        animationOut={'slideOutDown'}
+        animationOutTiming={300}
+        isVisible={this.state.showGenderSelect}
+        style={{margin: 15}}>
+        <View
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: 10,
+            padding: 20,
+            alignItems: 'center',
+          }}>
           <Text style={{fontSize: 16}}>Chọn giới tính</Text>
           <RadioForm
             style={{marginBottom: 20, marginTop: 20}}
@@ -240,16 +250,29 @@ class FillProfileContainer extends Component {
             <Text style={styles.btSelectGender}>Đồng ý</Text>
           </TouchableOpacity>
         </View>
-      </Dialog>
+      </Modal>
     );
   }
   _renderLevelPicker() {
     let levelValueTmp = this.state.levelValue;
     return (
-      <Dialog
-        visible={this.state.showLevelSelect}
-        onTouchOutside={() => this.setState({showLevelSelect: false})}>
-        <View style={{alignItems: 'center'}}>
+      <Modal
+        backdropOpacity={0.4}
+        backdropColor="#000"
+        useNativeDriver={true}
+        animationIn={'slideInUp'}
+        animationInTiming={300}
+        animationOut={'slideOutDown'}
+        animationOutTiming={300}
+        isVisible={this.state.showLevelSelect}
+        style={{margin: 15}}>
+        <View
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: 10,
+            padding: 20,
+            alignItems: 'center',
+          }}>
           <Text style={{fontSize: 16}}>Chọn trình độ</Text>
           <RadioForm
             style={{marginBottom: 20, marginTop: 20}}
@@ -274,7 +297,7 @@ class FillProfileContainer extends Component {
             <Text style={styles.btSelectGender}>Đồng ý</Text>
           </TouchableOpacity>
         </View>
-      </Dialog>
+      </Modal>
     );
   }
 
@@ -342,9 +365,7 @@ class FillProfileContainer extends Component {
               }>
               <CollapseHeader>
                 <View style={styles.boxTitleFill}>
-                  <Text style={styles.txtBasicInfo}>
-                    THÔNG TIN CƠ BẢN
-                  </Text>
+                  <Text style={styles.txtBasicInfo}>THÔNG TIN CƠ BẢN</Text>
                   <View style={styles.boxArrow}>
                     {this.state.isCollapsedBasicInfo ? (
                       <Image
@@ -418,9 +439,7 @@ class FillProfileContainer extends Component {
               }>
               <CollapseHeader>
                 <View style={styles.boxTitleFill}>
-                  <Text style={styles.txtBasicInfo}>
-                    THÔNG TIN LIÊN LẠC
-                  </Text>
+                  <Text style={styles.txtBasicInfo}>THÔNG TIN LIÊN LẠC</Text>
                   <View style={styles.boxArrow}>
                     {this.state.isCollapsedContact ? (
                       <Image
