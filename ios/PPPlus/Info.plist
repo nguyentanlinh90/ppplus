@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>$(PRODUCT_NAME) muốn truy cập vào thư viện ảnh của bạn</string>
-	<key>NSCameraUsageDescription</key>
-    <string>$(PRODUCT_NAME) muốn sử dụng máy ảnh của bạn</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-    <string>$(PRODUCT_NAME) muốn lưu ảnh vào thư viện ảnh của bạn</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) muốn sử dụng micrô của bạn (cho video)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -45,8 +37,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) muốn sử dụng máy ảnh của bạn</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) muốn sử dụng micrô của bạn (cho video)</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) muốn lưu ảnh vào thư viện ảnh của bạn</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) muốn truy cập vào thư viện ảnh của bạn</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto_medium.ttf</string>
