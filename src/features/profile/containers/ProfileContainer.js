@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   AsyncStorage,
+  Alert
 } from 'react-native';
 import Modal from 'react-native-modal';
 import ProgressCircle from 'react-native-progress-circle';
@@ -31,7 +32,18 @@ class ProfileContainer extends Component {
   };
 
   _showAlert = () => {
-    this.dropdown.alertWithType('error', 'Lỗi', 'Chức năng chưa hoàn thiện');
+    // this.dropdown.alertWithType('error', 'Lỗi', 'Chức năng chưa hoàn thiện');
+    Alert.alert("Thông báo", "Chức năng chưa hoàn thiện");
+    // Alert.alert(
+    //   'Alert Title',
+    //   'My Alert Msg',
+    //   [
+    //     {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+    //     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+    //     {text: 'OK', onPress: () => console.log('Ok Pressed')},
+    //   ],
+    //   { cancelable: false }
+    // )
   };
 
   _handleLogout = isLogout => {
