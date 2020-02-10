@@ -33,6 +33,7 @@ export class CreateAccountForm extends Component {
         <Text style={styles.txtNumberPhone}>Số điện thoại</Text>
         <View style={styles.groupInput}>
           <TextInput
+            maxLength={10}
             style={styles.inputCreateAccount}
             autoCapitalize="none"
             autoCorrect={true}
@@ -48,6 +49,7 @@ export class CreateAccountForm extends Component {
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             style={styles.inputCreateAccount}
+            maxLength={10}
             autoCapitalize="none"
             autoCorrect={true}
             keyboardType="default"
@@ -61,7 +63,7 @@ export class CreateAccountForm extends Component {
         <Text style={styles.txtNumberPhone}>Mã mật khẩu</Text>
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
-            maxLength={20}
+            maxLength={50}
             style={styles.inputLogin}
             secureTextEntry={this.state.isShowPass}
             returnKeyType="go"
@@ -85,7 +87,7 @@ export class CreateAccountForm extends Component {
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             secureTextEntry={this.state.isShowPassAgain}
-            maxLength={20}
+            maxLength={50}
             style={styles.inputLogin}
             returnKeyType="go"
             value={passwordAgain}

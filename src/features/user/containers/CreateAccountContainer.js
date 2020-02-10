@@ -7,12 +7,12 @@ import {
   StatusBar,
   Image,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  Alert,
 } from 'react-native';
-import {convertPhone} from "../../../api/helpers";
+import {convertPhone} from '../../../api/helpers';
 import CreateAccountForm from '../components/CreateAccountForm';
 import {doCreateAccount} from '../actions/index';
-import DropdownAlert from 'react-native-dropdownalert';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
 import {changeMsgCode} from '../../home/actions/index';
@@ -26,9 +26,9 @@ export class CreateAccountContainer extends Component {
 
     this.state = {
       phone: '0988422495',
-      referral_code: 'GOTIT',
-      password: '123456',
-      passwordAgain: '123456',
+      referral_code: '0123456789',
+      password: '123456A',
+      passwordAgain: '123456A',
       isLoading: false,
       isConnecting: false,
       isAgree: false,
@@ -55,11 +55,7 @@ export class CreateAccountContainer extends Component {
       if (isConnected == true) {
         this.setState({isConnecting: true});
       } else {
-        this.dropdown.alertWithType(
-          'error',
-          'Lỗi',
-          'Vui lòng kiểm tra kết nối mạng ',
-        );
+        this._showAlert('Vui lòng kiểm tra kết nối mạng ');
         this.setState({isConnecting: false});
       }
     });
@@ -78,6 +74,15 @@ export class CreateAccountContainer extends Component {
     }
   };
 
+  _showAlert = message => {
+    Alert.alert(
+      'Thông báo',
+      message,
+      [{text: 'Đồng Ý', onPress: () => console.log('Ok Pressed')}],
+      {cancelable: true},
+    );
+  };
+
   handleCreateAccount = () => {
     const {doCreateAccount} = this.props;
     const {phone, referral_code, password, passwordAgain} = this.state;
@@ -88,59 +93,59 @@ export class CreateAccountContainer extends Component {
       password == '' ||
       passwordAgain == ''
     ) {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Vui lòng nhập đầy đủ thông tin',
-      );
-      return;
-    }
-    if (password.length < 6) {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Mật khẩu phải dài hơn 6 ký tự',
-      );
-      return;
-    }
-    if (password != passwordAgain) {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Xác nhận mật khẩu không đúng',
-      );
-      return;
-    }
-
-    if (!this.state.isAgree) {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Bạn chưa đồng ý với điều khoản',
-      );
+      this._showAlert('Vui lòng điền đầy đủ các trường thông tin.');
       return;
     }
 
     if (phone != '') {
       var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
       if (!regEx.test(phone)) {
-        this.dropdown.alertWithType(
-          'error',
-          'Lỗi',
-          'Số điện thoại không đúng định dạng.',
+        this._showAlert(
+          'Số điện thoại không hợp lệ. Vui lòng điền 10 số điện thoại di động Việt Nam',
         );
-      } else {
-        if (this.state.isConnecting) {
-          this.setState({isLoading: true});
-          doCreateAccount(phone, referral_code);
-        } else {
-          this.dropdown.alertWithType(
-            'error',
-            'Lỗi',
-            'Vui lòng kiểm tra kết nối mạng ',
-          );
-        }
+        return;
       }
+    }
+
+    if (referral_code.length < 10) {
+      this._showAlert('Vui lòng nhập đủ 10 ký tự của mã giới thiệu');
+      return;
+    }
+
+    var specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    if (specialCharacters.test(referral_code)) {
+      this._showAlert('Mã giới thiệu không được chứa ký tự đặc biệt');
+      return;
+    }
+
+    var formatPass = /^(?=.*[0-9])(?=.*[A-Z])/;
+    if (password.length < 6 || !formatPass.test(password)) {
+      this._showAlert(
+        'Mật khẩu quá ngắn hoặc quá đơn giản. Vui lòng nhập vào từ 6 đến 50 ký tự, có ít nhất một ký tự in hoa (A-Z) và một số (0-9)',
+      );
+      return;
+    }
+
+    if (password != passwordAgain) {
+      this._showAlert('Vui lòng nhập mật khẩu và xác nhận mật khẩu trùng nhau');
+
+      return;
+    }
+
+    // todo check phone valid
+
+    //todo check referral_code invalid
+
+    if (!this.state.isAgree) {
+      this._showAlert('Bạn chưa đồng ý với điều khoản');
+
+      return;
+    }
+    if (this.state.isConnecting) {
+      this.setState({isLoading: true});
+      doCreateAccount(phone, referral_code);
+    } else {
+      this._showAlert('Vui lòng kiểm tra kết nối mạng ');
     }
   };
 
@@ -175,42 +180,36 @@ export class CreateAccountContainer extends Component {
     });
   }
 
-  _setAgree=() =>{
+  _setAgree = () => {
     this.setState({isAgree: !this.state.isAgree});
-  }
+  };
 
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView>
-        <Spinner
-          visible={this.state.isLoading}
-          color={'white'}
-          size={'large'}
-          textStyle={{color: '#fff'}}
-        />
-        <View style={styles.boxLogin}>
-          <KeyboardAvoidingView behavior="padding" enabled>
-            <CreateAccountForm
-              handleCreateAccount={this.handleCreateAccount}
-              navigation={this.props.navigation}
-              onChangeText={this.onChangeText}
-              phone={this.state.phone}
-              referral_code={this.state.referral_code}
-              password={this.state.password}
-              passwordAgain={this.state.passwordAgain}
-              setAgree={this._setAgree}
-              isAgree={this.state.isAgree}
-            />
-          </KeyboardAvoidingView>
-        </View>
-
-        <DropdownAlert
-          ref={ref => (this.dropdown = ref)}
-          defaultContainer={rootStyles.defaultContainerDropdown}
-          defaultTextContainer={rootStyles.defaultTextContainerDropdown}
-        />
-      </SafeAreaView>
+        <SafeAreaView>
+          <Spinner
+            visible={this.state.isLoading}
+            color={'white'}
+            size={'large'}
+            textStyle={{color: '#fff'}}
+          />
+          <View style={styles.boxLogin}>
+            <KeyboardAvoidingView behavior="padding" enabled>
+              <CreateAccountForm
+                handleCreateAccount={this.handleCreateAccount}
+                navigation={this.props.navigation}
+                onChangeText={this.onChangeText}
+                phone={this.state.phone}
+                referral_code={this.state.referral_code}
+                password={this.state.password}
+                passwordAgain={this.state.passwordAgain}
+                setAgree={this._setAgree}
+                isAgree={this.state.isAgree}
+              />
+            </KeyboardAvoidingView>
+          </View>
+        </SafeAreaView>
       </TouchableWithoutFeedback>
     );
   }
