@@ -62,17 +62,6 @@ class RetroContainer extends Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-        {this.state.currentPage != 2 ? (
-          <TouchableOpacity
-            style={styles.viewIgnore}
-            activeOpacity={0.7}
-            onPress={() => this.setState({currentPage: 2})}>
-            <Text style={styles.txtIgnore}></Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.viewIgnore} />
-        )}
-
         <Swiper
           controlsProps={{
             prevPos: false,

@@ -1,13 +1,6 @@
 import {StyleSheet, Platform} from 'react-native';
 
 export default StyleSheet.create({
-  viewIgnore: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    width: 100,
-    alignSelf: 'flex-end',
-  },
   txtIgnore: {
     fontSize: 16,
     color: '#2b2b2b',
