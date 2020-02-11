@@ -19,6 +19,7 @@ import {changeMsgCode} from '../../home/actions/index';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_INPUT_OTP} from '../../../api/screen';
+import {showAlert} from '../../../utils/utils';
 
 export class CreateAccountContainer extends Component {
   constructor(props) {
@@ -55,7 +56,7 @@ export class CreateAccountContainer extends Component {
       if (isConnected == true) {
         this.setState({isConnecting: true});
       } else {
-        this._showAlert('Vui lòng kiểm tra kết nối mạng ');
+        showAlert('Vui lòng kiểm tra kết nối mạng ');
         this.setState({isConnecting: false});
       }
     });
@@ -74,15 +75,6 @@ export class CreateAccountContainer extends Component {
     }
   };
 
-  _showAlert = message => {
-    Alert.alert(
-      'Thông báo',
-      message,
-      [{text: 'Đồng Ý', onPress: () => console.log('Ok Pressed')}],
-      {cancelable: true},
-    );
-  };
-
   handleCreateAccount = () => {
     const {doCreateAccount} = this.props;
     const {phone, referral_code, password, passwordAgain} = this.state;
@@ -93,14 +85,14 @@ export class CreateAccountContainer extends Component {
       password == '' ||
       passwordAgain == ''
     ) {
-      this._showAlert('Vui lòng điền đầy đủ các trường thông tin.');
+      showAlert('Vui lòng điền đầy đủ các trường thông tin.');
       return;
     }
 
     if (phone != '') {
       var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
       if (!regEx.test(phone)) {
-        this._showAlert(
+        showAlert(
           'Số điện thoại không hợp lệ. Vui lòng điền 10 số điện thoại di động Việt Nam',
         );
         return;
@@ -108,26 +100,26 @@ export class CreateAccountContainer extends Component {
     }
 
     if (referral_code.length < 10) {
-      this._showAlert('Vui lòng nhập đủ 10 ký tự của mã giới thiệu');
+      showAlert('Vui lòng nhập đủ 10 ký tự của mã giới thiệu');
       return;
     }
 
     var specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
     if (specialCharacters.test(referral_code)) {
-      this._showAlert('Mã giới thiệu không được chứa ký tự đặc biệt');
+      showAlert('Mã giới thiệu không được chứa ký tự đặc biệt');
       return;
     }
 
     var formatPass = /^(?=.*[0-9])(?=.*[A-Z])/;
     if (password.length < 6 || !formatPass.test(password)) {
-      this._showAlert(
+      showAlert(
         'Mật khẩu quá ngắn hoặc quá đơn giản. Vui lòng nhập vào từ 6 đến 50 ký tự, có ít nhất một ký tự in hoa (A-Z) và một số (0-9)',
       );
       return;
     }
 
     if (password != passwordAgain) {
-      this._showAlert('Vui lòng nhập mật khẩu và xác nhận mật khẩu trùng nhau');
+      showAlert('Vui lòng nhập mật khẩu và xác nhận mật khẩu trùng nhau');
 
       return;
     }
@@ -137,7 +129,7 @@ export class CreateAccountContainer extends Component {
     //todo check referral_code invalid
 
     if (!this.state.isAgree) {
-      this._showAlert('Bạn chưa đồng ý với điều khoản');
+      showAlert('Bạn chưa đồng ý với điều khoản');
 
       return;
     }
@@ -145,7 +137,7 @@ export class CreateAccountContainer extends Component {
       this.setState({isLoading: true});
       doCreateAccount(phone, referral_code);
     } else {
-      this._showAlert('Vui lòng kiểm tra kết nối mạng ');
+      showAlert('Vui lòng kiểm tra kết nối mạng ');
     }
   };
 

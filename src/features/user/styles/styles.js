@@ -6,12 +6,20 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
+  buttonDisableText: {
+    color: '#2B2B2B',
+  },
 
   buttonContinue: {
     width: '100%',
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  buttonDisableContinue: {
+    borderRadius: 6,
+    backgroundColor: '#D8D8D8',
   },
 
   txtCreateAccount: {
@@ -134,6 +142,6 @@ export default StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:20
+    marginTop: 20,
   },
 });

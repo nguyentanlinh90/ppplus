@@ -7,10 +7,10 @@ import {
   StatusBar,
   Image,
   AsyncStorage,
+  Alert,
 } from 'react-native';
 import InputOTPForm from '../components/InputOTPForm';
 import {doInputOTP} from '../actions/index';
-import DropdownAlert from 'react-native-dropdownalert';
 import styles from '../styles/styles';
 import rootStyles from '../../../styles/styles';
 import {changeMsgCode} from '../../home/actions/index';
@@ -18,6 +18,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {FORGOT_PASSWORD} from '../../../utils/constants';
 import {SCREEN_INFO, SCREEN_MAIN} from '../../../api/screen';
+import {showAlert} from '../../../utils/utils';
 
 export class InputOTPContainer extends Component {
   constructor(props) {
@@ -65,11 +66,7 @@ export class InputOTPContainer extends Component {
       if (isConnected == true) {
         this.setState({isConnecting: true});
       } else {
-        this.dropdown.alertWithType(
-          'error',
-          'Lỗi',
-          'Vui lòng kiểm tra kết nối mạng ',
-        );
+        showAlert('Vui lòng kiểm tra kết nối mạng.');
         this.setState({isConnecting: false});
       }
     });
@@ -107,27 +104,18 @@ export class InputOTPContainer extends Component {
           });
         }
       } else {
-        this.dropdown.alertWithType(
-          'error',
-          'Lỗi',
-          'Vui lòng kiểm tra kết nối mạng ',
-        );
+        showAlert('Vui lòng kiểm tra kết nối mạng.');
       }
-    } else {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Vui lòng nhập 6 ký tự mã OTP',
-      );
     }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'input_otp_error') {
       this.setState({isLoading: false});
-      this.dropdown.alertWithType('error', 'Lỗi', 'Mã OTP không đúng');
+      showAlert('Mã OTP không đúng.');
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == 'input_otp_success') {
+      showAlert('Mã OTP không đúng.');
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
       // this.props.navigation.navigate(SCREEN_LOGIN);
@@ -153,11 +141,6 @@ export class InputOTPContainer extends Component {
           size={'large'}
           textStyle={{color: '#fff'}}
           animation={'fade'}
-        />
-        <DropdownAlert
-          ref={ref => (this.dropdown = ref)}
-          defaultContainer={rootStyles.defaultContainerDropdown}
-          defaultTextContainer={rootStyles.defaultTextContainerDropdown}
         />
       </View>
     );
