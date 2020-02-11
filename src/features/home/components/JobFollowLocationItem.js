@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styles from '../styles/styles';
-import {Rating} from 'react-native-elements';
 import CheckBox from 'react-native-check-box';
 import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';

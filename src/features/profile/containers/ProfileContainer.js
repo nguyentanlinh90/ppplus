@@ -8,14 +8,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
   AsyncStorage,
-  Alert
+  Alert,
 } from 'react-native';
-import Modal from 'react-native-modal';
+import {Rating} from 'react-native-ratings';
 import ProgressCircle from 'react-native-progress-circle';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
 import {SCREEN_FILL_PROFILE, SCREEN_RETRO} from '../../../api/screen';
-import DropdownAlert from 'react-native-dropdownalert';
 import {dispatchScreen} from '../../../utils/utils';
 class ProfileContainer extends Component {
   constructor(props) {
@@ -23,7 +22,6 @@ class ProfileContainer extends Component {
     this.state = {
       percentage: 70,
       name: 'Nguyễn Tấn Linh',
-      showPopUpLogout: false,
     };
   }
 
@@ -32,59 +30,24 @@ class ProfileContainer extends Component {
   };
 
   _showAlert = () => {
-    // this.dropdown.alertWithType('error', 'Lỗi', 'Chức năng chưa hoàn thiện');
-    Alert.alert("Thông báo", "Chức năng chưa hoàn thiện");
-    // Alert.alert(
-    //   'Alert Title',
-    //   'My Alert Msg',
-    //   [
-    //     {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-    //     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-    //     {text: 'OK', onPress: () => console.log('Ok Pressed')},
-    //   ],
-    //   { cancelable: false }
-    // )
+    Alert.alert('Thông báo', 'Chức năng chưa hoàn thiện');
   };
 
-  _handleLogout = isLogout => {
-    this.setState({showPopUpLogout: false});
-  };
-  _renderPopUpLogout = props => {
-    return (
-      <Modal
-        backdropOpacity={0.4}
-        backdropColor="#000"
-        useNativeDriver={true}
-        animationIn={'slideInUp'}
-        animationInTiming={300}
-        animationOut={'slideOutDown'}
-        animationOutTiming={300}
-        isVisible={this.state.showPopUpLogout}
-        style={{margin: 20}}>
-        <View style={{backgroundColor: '#fff', borderRadius: 10, padding: 30}}>
-          <Text style={styles.popupLogoutTitle}>{'Thông báo'}</Text>
-          <Text style={styles.popupLogoutContent}>
-            {'Bạn có chắc chắn muốn đăng xuất không?'}
-          </Text>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({showPopUpLogout: false});
-              }}
-              style={styles.popupLogoutButtonNo}>
-              <Text style={styles.popupLogoutButtonText}>Huỷ</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.setItem('login', '0');
-                dispatchScreen(props, SCREEN_RETRO, {});
-              }}
-              style={styles.popupLogoutButtonYes}>
-              <Text style={styles.popupLogoutButtonText}>Đồng ý</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+  _showAlertLogout = props => {
+    Alert.alert(
+      'Thông báo',
+      'Bạn có chắc chắn muốn thoát ứng dụng không?',
+      [
+        {text: 'Huỷ', onPress: () => {}},
+        {
+          text: 'Đồng Ý',
+          onPress: () => {
+            AsyncStorage.setItem('login', '0');
+            dispatchScreen(props, SCREEN_RETRO, {});
+          },
+        },
+      ],
+      {cancelable: true},
     );
   };
 
@@ -92,7 +55,6 @@ class ProfileContainer extends Component {
     const {props, percentage, name} = this.props;
     return (
       <SafeAreaView style={{flex: 1}}>
-        {this._renderPopUpLogout(props)}
         <ScrollView>
           <TouchableOpacity
             style={styles.viewEdit}
@@ -123,14 +85,20 @@ class ProfileContainer extends Component {
               style={styles.circleAvatar}
             />
           </View>
+          <Rating
+            readonly={true}
+            type="custom"
+            ratingColor="#FEBE10"
+            ratingBackgroundColor="#d8d8d8"
+            ratingCount={5}
+            imageSize={20}
+            startingValue={3.6}
+            style={{paddingVertical: 5}}
+            tintColor="#fff"
+          />
           <Text style={styles.name}>{this.state.name}</Text>
           <View style={styles.viewReward}>
             <View style={styles.boxReward}>
-              <Image
-                resizeMode="contain"
-                source={require('../../../assets/images/ic-star.png')}
-                style={styles.boxRewardStar}
-              />
               <Text style={styles.boxRewardTextReward}>Điểm thưởng </Text>
               <Text style={styles.boxRewardTextPoint}>3,480</Text>
             </View>
@@ -221,7 +189,7 @@ class ProfileContainer extends Component {
           <TouchableOpacity
             style={styles.boxItem}
             onPress={() => {
-              this.setState({showPopUpLogout: true});
+              this._showAlertLogout(props);
             }}>
             <Image
               resizeMode="contain"
@@ -231,11 +199,6 @@ class ProfileContainer extends Component {
           </TouchableOpacity>
           <View style={styles.boxItemIndicator} />
         </ScrollView>
-        <DropdownAlert
-          ref={ref => (this.dropdown = ref)}
-          defaultContainer={rootStyles.defaultContainerDropdown}
-          defaultTextContainer={rootStyles.defaultTextContainerDropdown}
-        />
       </SafeAreaView>
     );
   }

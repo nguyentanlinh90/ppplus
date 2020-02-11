@@ -9,7 +9,7 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import {Rating} from 'react-native-elements';
+import {Rating} from 'react-native-ratings';
 import CheckBox from 'react-native-check-box';
 import moment from 'moment';
 import styles from '../styles/styles';
@@ -114,7 +114,16 @@ export default class JobHotItem extends Component {
                   unCheckedImage={<BookmarkUnChecked />}
                 />
               </View>
-              <Rating imageSize={18} readonly startingValue={item.rating} />
+              <Rating
+                readonly={true}
+                type="custom"
+                ratingColor="#FEBE10"
+                ratingBackgroundColor="#d8d8d8"
+                ratingCount={5}
+                imageSize={18}
+                startingValue={item.rating}
+                tintColor="#fff"
+              />
             </View>
           </View>
           <View style={{flexDirection: 'row', margin: 16}}>
@@ -169,9 +178,7 @@ export default class JobHotItem extends Component {
             showsHorizontalScrollIndicator={false}
             data={item.jobDetails}
             renderItem={({item: rowData}) => {
-              return (
-                  <JobFollowLocationItem item={rowData} />
-              );
+              return <JobFollowLocationItem item={rowData} />;
             }}
             keyExtractor={(item, index) => index}
           />
@@ -213,19 +220,18 @@ export default class JobHotItem extends Component {
           <View style={styles.jobDetailLineRequest} />
           <View style={styles.jobDetailBoxRequest}>
             <Text style={styles.jobDetailTxtTitleRequest}>Đồng phục</Text>
-            <Text style={styles.jobDetailTxtContentRequest}>
-              Công ty cấp
-            </Text>
+            <Text style={styles.jobDetailTxtContentRequest}>Công ty cấp</Text>
           </View>
           <View style={styles.jobDetailViewLine} />
 
-          <TouchableOpacity activeOpacity={0.8} onPress={() => submit()}
-          style={styles.jobDetailBoxSubmit}>
-            <BgButton/>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => submit()}
+            style={styles.jobDetailBoxSubmit}>
+            <BgButton />
             <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-                Ứng Tuyển Ngay
-              </Text>
-            
+              Ứng Tuyển Ngay
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

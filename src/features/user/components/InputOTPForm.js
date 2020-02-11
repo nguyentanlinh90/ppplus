@@ -41,7 +41,7 @@ export class InputOTPForm extends Component {
         </View>
 
         <View style={{flexDirection: 'row', marginTop: 30}}>
-          <Text style={styles.txtNumberPhone}>Mã gửi lại sau</Text>
+          <Text style={styles.txtNumberPhone}>Gửi lại mã sau</Text>
           <Text style={styles.textSendOTPAgain}>{timeSendAgain}s</Text>
         </View>
         {otpCode.length > 5 ? (

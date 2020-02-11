@@ -10,7 +10,7 @@ import {
   SafeAreaView,
   Dimensions,
   RefreshControl,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {Card} from 'react-native-shadow-cards';
@@ -258,11 +258,12 @@ class HomeContainer extends Component {
         />
         <View
           style={{paddingTop: Platform.OS == 'ios' ? getStatusBarHeight() : 0}}>
-          <View style={styles.viewUser}>
-            <Text style={{fontSize: 16, color: '#fff'}}>Xin chào, </Text>
-            <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
-              Linh
-            </Text>
+          <View style={styles.boxHeader}>
+            <View style={styles.viewUser}>
+              <Text style={styles.txtHello}>Xin chào, </Text>
+              <Text style={[styles.txtHello, styles.txtUserName]}>Linh</Text>
+            </View>
+            <View style={styles.boxNotification}></View>
           </View>
 
           <View style={[styles.boxSearch]}>

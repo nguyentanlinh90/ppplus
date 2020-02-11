@@ -32,7 +32,7 @@ export default StyleSheet.create({
   txtNumberPhone: {
     paddingBottom: 5,
     fontSize: 16,
-    color: '#757575',
+    color: '#F0532D',
     lineHeight: 19,
   },
   groupInput: {
@@ -134,7 +134,7 @@ export default StyleSheet.create({
   },
   textSendOTPAgain: {
     marginStart: 5,
-    color: '#F0532D',
+    color: '#757575',
     fontSize: 16,
   },
   buttonContinue: {

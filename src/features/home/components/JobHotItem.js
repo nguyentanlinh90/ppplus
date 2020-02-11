@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import {Card} from 'react-native-shadow-cards';
 import styles from '../styles/styles';
-import {Rating} from 'react-native-elements';
+import {Rating} from 'react-native-ratings';
 import moment from 'moment';
 export class JobHotItem extends Component {
   constructor(props) {
@@ -80,11 +80,16 @@ export class JobHotItem extends Component {
                 </Text>
               </View>
             </View>
+
             <Rating
+              readonly={true}
+              type="custom"
+              ratingColor="#FEBE10"
+              ratingBackgroundColor="#d8d8d8"
+              ratingCount={5}
               imageSize={16}
-              readonly
               startingValue={item.rating}
-              style={{}}
+              tintColor="#fff"
             />
           </View>
         </View>

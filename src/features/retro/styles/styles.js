@@ -57,6 +57,9 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
+  txtCreateAccount: {
+    color: '#F0532D',
+  },
   viewPage: {
     flex: 1,
     justifyContent: 'center',

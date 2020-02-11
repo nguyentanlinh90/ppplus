@@ -111,9 +111,9 @@ class RetroContainer extends Component {
                 activeOpacity={0.7}
                 onPress={() => this._openCreateAccountScreen()}
                 style={[styles.buttonLogin, {marginTop: 10}]}>
-                <BgButton />
-
-                <Text style={styles.txtLogin}>Tạo tài khoản</Text>
+                <Text style={[styles.txtLogin, styles.txtCreateAccount]}>
+                  Tạo tài khoản
+                </Text>
               </TouchableOpacity>
             </View>
           ) : (

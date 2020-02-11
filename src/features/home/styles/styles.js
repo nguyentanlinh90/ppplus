@@ -137,12 +137,24 @@ export default StyleSheet.create({
     paddingEnd: 25,
     paddingStart: 25,
   },
+  boxHeader: {flexDirection: 'row', height: 45},
   viewUser: {
+    flex: 1,
     flexDirection: 'row',
     marginStart: 10,
     height: 35,
     alignItems: 'center',
     alignSelf: 'flex-start',
+  },
+  txtHello: {fontSize: 16, color: '#fff'},
+  txtUserName: {fontWeight: 'bold'},
+  boxNotification: {
+    width: 40,
+    height: 40,
+    borderRadius: 40 / 2,
+    backgroundColor: '#fff',
+    marginEnd: 10,
+    opacity: 0.4,
   },
   jobDetailViewLine: {
     height: 5,
@@ -183,7 +195,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
   },
   boxImgHeader: {
-    height: Platform.OS === 'ios' ? getStatusBarHeight() + 57 : 57,
+    height: Platform.OS === 'ios' ? getStatusBarHeight() + 67 : 67,
     width: '100%',
     position: 'absolute',
   },
