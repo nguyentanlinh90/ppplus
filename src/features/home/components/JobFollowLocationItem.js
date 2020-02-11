@@ -71,13 +71,42 @@ export class JobFollowLocationItem extends Component {
               fontSize: 16,
               fontWeight: 'bold',
             }}>
-            {item.nameStore}
+            {item.name_store}
           </Text>
-          <CheckBox
-            isChecked={this.state.isSelect}
-            checkedImage={<CBChecked />}
-            unCheckedImage={<CBUnChecked />}
-          />
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View
+              style={{
+                height: 22,
+                width: 140,
+                backgroundColor: '#d8d8d8',
+                marginEnd: 10,
+                borderRadius: 30,
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  borderRadius: 30,
+                  height: 22,
+                  width: (140 * 22) / 30,
+                  backgroundColor: '#F0532D',
+                }}
+              />
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 13,
+                  position: 'absolute',
+                  alignSelf: 'center',
+                }}>
+                Đã ứng tuyển 22/30
+              </Text>
+            </View>
+            <CheckBox
+              isChecked={this.state.isSelect}
+              checkedImage={<CBChecked />}
+              unCheckedImage={<CBUnChecked />}
+            />
+          </View>
         </View>
         <View style={styles.jobFollowLocationDetail}>
           <Image
