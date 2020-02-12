@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Image,
-  AsyncStorage,
   Alert,
 } from 'react-native';
 import InputOTPForm from '../components/InputOTPForm';
@@ -19,6 +18,8 @@ import NetInfo from '@react-native-community/netinfo';
 import {FORGOT_PASSWORD} from '../../../utils/constants';
 import {SCREEN_INFO, SCREEN_MAIN} from '../../../api/screen';
 import {showAlert} from '../../../utils/utils';
+import {setStoreData} from '../../../utils/utils';
+import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
 
 export class InputOTPContainer extends Component {
   constructor(props) {
@@ -95,7 +96,7 @@ export class InputOTPContainer extends Component {
             params: {},
           });
         } else {
-          AsyncStorage.setItem('login', '1');
+          setStoreData(KEY_CHECK_LOGIN, VALUE_ONE);
           this.props.navigation.dispatch({
             key: SCREEN_INFO,
             type: 'ReplaceCurrentScreen',

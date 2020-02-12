@@ -30,7 +30,7 @@ export class CreateAccountForm extends Component {
     return (
       <View>
         <Text style={styles.txtCreateAccount}>Tạo tài khoản</Text>
-        <Text style={styles.txtNumberPhone}>Số điện thoại</Text>
+        <Text style={styles.txtTitleField}>Số điện thoại</Text>
         <View style={styles.groupInput}>
           <TextInput
             maxLength={10}
@@ -45,7 +45,7 @@ export class CreateAccountForm extends Component {
             onChangeText={text => onChangeText(text, 'phone')}
           />
         </View>
-        <Text style={styles.txtNumberPhone}>Mã giới thiệu</Text>
+        <Text style={styles.txtTitleField}>Mã giới thiệu</Text>
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             style={styles.inputCreateAccount}
@@ -60,7 +60,7 @@ export class CreateAccountForm extends Component {
             onChangeText={text => onChangeText(text, 'referral_code')}
           />
         </View>
-        <Text style={styles.txtNumberPhone}>Mã mật khẩu</Text>
+        <Text style={styles.txtTitleField}>Mật khẩu</Text>
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             maxLength={50}
@@ -83,7 +83,7 @@ export class CreateAccountForm extends Component {
             />
           </View>
         </View>
-        <Text style={styles.txtNumberPhone}>Xác nhận lại mật khẩu</Text>
+        <Text style={styles.txtTitleField}>Xác nhận lại mật khẩu</Text>
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             secureTextEntry={this.state.isShowPassAgain}

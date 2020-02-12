@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Image,
-  AsyncStorage,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
@@ -23,8 +22,8 @@ import {FORGOT_PASSWORD} from '../../../utils/constants';
 import {SCREEN_INPUT_OTP} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 import {SCREEN_MAIN} from '../../../api/screen';
-import {dispatchScreen} from '../../../utils/utils';
-
+import {dispatchScreen, setStoreData} from '../../../utils/utils';
+import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
 export class LoginContainer extends Component {
   constructor(props) {
     super(props);
@@ -154,7 +153,7 @@ export class LoginContainer extends Component {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
       // this.props.navigation.goBack();
-      AsyncStorage.setItem('login', '1');
+      setStoreData(KEY_CHECK_LOGIN, VALUE_ONE);
 
       dispatchScreen(this.props, SCREEN_MAIN, {});
     }

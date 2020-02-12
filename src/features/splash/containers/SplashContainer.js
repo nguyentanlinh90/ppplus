@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Image, AsyncStorage} from 'react-native';
-
-import {
-  SCREEN_RETRO,
-  SCREEN_MAIN,
-} from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
+import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
+import {
+  SCREEN_CREATE_ACCOUNT,
+  SCREEN_MAIN,
+  SCREEN_RETRO,
+} from '../../../api/screen';
 class SplashContainer extends Component {
   constructor(props) {
     super(props);
@@ -17,9 +18,9 @@ class SplashContainer extends Component {
     console.disableYellowBox = true;
   }
 
-  async checkLogin() {
-    var loginStatus = await AsyncStorage.getItem('login');
-    if (loginStatus && loginStatus == '1') {
+ async checkLogin() {
+    var loginStatus = await AsyncStorage.getItem(KEY_CHECK_LOGIN);
+    if (loginStatus && loginStatus == VALUE_ONE) {
       this.setState({isLogin: true});
     }
   }

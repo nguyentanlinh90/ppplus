@@ -45,14 +45,14 @@ export class JobFollowLocationItem extends Component {
     let hourDay = '';
     for (let i = 0; i < item.hourDay.length; i++) {
       if (i == 0) {
-        hourDay = item.hourDay[i].startTime + ' - ' + item.hourDay[i].endTime;
+        hourDay = item.hourDay[i].start_time + ' - ' + item.hourDay[i].end_time;
       } else {
         hourDay =
           hourDay +
           ' ; ' +
-          item.hourDay[i].startTime +
+          item.hourDay[i].start_time +
           ' - ' +
-          item.hourDay[i].endTime;
+          item.hourDay[i].end_time;
       }
     }
 
@@ -76,17 +76,18 @@ export class JobFollowLocationItem extends Component {
             <View
               style={{
                 height: 22,
-                width: 140,
+                width: 160,
                 backgroundColor: '#d8d8d8',
                 marginEnd: 10,
-                borderRadius: 30,
+                marginStart:10,
+                borderRadius: 6,
                 justifyContent: 'center',
               }}>
               <View
                 style={{
-                  borderRadius: 30,
+                  borderRadius: 6,
                   height: 22,
-                  width: (140 * 22) / 30,
+                  width: (160 * 22) / 30,
                   backgroundColor: '#F0532D',
                 }}
               />

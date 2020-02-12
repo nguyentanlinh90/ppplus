@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  AsyncStorage,
   Alert,
 } from 'react-native';
 import {Rating} from 'react-native-ratings';
@@ -15,7 +14,8 @@ import ProgressCircle from 'react-native-progress-circle';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
 import {SCREEN_FILL_PROFILE, SCREEN_RETRO} from '../../../api/screen';
-import {dispatchScreen} from '../../../utils/utils';
+import {dispatchScreen, setStoreData} from '../../../utils/utils';
+import {KEY_CHECK_LOGIN, VALUE_ZERO} from '../../../utils/constants';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +42,7 @@ class ProfileContainer extends Component {
         {
           text: 'Đồng Ý',
           onPress: () => {
-            AsyncStorage.setItem('login', '0');
+            setStoreData(KEY_CHECK_LOGIN, VALUE_ZERO);
             dispatchScreen(props, SCREEN_RETRO, {});
           },
         },

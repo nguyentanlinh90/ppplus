@@ -24,16 +24,18 @@ export class InputOTPForm extends Component {
         <Text style={styles.txtCreateAccount}>Mã OTP</Text>
         <View style={{alignItems: 'center'}}>
           <SmoothPinCodeInput
-          autoFocus={true}
+            autoFocus={true}
             keyboardType="numeric"
             codeLength={6}
             cellStyle={{
               borderBottomWidth: 2,
-              borderColor: 'gray',
+              borderColor: '#d8d8d8',
             }}
             cellStyleFocused={{
-              borderColor: 'black',
+              borderColor: '#000',
             }}
+            textStyle={{color: '#000', fontWeight: 'bold', fontSize: 24}}
+            text
             value={otpCode}
             onTextChange={otpCode => onChangeText(otpCode, 'otpCode')}
             onFulfill={this._checkCode}
@@ -41,7 +43,7 @@ export class InputOTPForm extends Component {
         </View>
 
         <View style={{flexDirection: 'row', marginTop: 30}}>
-          <Text style={styles.txtNumberPhone}>Gửi lại mã sau</Text>
+          <Text style={styles.txtTitleField}>Gửi lại mã sau</Text>
           <Text style={styles.textSendOTPAgain}>{timeSendAgain}s</Text>
         </View>
         {otpCode.length > 5 ? (

@@ -7,25 +7,37 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 import styles from '../styles/styles';
 import Swiper from 'react-native-web-swiper';
 import BgButton from '../../../components/BgButton';
-
 import {SCREEN_LOGIN} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
+import {setStoreData} from '../../../utils/utils';
+import {KEY_CHECK_LAST_RETRO, VALUE_ONE} from '../../../utils/constants';
+import {dispatchScreen} from '../../../utils/utils';
 
 class RetroContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 0,
+      fromPage: 0,
     };
+    this.checkLastPage();
   }
+
+  async checkLastPage() {
+    var lastPage = await AsyncStorage.getItem(KEY_CHECK_LAST_RETRO);
+    if (lastPage && lastPage == VALUE_ONE) {
+      this.setState({fromPage: 2});
+    }
+  }
+
   _getTitle() {
-    if (this.state.currentPage == 1) {
+    if (this.state.fromPage == 1) {
       return 'Retro occupy org';
-    } else if (this.state.currentPage == 2) {
+    } else if (this.state.fromPage == 2) {
       return 'Tousled food truck';
     } else {
       return 'Portland ugh';
@@ -33,9 +45,9 @@ class RetroContainer extends Component {
   }
 
   _getContent() {
-    if (this.state.currentPage == 1) {
+    if (this.state.fromPage == 1) {
       return 'Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap. Hashtag.';
-    } else if (this.state.currentPage == 2) {
+    } else if (this.state.fromPage == 2) {
       return 'Synth polaroid bitters chillwave pickled. Vegan disrupt tousled, Portland keffiyeh aesthetic food.';
     } else {
       return 'Kogi Cosby sweater ethical squid irony disrupt, organic tote bag gluten-free XOXO wolf typewriter.';
@@ -43,23 +55,14 @@ class RetroContainer extends Component {
   }
 
   _openLoginScreen = () => {
-    this.props.navigation.dispatch({
-      key: SCREEN_LOGIN,
-      type: 'ReplaceCurrentScreen',
-      routeName: SCREEN_LOGIN,
-      params: {},
-    });
+    dispatchScreen(this.props, SCREEN_LOGIN, {});
   };
 
   _openCreateAccountScreen = () => {
-    this.props.navigation.dispatch({
-      key: SCREEN_CREATE_ACCOUNT,
-      type: 'ReplaceCurrentScreen',
-      routeName: SCREEN_CREATE_ACCOUNT,
-      params: {},
-    });
+    dispatchScreen(this.props, SCREEN_CREATE_ACCOUNT, {});
   };
   render() {
+    console.log('linhnt', this.state.fromPage);
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <Swiper
@@ -70,10 +73,13 @@ class RetroContainer extends Component {
             dotsTouchable: true,
             dotProps: {badgeStyle: {backgroundColor: '#F6C8A1'}},
           }}
-          currentPage={this.state.currentPage}
+          from={this.state.fromPage}
           onIndexChanged={index => {
+            if (index == 2) {
+              setStoreData(KEY_CHECK_LAST_RETRO, VALUE_ONE);
+            }
             this.setState({
-              currentPage: index,
+              fromPage: index,
             });
           }}>
           <View style={styles.viewPage}>
@@ -98,7 +104,7 @@ class RetroContainer extends Component {
         <View style={styles.boxContent}>
           <Text style={styles.txtTitleContent}>{this._getTitle()}</Text>
           <Text style={styles.txtContent}>{this._getContent()}</Text>
-          {this.state.currentPage == 2 ? (
+          {this.state.fromPage == 2 ? (
             <View style={{height: 128, justifyContent: 'center'}}>
               <TouchableOpacity
                 activeOpacity={0.7}

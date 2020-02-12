@@ -1,19 +1,11 @@
 import * as apiVersion from './version';
-import {AsyncStorage, Dimensions, Platform} from "react-native";
+import {Dimensions, Platform} from "react-native";
 import {API_HOSTNAME} from './constants';
 
 export const fetchDataSuccess = (type, data) => ({type: type, data});
 
 export const getApiPath = (version, apiName) => {
     return apiVersion.version[version][apiName].path;
-}
-
-export const storeData = async(key, value) => {
-    try {
-        await AsyncStorage.setItem(key, value.toString());
-    } catch (error) {
-        console.log(error.message);
-    }
 }
 
 export const convertObjectToStringQuery = (object) => {

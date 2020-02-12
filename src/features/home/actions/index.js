@@ -3,7 +3,6 @@ import {
   fetchDataSuccess,
   getApiPath,
   getUrl,
-  storeData,
 } from '../../../api/helpers';
 import {callGetApi, callPostApi} from '../../../api/api';
 

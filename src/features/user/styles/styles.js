@@ -29,10 +29,10 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 29,
   },
-  txtNumberPhone: {
+  txtTitleField: {
     paddingBottom: 5,
     fontSize: 16,
-    color: '#F0532D',
+    color: '#757575',
     lineHeight: 19,
   },
   groupInput: {
@@ -134,7 +134,7 @@ export default StyleSheet.create({
   },
   textSendOTPAgain: {
     marginStart: 5,
-    color: '#757575',
+    color: '#F0532D',
     fontSize: 16,
   },
   buttonContinue: {
