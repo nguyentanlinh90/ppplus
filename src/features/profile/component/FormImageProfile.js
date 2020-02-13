@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styles from '../styles/styles';
 
-export class AddImageComponent extends Component {
+export default class FormImageProfile extends Component {
   constructor(props) {
     super(props);
   }
@@ -152,4 +152,3 @@ export class AddImageComponent extends Component {
     );
   }
 }
-export default AddImageComponent;

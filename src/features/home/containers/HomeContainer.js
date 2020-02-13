@@ -181,7 +181,7 @@ class HomeContainer extends Component {
           />
         </View>
         <View style={[styles.groupContent, {marginTop: 10}]}>
-          <Text style={styles.txtTitleGroupContent}>Công việc mới nhất</Text>
+          <Text style={styles.txtTitleGroupContent}>Việc mới cập nhật</Text>
           <FlatList
             style={{paddingStart: 16, marginTop: 10, marginEnd: 16}}
             data={this.state.jobs}

@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import LoginForm from '../components/LoginForm';
 import {doLogin} from '../actions/index';
-import DropdownAlert from 'react-native-dropdownalert';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
 import {convertPhone} from '../../../api/helpers';
@@ -24,6 +23,7 @@ import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 import {SCREEN_MAIN} from '../../../api/screen';
 import {dispatchScreen, setStoreData} from '../../../utils/utils';
 import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
+import {showAlert} from '../../../utils/utils';
 export class LoginContainer extends Component {
   constructor(props) {
     super(props);
@@ -56,11 +56,7 @@ export class LoginContainer extends Component {
       if (isConnected == true) {
         this.setState({isConnecting: true});
       } else {
-        this.dropdown.alertWithType(
-          'error',
-          'Lỗi',
-          'Vui lòng kiểm tra kết nối mạng ',
-        );
+        showAlert('Vui lòng kiểm tra kết nối mạng.');
         this.setState({isConnecting: false});
       }
     });
@@ -79,10 +75,8 @@ export class LoginContainer extends Component {
     const {phone} = this.state;
 
     if (phone == '') {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Vui lòng nhập số điện thoại để chúng tôi có thể gửi mã xác nhận',
+      showAlert(
+        'Vui lòng nh số điện thoại đã đăng ký để lấy lại mật khẩu.',
       );
       return;
     }
@@ -90,11 +84,7 @@ export class LoginContainer extends Component {
     if (phone != '') {
       var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
       if (!regEx.test(phone)) {
-        this.dropdown.alertWithType(
-          'error',
-          'Lỗi',
-          'Số điện thoại không đúng định dạng.',
-        );
+        showAlert('Số điện thoại không đúng định dạng.');
       } else {
         dispatchScreen(this.props, SCREEN_INPUT_OTP, {
           typeScreen: SCREEN_INPUT_OTP,
@@ -114,40 +104,24 @@ export class LoginContainer extends Component {
     if (phone != '' && password != '') {
       var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
       if (!regEx.test(phone)) {
-        this.dropdown.alertWithType(
-          'error',
-          'Lỗi',
-          'Số điện thoại không đúng định dạng.',
-        );
+        showAlert('Số điện thoại không đúng định dạng.');
       } else {
         if (this.state.isConnecting) {
           this.setState({isLoading: true});
           doLogin(phone, password);
         } else {
-          this.dropdown.alertWithType(
-            'error',
-            'Lỗi',
-            'Vui lòng kiểm tra kết nối mạng ',
-          );
+          showAlert('Vui lòng kiểm tra kết nối mạng.');
         }
       }
     } else {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Vui lòng nhập đầy đủ số điện thoại và mật khẩu',
-      );
+      showAlert('Vui lòng nhập đầy đủ số điện thoại và mật khẩu.');
     }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == 'login_error') {
       this.setState({isLoading: false});
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Số điện thoại hoặc mặt khẩu không đúng',
-      );
+      showAlert('Số điện thoại hoặc mặt khẩu không đúng.');
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == 'login_success') {
       this.setState({isLoading: false});
@@ -162,45 +136,40 @@ export class LoginContainer extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View style={{flex:1}}>
-            <StatusBar backgroundColor="#000" barStyle="light-content" />
-            <View style={{height: '100%'}}>
-              <View style={[{height: '55%'}]}>
-                <View style={styles.boxLogin}>
-                  <KeyboardAvoidingView behavior="padding" enabled>
-                    <View
-                      style={{
-                        paddingTop: '35%',
-                        paddingLeft: 10,
-                        paddingRight: 10,
-                      }}>
-                      <LoginForm
-                        handleForgetPassword={this._handleForgetPassword}
-                        handleLogin={this._handleLogin}
-                        handleNotYetAccount={this._handleNotYetAccount}
-                        navigation={this.props.navigation}
-                        onChangeText={this._onChangeText}
-                        phone={this.state.phone}
-                        password={this.state.password}
-                      />
-                    </View>
-                  </KeyboardAvoidingView>
-                </View>
+        <View style={{flex: 1}}>
+          <StatusBar backgroundColor="#000" barStyle="light-content" />
+          <View style={{height: '100%'}}>
+            <View style={[{height: '55%'}]}>
+              <View style={styles.boxLogin}>
+                <KeyboardAvoidingView behavior="padding" enabled>
+                  <View
+                    style={{
+                      paddingTop: '35%',
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                    }}>
+                    <LoginForm
+                      handleForgetPassword={this._handleForgetPassword}
+                      handleLogin={this._handleLogin}
+                      handleNotYetAccount={this._handleNotYetAccount}
+                      navigation={this.props.navigation}
+                      onChangeText={this._onChangeText}
+                      phone={this.state.phone}
+                      password={this.state.password}
+                    />
+                  </View>
+                </KeyboardAvoidingView>
               </View>
             </View>
-            <Spinner
-              visible={this.state.isLoading}
-              textContent={'Loading...'}
-              color={'#fff'}
-              size={'large'}
-              textStyle={{color: '#fff'}}
-              animation={'fade'}
-            />
-            <DropdownAlert
-              ref={ref => (this.dropdown = ref)}
-              defaultContainer={rootStyles.defaultContainerDropdown}
-              defaultTextContainer={rootStyles.defaultTextContainerDropdown}
-            />
+          </View>
+          <Spinner
+            visible={this.state.isLoading}
+            textContent={'Loading...'}
+            color={'#fff'}
+            size={'large'}
+            textStyle={{color: '#fff'}}
+            animation={'fade'}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

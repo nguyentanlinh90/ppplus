@@ -13,7 +13,7 @@ import {Rating} from 'react-native-ratings';
 import CheckBox from 'react-native-check-box';
 import moment from 'moment';
 import styles from '../styles/styles';
-import ArrowInBox from '../../../components/ArrowInBox';
+import ArrowUpDown from '../../../components/ArrowUpDown';
 import JobFollowLocationItem from '../components/JobFollowLocationItem';
 import BookmarkChecked from '../../../components/BookmarkChecked';
 import BookmarkUnChecked from '../../../components/BookmarkUnChecked';
@@ -170,7 +170,7 @@ export default class JobHotItem extends Component {
               <Text style={styles.jobDetailBoxLocation}>
                 {this.state.district + ', ' + this.state.city}
               </Text>
-              <ArrowInBox />
+              <ArrowUpDown />
             </View>
           </TouchableOpacity>
           <FlatList

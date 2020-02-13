@@ -5,6 +5,7 @@ import styles from '../styles/styles';
 import InfoForm from '../component/InfoForm';
 import {SCREEN_MAIN} from '../../../api/screen';
 import {select_location, select_industry} from '../../../utils/constants';
+import {dispatchScreen} from '../../../utils/utils';
 
 class InfoContainer extends Component {
   constructor(props) {
@@ -88,8 +89,8 @@ class InfoContainer extends Component {
     });
   };
 
-  _openConfirm = () => {
-    this.props.navigation.navigate(SCREEN_MAIN);
+  _openHomeScreen = () => {
+    dispatchScreen(this.props, SCREEN_MAIN, {});
   };
 
   _setJobDuration = isLongTerm => {
@@ -122,7 +123,7 @@ class InfoContainer extends Component {
             setJobDuration={this._setJobDuration}
             jobLongTerm={this.state.isJobLongTerm}
             jobShortTerm={this.state.isJobShortTerm}
-            openHomeScreen={this._openConfirm}
+            openHomeScreen={this._openHomeScreen}
           />
         </SafeAreaView>
       </View>

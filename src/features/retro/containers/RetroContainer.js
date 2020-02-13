@@ -35,22 +35,22 @@ class RetroContainer extends Component {
   }
 
   _getTitle() {
-    if (this.state.fromPage == 1) {
-      return 'Retro occupy org';
-    } else if (this.state.fromPage == 2) {
-      return 'Tousled food truck';
+    if (this.state.fromPage == 0) {
+      return 'Linh động & thu nhập cao';
+    } else if (this.state.fromPage == 1) {
+      return 'Tuyển dụng và đào tạo trực tuyến';
     } else {
-      return 'Portland ugh';
+      return 'Đánh giá năng lực & thăng hạng';
     }
   }
 
   _getContent() {
-    if (this.state.fromPage == 1) {
-      return 'Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap. Hashtag.';
-    } else if (this.state.fromPage == 2) {
-      return 'Synth polaroid bitters chillwave pickled. Vegan disrupt tousled, Portland keffiyeh aesthetic food.';
+    if (this.state.fromPage == 0) {
+      return 'Linh động tối đa trong việc lựa chọn thời gian và địa điểm làm việc phù hợp. Thu nhập hấp dẫn theo giờ';
+    } else if (this.state.fromPage == 1) {
+      return 'Công việc phù hợp nhất được tự động gợi ý từ hệ thống. Chủ động thời gian trong việc đào tạo và thực hành';
     } else {
-      return 'Kogi Cosby sweater ethical squid irony disrupt, organic tote bag gluten-free XOXO wolf typewriter.';
+      return 'Đánh giá hiệu suất qua mỗi chương trình để thăng hạng. Phần thưởng và chế độ phúc lợi hấp dẫn';
     }
   }
 

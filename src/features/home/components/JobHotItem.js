@@ -58,7 +58,7 @@ export class JobHotItem extends Component {
             <View style={{flexDirection: 'row'}}>
               <Text
                 numberOfLines={1}
-                style={{flex: 1, fontSize: 16, fontWeight: 'bold'}}>
+                style={{flex: 1, fontSize: 16, fontWeight: 'bold', color:'#1c1c1c'}}>
                 {item.merchantName}
               </Text>
               <View

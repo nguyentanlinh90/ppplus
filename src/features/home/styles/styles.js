@@ -45,9 +45,8 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
   },
   txtInfoJob: {
-    flex: 1,
     fontSize: 14,
-    color: '#757575',
+    color: '#ABABAB',
   },
   imgInfoJob: {
     width: 18,

@@ -10,13 +10,13 @@ export default StyleSheet.create({
   txtTitleContent: {
     textAlign: 'center',
     margin: 10,
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
   },
 
   txtContent: {
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 16,
     paddingStart: 20,
     paddingBottom: 20,
     paddingEnd: 20,

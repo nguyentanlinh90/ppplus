@@ -15,7 +15,7 @@ import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
 import RadioChecked from '../../../components/RadioChecked';
 import RadioUnChecked from '../../../components/RadioUnChecked';
-import ArrowInBox from '../../../components/ArrowInBox';
+import ArrowUpDown from '../../../components/ArrowUpDown';
 import {jewelStyle} from '../../../utils/constants';
 const listCity = require('../../../assets/json/city.json');
 
@@ -160,7 +160,7 @@ export default class InfoContainer_1 extends Component {
                 this.state.isShowYOB ? '#F0532D' : '#d8d8d8',
               )}>
               <Text style={styles.txtSelect}>{yearOfBirth}</Text>
-              {<ArrowInBox />}
+              {<ArrowUpDown />}
             </View>
           </TouchableOpacity>
           {this.state.isShowYOB ? (
@@ -194,7 +194,7 @@ export default class InfoContainer_1 extends Component {
                 this.state.isShowCity ? '#F0532D' : '#d8d8d8',
               )}>
               <Text style={styles.txtSelect}>{city}</Text>
-              {<ArrowInBox />}
+              {<ArrowUpDown />}
             </View>
           </TouchableOpacity>
           {this.state.isShowCity ? (
@@ -236,7 +236,7 @@ export default class InfoContainer_1 extends Component {
                 this.state.isShowIndustry ? '#F0532D' : '#d8d8d8',
               )}>
               <Text style={styles.txtSelect}>{industry}</Text>
-              {<ArrowInBox />}
+              {<ArrowUpDown />}
             </View>
           </TouchableOpacity>
           {this.state.isShowIndustry ? (
