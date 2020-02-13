@@ -81,7 +81,7 @@ class ProfileContainer extends Component {
             />
             <Image
               resizeMode="contain"
-              source={{uri: 'http://via.placeholder.com/100x100'}}
+              source={{uri: 'http://via.placeholder.com/150x150'}}
               style={styles.circleAvatar}
             />
           </View>

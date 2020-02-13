@@ -3,10 +3,10 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import RadioForm from 'react-native-simple-radio-button';
 import styles from '../styles/styles';
-export default class PopupSelectLevel extends Component {
+export default class PopupSelect extends Component {
   render() {
-    const {isVisible, levelValue, listLevel, onConfirm} = this.props;
-    let levelSelect = levelValue;
+    const {title, isVisible, data, listData, onConfirm} = this.props;
+    let dataSelect = data;
     return (
       <Modal
         backdropOpacity={0.4}
@@ -25,23 +25,23 @@ export default class PopupSelectLevel extends Component {
             padding: 20,
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 16}}>Chọn trình độ</Text>
+          <Text style={{fontSize: 16}}>{title}</Text>
           <RadioForm
             style={{marginBottom: 20, marginTop: 20}}
-            radio_props={listLevel}
-            initial={levelSelect}
+            radio_props={listData}
+            initial={dataSelect}
             buttonColor={'#F0532D'}
             selectedButtonColor={'#F0532D'}
             labelStyle={{fontSize: 18, marginBottom: 20}}
             onPress={value => {
-              levelSelect = value;
+              dataSelect = value;
             }}
           />
           <TouchableOpacity
             activeOpacity={0.8}
             style={{backgroundColor: '#F0532D', borderRadius: 30}}
             onPress={() => {
-              onConfirm(levelSelect);
+              onConfirm(dataSelect);
             }}>
             <Text style={styles.btSelectGender}>Đồng ý</Text>
           </TouchableOpacity>

@@ -4,7 +4,7 @@ import styleHome from '../styles/styles';
 import {Card} from 'react-native-shadow-cards';
 import {Rating} from 'react-native-ratings';
 import moment from 'moment';
-export class JobHotItem extends Component {
+export default class JobHotItem extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -37,7 +37,13 @@ export class JobHotItem extends Component {
             source={{uri: item.logoUrl}}
             style={{width: 80, height: 80, borderRadius: 6, marginEnd: 12}}
           />
-          <View style={{flex: 1, justifyContent: 'space-between'}}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'space-between',
+              marginBottom: 5,
+              marginTop: 5,
+            }}>
             <Text
               numberOfLines={1}
               style={{
@@ -122,4 +128,3 @@ export class JobHotItem extends Component {
     );
   }
 }
-export default JobHotItem;

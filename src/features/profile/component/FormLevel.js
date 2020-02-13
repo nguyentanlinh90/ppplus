@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {
   Collapse,
   CollapseHeader,
@@ -19,20 +19,20 @@ export default class FormLevel extends Component {
   }
 
   render() {
-    const {onChangeText, showLevelSelect, txtLevel, major} = this.props;
-    let level = '';
-    if (txtLevel == 0) {
-      level = 'Trung Học Cơ Sở';
-    } else if (txtLevel == 1) {
-      level = 'Trung Học Phổ Thông';
-    } else if (txtLevel == 2) {
-      level = 'Trung Cấp';
-    } else if (txtLevel == 3) {
-      level = 'Cao Đẳng';
-    } else if (txtLevel == 4) {
-      level = 'Đại Học';
+    const {onChangeText, showSelectLevel, valueLevel, major} = this.props;
+    let txtLevel = '';
+    if (valueLevel == 0) {
+      txtLevel = 'Trung Học Cơ Sở';
+    } else if (valueLevel == 1) {
+      txtLevel = 'Trung Học Phổ Thông';
+    } else if (valueLevel == 2) {
+      txtLevel = 'Trung Cấp';
+    } else if (valueLevel == 3) {
+      txtLevel = 'Cao Đẳng';
+    } else if (valueLevel == 4) {
+      txtLevel = 'Đại Học';
     } else {
-      level = 'Chọn trình độ';
+      txtLevel = 'Chọn trình độ';
     }
 
     return (
@@ -52,27 +52,23 @@ export default class FormLevel extends Component {
             <Text style={styles.txtTitleBasicInfo}>Học vấn</Text>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => showLevelSelect()}>
-              <View style={styles.boxPickerBasicInfo}>
-                <Text style={[styles.txtPicker, {color: '#757575'}]}>
-                  {level}
-                </Text>
+              onPress={() => showSelectLevel()}>
+              <View style={styles.boxContainer}>
+                <Text style={styles.txtInBox}>{txtLevel}</Text>
                 <ArrowUpDown />
               </View>
             </TouchableOpacity>
             <Text style={[styles.txtTitleBasicInfo, {marginTop: 20}]}>
               Chuyên ngành
             </Text>
-            <View style={styles.boxPickerBasicInfo}>
-              <TextInput
-                style={styles.txtInputBasicInfo}
-                returnKeyType="done"
-                value={major}
-                name="major"
-                placeholder="Nhập chuyên ngành"
-                onChangeText={text => onChangeText(text, 'major')}
-              />
-            </View>
+            <TextInput
+              style={styles.txtInputContainer}
+              returnKeyType="done"
+              value={major}
+              name="major"
+              placeholder="Nhập chuyên ngành"
+              onChangeText={text => onChangeText(text, 'major')}
+            />
           </View>
         </CollapseBody>
       </Collapse>

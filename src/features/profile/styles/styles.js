@@ -121,8 +121,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 16,
     marginEnd: 16,
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
     alignItems: 'center',
   },
   boxArrow: {
@@ -135,38 +135,42 @@ export default StyleSheet.create({
     backgroundColor: '#d8d8d8',
     height: 10,
   },
-  containerBasicInfo: {flexDirection: 'row', marginBottom: 20},
+  groupContainer: {flexDirection: 'row', marginBottom: 20},
   boxBasicInfo: {flex: 1, marginEnd: 10},
-  txtTitleBasicInfo: {color: '#757575', marginBottom: 5, fontSize: 16},
-  boxInputBasicInfo: {
-    width: '100%',
-    height: 44,
-    borderColor: '#d8d8d8',
-    borderWidth: 1,
-    borderRadius: 6,
-  },
-  boxPickerBasicInfo: {
-    width: '100%',
+  txtTitleBasicInfo: {color: '#757575', marginBottom: 5,marginTop:10, fontSize: 16},
+
+  boxContainer: {
+    flex: 1,
     height: 44,
     borderColor: '#d8d8d8',
     borderWidth: 1,
     borderRadius: 6,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 5,
+    paddingStart: 10,
     paddingEnd: 10,
   },
-  txtInputBasicInfo: {
+  txtInputContainer: {
+    flex: 1,
     height: 44,
-    width: '100%',
+    borderColor: '#d8d8d8',
+    borderWidth: 1,
+    borderRadius: 6,
+    paddingStart: 10,
+    paddingEnd: 10,
     color: '#2b2b2b',
     fontSize: 16,
-    paddingEnd: 5,
-    paddingStart: 5,
   },
-  txtPicker: {
+
+  txtInputBasicInfo: {
+    flex: 1,
+    color: '#2b2b2b',
+    fontSize: 16,
+  },
+  txtInBox: {
     flex: 1,
     fontSize: 16,
+    color: '#757575'
   },
   btSelectGender: {
     textAlign: 'center',
@@ -202,4 +206,18 @@ export default StyleSheet.create({
     alignSelf: 'center',
     padding: 10,
   },
+  buttonSelectID:{
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#FA6400',
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  txtSelectID:{
+    color: '#FBFBFB',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginStart: 10,
+  }
 });

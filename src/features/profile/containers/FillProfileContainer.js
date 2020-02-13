@@ -23,28 +23,43 @@ import {
 import styles from '../styles/styles';
 import FormImageProfile from '../component/FormImageProfile';
 import FormBasicInfo from '../component/FormBasicInfo';
+import FormContactInfo from '../component/FormContactInfo';
 import FormLevel from '../component/FormLevel';
 import FormAccountIdentifier from '../component/FormAccountIdentifier';
 import {SCREEN_PROFILE} from '../../../api/screen';
 import KeyboardShift from './KeyboardShift';
-import PopupSelectLevel from '../component/PopupSelectLevel';
-import PopupSelectGender from '../component/PopupSelectGender';
+import PopupSelect from '../component/PopupSelect';
+import {ADDRESS_OF_RELATIVE} from '../../../utils/constants';
 const IMAGE_AVATAR = 0;
 const IMAGE_1 = 1;
 const IMAGE_2 = 2;
 const IMAGE_3 = 3;
 
-var list_Gender = [
+var listGender = [
   {label: 'Nam     ', value: 0},
   {label: 'Nữ', value: 1},
 ];
 
-var list_Level = [
+var listLevel = [
   {label: 'Trung Học Cơ Sở', value: 0},
   {label: 'Trung Học Phổ Thông', value: 1},
   {label: 'Trung Cấp', value: 2},
   {label: 'Cao Đẳng', value: 3},
   {label: 'Đại Học', value: 4},
+];
+var listCity = [
+  {label: 'Hồ Chí Minh', value: 0},
+  {label: 'Hà Nội', value: 1},
+];
+var listDistrict = [
+  {label: 'Quận 1', value: 0},
+  {label: 'Quận 2', value: 1},
+  {label: 'Quận 3', value: 2},
+];
+var listBank = [
+  {label: 'Vietcombank', value: 0},
+  {label: 'Sacombank', value: 1},
+  {label: 'ACB', value: 2},
 ];
 class FillProfileContainer extends Component {
   constructor(props) {
@@ -55,7 +70,7 @@ class FillProfileContainer extends Component {
       showButtonAdd_2: true,
       showButtonAdd_3: true,
       showButtonAdd_4: true,
-      urlAvatar: 'http://via.placeholder.com/100x100',
+      urlAvatar: 'http://via.placeholder.com/150x150',
       urlImage_1: '',
       urlImage_2: '',
       urlImage_3: '',
@@ -64,17 +79,34 @@ class FillProfileContainer extends Component {
       firstName: '',
       isDateTimePickerVisible: false,
       dob: '',
-      showGenderSelect: false,
-      genderValue: -1,
+      isShowPopupSelectGender: false,
+      valueGender: -1,
+      isShowPopupSelectLevel: false,
+      valueLevel: -1,
+      isShowPopupSelectCity: false,
+      valueCity: -1,
+      valueCityRelative: -1,
+      isCityRelative: !ADDRESS_OF_RELATIVE,
+      isShowPopupSelectDistrict: false,
+      valueDistrict: -1,
+      valueDistrictRelative: -1,
+      isDistrictRelative: !ADDRESS_OF_RELATIVE,
+      address: '',
+      addressRelative: '',
+      nameRelative: '',
+      phoneRelative: '',
       height: 0,
       weight: 0,
       measure_1: 0,
       measure_2: 0,
       measure_3: 0,
-      showLevelSelect: false,
-      levelValue: -1,
       major: '',
-      contact: '',
+      isShowPopupSelectBank: false,
+      valueBank: -1,
+      bankBranch: '',
+      accountBankName:'',
+      accountBankNumber:'',
+      degreeName:'',
     };
     this._onChangeText = this._onChangeText.bind(this);
   }
@@ -95,8 +127,20 @@ class FillProfileContainer extends Component {
       this.setState({measure_3: text});
     } else if (type == 'major') {
       this.setState({major: text});
-    } else if (type == 'contact') {
-      this.setState({contact: text});
+    } else if (type == 'address') {
+      this.setState({address: text});
+    } else if (type == 'nameRelative') {
+      this.setState({nameRelative: text});
+    } else if (type == 'phoneRelative') {
+      this.setState({phoneRelative: text});
+    } else if (type == 'bankBranch') {
+      this.setState({bankBranch: text});
+    } else if (type == 'accountBankName') {
+      this.setState({accountBankName: text});
+    } else if (type == 'accountBankNumber') {
+      this.setState({accountBankNumber: text});
+    } else if (type == 'degreeName') {
+      this.setState({degreeName: text});
     }
   };
 
@@ -198,60 +242,138 @@ class FillProfileContainer extends Component {
     );
   }
 
-  _handleShowGenderSelect = () => {
-    this.setState({showGenderSelect: true});
+  _handleShowSelectGender = () => {
+    this.setState({isShowPopupSelectGender: true});
   };
-  _handleShowLevelSelect = () => {
-    this.setState({showLevelSelect: true});
+  _handleShowSelectLevel = () => {
+    this.setState({isShowPopupSelectLevel: true});
   };
-  _renderGenderPicker() {
-    let genderValueTmp = this.state.genderValue;
+
+  _handleShowSelectBank = () => {
+    this.setState({isShowPopupSelectBank: true});
+  };
+
+  _handleShowSelectCity = isCityRelative => {
+    this.setState({
+      isShowPopupSelectCity: true,
+      isCityRelative: isCityRelative,
+    });
+  };
+
+  _handleShowSelectDistrict = isDistrictRelative => {
+    this.setState({
+      isShowPopupSelectDistrict: true,
+      isDistrictRelative: isDistrictRelative,
+    });
+  };
+
+  _popupSelectGender = () => {
     return (
-      <Modal
-        backdropOpacity={0.4}
-        backdropColor="#000"
-        useNativeDriver={true}
-        animationIn={'slideInUp'}
-        animationInTiming={300}
-        animationOut={'slideOutDown'}
-        animationOutTiming={300}
-        isVisible={this.state.showGenderSelect}
-        style={{margin: 15}}>
-        <View
-          style={{
-            backgroundColor: '#fff',
-            borderRadius: 10,
-            padding: 20,
-            alignItems: 'center',
-          }}>
-          <Text style={{fontSize: 16}}>Chọn giới tính</Text>
-          <RadioForm
-            style={{marginBottom: 20, marginTop: 20}}
-            radio_props={list_Gender}
-            initial={genderValueTmp}
-            formHorizontal={true}
-            buttonColor={'#F0532D'}
-            selectedButtonColor={'#F0532D'}
-            labelStyle={{fontSize: 18}}
-            onPress={value => {
-              genderValueTmp = value;
-            }}
-          />
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{backgroundColor: '#F0532D', borderRadius: 30}}
-            onPress={() =>
-              this.setState({
-                showGenderSelect: false,
-                genderValue: genderValueTmp,
-              })
-            }>
-            <Text style={styles.btSelectGender}>Đồng ý</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+      <PopupSelect
+        title="Chọn giới tính"
+        isVisible={this.state.isShowPopupSelectGender}
+        data={this.state.valueGender}
+        listData={listGender}
+        onConfirm={dataSelect =>
+          this.setState({
+            isShowPopupSelectGender: false,
+            valueGender: dataSelect,
+          })
+        }
+      />
     );
-  }
+  };
+
+  _popupSelectLevel = () => {
+    return (
+      <PopupSelect
+        title="Chọn trình độ"
+        isVisible={this.state.isShowPopupSelectLevel}
+        data={this.state.valueLevel}
+        listData={listLevel}
+        onConfirm={dataSelect =>
+          this.setState({
+            isShowPopupSelectLevel: false,
+            valueLevel: dataSelect,
+          })
+        }
+      />
+    );
+  };
+
+  _popupSelectCity = typeUser => {
+    return (
+      <PopupSelect
+        title="Chọn Tỉnh / Thành Phố"
+        isVisible={this.state.isShowPopupSelectCity}
+        data={
+          this.state.isCityRelative
+            ? this.state.valueCityRelative
+            : this.state.valueCity
+        }
+        listData={listCity}
+        onConfirm={dataSelect => {
+          this.setState({
+            isShowPopupSelectCity: false,
+          });
+          if (this.state.isCityRelative) {
+            this.setState({
+              valueCityRelative: dataSelect,
+            });
+          } else {
+            this.setState({
+              valueCity: dataSelect,
+            });
+          }
+        }}
+      />
+    );
+  };
+  _popupSelectDistrict = typeUser => {
+    return (
+      <PopupSelect
+        title="Chọn Quận / Huyện"
+        isVisible={this.state.isShowPopupSelectDistrict}
+        data={
+          this.state.isDistrictRelative
+            ? this.state.valueDistrictRelative
+            : this.state.valueDistrict
+        }
+        listData={listDistrict}
+        onConfirm={dataSelect => {
+          this.setState({
+            isShowPopupSelectDistrict: false,
+          });
+          if (this.state.isDistrictRelative) {
+            this.setState({
+              valueDistrictRelative: dataSelect,
+            });
+          } else {
+            this.setState({
+              valueDistrict: dataSelect,
+            });
+          }
+        }}
+      />
+    );
+  };
+
+  _popupSelectBank = () => {
+    return (
+      <PopupSelect
+        title="Chọn ngân hàng"
+        isVisible={this.state.isShowPopupSelectBank}
+        data={this.state.valueBank}
+        listData={listBank}
+        onConfirm={dataSelect =>
+          this.setState({
+            isShowPopupSelectBank: false,
+            valueBank: dataSelect,
+          })
+        }
+      />
+    );
+  };
 
   render() {
     const {percentage, name} = this.props;
@@ -260,28 +382,12 @@ class FillProfileContainer extends Component {
         {() => (
           <ScrollView style={styles.container}>
             {this._renderDOBPicker()}
-            <PopupSelectGender
-              isVisible={this.state.showGenderSelect}
-              genderValue={this.state.genderValue}
-              listGender={list_Gender}
-              onConfirm={genderSelect =>
-                this.setState({
-                  showGenderSelect: false,
-                  genderValue: genderSelect,
-                })
-              }
-            />
-            <PopupSelectLevel
-              isVisible={this.state.showLevelSelect}
-              levelValue={this.state.levelValue}
-              listLevel={list_Level}
-              onConfirm={levelSelect =>
-                this.setState({
-                  showLevelSelect: false,
-                  levelValue: levelSelect,
-                })
-              }
-            />
+            {this._popupSelectGender()}
+            {this._popupSelectLevel()}
+            {this._popupSelectCity()}
+            {this._popupSelectDistrict()}
+            {this._popupSelectBank()}
+
             <TouchableOpacity
               style={styles.viewEdit}
               onPress={() => {
@@ -329,15 +435,15 @@ class FillProfileContainer extends Component {
               handleOpenImage={this._handleOpenImage}
               handleCloseImage={this._handleCloseImage}
             />
-            <View style={[styles.boxIndicatorFill, {height: 5}]} />
+            <View style={styles.boxIndicatorFill} />
             <FormBasicInfo
               onChangeText={this._onChangeText}
               lastName={this.state.lastName}
               firstName={this.state.firstName}
               showDateTimePicker={this._showDateTimePicker}
               txtDOB={this.state.dob ? this.state.dob : 'Chọn'}
-              showGenderSelect={this._handleShowGenderSelect}
-              txtGender={this.state.genderValue}
+              showSelectGender={this._handleShowSelectGender}
+              txtGender={this.state.valueGender}
               height={this.state.height}
               weight={this.state.weight}
               measure_1={this.state.measure_1}
@@ -345,17 +451,38 @@ class FillProfileContainer extends Component {
               measure_3={this.state.measure_3}
             />
             <View style={styles.boxIndicatorFill} />
+            <FormContactInfo
+              onChangeText={this._onChangeText}
+              showSelectCity={this._handleShowSelectCity}
+              valueCity={this.state.valueCity}
+              valueCityRelative={this.state.valueCityRelative}
+              showSelectDistrict={this._handleShowSelectDistrict}
+              valueDistrict={this.state.valueDistrict}
+              valueDistrictRelative={this.state.valueDistrictRelative}
+              address={this.state.address}
+              addressRelative={this.state.addressRelative}
+              nameRelative={this.state.nameRelative}
+              phoneRelative={this.state.phoneRelative}
+            />
+            <View style={styles.boxIndicatorFill} />
+
             <FormLevel
               onChangeText={this._onChangeText}
-              showLevelSelect={this._handleShowLevelSelect}
-              txtLevel={this.state.levelValue}
+              showSelectLevel={this._handleShowSelectLevel}
+              valueLevel={this.state.valueLevel}
               major={this.state.major}
             />
             <View style={styles.boxIndicatorFill} />
             <FormAccountIdentifier
               onChangeText={this._onChangeText}
-              contact={this.state.contact}
+              showSelectBank={this._handleShowSelectBank}
+              valueBank={this.state.valueBank}
+              bankBranch={this.state.bankBranch}
+              accountBankName = {this.state.accountBankName}
+              accountBankNumber = {this.state.accountBankNumber}
+              degreeName = {this.state.degreeName}
             />
+            <View style={styles.boxIndicatorFill} />
           </ScrollView>
         )}
       </KeyboardShift>

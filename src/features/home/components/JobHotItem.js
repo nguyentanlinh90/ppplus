@@ -4,7 +4,7 @@ import {Card} from 'react-native-shadow-cards';
 import styles from '../styles/styles';
 import {Rating} from 'react-native-ratings';
 import moment from 'moment';
-export class JobHotItem extends Component {
+export default class JobHotItem extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -174,4 +174,3 @@ export class JobHotItem extends Component {
     );
   }
 }
-export default JobHotItem;

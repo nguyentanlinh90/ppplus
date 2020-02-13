@@ -4,7 +4,7 @@ import {View, Image, AsyncStorage} from 'react-native';
 import {dispatchScreen} from '../../../utils/utils';
 import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
 import {
-  SCREEN_CREATE_ACCOUNT,
+  SCREEN_FILL_PROFILE,
   SCREEN_MAIN,
   SCREEN_RETRO,
 } from '../../../api/screen';
@@ -27,7 +27,7 @@ class SplashContainer extends Component {
   componentDidMount() {
     setTimeout(() => {
       if (this.state.isLogin) {
-        dispatchScreen(this.props, SCREEN_MAIN, {});
+        dispatchScreen(this.props, SCREEN_FILL_PROFILE, {});
       } else {
         dispatchScreen(this.props, SCREEN_RETRO, {});
       }

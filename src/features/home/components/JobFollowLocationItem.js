@@ -4,7 +4,7 @@ import styles from '../styles/styles';
 import CheckBox from 'react-native-check-box';
 import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
-export class JobFollowLocationItem extends Component {
+export default class JobFollowLocationItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -133,4 +133,3 @@ export class JobFollowLocationItem extends Component {
     );
   }
 }
-export default JobFollowLocationItem;

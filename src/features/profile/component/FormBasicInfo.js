@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {
   Collapse,
   CollapseHeader,
@@ -25,7 +25,7 @@ export default class FormBasicInfo extends Component {
       firstName,
       showDateTimePicker,
       txtDOB,
-      showGenderSelect,
+      showSelectGender,
       txtGender,
       height,
       weight,
@@ -56,35 +56,31 @@ export default class FormBasicInfo extends Component {
         </CollapseHeader>
         <CollapseBody>
           <View style={{marginEnd: 16, marginStart: 16}}>
-            <View style={styles.containerBasicInfo}>
+            <View style={styles.groupContainer}>
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Họ và tên đệm*</Text>
-                <View style={styles.boxInputBasicInfo}>
-                  <TextInput
-                    style={styles.txtInputBasicInfo}
-                    returnKeyType="next"
-                    value={lastName}
-                    name="lastName"
-                    placeholder="Nhập họ và tên đệm"
-                    onChangeText={text => onChangeText(text, 'lastName')}
-                  />
-                </View>
+                <TextInput
+                  style={styles.txtInputContainer}
+                  returnKeyType="done"
+                  value={lastName}
+                  name="lastName"
+                  placeholder="Nhập họ và tên đệm"
+                  onChangeText={text => onChangeText(text, 'lastName')}
+                />
               </View>
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Tên*</Text>
-                <View style={styles.boxInputBasicInfo}>
-                  <TextInput
-                    style={styles.txtInputBasicInfo}
-                    returnKeyType="next"
-                    value={firstName}
-                    name="firstName"
-                    placeholder="Nhập tên"
-                    onChangeText={text => onChangeText(text, 'firstName')}
-                  />
-                </View>
+                <TextInput
+                  style={styles.txtInputContainer}
+                  returnKeyType="done"
+                  value={firstName}
+                  name="firstName"
+                  placeholder="Nhập tên"
+                  onChangeText={text => onChangeText(text, 'firstName')}
+                />
               </View>
             </View>
-            <View style={styles.containerBasicInfo}>
+            <View style={styles.groupContainer}>
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>
                   Ngày tháng năm sinh*
@@ -92,10 +88,8 @@ export default class FormBasicInfo extends Component {
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => showDateTimePicker()}>
-                  <View style={styles.boxPickerBasicInfo}>
-                    <Text style={[styles.txtPicker, {color: '#757575'}]}>
-                      {txtDOB}
-                    </Text>
+                  <View style={styles.boxContainer}>
+                    <Text style={styles.txtInBox}>{txtDOB}</Text>
                     <ArrowUpDown />
                   </View>
                 </TouchableOpacity>
@@ -104,86 +98,72 @@ export default class FormBasicInfo extends Component {
                 <Text style={styles.txtTitleBasicInfo}>Giới tính*</Text>
                 <TouchableOpacity
                   activeOpacity={0.8}
-                  onPress={() => showGenderSelect()}>
-                  <View style={styles.boxPickerBasicInfo}>
-                    <Text style={[styles.txtPicker, {color: '#757575'}]}>
-                      {gender}
-                    </Text>
+                  onPress={() => showSelectGender()}>
+                  <View style={styles.boxContainer}>
+                    <Text style={styles.txtInBox}>{gender}</Text>
                     <ArrowUpDown />
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.containerBasicInfo}>
+            <View style={styles.groupContainer}>
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Chiều cao (cm)*</Text>
-                <View style={styles.boxPickerBasicInfo}>
-                  <TextInput
-                    style={styles.txtInputBasicInfo}
-                    returnKeyType="next"
-                    value={height}
-                    name="height"
-                    placeholder="Nhập chiều cao"
-                    keyboardType="numeric"
-                    onChangeText={text => onChangeText(text, 'height')}
-                  />
-                </View>
+                <TextInput
+                  style={styles.txtInputContainer}
+                  returnKeyType="done"
+                  value={height}
+                  name="height"
+                  placeholder="Nhập chiều cao"
+                  keyboardType="numeric"
+                  onChangeText={text => onChangeText(text, 'height')}
+                />
               </View>
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Cân nặng (kg)*</Text>
-                <View style={styles.boxPickerBasicInfo}>
-                  <TextInput
-                    style={styles.txtInputBasicInfo}
-                    returnKeyType="next"
-                    value={weight}
-                    name="weight"
-                    placeholder="Nhập cân nặng"
-                    keyboardType="numeric"
-                    onChangeText={text => onChangeText(text, 'weight')}
-                  />
-                </View>
+                <TextInput
+                  style={styles.txtInputContainer}
+                  returnKeyType="done"
+                  value={weight}
+                  name="weight"
+                  placeholder="Nhập cân nặng"
+                  keyboardType="numeric"
+                  onChangeText={text => onChangeText(text, 'weight')}
+                />
               </View>
             </View>
             <Text style={styles.txtTitleBasicInfo}>Số đo 3 vòng</Text>
-            <View style={styles.containerBasicInfo}>
-              <View
-                style={[styles.boxPickerBasicInfo, {flex: 1, marginEnd: 10}]}>
-                <TextInput
-                  style={styles.txtInputBasicInfo}
-                  returnKeyType="next"
-                  value={measure_1}
-                  name="measure_1"
-                  placeholder="Vòng 1"
-                  keyboardType="numeric"
-                  onChangeText={text => onChangeText(text, 'measure_1')}
-                />
-                <ArrowUpDown />
-              </View>
-              <View
-                style={[styles.boxPickerBasicInfo, {flex: 1, marginEnd: 10}]}>
-                <TextInput
-                  style={styles.txtInputBasicInfo}
-                  returnKeyType="next"
-                  value={measure_2}
-                  name="measure_2"
-                  placeholder="Vòng 2"
-                  keyboardType="numeric"
-                  onChangeText={text => onChangeText(text, 'measure_2')}
-                />
-                <ArrowUpDown />
-              </View>
-              <View style={[styles.boxPickerBasicInfo, {flex: 1}]}>
-                <TextInput
-                  style={styles.txtInputBasicInfo}
-                  returnKeyType="done"
-                  value={measure_3}
-                  name="measure_3"
-                  placeholder="Vòng 3"
-                  keyboardType="numeric"
-                  onChangeText={text => onChangeText(text, 'measure_3')}
-                />
-                <ArrowUpDown />
-              </View>
+            <View style={styles.groupContainer}>
+              <TextInput
+                style={styles.txtInputContainer}
+                returnKeyType="done"
+                value={measure_1}
+                name="measure_1"
+                placeholder="Vòng 1"
+                keyboardType="numeric"
+                onChangeText={text => onChangeText(text, 'measure_1')}
+              />
+              <TextInput
+                style={[
+                  styles.txtInputContainer,
+                  {marginEnd: 10, marginStart: 10},
+                ]}
+                returnKeyType="done"
+                value={measure_2}
+                name="measure_2"
+                placeholder="Vòng 2"
+                keyboardType="numeric"
+                onChangeText={text => onChangeText(text, 'measure_2')}
+              />
+              <TextInput
+                style={styles.txtInputContainer}
+                returnKeyType="done"
+                value={measure_3}
+                name="measure_3"
+                placeholder="Vòng 3"
+                keyboardType="numeric"
+                onChangeText={text => onChangeText(text, 'measure_3')}
+              />
             </View>
           </View>
         </CollapseBody>
