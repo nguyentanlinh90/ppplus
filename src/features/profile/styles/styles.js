@@ -137,10 +137,16 @@ export default StyleSheet.create({
   },
   groupContainer: {flexDirection: 'row', marginBottom: 20},
   boxBasicInfo: {flex: 1, marginEnd: 10},
-  txtTitleBasicInfo: {color: '#757575', marginBottom: 5,marginTop:10, fontSize: 16},
+  txtTitleBasicInfo: {
+    color: '#757575',
+    marginBottom: 5,
+    marginTop: 10,
+    fontSize: 16,
+  },
 
   boxContainer: {
     flex: 1,
+    flexDirection:'row',
     height: 44,
     borderColor: '#d8d8d8',
     borderWidth: 1,
@@ -170,7 +176,7 @@ export default StyleSheet.create({
   txtInBox: {
     flex: 1,
     fontSize: 16,
-    color: '#757575'
+    color: '#757575',
   },
   btSelectGender: {
     textAlign: 'center',
@@ -206,7 +212,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
     padding: 10,
   },
-  buttonSelectID:{
+  buttonSelectID: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#FA6400',
@@ -214,10 +220,43 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  txtSelectID:{
+  txtSelectID: {
     color: '#FBFBFB',
     fontSize: 16,
     fontWeight: 'bold',
     marginStart: 10,
-  }
+  },
+  boxSelect: {
+    borderWidth: 1,
+    borderColor: '#F0532D',
+    borderRadius: 6,
+    height: 300,
+  },
+  infoBoxSelect: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingEnd: 10,
+  },
+  txtViewSelect: {
+    height: 44,
+    color: '#000',
+    fontSize: 16,
+    paddingStart: 10,
+    flex: 1,
+    paddingTop: 14,
+  },
+  lineSelect: {
+    height: 0.5,
+    backgroundColor: '#d8d8d8',
+    marginStart: 10,
+    marginEnd: 10,
+  },
+  txtSelect: {
+    color: '#2b2b2b',
+    fontSize: 16,
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
+    lineHeight: 25,
+  },
 });

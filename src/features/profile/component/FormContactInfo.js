@@ -10,7 +10,12 @@ import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
 import {ADDRESS_OF_RELATIVE} from '../../../utils/constants';
-
+import {text_select} from '../../../utils/constants';
+import {
+  boxSelectStyle,
+  txtInBoxSelectStyle,
+  txtInputStyle,
+} from '../../../utils/utils';
 export default class FormContactInfo extends Component {
   constructor(props) {
     super(props);
@@ -31,6 +36,7 @@ export default class FormContactInfo extends Component {
       address,
       nameRelative,
       phoneRelative,
+      addressRelative
     } = this.props;
 
     return (
@@ -50,26 +56,25 @@ export default class FormContactInfo extends Component {
             <Text style={styles.txtTitleBasicInfo}>Địa chỉ thường trú*</Text>
             <View style={{flexDirection: 'row', marginBottom: 10}}>
               <TouchableOpacity
-                style={[styles.boxContainer, {marginEnd: 10}]}
-                activeOpacity={0.8}
+                style={[
+                  boxSelectStyle(valueCity != text_select),
+                  {marginEnd: 10},
+                ]}
                 onPress={() => showSelectCity(!ADDRESS_OF_RELATIVE)}>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.txtInBox}>{valueCity}</Text>
-                  <ArrowUpDown />
-                </View>
+                <Text style={txtInBoxSelectStyle(valueCity)}>{valueCity}</Text>
+                <ArrowUpDown />
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.boxContainer}
-                activeOpacity={0.8}
+                style={boxSelectStyle(valueDistrict != text_select)}
                 onPress={() => showSelectDistrict(!ADDRESS_OF_RELATIVE)}>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.txtInBox}>{valueDistrict}</Text>
-                  <ArrowUpDown />
-                </View>
+                <Text style={txtInBoxSelectStyle(valueDistrict)}>
+                  {valueDistrict}
+                </Text>
+                <ArrowUpDown />
               </TouchableOpacity>
             </View>
             <TextInput
-              style={[styles.txtInputContainer, {marginBottom: 10}]}
+              style={[txtInputStyle(address), {marginBottom: 10}]}
               returnKeyType="done"
               value={address}
               name="address"
@@ -80,7 +85,7 @@ export default class FormContactInfo extends Component {
               Liên hệ trong trường hợp khẩn cấp*
             </Text>
             <TextInput
-              style={[styles.txtInputContainer, {marginBottom: 10}]}
+              style={[txtInputStyle(nameRelative), {marginBottom: 10}]}
               returnKeyType="done"
               value={nameRelative}
               name="nameRelative"
@@ -88,7 +93,7 @@ export default class FormContactInfo extends Component {
               onChangeText={text => onChangeText(text, 'nameRelative')}
             />
             <TextInput
-              style={[styles.txtInputContainer, {marginBottom: 10}]}
+              style={[txtInputStyle(phoneRelative), {marginBottom: 10}]}
               returnKeyType="done"
               keyboardType="phone-pad"
               value={phoneRelative}
@@ -98,28 +103,29 @@ export default class FormContactInfo extends Component {
             />
             <View style={{flexDirection: 'row', marginBottom: 10}}>
               <TouchableOpacity
-                style={[styles.boxContainer, {marginEnd: 10}]}
-                activeOpacity={0.8}
+                style={[
+                  boxSelectStyle(valueCityRelative != text_select),
+                  {marginEnd: 10},
+                ]}
                 onPress={() => showSelectCity(ADDRESS_OF_RELATIVE)}>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.txtInBox}>{valueCityRelative}</Text>
-                  <ArrowUpDown />
-                </View>
+                <Text style={txtInBoxSelectStyle(valueCityRelative)}>
+                  {valueCityRelative}
+                </Text>
+                <ArrowUpDown />
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.boxContainer}
-                activeOpacity={0.8}
+                style={boxSelectStyle(valueDistrictRelative != text_select)}
                 onPress={() => showSelectDistrict(ADDRESS_OF_RELATIVE)}>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.txtInBox}>{valueDistrictRelative}</Text>
-                  <ArrowUpDown />
-                </View>
+                <Text style={txtInBoxSelectStyle(valueDistrictRelative)}>
+                  {valueDistrictRelative}
+                </Text>
+                <ArrowUpDown />
               </TouchableOpacity>
             </View>
             <TextInput
-              style={styles.txtInputContainer}
+              style={txtInputStyle(addressRelative)}
               returnKeyType="done"
-              value={address}
+              value={addressRelative}
               name="addressRelative"
               placeholder="Nhập số nhà và tên đường người thân"
               onChangeText={text => onChangeText(text, 'addressRelative')}

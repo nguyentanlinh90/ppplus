@@ -30,6 +30,7 @@ import {SCREEN_PROFILE} from '../../../api/screen';
 import KeyboardShift from './KeyboardShift';
 import PopupSelect from '../component/PopupSelect';
 import {ADDRESS_OF_RELATIVE} from '../../../utils/constants';
+import {text_select} from '../../../utils/constants';
 const IMAGE_AVATAR = 0;
 const IMAGE_1 = 1;
 const IMAGE_2 = 2;
@@ -80,33 +81,32 @@ class FillProfileContainer extends Component {
       isDateTimePickerVisible: false,
       dob: '',
       isShowPopupSelectGender: false,
-      valueGender: -1,
+      valueGender: text_select,
       isShowPopupSelectLevel: false,
-      valueLevel: -1,
+      valueLevel: text_select,
       isShowPopupSelectCity: false,
-      valueCity: -1,
-      valueCityRelative: -1,
+      valueCity: text_select,
+      valueCityRelative: text_select,
       isCityRelative: !ADDRESS_OF_RELATIVE,
       isShowPopupSelectDistrict: false,
-      valueDistrict: -1,
-      valueDistrictRelative: -1,
+      valueDistrict: text_select,
+      valueDistrictRelative: text_select,
       isDistrictRelative: !ADDRESS_OF_RELATIVE,
       address: '',
-      addressRelative: '',
       nameRelative: '',
       phoneRelative: '',
+      addressRelative: '',
       height: 0,
       weight: 0,
-      measure_1: 0,
-      measure_2: 0,
-      measure_3: 0,
       major: '',
       isShowPopupSelectBank: false,
-      valueBank: -1,
+      valueBank: text_select,
       bankBranch: '',
-      accountBankName:'',
-      accountBankNumber:'',
-      degreeName:'',
+      accountBankName: '',
+      accountBankNumber: '',
+      degreeName: '',
+      city: text_select,
+      industry: text_select,
     };
     this._onChangeText = this._onChangeText.bind(this);
   }
@@ -133,7 +133,9 @@ class FillProfileContainer extends Component {
       this.setState({nameRelative: text});
     } else if (type == 'phoneRelative') {
       this.setState({phoneRelative: text});
-    } else if (type == 'bankBranch') {
+    } else if (type == 'addressRelative') {
+      this.setState({addressRelative: text});
+    }else if (type == 'bankBranch') {
       this.setState({bankBranch: text});
     } else if (type == 'accountBankName') {
       this.setState({accountBankName: text});
@@ -375,6 +377,46 @@ class FillProfileContainer extends Component {
     );
   };
 
+  _selectCity = citySelect => {
+    if (this.state.city.includes(citySelect)) {
+      var cityTemp = this.state.city
+        .replace(citySelect + '; ', '')
+        .replace('; ' + citySelect, '')
+        .replace(citySelect, '');
+      if (cityTemp == '') {
+        cityTemp = text_select;
+      }
+      this.setState({city: cityTemp});
+      return;
+    }
+    this.setState({
+      city: (this.state.city + '; ' + citySelect).replace(
+        text_select + '; ',
+        '',
+      ),
+    });
+  };
+
+  _selectIndustry = industrySelect => {
+    if (this.state.industry.includes(industrySelect)) {
+      var industryTemp = this.state.industry
+        .replace(industrySelect + '; ', '')
+        .replace('; ' + industrySelect, '')
+        .replace(industrySelect, '');
+      if (industryTemp == '') {
+        industryTemp = text_select;
+      }
+      this.setState({industry: industryTemp});
+      return;
+    }
+    this.setState({
+      industry: (this.state.industry + '; ' + industrySelect).replace(
+        text_select + '; ',
+        '',
+      ),
+    });
+  };
+
   render() {
     const {percentage, name} = this.props;
     return (
@@ -446,11 +488,12 @@ class FillProfileContainer extends Component {
               txtGender={this.state.valueGender}
               height={this.state.height}
               weight={this.state.weight}
-              measure_1={this.state.measure_1}
-              measure_3={this.state.measure_2}
-              measure_3={this.state.measure_3}
+              selectCity={this._selectCity}
+              city={this.state.city}
+              selectIndustry={this._selectIndustry}
+              industry={this.state.industry}
             />
-            <View style={styles.boxIndicatorFill} />
+             <View style={[styles.boxIndicatorFill,{marginTop:20}]} />
             <FormContactInfo
               onChangeText={this._onChangeText}
               showSelectCity={this._handleShowSelectCity}
@@ -478,9 +521,9 @@ class FillProfileContainer extends Component {
               showSelectBank={this._handleShowSelectBank}
               valueBank={this.state.valueBank}
               bankBranch={this.state.bankBranch}
-              accountBankName = {this.state.accountBankName}
-              accountBankNumber = {this.state.accountBankNumber}
-              degreeName = {this.state.degreeName}
+              accountBankName={this.state.accountBankName}
+              accountBankNumber={this.state.accountBankNumber}
+              degreeName={this.state.degreeName}
             />
             <View style={styles.boxIndicatorFill} />
           </ScrollView>

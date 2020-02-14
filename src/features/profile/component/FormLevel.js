@@ -9,7 +9,12 @@ import ArrowUpDown from '../../../components/ArrowUpDown';
 import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
-
+import {text_select} from '../../../utils/constants';
+import {
+  boxSelectStyle,
+  txtInBoxSelectStyle,
+  txtInputStyle,
+} from '../../../utils/utils';
 export default class FormLevel extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +37,7 @@ export default class FormLevel extends Component {
     } else if (valueLevel == 4) {
       txtLevel = 'Đại Học';
     } else {
-      txtLevel = 'Chọn trình độ';
+      txtLevel = text_select;
     }
 
     return (
@@ -51,18 +56,16 @@ export default class FormLevel extends Component {
           <View style={{marginEnd: 16, marginStart: 16, paddingBottom: 20}}>
             <Text style={styles.txtTitleBasicInfo}>Học vấn</Text>
             <TouchableOpacity
-              activeOpacity={0.8}
+              style={boxSelectStyle(txtLevel != text_select)}
               onPress={() => showSelectLevel()}>
-              <View style={styles.boxContainer}>
-                <Text style={styles.txtInBox}>{txtLevel}</Text>
-                <ArrowUpDown />
-              </View>
+              <Text style={txtInBoxSelectStyle(txtLevel)}>{txtLevel}</Text>
+              <ArrowUpDown />
             </TouchableOpacity>
             <Text style={[styles.txtTitleBasicInfo, {marginTop: 20}]}>
               Chuyên ngành
             </Text>
             <TextInput
-              style={styles.txtInputContainer}
+              style={txtInputStyle(major)}
               returnKeyType="done"
               value={major}
               name="major"

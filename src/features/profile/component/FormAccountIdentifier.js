@@ -9,7 +9,12 @@ import ArrowUpDown from '../../../components/ArrowUpDown';
 import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
-
+import {text_select} from '../../../utils/constants';
+import {
+  boxSelectStyle,
+  txtInBoxSelectStyle,
+  txtInputStyle,
+} from '../../../utils/utils';
 export default class FormAccountIdentifier extends Component {
   constructor(props) {
     super(props);
@@ -53,13 +58,16 @@ export default class FormAccountIdentifier extends Component {
             <Text style={styles.txtTitleBasicInfo}>Thông tin chuyển khoản</Text>
             <View style={styles.groupContainer}>
               <TouchableOpacity
-                style={[styles.boxContainer, {marginEnd: 10}]}
+                style={[
+                  boxSelectStyle(valueBank != text_select),
+                  {marginEnd: 10},
+                ]}
                 onPress={() => showSelectBank()}>
-                <Text style={styles.txtInBox}>{valueBank}</Text>
+                <Text style={txtInBoxSelectStyle(valueBank)}>{valueBank}</Text>
                 <ArrowUpDown />
               </TouchableOpacity>
               <TextInput
-                style={styles.txtInputContainer}
+                style={txtInputStyle(bankBranch)}
                 returnKeyType="done"
                 value={bankBranch}
                 name="bankBranch"
@@ -68,7 +76,7 @@ export default class FormAccountIdentifier extends Component {
               />
             </View>
             <TextInput
-              style={[styles.txtInputContainer, {marginBottom: 10}]}
+              style={[txtInputStyle(accountBankName), {marginBottom: 10}]}
               returnKeyType="done"
               value={accountBankName}
               name="accountBankName"
@@ -76,7 +84,7 @@ export default class FormAccountIdentifier extends Component {
               onChangeText={text => onChangeText(text, 'accountBankName')}
             />
             <TextInput
-              style={[styles.txtInputContainer, {marginBottom: 10}]}
+              style={[txtInputStyle(accountBankNumber), {marginBottom: 10}]}
               returnKeyType="done"
               value={accountBankNumber}
               name="accountBankNumber"

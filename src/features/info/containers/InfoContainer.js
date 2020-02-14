@@ -4,7 +4,7 @@ import {View, SafeAreaView, ScrollView, Image} from 'react-native';
 import styles from '../styles/styles';
 import InfoForm from '../component/InfoForm';
 import {SCREEN_MAIN} from '../../../api/screen';
-import {select_location, select_industry} from '../../../utils/constants';
+import {text_select} from '../../../utils/constants';
 import {dispatchScreen} from '../../../utils/utils';
 
 class InfoContainer extends Component {
@@ -16,8 +16,8 @@ class InfoContainer extends Component {
       genderMale: false,
       genderFeMale: false,
       yearOfBirth: new Date().getFullYear() - 18,
-      city: select_location,
-      industry: select_industry,
+      city: text_select,
+      industry: text_select,
       isJobLongTerm: false,
       isJobShortTerm: false,
     };
@@ -56,14 +56,14 @@ class InfoContainer extends Component {
         .replace('; ' + citySelect, '')
         .replace(citySelect, '');
       if (cityTemp == '') {
-        cityTemp = select_location;
+        cityTemp = text_select;
       }
       this.setState({city: cityTemp});
       return;
     }
     this.setState({
       city: (this.state.city + '; ' + citySelect).replace(
-        select_location + '; ',
+        text_select + '; ',
         '',
       ),
     });
@@ -76,14 +76,14 @@ class InfoContainer extends Component {
         .replace('; ' + industrySelect, '')
         .replace(industrySelect, '');
       if (industryTemp == '') {
-        industryTemp = select_industry;
+        industryTemp = text_select;
       }
       this.setState({industry: industryTemp});
       return;
     }
     this.setState({
       industry: (this.state.industry + '; ' + industrySelect).replace(
-        select_industry + '; ',
+        text_select + '; ',
         '',
       ),
     });
