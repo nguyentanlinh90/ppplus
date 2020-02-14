@@ -32,9 +32,15 @@ import PopupSelect from '../component/PopupSelect';
 import {ADDRESS_OF_RELATIVE} from '../../../utils/constants';
 import {text_select} from '../../../utils/constants';
 const IMAGE_AVATAR = 0;
-const IMAGE_1 = 1;
-const IMAGE_2 = 2;
-const IMAGE_3 = 3;
+import {
+  IMAGE_1,
+  IMAGE_2,
+  IMAGE_3,
+  IMAGE_4,
+  IMAGE_ID_FRONT,
+  IMAGE_ID_BEHIND,
+  IMAGE_DEGREE,
+} from '../../../utils/constants';
 
 var listGender = [
   {label: 'Nam     ', value: 0},
@@ -67,10 +73,6 @@ class FillProfileContainer extends Component {
     super(props);
     this.state = {
       percentage: 20,
-      showButtonAdd_1: true,
-      showButtonAdd_2: true,
-      showButtonAdd_3: true,
-      showButtonAdd_4: true,
       urlAvatar: 'http://via.placeholder.com/150x150',
       urlImage_1: '',
       urlImage_2: '',
@@ -107,6 +109,9 @@ class FillProfileContainer extends Component {
       degreeName: '',
       city: text_select,
       industry: text_select,
+      urlIDFront: '',
+      urlIDBehind: '',
+      urlDegree: '',
     };
     this._onChangeText = this._onChangeText.bind(this);
   }
@@ -135,7 +140,7 @@ class FillProfileContainer extends Component {
       this.setState({phoneRelative: text});
     } else if (type == 'addressRelative') {
       this.setState({addressRelative: text});
-    }else if (type == 'bankBranch') {
+    } else if (type == 'bankBranch') {
       this.setState({bankBranch: text});
     } else if (type == 'accountBankName') {
       this.setState({accountBankName: text});
@@ -184,10 +189,22 @@ class FillProfileContainer extends Component {
             showButtonAdd_3: false,
             urlImage_3: response.uri,
           });
-        } else {
+        } else if (numberOfImage == IMAGE_4) {
           this.setState({
             showButtonAdd_4: false,
             urlImage_4: response.uri,
+          });
+        } else if (numberOfImage == IMAGE_ID_FRONT) {
+          this.setState({
+            urlIDFront: response.uri,
+          });
+        } else if (numberOfImage == IMAGE_ID_BEHIND) {
+          this.setState({
+            urlIDBehind: response.uri,
+          });
+        } else if (numberOfImage == IMAGE_DEGREE) {
+          this.setState({
+            urlDegree: response.uri,
           });
         }
       }
@@ -197,23 +214,31 @@ class FillProfileContainer extends Component {
   _handleCloseImage = numberOfImage => {
     if (numberOfImage == IMAGE_1) {
       this.setState({
-        showButtonAdd_1: true,
         urlImage_1: '',
       });
     } else if (numberOfImage == IMAGE_2) {
       this.setState({
-        showButtonAdd_2: true,
         urlImage_2: '',
       });
     } else if (numberOfImage == IMAGE_3) {
       this.setState({
-        showButtonAdd_3: true,
         urlImage_3: '',
       });
-    } else {
+    } else if (numberOfImage == IMAGE_4) {
       this.setState({
-        showButtonAdd_4: true,
         urlImage_4: '',
+      });
+    } else if (numberOfImage == IMAGE_ID_FRONT) {
+      this.setState({
+        urlIDFront: '',
+      });
+    } else if (numberOfImage == IMAGE_ID_BEHIND) {
+      this.setState({
+        urlIDBehind: '',
+      });
+    } else if (numberOfImage == IMAGE_DEGREE) {
+      this.setState({
+        urlDegree: '',
       });
     }
   };
@@ -466,10 +491,6 @@ class FillProfileContainer extends Component {
               </View>
             </View>
             <FormImageProfile
-              showButtonAdd_1={this.state.showButtonAdd_1}
-              showButtonAdd_2={this.state.showButtonAdd_2}
-              showButtonAdd_3={this.state.showButtonAdd_3}
-              showButtonAdd_4={this.state.showButtonAdd_4}
               urlImage_1={this.state.urlImage_1}
               urlImage_2={this.state.urlImage_2}
               urlImage_3={this.state.urlImage_3}
@@ -493,7 +514,7 @@ class FillProfileContainer extends Component {
               selectIndustry={this._selectIndustry}
               industry={this.state.industry}
             />
-             <View style={[styles.boxIndicatorFill,{marginTop:20}]} />
+            <View style={styles.boxIndicatorFill} />
             <FormContactInfo
               onChangeText={this._onChangeText}
               showSelectCity={this._handleShowSelectCity}
@@ -523,7 +544,12 @@ class FillProfileContainer extends Component {
               bankBranch={this.state.bankBranch}
               accountBankName={this.state.accountBankName}
               accountBankNumber={this.state.accountBankNumber}
+              urlIDFront={this.state.urlIDFront}
+              urlIDBehind={this.state.urlIDBehind}
+              urlDegree={this.state.urlDegree}
+              handleOpenImage={this._handleOpenImage}
               degreeName={this.state.degreeName}
+              handleCloseImage={this._handleCloseImage}
             />
             <View style={styles.boxIndicatorFill} />
           </ScrollView>

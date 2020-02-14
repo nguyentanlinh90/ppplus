@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styles from '../styles/styles';
-
+import {IMAGE_1, IMAGE_2, IMAGE_3, IMAGE_4} from '../../../utils/constants';
+import CloseImage from '../../../components/CloseImage';
 export default class FormImageProfile extends Component {
   constructor(props) {
     super(props);
@@ -14,20 +15,37 @@ export default class FormImageProfile extends Component {
       />
     );
   };
-  renderImageClose = () => {
+
+  _renderImageOpen = (url, type) => {
     return (
-      <Image
-        resizeMode="contain"
-        source={require('../../../assets/images/ic-close.png')}
-      />
+      <View style={styles.boxShowImage}>
+        <Image
+          resizeMode="stretch"
+          source={{uri: url}}
+          style={styles.imageLoad}
+        />
+        <TouchableOpacity
+          style={styles.boxIDItemClose}
+          onPress={() => this.props.handleCloseImage(type)}>
+          <CloseImage />
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  _renderImageEmpty = type => {
+    return (
+      <View style={styles.boxAddImage}>
+        <TouchableOpacity
+          style={styles.boxButtonAdd}
+          onPress={() => this.props.handleOpenImage(type)}>
+          {this.renderImagePlus()}
+        </TouchableOpacity>
+      </View>
     );
   };
   render() {
     const {
-      showButtonAdd_1,
-      showButtonAdd_2,
-      showButtonAdd_3,
-      showButtonAdd_4,
       urlImage_1,
       urlImage_2,
       urlImage_3,
@@ -38,116 +56,18 @@ export default class FormImageProfile extends Component {
 
     return (
       <View style={styles.containerAddImage}>
-        {!showButtonAdd_1 ? (
-          <View style={styles.boxShowImage}>
-            <Image
-              resizeMode="stretch"
-              source={{uri: urlImage_1}}
-              style={styles.imageLoad}
-            />
-            <View style={styles.boxClose}>
-              <TouchableOpacity
-                style={styles.boxButtonAdd}
-                activeOpacity={0.8}
-                onPress={() => handleCloseImage(1)}>
-                {this.renderImageClose()}
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : (
-          <View style={styles.boxAddImage}>
-            <TouchableOpacity
-              style={styles.boxButtonAdd}
-              activeOpacity={0.8}
-              onPress={() => handleOpenImage(1)}>
-              {this.renderImagePlus()}
-            </TouchableOpacity>
-          </View>
-        )}
-        <View style={styles.boxAddImage}>
-          {!showButtonAdd_2 ? (
-            <View style={styles.boxShowImage}>
-              <Image
-                resizeMode="stretch"
-                source={{uri: urlImage_2}}
-                style={styles.imageLoad}
-              />
-              <View style={styles.boxClose}>
-                <TouchableOpacity
-                  style={styles.boxButtonAdd}
-                  activeOpacity={0.8}
-                  onPress={() => handleCloseImage(2)}>
-                  {this.renderImageClose()}
-                </TouchableOpacity>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.boxAddImage}>
-              <TouchableOpacity
-                style={styles.boxButtonAdd}
-                activeOpacity={0.8}
-                onPress={() => handleOpenImage(2)}>
-                {this.renderImagePlus()}
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-        <View style={styles.boxAddImage}>
-          {!showButtonAdd_3 ? (
-            <View style={styles.boxShowImage}>
-              <Image
-                resizeMode="stretch"
-                source={{uri: urlImage_3}}
-                style={styles.imageLoad}
-              />
-              <View style={styles.boxClose}>
-                <TouchableOpacity
-                  style={styles.boxButtonAdd}
-                  activeOpacity={0.8}
-                  onPress={() => handleCloseImage(3)}>
-                  {this.renderImageClose()}
-                </TouchableOpacity>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.boxAddImage}>
-              <TouchableOpacity
-                style={styles.boxButtonAdd}
-                activeOpacity={0.8}
-                onPress={() => handleOpenImage(3)}>
-                {this.renderImagePlus()}
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-        <View style={styles.boxAddImage}>
-          {!showButtonAdd_4 ? (
-            <View style={styles.boxShowImage}>
-              <Image
-                resizeMode="stretch"
-                source={{uri: urlImage_4}}
-                style={styles.imageLoad}
-              />
-              <View style={styles.boxClose}>
-                <TouchableOpacity
-                  style={styles.boxButtonAdd}
-                  activeOpacity={0.8}
-                  onPress={() => handleCloseImage(4)}>
-                  {this.renderImageClose()}
-                </TouchableOpacity>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.boxAddImage}>
-              <TouchableOpacity
-                style={styles.boxButtonAdd}
-                activeOpacity={0.8}
-                onPress={() => handleOpenImage(4)}>
-                {this.renderImagePlus()}
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
+        {urlImage_1
+          ? this._renderImageOpen(urlImage_1, IMAGE_1)
+          : this._renderImageEmpty(IMAGE_1)}
+        {urlImage_2
+          ? this._renderImageOpen(urlImage_2, IMAGE_2)
+          : this._renderImageEmpty(IMAGE_2)}
+        {urlImage_3
+          ? this._renderImageOpen(urlImage_3, IMAGE_3)
+          : this._renderImageEmpty(IMAGE_3)}
+        {urlImage_4
+          ? this._renderImageOpen(urlImage_4, IMAGE_4)
+          : this._renderImageEmpty(IMAGE_4)}
       </View>
     );
   }

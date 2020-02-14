@@ -77,3 +77,4 @@ export const boxContainerStyle = function(text) {
     paddingEnd: 10,
   };
 };
+

@@ -50,7 +50,7 @@ export default class FormBasicInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: true,
+      isCollapsed: false,
       isShowListPlace: false,
       isShowListIndustry: false,
     };
@@ -209,47 +209,51 @@ export default class FormBasicInfo extends Component {
             <Text style={[styles.txtTitleBasicInfo, {marginTop: 20}]}>
               Nhóm ngành
             </Text>
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({
-                  isShowListIndustry: !this.state.isShowListIndustry,
-                });
-              }}
-              style={boxSelectStyle(
-                this.state.isShowListIndustry ||
-                  !industry.includes(text_select),
-              )}>
-              <Text style={txtInBoxSelectStyle(industry)}>{industry}</Text>
-              <ArrowUpDown />
-            </TouchableOpacity>
-            {this.state.isShowListIndustry ? (
-              <FlatList
-                visibility={this.state.isShowListIndustry}
-                style={styles.boxSelect}
-                data={listIndustry}
-                renderItem={({item: rowData}) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        selectIndustry(rowData.name);
-                      }}>
-                      <View style={styles.infoBoxSelect}>
-                        <Text style={styles.txtViewSelect}>{rowData.name}</Text>
-                        <CheckBox
-                          isChecked={
-                            industry.includes(rowData.name) ? true : false
-                          }
-                          checkedImage={<CBChecked />}
-                          unCheckedImage={<CBUnChecked />}
-                        />
-                      </View>
-                      <View style={styles.lineSelect} />
-                    </TouchableOpacity>
-                  );
+            <View style={{marginBottom: 20}}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({
+                    isShowListIndustry: !this.state.isShowListIndustry,
+                  });
                 }}
-                keyExtractor={(item, index) => index}
-              />
-            ) : null}
+                style={boxSelectStyle(
+                  this.state.isShowListIndustry ||
+                    !industry.includes(text_select),
+                )}>
+                <Text style={txtInBoxSelectStyle(industry)}>{industry}</Text>
+                <ArrowUpDown />
+              </TouchableOpacity>
+              {this.state.isShowListIndustry ? (
+                <FlatList
+                  visibility={this.state.isShowListIndustry}
+                  style={styles.boxSelect}
+                  data={listIndustry}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          selectIndustry(rowData.name);
+                        }}>
+                        <View style={styles.infoBoxSelect}>
+                          <Text style={styles.txtViewSelect}>
+                            {rowData.name}
+                          </Text>
+                          <CheckBox
+                            isChecked={
+                              industry.includes(rowData.name) ? true : false
+                            }
+                            checkedImage={<CBChecked />}
+                            unCheckedImage={<CBUnChecked />}
+                          />
+                        </View>
+                        <View style={styles.lineSelect} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+              ) : null}
+            </View>
           </View>
         </CollapseBody>
       </Collapse>

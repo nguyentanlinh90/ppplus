@@ -96,8 +96,8 @@ export default StyleSheet.create({
     margin: 15,
     justifyContent: 'space-evenly',
   },
-  boxShowImage: {flexDirection: 'row', justifyContent: 'flex-end'},
-  imageLoad: {width: 80, height: 80, borderRadius: 6},
+  boxShowImage: {width:80, height:80},
+  imageLoad: {width: '100%', height: '100%', borderRadius: 6},
   boxClose: {
     width: 25,
     height: 25,
@@ -259,4 +259,30 @@ export default StyleSheet.create({
     paddingBottom: 10,
     lineHeight: 25,
   },
+  boxID:{
+    flexDirection: 'row',
+    height: 108,
+    marginTop: 10,
+  },
+  boxIDItem:{
+    flex: 1,
+  },
+  boxIDItemImage:{
+    height: '100%',
+    width: '100%',
+  },
+  boxIDItemClose:{
+    position: 'absolute',
+    width: 35,
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+  },
+  viewButtonSelectID:{
+    flexDirection: 'row',
+    height: 44,
+    marginTop: 10,
+    marginBottom: 10,
+  }
 });

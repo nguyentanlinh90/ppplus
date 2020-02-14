@@ -9,12 +9,20 @@ import ArrowUpDown from '../../../components/ArrowUpDown';
 import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
-import {text_select} from '../../../utils/constants';
+import {
+  IMAGE_ID_FRONT,
+  IMAGE_ID_BEHIND,
+  IMAGE_DEGREE,
+  text_select,
+} from '../../../utils/constants';
 import {
   boxSelectStyle,
   txtInBoxSelectStyle,
   txtInputStyle,
 } from '../../../utils/utils';
+import ImageClose from '../../../components/CloseImage';
+import CloseImage from '../../../components/CloseImage';
+
 export default class FormAccountIdentifier extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +46,12 @@ export default class FormAccountIdentifier extends Component {
       bankBranch,
       accountBankName,
       accountBankNumber,
+      urlIDFront,
+      urlIDBehind,
+      handleOpenImage,
       degreeName,
+      urlDegree,
+      handleCloseImage,
     } = this.props;
 
     return (
@@ -94,34 +107,48 @@ export default class FormAccountIdentifier extends Component {
             <Text style={styles.txtTitleBasicInfo}>
               Xác nhận thông tin cá nhân
             </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                height: 108,
-                marginTop: 10,
-              }}>
-              <Image
-                resizeMode="stretch"
-                source={require('../../../assets/images/bg-id-front.png')}
-                style={{flex: 1, height: '100%', width: '100%', marginEnd: 10}}
-              />
-
-              <Image
-                resizeMode="stretch"
-                source={require('../../../assets/images/bg-id-behind.png')}
-                style={{flex: 1, height: '100%', width: '100%'}}
-              />
+            <View style={styles.boxID}>
+              <View style={{flex: 1, marginEnd: 10}}>
+                <Image
+                  resizeMode="stretch"
+                  source={
+                    urlIDFront
+                      ? {uri: urlIDFront}
+                      : require('../../../assets/images/bg-id-front.png')
+                  }
+                  style={styles.boxIDItemImage}
+                />
+                {urlIDFront ? (
+                  <TouchableOpacity
+                    style={styles.boxIDItemClose}
+                    onPress={() => handleCloseImage(IMAGE_ID_FRONT)}>
+                    <CloseImage />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+              <View style={{flex: 1}}>
+                <Image
+                  resizeMode="stretch"
+                  source={
+                    urlIDBehind
+                      ? {uri: urlIDBehind}
+                      : require('../../../assets/images/bg-id-front.png')
+                  }
+                  style={styles.boxIDItemImage}
+                />
+                {urlIDBehind ? (
+                  <TouchableOpacity
+                    style={styles.boxIDItemClose}
+                    onPress={() => handleCloseImage(IMAGE_ID_BEHIND)}>
+                    <CloseImage />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                height: 44,
-                marginTop: 10,
-                marginBottom: 10,
-              }}>
+            <View style={styles.viewButtonSelectID}>
               <TouchableOpacity
                 style={[styles.buttonSelectID, {marginEnd: 10}]}
-                onPress={() => {}}>
+                onPress={() => handleOpenImage(IMAGE_ID_FRONT)}>
                 <Image
                   source={require('../../../assets/images/ic-camera-white.png')}
                 />
@@ -129,7 +156,7 @@ export default class FormAccountIdentifier extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonSelectID}
-                onPress={() => {}}>
+                onPress={() => handleOpenImage(IMAGE_ID_BEHIND)}>
                 <Image
                   source={require('../../../assets/images/ic-camera-white.png')}
                 />
@@ -138,16 +165,32 @@ export default class FormAccountIdentifier extends Component {
             </View>
             <Text style={styles.txtTitleBasicInfo}>Bằng cấp</Text>
             <TextInput
-              style={[styles.txtInputContainer, {marginBottom: 10}]}
+              style={[txtInputStyle(degreeName), {marginBottom: 10}]}
               returnKeyType="done"
               value={degreeName}
               name="degreeName"
               placeholder="Nhập tên bằng cấp"
               onChangeText={text => onChangeText(text, 'degreeName')}
             />
+            {urlDegree ? (
+              <View style={{height: 200, marginBottom: 10}}>
+                <Image
+                  resizeMode="stretch"
+                  source={{uri: urlDegree}}
+                  style={{width: '100%', height: '100%'}}
+                />
+                {urlDegree ? (
+                  <TouchableOpacity
+                    style={styles.boxIDItemClose}
+                    onPress={() => handleCloseImage(IMAGE_DEGREE)}>
+                    <CloseImage />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            ) : null}
             <TouchableOpacity
               style={[styles.buttonSelectID, {height: 44}]}
-              onPress={() => {}}>
+              onPress={() => handleOpenImage(IMAGE_DEGREE)}>
               <Image
                 source={require('../../../assets/images/ic-camera-white.png')}
               />
