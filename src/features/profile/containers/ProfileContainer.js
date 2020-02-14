@@ -13,7 +13,12 @@ import {Rating} from 'react-native-ratings';
 import ProgressCircle from 'react-native-progress-circle';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
-import {SCREEN_FILL_PROFILE, SCREEN_RETRO} from '../../../api/screen';
+import {
+  SCREEN_FILL_PROFILE,
+  SCREEN_RETRO,
+  SCREEN_PROGRAM,
+  SCREEN_CREATE_ACCOUNT,
+} from '../../../api/screen';
 import {dispatchScreen, setStoreData} from '../../../utils/utils';
 import {KEY_CHECK_LOGIN, VALUE_ZERO} from '../../../utils/constants';
 class ProfileContainer extends Component {
@@ -106,7 +111,9 @@ class ProfileContainer extends Component {
           <View style={{backgroundColor: '#d8d8d8', height: 5}} />
           <TouchableOpacity
             style={styles.boxItem}
-            onPress={() => this._showAlert()}>
+            onPress={() => {
+              this.props.navigation.navigate(SCREEN_PROGRAM);
+            }}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-program.png')}
@@ -116,7 +123,9 @@ class ProfileContainer extends Component {
           <View style={styles.boxItemIndicator} />
           <TouchableOpacity
             style={styles.boxItem}
-            onPress={() => this._showAlert()}>
+            onPress={() => {
+              this._showAlert();
+            }}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-history.png')}

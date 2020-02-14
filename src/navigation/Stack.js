@@ -15,6 +15,7 @@ import Message from '../features/message/containers/MessageContainer';
 import Notification from '../features/notification/containers/NotificationContainer';
 import Profile from '../features/profile/containers/ProfileContainer';
 import FillProfile from '../features/profile/containers/FillProfileContainer';
+import Program from '../features/program/containers/ProgramContainer';
 import StartJob from '../features/activity/containers/StartJobContainer';
 import Product from '../features/product/containers/ProductContainer';
 
@@ -101,6 +102,12 @@ const Stack = createStackNavigator(
     },
     FillProfile: {
       screen: FillProfile,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Program: {
+      screen: Program,
       navigationOptions: {
         header: null,
       },
