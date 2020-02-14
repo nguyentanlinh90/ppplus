@@ -106,9 +106,7 @@ export default StyleSheet.create({
     color: '#d8d8d8',
     fontSize: 16,
     fontWeight: 'bold',
-    marginLeft: 16,
-    marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 10,
   },
   jobDetailIconBoxSelect: {
     height: 50,
@@ -156,10 +154,8 @@ export default StyleSheet.create({
     opacity: 0.4,
   },
   jobDetailViewLine: {
-    height: 5,
+    height: 10,
     backgroundColor: '#d8d8d8',
-    marginTop: 16,
-    marginBottom: 16,
   },
   jobDetailBoxRequest: {
     flexDirection: 'row',
@@ -198,4 +194,13 @@ export default StyleSheet.create({
     width: '100%',
     position: 'absolute',
   },
+  jobDetailGroup:{padding: 16},
+  txtJobDetailTitle: {
+    color: '#d8d8d8',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  txtJobDetailContent: {color: '#1c1c1c', fontSize: 16, lineHeight:25},
+  
 });

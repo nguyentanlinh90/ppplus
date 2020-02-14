@@ -64,17 +64,15 @@ export const txtInputStyle = function(text) {
   };
 };
 
-export const boxContainerStyle = function(text) {
-  return {
-    flex: 1,
-    height: 44,
-    borderColor: '#d8d8d8',
-    borderWidth: 1,
-    borderRadius: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingStart: 10,
-    paddingEnd: 10,
-  };
+export const viewJobDetail = function(isSeeMore) {
+  if (isSeeMore) {
+    return {
+      padding: 16,
+    };
+  } else {
+    return {
+      padding: 16,
+      height: 100,
+    };
+  }
 };
-

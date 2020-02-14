@@ -19,7 +19,7 @@ import styles from '../../../features/home/styles/styles';
 import SpinnerComponent from '../../../components/Spinner';
 import JobHotItem from '../components/JobHotItem';
 import JobNewItem from '../components/JobNewItem';
-import JobDetail from '../components/JobDetail';
+import JobDetailContainer from './JobDetailContainer';
 import {SCREEN_CREATE_ACCOUNT, SCREEN_SEARCH} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -94,7 +94,7 @@ class HomeContainer extends Component {
               <Image source={require('../../../assets/images/ic-back.png')} />
             </TouchableOpacity>
           </View>
-          <JobDetail
+          <JobDetailContainer
             item={this.state.item}
             data={this.state.jobs}
             submit={this._closeRBSheet}
