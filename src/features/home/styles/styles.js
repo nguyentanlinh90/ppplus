@@ -194,13 +194,13 @@ export default StyleSheet.create({
     width: '100%',
     position: 'absolute',
   },
-  jobDetailGroup:{padding: 16},
+  jobDetailGroup: {padding: 16},
   txtJobDetailTitle: {
     color: '#d8d8d8',
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  txtJobDetailContent: {color: '#1c1c1c', fontSize: 16, lineHeight:25},
-  
+  txtJobDetailContent: {color: '#1c1c1c', fontSize: 16, lineHeight: 25},
+  viewJobDetailItem: {padding: 16},
 });

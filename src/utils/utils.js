@@ -64,15 +64,3 @@ export const txtInputStyle = function(text) {
   };
 };
 
-export const viewJobDetail = function(isSeeMore) {
-  if (isSeeMore) {
-    return {
-      padding: 16,
-    };
-  } else {
-    return {
-      padding: 16,
-      height: 100,
-    };
-  }
-};

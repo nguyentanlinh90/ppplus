@@ -18,16 +18,25 @@ export default class JobInfo extends Component {
     const {time, rankAge, gender, figure, height, weight, uniform} = this.props;
     return (
       <View>
-        <View style={viewJobDetail(this.state.isSeeMore)}>
-          <Text style={styles.txtJobDetailTitle}>YÊU CẦU</Text>
-          <JobRequestItem title="Thời gian" content={time} />
-          <JobRequestItem title="Độ tuổi" content={rankAge} />
-          <JobRequestItem title="Giới tính" content={gender} />
-          <JobRequestItem title="Ngoại hình" content={figure} />
-          <JobRequestItem title="Cân nặng" content={height} />
-          <JobRequestItem title="Chiều cao" content={weight} />
-          <JobRequestItem title="Đồng phục" content={uniform} />
-        </View>
+        {this.state.isSeeMore ? (
+          <View style={styles.viewJobDetailItem}>
+            <Text style={styles.txtJobDetailTitle}>YÊU CẦU</Text>
+            <JobRequestItem title="Thời gian" content={time} />
+            <JobRequestItem title="Độ tuổi" content={rankAge} />
+            <JobRequestItem title="Giới tính" content={gender} />
+            <JobRequestItem title="Ngoại hình" content={figure} />
+            <JobRequestItem title="Cân nặng" content={height} />
+            <JobRequestItem title="Chiều cao" content={weight} />
+            <JobRequestItem title="Đồng phục" content={uniform} />
+          </View>
+        ) : (
+          <View style={styles.viewJobDetailItem}>
+            <Text style={styles.txtJobDetailTitle}>YÊU CẦU</Text>
+            <JobRequestItem title="Thời gian" content={time} />
+            <JobRequestItem title="Độ tuổi" content={rankAge} />
+          </View>
+        )}
+
         <ButtonSeeMore
           isSeeMore={this.state.isSeeMore}
           handlePress={this._handlePress}
