@@ -13,3 +13,4 @@ export const IMAGE_4 = 4;
 export const IMAGE_ID_FRONT = 5;
 export const IMAGE_ID_BEHIND = 6;
 export const IMAGE_DEGREE = 7;
+

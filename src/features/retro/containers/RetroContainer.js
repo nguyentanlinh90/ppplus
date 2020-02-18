@@ -55,14 +55,14 @@ class RetroContainer extends Component {
   }
 
   _openLoginScreen = () => {
-    dispatchScreen(this.props, SCREEN_LOGIN, {});
+    this.props.navigation.navigate(SCREEN_LOGIN)
+
   };
 
   _openCreateAccountScreen = () => {
-    dispatchScreen(this.props, SCREEN_CREATE_ACCOUNT, {});
+    this.props.navigation.navigate(SCREEN_CREATE_ACCOUNT);
   };
   render() {
-    console.log('linhnt', this.state.fromPage);
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <Swiper

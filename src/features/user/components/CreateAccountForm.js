@@ -21,9 +21,9 @@ export class CreateAccountForm extends Component {
       onChangeText,
       handleCreateAccount,
       phone,
-      referral_code,
+      reference_code,
       password,
-      passwordAgain,
+      password_confirm,
       setAgree,
       isAgree,
     } = this.props;
@@ -55,9 +55,9 @@ export class CreateAccountForm extends Component {
             keyboardType="default"
             returnKeyType="next"
             placeholder="Nhập mã giới thiệu"
-            value={referral_code}
-            name="referral_code"
-            onChangeText={text => onChangeText(text, 'referral_code')}
+            value={reference_code}
+            name="reference_code"
+            onChangeText={text => onChangeText(text, 'reference_code')}
           />
         </View>
         <Text style={styles.txtTitleField}>Mật khẩu</Text>
@@ -90,10 +90,10 @@ export class CreateAccountForm extends Component {
             maxLength={50}
             style={styles.inputLogin}
             returnKeyType="go"
-            value={passwordAgain}
-            name="passwordAgain"
+            value={password_confirm}
+            name="password_confirm"
             placeholder="Xác nhận lại mật khẩu"
-            onChangeText={text => onChangeText(text, 'passwordAgain')}
+            onChangeText={text => onChangeText(text, 'password_confirm')}
           />
           <View style={styles.boxShowPass}>
             <CheckBox

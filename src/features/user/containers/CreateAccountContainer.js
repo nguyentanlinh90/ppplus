@@ -20,19 +20,21 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_INPUT_OTP} from '../../../api/screen';
 import {showAlert} from '../../../utils/utils';
+import {dispatchScreen} from '../../../utils/utils';
+import * as types from '../../../api/types';
 
 export class CreateAccountContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      phone: '0988422495',
-      referral_code: '0123456789',
-      password: '123456A',
-      passwordAgain: '123456A',
+      phone: '0387665204',
+      reference_code: 'ABC123',
+      password: '12Chiec@',
+      password_confirm: '12Chiec@',
       isLoading: false,
       isConnecting: false,
-      isAgree: false,
+      isAgree: true,
     };
     this.handleCreateAccount = this.handleCreateAccount.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
@@ -66,24 +68,24 @@ export class CreateAccountContainer extends Component {
     if (type == 'phone') {
       const strPhone = convertPhone(text);
       this.setState({phone: strPhone});
-    } else if (type == 'referral_code') {
-      this.setState({referral_code: text});
+    } else if (type == 'reference_code') {
+      this.setState({reference_code: text});
     } else if (type == 'password') {
       this.setState({password: text});
-    } else if (type == 'passwordAgain') {
-      this.setState({passwordAgain: text});
+    } else if (type == 'password_confirm') {
+      this.setState({password_confirm: text});
     }
   };
 
   handleCreateAccount = () => {
     const {doCreateAccount} = this.props;
-    const {phone, referral_code, password, passwordAgain} = this.state;
+    const {phone, reference_code, password, password_confirm} = this.state;
 
     if (
       phone == '' ||
-      referral_code == '' ||
+      reference_code == '' ||
       password == '' ||
-      passwordAgain == ''
+      password_confirm == ''
     ) {
       showAlert('Vui lòng điền đầy đủ các trường thông tin.');
       return;
@@ -99,13 +101,13 @@ export class CreateAccountContainer extends Component {
       }
     }
 
-    if (referral_code.length < 10) {
-      showAlert('Vui lòng nhập đủ 10 ký tự của mã giới thiệu');
+    if (reference_code.length < 6) {
+      showAlert('Vui lòng nhập đủ 6 ký tự của mã giới thiệu');
       return;
     }
 
     var specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-    if (specialCharacters.test(referral_code)) {
+    if (specialCharacters.test(reference_code)) {
       showAlert('Mã giới thiệu không được chứa ký tự đặc biệt');
       return;
     }
@@ -118,15 +120,11 @@ export class CreateAccountContainer extends Component {
       return;
     }
 
-    if (password != passwordAgain) {
+    if (password != password_confirm) {
       showAlert('Vui lòng nhập mật khẩu và xác nhận mật khẩu trùng nhau');
 
       return;
     }
-
-    // todo check phone valid
-
-    //todo check referral_code invalid
 
     if (!this.state.isAgree) {
       showAlert('Bạn chưa đồng ý với điều khoản');
@@ -135,41 +133,39 @@ export class CreateAccountContainer extends Component {
     }
     if (this.state.isConnecting) {
       this.setState({isLoading: true});
-      doCreateAccount(phone, referral_code);
+      doCreateAccount(phone, reference_code, password, password_confirm);
     } else {
       showAlert('Vui lòng kiểm tra kết nối mạng ');
     }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // if (nextProps.msg_code == 'create_account_error') {
-    //   this.setState({isLoading: false});
-    //   this.dropdown.alertWithType(
-    //     'error',
-    //     'Lỗi',
-    //     'Số điện thoại hoặc mã giới thiệu không đúng',
-    //   );
-    //   nextProps.changeMsgCode('');
-    // } else if (nextProps.msg_code == 'create_account_success') {
-    //   this.setState({isLoading: false});
-    //   nextProps.changeMsgCode('');
+    console.log('linhntUNSAFE_componentWillReceiveProps', nextProps.message);
 
-    //   if ('phone' in nextProps.state.user.user) {
-    //     this.props.navigation.dispatch({
-    //       key: SCREEN_SET_PASSWORD,
-    //       type: 'ReplaceCurrentScreen',
-    //       routeName: SCREEN_SET_PASSWORD,
-    //       params: nextProps.state.user.user,
-    //     });
-    //   }
-    // }
-    // hard code
-    this.props.navigation.dispatch({
-      key: SCREEN_INPUT_OTP,
-      type: 'ReplaceCurrentScreen',
-      routeName: SCREEN_INPUT_OTP,
-      params: nextProps.state.user.user,
-    });
+    if (nextProps.msg_code == types.REGISTER_USER_FAIL) {
+      this.setState({isLoading: false});
+      Alert.alert(
+        'Thông báo',
+        nextProps.message,
+        [
+          {
+            text: 'Đồng Ý',
+            onPress: () => {
+              nextProps.changeMsgCode('');
+            },
+          },
+        ],
+        {cancelable: true},
+      );
+    } else if (nextProps.msg_code == types.REGISTER_USER_SUCCESS) {
+      this.setState({isLoading: false});
+      nextProps.changeMsgCode('');
+      dispatchScreen(
+        this.props,
+        SCREEN_INPUT_OTP,
+        nextProps.data.waiting_time_otp,
+      );
+    }
   }
 
   _setAgree = () => {
@@ -193,9 +189,9 @@ export class CreateAccountContainer extends Component {
                 navigation={this.props.navigation}
                 onChangeText={this.onChangeText}
                 phone={this.state.phone}
-                referral_code={this.state.referral_code}
+                reference_code={this.state.reference_code}
                 password={this.state.password}
-                passwordAgain={this.state.passwordAgain}
+                password_confirm={this.state.password_confirm}
                 setAgree={this._setAgree}
                 isAgree={this.state.isAgree}
               />
@@ -209,8 +205,10 @@ export class CreateAccountContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    state: state,
-    msg_code: state.home.msg_code,
+    // state: state,
+    msg_code: state.register.msg_code,
+    message: state.register.message,
+    data: state.register.data,
   };
 }
 
