@@ -1,6 +1,7 @@
 export const SCREEN_SPLASH = 'Splash';
 export const SCREEN_RETRO = 'Retro';
 export const SCREEN_LOGIN = 'Login';
+export const SCREEN_UPDATE_PASS = 'UpdatePass';
 export const SCREEN_CREATE_ACCOUNT = 'CreateAccount';
 export const SCREEN_INPUT_OTP = 'InputOTP';
 export const SCREEN_INFO = 'Info';

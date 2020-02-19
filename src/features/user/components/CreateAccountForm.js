@@ -7,7 +7,7 @@ import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
 import CBShowPass from '../../../components/CBShowPass';
 import CBHidePass from '../../../components/CBHidePass';
-export class CreateAccountForm extends Component {
+export default class CreateAccountForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -129,4 +129,3 @@ export class CreateAccountForm extends Component {
     );
   }
 }
-export default CreateAccountForm;

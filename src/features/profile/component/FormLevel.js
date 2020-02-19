@@ -19,7 +19,7 @@ export default class FormLevel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: false,
+      isCollapsed: true,
     };
   }
 

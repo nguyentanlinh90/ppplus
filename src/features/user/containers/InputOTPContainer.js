@@ -20,7 +20,7 @@ import {FORGOT_PASSWORD} from '../../../utils/constants';
 import {SCREEN_LOGIN} from '../../../api/screen';
 import {showAlert} from '../../../utils/utils';
 import {setStoreData} from '../../../utils/utils';
-import {doProcessOTP, doResendOTP} from '../actions/index';
+import {doProcessOTP, doSendOTP} from '../actions/index';
 import * as types from '../../../api/types';
 
 var timeResend = 0;
@@ -31,6 +31,7 @@ export class InputOTPContainer extends Component {
     timeResend = this.props.navigation.state.params[1];
     this.state = {
       phone: this.props.navigation.state.params[0],
+      isRegister: this.props.navigation.state.params[2],
       timeResend: timeResend,
       otpCode: '',
       isLoading: false,
@@ -87,20 +88,24 @@ export class InputOTPContainer extends Component {
   };
 
   _handleResendOTP = () => {
-    const {doResendOTP} = this.props;
-    doResendOTP(this.state.phone);
+    const {doSendOTP} = this.props;
+    doSendOTP(this.state.phone);
   };
   _handleProcessOTP = () => {
-    const {doProcessOTP} = this.props;
-    const {otpCode} = this.state;
+    if (this.state.isRegister) {
+      const {doProcessOTP} = this.props;
+      const {otpCode} = this.state;
 
-    if (otpCode != '' && otpCode.length > 5) {
-      if (this.state.isConnecting) {
-        this.setState({isLoading: true});
-        doProcessOTP(this.state.phone, otpCode);
-      } else {
-        showAlert('Vui lòng kiểm tra kết nối mạng.');
+      if (otpCode != '' && otpCode.length > 5) {
+        if (this.state.isConnecting) {
+          this.setState({isLoading: true});
+          doProcessOTP(this.state.phone, otpCode);
+        } else {
+          showAlert('Vui lòng kiểm tra kết nối mạng.');
+        }
       }
+    } else {
+      //for case forgot password
     }
   };
 
@@ -113,7 +118,7 @@ export class InputOTPContainer extends Component {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
       dispatchScreen(this.props, SCREEN_LOGIN, {});
-    } else if (nextProps.msg_code == types.RESEND_OTP_SUCCESS) {
+    } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
       showAlert('Mã OTP đã được gửi đến số điện thoại ' + this.state.phone);
       nextProps.changeMsgCode('');
       this.setState({timeResend: timeResend});
@@ -158,6 +163,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   doProcessOTP,
-  doResendOTP,
+  doSendOTP,
   changeMsgCode,
 })(InputOTPContainer);

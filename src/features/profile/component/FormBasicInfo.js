@@ -50,7 +50,7 @@ export default class FormBasicInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: false,
+      isCollapsed: true,
       isShowListPlace: false,
       isShowListIndustry: false,
     };

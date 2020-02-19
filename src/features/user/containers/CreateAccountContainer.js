@@ -150,6 +150,7 @@ export class CreateAccountContainer extends Component {
       dispatchScreen(this.props, SCREEN_INPUT_OTP, [
         this.state.phone,
         nextProps.data.waiting_time_otp,
+        false // check isRegister
       ]);
     }
   }

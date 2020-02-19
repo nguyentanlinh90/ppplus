@@ -4,28 +4,29 @@ import {
   View,
   SafeAreaView,
   KeyboardAvoidingView,
-  StatusBar,
   Image,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import LoginForm from '../components/LoginForm';
-import {doLogin} from '../actions/index';
+import {doLogin, doSendOTP} from '../actions/index';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
 import {convertPhone} from '../../../api/helpers';
 import {changeMsgCode} from '../../home/actions/index';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
-import {FORGOT_PASSWORD} from '../../../utils/constants';
-import {SCREEN_INPUT_OTP} from '../../../api/screen';
-import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
-import {SCREEN_MAIN} from '../../../api/screen';
+import {
+  SCREEN_INPUT_OTP,
+  SCREEN_CREATE_ACCOUNT,
+  SCREEN_MAIN,
+} from '../../../api/screen';
 import {dispatchScreen, setStoreData} from '../../../utils/utils';
 import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
 import {showAlert} from '../../../utils/utils';
 import * as types from '../../../api/types';
-
+var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
 export class LoginContainer extends Component {
   constructor(props) {
     super(props);
@@ -73,22 +74,32 @@ export class LoginContainer extends Component {
     }
   };
 
-  _handleForgetPassword = () => {
+  _showAlertForgotPass = props => {
     const {phone} = this.state;
-
+    const {doSendOTP} = this.props;
     if (phone == '') {
-      showAlert('Vui lòng nh số điện thoại đã đăng ký để lấy lại mật khẩu.');
+      showAlert('Vui lòng nhập số điện thoại đã đăng ký để lấy lại mật khẩu.');
       return;
-    }
-
-    if (phone != '') {
-      var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
+    } else {
       if (!regEx.test(phone)) {
         showAlert('Số điện thoại không đúng định dạng.');
       } else {
-        dispatchScreen(this.props, SCREEN_INPUT_OTP, {
-          typeScreen: SCREEN_INPUT_OTP,
-        });
+        Alert.alert(
+          'Thông báo',
+          'Một mã xác nhận sẽ được gửi đến số điện thoại ' +
+            phone +
+            '. Vui lòng chọn đồng ý để tiếp tục.',
+          [
+            {text: 'Huỷ', onPress: () => {}},
+            {
+              text: 'Đồng Ý',
+              onPress: () => {
+                doSendOTP(phone, 'forgot_password');
+              },
+            },
+          ],
+          {cancelable: true},
+        );
       }
     }
   };
@@ -102,7 +113,6 @@ export class LoginContainer extends Component {
     const {phone, password} = this.state;
 
     if (phone != '' && password != '') {
-      var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
       if (!regEx.test(phone)) {
         showAlert('Số điện thoại không đúng định dạng.');
       } else {
@@ -119,7 +129,7 @@ export class LoginContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // console.log('linhnt nextProps', nextProps);
+    console.log('linhnt nextProps', nextProps);
     if (nextProps.msg_code == types.LOGIN_FAIL) {
       this.setState({isLoading: false});
       showAlert(nextProps.message);
@@ -129,38 +139,33 @@ export class LoginContainer extends Component {
       nextProps.changeMsgCode('');
       setStoreData(KEY_CHECK_LOGIN, VALUE_ONE);
       dispatchScreen(this.props, SCREEN_MAIN, {});
+    } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
+      nextProps.changeMsgCode('');
+      dispatchScreen(this.props, SCREEN_INPUT_OTP, [
+        this.state.phone,
+        nextProps.data.waiting_time_otp,
+        true, //check isRegister
+      ]);
+    } else if (nextProps.msg_code == types.SEND_OTP_FAIL) {
+      showAlert(nextProps.message);
+      nextProps.changeMsgCode('');
     }
   }
 
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View style={{flex: 1}}>
-          <StatusBar backgroundColor="#000" barStyle="light-content" />
-          <View style={{height: '100%'}}>
-            <View style={[{height: '55%'}]}>
-              <View style={styles.boxLogin}>
-                <KeyboardAvoidingView behavior="padding" enabled>
-                  <View
-                    style={{
-                      paddingTop: '35%',
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                    }}>
-                    <LoginForm
-                      handleForgetPassword={this._handleForgetPassword}
-                      handleLogin={this._handleLogin}
-                      handleNotYetAccount={this._handleNotYetAccount}
-                      navigation={this.props.navigation}
-                      onChangeText={this._onChangeText}
-                      phone={this.state.phone}
-                      password={this.state.password}
-                    />
-                  </View>
-                </KeyboardAvoidingView>
-              </View>
-            </View>
-          </View>
+        <View style={{flex: 1, justifyContent: 'center', padding: 20}}>
+          <KeyboardAvoidingView behavior="padding" enabled>
+            <LoginForm
+              showAlertForgotPass={this._showAlertForgotPass}
+              handleLogin={this._handleLogin}
+              handleNotYetAccount={this._handleNotYetAccount}
+              onChangeText={this._onChangeText}
+              phone={this.state.phone}
+              password={this.state.password}
+            />
+          </KeyboardAvoidingView>
           <Spinner
             visible={this.state.isLoading}
             color={'white'}
@@ -183,5 +188,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   doLogin,
+  doSendOTP,
   changeMsgCode,
 })(LoginContainer);

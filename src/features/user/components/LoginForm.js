@@ -6,7 +6,7 @@ import CBShowPass from '../../../components/CBShowPass';
 import CBHidePass from '../../../components/CBHidePass';
 import BgButton from '../../../components/BgButton';
 
-export class LoginForm extends Component {
+export default class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,7 @@ export class LoginForm extends Component {
   render() {
     const {
       onChangeText,
-      handleForgetPassword,
+      showAlertForgotPass,
       handleLogin,
       handleNotYetAccount,
       phone,
@@ -65,7 +65,7 @@ export class LoginForm extends Component {
 
         <Text
           style={styles.textForgetPass}
-          onPress={() => handleForgetPassword()}>
+          onPress={() => showAlertForgotPass()}>
           Quên mật khẩu
         </Text>
 
@@ -85,4 +85,3 @@ export class LoginForm extends Component {
     );
   }
 }
-export default LoginForm;

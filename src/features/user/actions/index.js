@@ -56,10 +56,11 @@ export const doProcessOTP = (phone, otp_code) => async dispatch => {
   }
 };
 
-export const doResendOTP = (phone) => async dispatch => {
-  const path = 'user/resend/otp';
+export const doSendOTP = (phone, type) => async dispatch => {
+  const path = 'user/send/otp';
   const params = {
     phone: phone,
+    type: type,
   };
 
   const {json} = await callPostApi(getUrl(path), params);
@@ -67,13 +68,14 @@ export const doResendOTP = (phone) => async dispatch => {
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
   ) {
+    await dispatch(fetchDataSuccess(types.PROCESS_OTP_SUCCESS, json.data));
     await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, types.RESEND_OTP_SUCCESS),
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.SEND_OTP_SUCCESS),
     );
   } else {
     await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
     await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, types.RESEND_OTP_FAIL),
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.SEND_OTP_FAIL),
     );
   }
 };
@@ -100,23 +102,23 @@ export const doLogin = (phone, password) => async dispatch => {
   }
 };
 
-export const doSetPasswordAccount = params => async dispatch => {
-  const path = 'update_account';
+export const doUpdateUserInfo = params => async dispatch => {
+  const path = 'user/info';
 
   const {json} = await callPutApi(getUrl(path), params);
 
-  await dispatch(
-    fetchDataSuccess(types.CHANGE_MSG_CODE, 'set_password_account_success'),
-  );
-
-  if (typeof json !== 'undefined') {
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
     await dispatch(fetchDataSuccess(types.FETCH_USER_SUCCESS, json.data));
     await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, 'set_password_account_success'),
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.UPDATE_USER_INFO_SUCCESS),
     );
   } else {
+    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
     await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, 'set_password_account_error'),
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.UPDATE_USER_INFO_FAIL),
     );
   }
 };

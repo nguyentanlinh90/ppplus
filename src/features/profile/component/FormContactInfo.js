@@ -20,7 +20,7 @@ export default class FormContactInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: false,
+      isCollapsed: true,
     };
   }
 

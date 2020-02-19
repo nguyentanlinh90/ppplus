@@ -4,7 +4,7 @@ import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 import styles from '../styles/styles';
 import BgButton from '../../../components/BgButton';
 
-export class InputOTPForm extends Component {
+export default class InputOTPForm extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -94,4 +94,3 @@ export class InputOTPForm extends Component {
     );
   }
 }
-export default InputOTPForm;

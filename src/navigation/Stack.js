@@ -6,6 +6,7 @@ import Retro from '../features/retro/containers/RetroContainer';
 import CreateAccount from '../features/user/containers/CreateAccountContainer';
 import InputOTP from '../features/user/containers/InputOTPContainer';
 import Login from '../features/user/containers/LoginContainer';
+import UpdatePass from '../features/user/containers/UpdatePassContainer';
 import Info from '../features/info/containers/InfoContainer';
 import ConfirmInfo from '../features/info/containers/ConfirmInfoContainer';
 import Main from '../features/main/containers/MainContainer';
@@ -47,6 +48,12 @@ const Stack = createStackNavigator(
     },
     Login: {
       screen: Login,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    UpdatePass: {
+      screen: UpdatePass,
       navigationOptions: {
         header: null,
       },
