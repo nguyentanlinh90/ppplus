@@ -12,7 +12,7 @@ import {
 import styles from '../styles/styles';
 import Swiper from 'react-native-web-swiper';
 import BgButton from '../../../components/BgButton';
-import {SCREEN_LOGIN} from '../../../api/screen';
+import {SCREEN_LOGIN, SCREEN_MAIN} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 import {setStoreData} from '../../../utils/utils';
 import {KEY_CHECK_LAST_RETRO, VALUE_ONE} from '../../../utils/constants';
@@ -31,6 +31,7 @@ class RetroContainer extends Component {
     var lastPage = await AsyncStorage.getItem(KEY_CHECK_LAST_RETRO);
     if (lastPage && lastPage == VALUE_ONE) {
       this.setState({fromPage: 2});
+      this.swipe.goTo(2);
     }
   }
 
@@ -55,17 +56,20 @@ class RetroContainer extends Component {
   }
 
   _openLoginScreen = () => {
-    this.props.navigation.navigate(SCREEN_LOGIN)
-
+    dispatchScreen(this.props, SCREEN_LOGIN, {});
   };
 
   _openCreateAccountScreen = () => {
-    this.props.navigation.navigate(SCREEN_CREATE_ACCOUNT);
+    dispatchScreen(this.props, SCREEN_CREATE_ACCOUNT, {});
   };
+
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <Swiper
+          ref={ref => {
+            this.swipe = ref;
+          }}
           controlsProps={{
             prevPos: false,
             nextPos: false,
@@ -123,7 +127,7 @@ class RetroContainer extends Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={{height: 128}}></View>
+            <View style={{height: 128}} />
           )}
         </View>
       </SafeAreaView>
