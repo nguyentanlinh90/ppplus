@@ -20,7 +20,6 @@ import {FORGOT_PASSWORD} from '../../../utils/constants';
 import {SCREEN_LOGIN} from '../../../api/screen';
 import {showAlert} from '../../../utils/utils';
 import {setStoreData} from '../../../utils/utils';
-import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
 import {doProcessOTP, doResendOTP} from '../actions/index';
 import * as types from '../../../api/types';
 
@@ -99,23 +98,6 @@ export class InputOTPContainer extends Component {
       if (this.state.isConnecting) {
         this.setState({isLoading: true});
         doProcessOTP(this.state.phone, otpCode);
-
-        // if (this.props.navigation.state.params.typeScreen == FORGOT_PASSWORD) {
-        //   this.props.navigation.dispatch({
-        //     key: SCREEN_MAIN,
-        //     type: 'ReplaceCurrentScreen',
-        //     routeName: SCREEN_MAIN,
-        //     params: {},
-        //   });
-        // } else {
-        //   setStoreData(KEY_CHECK_LOGIN, VALUE_ONE);
-        //   this.props.navigation.dispatch({
-        //     key: SCREEN_INFO,
-        //     type: 'ReplaceCurrentScreen',
-        //     routeName: SCREEN_INFO,
-        //     params: {},
-        //   });
-        // }
       } else {
         showAlert('Vui lòng kiểm tra kết nối mạng.');
       }

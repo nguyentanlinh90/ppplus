@@ -56,7 +56,7 @@ export const doProcessOTP = (phone, otp_code) => async dispatch => {
   }
 };
 
-export const doResendOTP = (phone, otp_code) => async dispatch => {
+export const doResendOTP = (phone) => async dispatch => {
   const path = 'user/resend/otp';
   const params = {
     phone: phone,
@@ -86,7 +86,6 @@ export const doLogin = (phone, password) => async dispatch => {
   };
 
   const {json} = await callPostApi(getUrl(path), params);
-  console.log('linhnt json', json)
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS

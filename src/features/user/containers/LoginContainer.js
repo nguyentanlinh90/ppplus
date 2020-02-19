@@ -127,6 +127,7 @@ export class LoginContainer extends Component {
     } else if (nextProps.msg_code == types.LOGIN_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
+      setStoreData(KEY_CHECK_LOGIN, VALUE_ONE);
       dispatchScreen(this.props, SCREEN_MAIN, {});
     }
   }
