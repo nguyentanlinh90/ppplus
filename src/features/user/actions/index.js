@@ -16,37 +16,89 @@ export const doCreateAccount = (
     password_confirm: password_confirm,
   };
   const {json} = await callPostApi(getUrl(path), params);
-  // console.log('linhnt json', json);
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
   ) {
-    // console.log('linhnt json', '1');
-    
     await dispatch(fetchDataSuccess(types.REGISTER_USER_SUCCESS, json.data));
     await dispatch(
       fetchDataSuccess(types.CHANGE_MSG_CODE, types.REGISTER_USER_SUCCESS),
     );
   } else {
-    // console.log('linhnt json', json.message);
     await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
-
     await dispatch(
       fetchDataSuccess(types.CHANGE_MSG_CODE, types.REGISTER_USER_FAIL),
     );
-    
   }
 };
 
-export const doLogin = (phone, password) => async dispatch => { 
-  const path = 'login';
+export const doProcessOTP = (phone, otp_code) => async dispatch => {
+  const path = 'user/process/otp';
+  const params = {
+    phone: phone,
+    otp_code: otp_code,
+  };
+
+  const {json} = await callPostApi(getUrl(path), params);
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
+    await dispatch(fetchDataSuccess(types.PROCESS_OTP_SUCCESS, json.data));
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.PROCESS_OTP_SUCCESS),
+    );
+  } else {
+    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.PROCESS_OTP_FAIL),
+    );
+  }
+};
+
+export const doResendOTP = (phone, otp_code) => async dispatch => {
+  const path = 'user/resend/otp';
+  const params = {
+    phone: phone,
+  };
+
+  const {json} = await callPostApi(getUrl(path), params);
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.RESEND_OTP_SUCCESS),
+    );
+  } else {
+    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.RESEND_OTP_FAIL),
+    );
+  }
+};
+
+export const doLogin = (phone, password) => async dispatch => {
+  const path = 'user/login';
   const params = {
     phone: phone,
     password: password,
-    token: '',
   };
 
-  await dispatch(fetchDataSuccess(types.CHANGE_MSG_CODE, 'login_success'));
+  const {json} = await callPostApi(getUrl(path), params);
+  console.log('linhnt json', json)
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
+    await dispatch(fetchDataSuccess(types.LOGIN_SUCCESS, json.data));
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.LOGIN_SUCCESS),
+    );
+  } else {
+    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
+    await dispatch(fetchDataSuccess(types.CHANGE_MSG_CODE, types.LOGIN_FAIL));
+  }
 };
 
 export const doSetPasswordAccount = params => async dispatch => {

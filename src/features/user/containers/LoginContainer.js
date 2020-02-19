@@ -24,13 +24,15 @@ import {SCREEN_MAIN} from '../../../api/screen';
 import {dispatchScreen, setStoreData} from '../../../utils/utils';
 import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
 import {showAlert} from '../../../utils/utils';
+import * as types from '../../../api/types';
+
 export class LoginContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      phone: '0988422495',
-      password: '123456',
+      phone: '0387665209',
+      password: '12Chiec@',
       isLoading: false,
       isConnecting: false,
     };
@@ -75,9 +77,7 @@ export class LoginContainer extends Component {
     const {phone} = this.state;
 
     if (phone == '') {
-      showAlert(
-        'Vui lòng nh số điện thoại đã đăng ký để lấy lại mật khẩu.',
-      );
+      showAlert('Vui lòng nh số điện thoại đã đăng ký để lấy lại mật khẩu.');
       return;
     }
 
@@ -119,16 +119,14 @@ export class LoginContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == 'login_error') {
+    // console.log('linhnt nextProps', nextProps);
+    if (nextProps.msg_code == types.LOGIN_FAIL) {
       this.setState({isLoading: false});
-      showAlert('Số điện thoại hoặc mặt khẩu không đúng.');
+      showAlert(nextProps.message);
       nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == 'login_success') {
+    } else if (nextProps.msg_code == types.LOGIN_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      // this.props.navigation.goBack();
-      setStoreData(KEY_CHECK_LOGIN, VALUE_ONE);
-
       dispatchScreen(this.props, SCREEN_MAIN, {});
     }
   }
@@ -164,11 +162,9 @@ export class LoginContainer extends Component {
           </View>
           <Spinner
             visible={this.state.isLoading}
-            textContent={'Loading...'}
-            color={'#fff'}
+            color={'white'}
             size={'large'}
             textStyle={{color: '#fff'}}
-            animation={'fade'}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -178,8 +174,9 @@ export class LoginContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    state: state,
-    msg_code: state.home.msg_code,
+    msg_code: state.user.msg_code,
+    message: state.user.message,
+    data: state.user.data,
   };
 }
 

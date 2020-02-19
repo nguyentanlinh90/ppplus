@@ -14,7 +14,13 @@ export class InputOTPForm extends Component {
     }
   };
   render() {
-    const {onChangeText, handleInputOTP, otpCode, timeSendAgain} = this.props;
+    const {
+      onChangeText,
+      handleProcessOTP,
+      handleResendOTP,
+      otpCode,
+      timeResend,
+    } = this.props;
     return (
       <View
         style={{
@@ -41,15 +47,37 @@ export class InputOTPForm extends Component {
             onFulfill={this._checkCode}
           />
         </View>
+        {timeResend == 0 ? (
+          <TouchableOpacity
+            onPress={() => handleResendOTP()}
+            style={{
+              backgroundColor: '#F0532D',
+              marginTop: 30,
+              borderRadius: 30,
+              height: 30,
+              width: 100,
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: '#fff',
+                alignSelf: 'center',
+              }}>
+              Gửi lại mã
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={{flexDirection: 'row', marginTop: 30}}>
+            <Text style={styles.txtTitleField}>Gửi lại mã sau</Text>
+            <Text style={styles.textSendOTPAgain}>{timeResend}s</Text>
+          </View>
+        )}
 
-        <View style={{flexDirection: 'row', marginTop: 30}}>
-          <Text style={styles.txtTitleField}>Gửi lại mã sau</Text>
-          <Text style={styles.textSendOTPAgain}>{timeSendAgain}s</Text>
-        </View>
         {otpCode.length > 5 ? (
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => handleInputOTP()}
+            onPress={() => handleProcessOTP()}
             style={styles.buttonContinue}>
             <BgButton />
 

@@ -23,6 +23,8 @@ export default function entities(state = initialState, action) {
         message: action.data,
       };
     case types.REGISTER_USER_SUCCESS:
+    case types.PROCESS_OTP_SUCCESS:
+    case types.LOGIN_SUCCESS:
       return {
         ...state,
         data: action.data,

@@ -28,7 +28,7 @@ export class CreateAccountContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '0387665204',
+      phone: '0387665209',
       reference_code: 'ABC123',
       password: '12Chiec@',
       password_confirm: '12Chiec@',
@@ -140,31 +140,17 @@ export class CreateAccountContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('linhntUNSAFE_componentWillReceiveProps', nextProps.message);
-
     if (nextProps.msg_code == types.REGISTER_USER_FAIL) {
       this.setState({isLoading: false});
-      Alert.alert(
-        'Thông báo',
-        nextProps.message,
-        [
-          {
-            text: 'Đồng Ý',
-            onPress: () => {
-              nextProps.changeMsgCode('');
-            },
-          },
-        ],
-        {cancelable: true},
-      );
+      showAlert(nextProps.message);
+      nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.REGISTER_USER_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      dispatchScreen(
-        this.props,
-        SCREEN_INPUT_OTP,
+      dispatchScreen(this.props, SCREEN_INPUT_OTP, [
+        this.state.phone,
         nextProps.data.waiting_time_otp,
-      );
+      ]);
     }
   }
 
@@ -206,9 +192,9 @@ export class CreateAccountContainer extends Component {
 function mapStateToProps(state) {
   return {
     // state: state,
-    msg_code: state.register.msg_code,
-    message: state.register.message,
-    data: state.register.data,
+    msg_code: state.user.msg_code,
+    message: state.user.message,
+    data: state.user.data,
   };
 }
 

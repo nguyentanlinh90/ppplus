@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import register from '../features/user/reducers/index';
+import user from '../features/user/reducers/index';
 import home from '../features/home/reducers/index';
 
 const rootReducer = combineReducers({
-    register,
+    user,
     home
 })
 export default rootReducer;
