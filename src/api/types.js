@@ -12,6 +12,9 @@ export const RESEND_OTP_SUCCESS = 'RESEND_OTP_SUCCESS';
 export const RESEND_OTP_FAIL = 'RESEND_OTP_FAIL';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const GET_JOBS_SUCCESS = 'GET_JOBS_SUCCESS';
+export const GET_JOBS_FAIL = 'GET_JOBS_FAIL';
+
 
 
 

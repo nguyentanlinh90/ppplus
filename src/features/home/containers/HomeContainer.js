@@ -228,14 +228,15 @@ class HomeContainer extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == 'fetch_job_success') {
+    console.log('linhnt', nextProps)
+    if (nextProps.msg_code == types.GET_JOBS_SUCCESS) {
       this.setState({
         isLoading: false,
         refreshing: false,
         jobs: nextProps.jobs,
       });
       nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == 'fetch_job_error') {
+    } else if (nextProps.msg_code == types.GET_JOBS_FAIL) {
       this.setState({
         isLoading: false,
         refreshing: false,

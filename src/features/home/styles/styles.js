@@ -151,7 +151,7 @@ export default StyleSheet.create({
     borderRadius: 40 / 2,
     backgroundColor: '#fff',
     marginEnd: 10,
-    opacity: 0.4,
+    opacity: 0.0,
   },
   jobDetailViewLine: {
     height: 10,

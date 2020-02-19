@@ -5,7 +5,6 @@ import {
   getUrl,
 } from '../../../api/helpers';
 import {callGetApi, callPostApi} from '../../../api/api';
-
 export const changeMsgCode = code => async dispatch => {
   await dispatch(fetchDataSuccess(types.CHANGE_MSG_CODE, code));
 };
@@ -25,9 +24,9 @@ export const getJobs = () => async dispatch => {
     {"id":8,"logoUrl":"http://via.placeholder.com/150x150","merchantName":"OPPO","rating":3.5,"trending":1,"jobTitle":"PB/PG ra mắt thương hiệu Oppo","ageMin":18,"ageMax":25,"gender":0,"location":"Quận 1, TP. Hồ Chí Minh","timeStart":"2020-01-01 00:00:00","timeEnd":"2020-01-31 00:00:00","amount":50,"jobDetails":[]}
   ];
 
-  await dispatch(fetchDataSuccess(types.FETCH_JOB_SUCCESS, data));
+  await dispatch(fetchDataSuccess(types.GET_JOBS_SUCCESS, data));
   await dispatch(
-    fetchDataSuccess(types.CHANGE_MSG_CODE, 'fetch_job_success'),
+    fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_JOBS_SUCCESS),
   );
   // if (typeof json !== 'undefined') {
   //   await dispatch(fetchDataSuccess(types.FETCH_JOB_SUCCESS, data));
