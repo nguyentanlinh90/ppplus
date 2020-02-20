@@ -29,12 +29,12 @@ export const callGetApi = (url, data) =>
     )
     .catch(error => alert('fetch error:', error));
 
-export const callPostApi = (url, data) =>
+export const callPostApi = (url, data, token) =>
   axios
     .post(url, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: '',
+        Authorization: token,
       },
       responseType: 'json',
       timeout: 600000,
@@ -56,12 +56,12 @@ export const callPostApi = (url, data) =>
     )
     .catch(error => alert('Response error:', error));
 
-export const callPutApi = (url, data) =>
+export const callPutApi = (url, data, token) =>
   axios
     .put(url, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: '',
+        Authorization: token,
       },
       responseType: 'json',
       timeout: 600000,
@@ -82,7 +82,6 @@ export const callPutApi = (url, data) =>
       }),
     )
     .catch(error => alert('Response error:', error));
-
 //using debug call api
 export const fetchApiPost = (url, data) => {
   fetch(url, {

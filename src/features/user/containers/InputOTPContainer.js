@@ -17,7 +17,7 @@ import {dispatchScreen} from '../../../utils/utils';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {FORGOT_PASSWORD} from '../../../utils/constants';
-import {SCREEN_LOGIN} from '../../../api/screen';
+import {SCREEN_LOGIN, SCREEN_UPDATE_PASS} from '../../../api/screen';
 import {showAlert} from '../../../utils/utils';
 import {setStoreData} from '../../../utils/utils';
 import {doProcessOTP, doSendOTP} from '../actions/index';
@@ -42,20 +42,23 @@ export class InputOTPContainer extends Component {
     this.onChangeText = this.onChangeText.bind(this);
   }
 
+  _startInterval = () => {
+    this.interval = setInterval(() => {
+      if (this.state.timeResend !== 0) {
+        this.setState(prevState => ({
+          timeResend: prevState.timeResend - 1,
+        }));
+      }
+    }, 1000);
+  };
+
   componentDidMount() {
     NetInfo.isConnected.addEventListener(
       'connectionChange',
       this._handleConnectivityChange,
     );
 
-    this.interval = setInterval(() => {
-      if (this.state.timeResend == 0) {
-      } else {
-        this.setState(prevState => ({
-          timeResend: prevState.timeResend - 1,
-        }));
-      }
-    }, 1000);
+    this._startInterval();
   }
   componentDidUpdate() {
     if (this.state.timeResend === 0) {
@@ -92,20 +95,16 @@ export class InputOTPContainer extends Component {
     doSendOTP(this.state.phone);
   };
   _handleProcessOTP = () => {
-    if (this.state.isRegister) {
-      const {doProcessOTP} = this.props;
-      const {otpCode} = this.state;
+    const {doProcessOTP} = this.props;
+    const {otpCode} = this.state;
 
-      if (otpCode != '' && otpCode.length > 5) {
-        if (this.state.isConnecting) {
-          this.setState({isLoading: true});
-          doProcessOTP(this.state.phone, otpCode);
-        } else {
-          showAlert('Vui lòng kiểm tra kết nối mạng.');
-        }
+    if (otpCode != '' && otpCode.length > 5) {
+      if (this.state.isConnecting) {
+        this.setState({isLoading: true});
+        doProcessOTP(this.state.phone, otpCode);
+      } else {
+        showAlert('Vui lòng kiểm tra kết nối mạng.');
       }
-    } else {
-      //for case forgot password
     }
   };
 
@@ -117,15 +116,24 @@ export class InputOTPContainer extends Component {
     } else if (nextProps.msg_code == types.PROCESS_OTP_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      dispatchScreen(this.props, SCREEN_LOGIN, {});
+      if (this.state.isRegister) {
+        dispatchScreen(this.props, SCREEN_LOGIN, {});
+      } else {
+        dispatchScreen(this.props, SCREEN_UPDATE_PASS, [
+          this.state.phone,
+          nextProps.data.access_token,
+        ]);
+      }
     } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
       showAlert('Mã OTP đã được gửi đến số điện thoại ' + this.state.phone);
       nextProps.changeMsgCode('');
       this.setState({timeResend: timeResend});
-    } else if (nextProps.msg_code == types.RESEND_OTP_FAIL) {
+      this._startInterval();
+    } else if (nextProps.msg_code == types.SEND_OTP_FAIL) {
       showAlert(nextProps.message);
       nextProps.changeMsgCode('');
       this.setState({timeResend: timeResend});
+      this._startInterval();
     }
   }
 

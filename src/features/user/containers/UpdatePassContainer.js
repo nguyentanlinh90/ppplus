@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import UpdatePassForm from '../components/UpdatePassForm';
-import {doUpdateUser} from '../actions/index';
+import {doUpdateUserInfo} from '../actions/index';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
 import {changeMsgCode} from '../../home/actions/index';
@@ -26,9 +26,10 @@ export class UpdatePassContainer extends Component {
     super(props);
 
     this.state = {
-      phone: this.props.navigation.state.params,
-      new_password: '12Chiec@',
-      new_password_confirm: '12Chiec@',
+      phone: this.props.navigation.state.params[0],
+      access_token: this.props.navigation.state.params[1],
+      new_password: 'Lin123@',
+      new_password_confirm: 'Lin123@',
       isConnecting: false,
     };
     this._handleUpdatePass = this._handleUpdatePass.bind(this);
@@ -68,8 +69,13 @@ export class UpdatePassContainer extends Component {
   };
 
   _handleUpdatePass = () => {
-    const {doUpdateUser} = this.props;
-    const {new_password, new_password_confirm} = this.state;
+    const {doUpdateUserInfo} = this.props;
+    const {
+      phone,
+      access_token,
+      new_password,
+      new_password_confirm,
+    } = this.state;
 
     var formatPass = /^(?=.*[0-9])(?=.*[A-Z])/;
     if (new_password.length < 6 || !formatPass.test(new_password)) {
@@ -83,12 +89,18 @@ export class UpdatePassContainer extends Component {
       showAlert('Vui lòng nhập mật khẩu và xác nhận mật khẩu trùng nhau');
       return;
     }
-
-    console.log('linhnt _handleUpdatePass');
+    this.setState({isLoading: true});
+    const params = {
+      phone: '0988422495',
+      type: 'forgot_password',
+      password: new_password,
+      password_confirm: new_password_confirm,
+    };
+    doUpdateUserInfo(params, 'Bearer ' + access_token);
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('linhnt nextProps', nextProps);
+    console.log('linhnt nextProps', nextProps.msg_code);
     if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       this.setState({isLoading: false});
       showAlert(nextProps.message);
@@ -96,7 +108,7 @@ export class UpdatePassContainer extends Component {
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      dispatchScreen(this.props, SCREEN_MAIN, {});
+      dispatchScreen(this.props, SCREEN_LOGIN, {});
     }
   }
 
@@ -133,6 +145,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  doUpdateUser,
+  doUpdateUserInfo,
   changeMsgCode,
 })(UpdatePassContainer);

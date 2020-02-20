@@ -15,7 +15,7 @@ export const doCreateAccount = (
     password: password,
     password_confirm: password_confirm,
   };
-  const {json} = await callPostApi(getUrl(path), params);
+  const {json} = await callPostApi(getUrl(path), params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -39,7 +39,7 @@ export const doProcessOTP = (phone, otp_code) => async dispatch => {
     otp_code: otp_code,
   };
 
-  const {json} = await callPostApi(getUrl(path), params);
+  const {json} = await callPostApi(getUrl(path), params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -63,7 +63,7 @@ export const doSendOTP = (phone, type) => async dispatch => {
     type: type,
   };
 
-  const {json} = await callPostApi(getUrl(path), params);
+  const {json} = await callPostApi(getUrl(path), params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -87,7 +87,7 @@ export const doLogin = (phone, password) => async dispatch => {
     password: password,
   };
 
-  const {json} = await callPostApi(getUrl(path), params);
+  const {json} = await callPostApi(getUrl(path), params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -102,16 +102,20 @@ export const doLogin = (phone, password) => async dispatch => {
   }
 };
 
-export const doUpdateUserInfo = params => async dispatch => {
+export const doUpdateUserInfo = (params, access_token) => async dispatch => {
   const path = 'user/info';
-
-  const {json} = await callPutApi(getUrl(path), params);
+  const {json} = await callPostApi(getUrl(path), params, access_token);
+  console.log(
+    'linhnt',
+    json,
+    typeof json !== types.UNDEFINED,
+    json.result_code,
+  );
 
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
   ) {
-    await dispatch(fetchDataSuccess(types.FETCH_USER_SUCCESS, json.data));
     await dispatch(
       fetchDataSuccess(types.CHANGE_MSG_CODE, types.UPDATE_USER_INFO_SUCCESS),
     );

@@ -28,10 +28,10 @@ export class CreateAccountContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '0387665209',
+      phone: '0988422495',
       reference_code: 'ABC123',
-      password: '12Chiec@',
-      password_confirm: '12Chiec@',
+      password: 'Lin123@',
+      password_confirm: 'Lin123@',
       isLoading: false,
       isConnecting: false,
       isAgree: true,
@@ -150,7 +150,7 @@ export class CreateAccountContainer extends Component {
       dispatchScreen(this.props, SCREEN_INPUT_OTP, [
         this.state.phone,
         nextProps.data.waiting_time_otp,
-        false // check isRegister
+        true // check isRegister
       ]);
     }
   }

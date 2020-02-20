@@ -4,7 +4,7 @@ import {
   getApiPath,
   getUrl,
 } from '../../../api/helpers';
-import {callGetApi, callPostApi} from '../../../api/api';
+import {callGetApi} from '../../../api/api';
 export const changeMsgCode = code => async dispatch => {
   await dispatch(fetchDataSuccess(types.CHANGE_MSG_CODE, code));
 };

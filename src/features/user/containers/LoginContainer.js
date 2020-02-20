@@ -32,8 +32,8 @@ export class LoginContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '0387665209',
-      password: '12Chiec@',
+      phone: '0988422495',
+      password: 'Lin123@',
       isLoading: false,
       isConnecting: false,
     };
@@ -129,7 +129,6 @@ export class LoginContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('linhnt nextProps', nextProps);
     if (nextProps.msg_code == types.LOGIN_FAIL) {
       this.setState({isLoading: false});
       showAlert(nextProps.message);
@@ -144,7 +143,7 @@ export class LoginContainer extends Component {
       dispatchScreen(this.props, SCREEN_INPUT_OTP, [
         this.state.phone,
         nextProps.data.waiting_time_otp,
-        true, //check isRegister
+        false, //check isRegister (here is forgot pass)
       ]);
     } else if (nextProps.msg_code == types.SEND_OTP_FAIL) {
       showAlert(nextProps.message);
