@@ -31,6 +31,7 @@ export class UpdatePassContainer extends Component {
       new_password: 'Lin123@',
       new_password_confirm: 'Lin123@',
       isConnecting: false,
+      isLoading:false,
     };
     this._handleUpdatePass = this._handleUpdatePass.bind(this);
     this._onChangeText = this._onChangeText.bind(this);
@@ -92,7 +93,7 @@ export class UpdatePassContainer extends Component {
     this.setState({isLoading: true});
     const params = {
       phone: '0988422495',
-      type: 'forgot_password',
+      type: types.TYPE_USER_FORGOT_PASSWORD,
       password: new_password,
       password_confirm: new_password_confirm,
     };
@@ -100,7 +101,6 @@ export class UpdatePassContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('linhnt nextProps', nextProps.msg_code);
     if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       this.setState({isLoading: false});
       showAlert(nextProps.message);

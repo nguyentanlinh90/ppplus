@@ -1,6 +1,8 @@
 import {callGetApi, callPostApi, callPutApi} from '../../../api/api';
 import {fetchDataSuccess, getApiPath, getUrl} from '../../../api/helpers';
 import * as types from '../../../api/types';
+import {setStoreData} from '../../../utils/utils';
+import {ACCESS_TOKEN} from '../../../utils/constants';
 
 export const doCreateAccount = (
   phone,
@@ -92,6 +94,7 @@ export const doLogin = (phone, password) => async dispatch => {
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
   ) {
+    setStoreData(ACCESS_TOKEN, json.access_token);
     await dispatch(fetchDataSuccess(types.LOGIN_SUCCESS, json.data));
     await dispatch(
       fetchDataSuccess(types.CHANGE_MSG_CODE, types.LOGIN_SUCCESS),
@@ -104,13 +107,10 @@ export const doLogin = (phone, password) => async dispatch => {
 
 export const doUpdateUserInfo = (params, access_token) => async dispatch => {
   const path = 'user/info';
+  console.log('linhnt path', getUrl(path), params, access_token);
+
   const {json} = await callPostApi(getUrl(path), params, access_token);
-  console.log(
-    'linhnt',
-    json,
-    typeof json !== types.UNDEFINED,
-    json.result_code,
-  );
+  console.log('linhnt json', json);
 
   if (
     typeof json !== types.UNDEFINED &&

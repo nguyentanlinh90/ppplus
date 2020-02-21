@@ -12,7 +12,6 @@ import ArrowUpDown from '../../../components/ArrowUpDown';
 import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
-const listCity = require('../../../assets/json/city.json');
 import {text_select} from '../../../utils/constants';
 import {
   boxSelectStyle,

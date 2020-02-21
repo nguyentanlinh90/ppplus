@@ -1,27 +1,93 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, SafeAreaView, ScrollView, Image} from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  ScrollView,
+  Image,
+  AsyncStorage,
+} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import styles from '../styles/styles';
 import InfoForm from '../component/InfoForm';
 import {SCREEN_MAIN} from '../../../api/screen';
 import {text_select} from '../../../utils/constants';
 import {dispatchScreen} from '../../../utils/utils';
-
+import {showAlert} from '../../../utils/utils';
+import {doUpdateUserInfo} from '../../user/actions/index';
+import {ACCESS_TOKEN} from '../../../utils/constants';
+import {handleCheck, arrayToString} from '../../../utils/utils';
+import {changeMsgCode} from '../../../api/helpers';
+var token = '';
+var provinceList = [];
+var majorList = [];
 class InfoContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       firstName: 'Linh',
-      lastName: 'Nguyễn Tấn',
-      genderMale: false,
+      lastName: 'Nguyen Tan',
+      genderMale: true,
       genderFeMale: false,
-      yearOfBirth: new Date().getFullYear() - 18,
-      city: text_select,
-      industry: text_select,
-      isJobLongTerm: false,
-      isJobShortTerm: false,
+      yearOfBirth: text_select,
+      provinceIDs: [],
+      majorIDs: [],
     };
+
+    provinceList = this.props.navigation.state.params.province_list;
+    majorList = this.props.navigation.state.params.major_list;
+    this._getToKen();
   }
+
+  componentDidMount = () => {
+    this._loadListBasic();
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log('linhnt', nextProps);
+  }
+
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <Image
+          style={{width: '100%', height: '100%', position: 'absolute'}}
+          source={require('../../../assets/images/bg.png')}
+        />
+        <SafeAreaView style={[styles.container]}>
+          <Spinner
+            visible={this.state.isLoading}
+            color={'white'}
+            size={'large'}
+            textStyle={{color: '#fff'}}
+          />
+          <InfoForm
+            onChangeText={this._onChangeText}
+            lastName={this.state.lastName}
+            firstName={this.state.firstName}
+            genderMale={this.state.genderMale}
+            genderFeMale={this.state.genderFeMale}
+            handleGenderSelect={this._handleGenderSelect}
+            selectYearOfBirth={this._selectYearOfBirth}
+            yearOfBirth={this.state.yearOfBirth}
+            listProvince={provinceList}
+            handleSelectProvince={this._handleSelectProvince}
+            provinceIDs={this.state.provinceIDs}
+            listMajor={majorList}
+            handleSelectMajor={this._handleSelectMajor}
+            majorIDs={this.state.majorIDs}
+            handleUpdateBasicInfo={this._handleUpdateBasicInfo}
+          />
+        </SafeAreaView>
+      </View>
+    );
+  }
+
+  async _getToKen() {
+    token = await AsyncStorage.getItem(ACCESS_TOKEN);
+  }
+  _loadListBasic = () => {};
   _onChangeText = (text, type) => {
     if (type == 'lastName') {
       this.setState({lastName: text});
@@ -45,90 +111,88 @@ class InfoContainer extends Component {
     }
   };
 
+  _handleUpdateBasicInfo = () => {
+    const {doUpdateUserInfo} = this.props;
+    const {
+      firstName,
+      lastName,
+      genderMale,
+      genderFeMale,
+      yearOfBirth,
+      provinceIDs,
+      majorIDs,
+    } = this.state;
+
+    if (
+      firstName == '' ||
+      lastName == '' ||
+      (!genderMale && !genderFeMale) ||
+      yearOfBirth == text_select ||
+      provinceIDs.length == 0 ||
+      majorIDs.length == 0
+    ) {
+      showAlert('Vui lòng cung cấp đầy đủ các trường thông tin ở trên');
+      return;
+    }
+    var specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    if (specialCharacters.test(firstName) || specialCharacters.test(lastName)) {
+      showAlert('Tên không được chứa ký tự đặc biệt');
+      return;
+    }
+    this.setState({isLoading: true});
+
+    const params = {
+      first_name: firstName,
+      last_name: lastName,
+      gender: genderMale ? '1' : '2',
+      birthday: yearOfBirth+"",
+      working_places: arrayToString(provinceIDs),
+      working_careers: arrayToString(majorIDs),
+      type: 'basic_detail',
+    };
+
+    if (token != '') {
+      doUpdateUserInfo(params, token);
+    }
+  };
+
   _selectYearOfBirth = yearSelect => {
     this.setState({yearOfBirth: yearSelect});
   };
 
-  _selectCity = citySelect => {
-    if (this.state.city.includes(citySelect)) {
-      var cityTemp = this.state.city
-        .replace(citySelect + '; ', '')
-        .replace('; ' + citySelect, '')
-        .replace(citySelect, '');
-      if (cityTemp == '') {
-        cityTemp = text_select;
+  _handleSelectProvince = provinceIdSelect => {
+    const {provinceIDs} = this.state;
+    if (handleCheck(provinceIdSelect, provinceIDs)) {
+      var array = [...provinceIDs];
+      var index = array.indexOf(provinceIdSelect);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({provinceIDs: array});
       }
-      this.setState({city: cityTemp});
-      return;
+    } else {
+      provinceIDs.push(provinceIdSelect);
+      this.setState({provinceIDs: provinceIDs});
     }
-    this.setState({
-      city: (this.state.city + '; ' + citySelect).replace(
-        text_select + '; ',
-        '',
-      ),
-    });
   };
 
-  _selectIndustry = industrySelect => {
-    if (this.state.industry.includes(industrySelect)) {
-      var industryTemp = this.state.industry
-        .replace(industrySelect + '; ', '')
-        .replace('; ' + industrySelect, '')
-        .replace(industrySelect, '');
-      if (industryTemp == '') {
-        industryTemp = text_select;
+  _handleSelectMajor = majorIdSelect => {
+    const {majorIDs} = this.state;
+    if (handleCheck(majorIdSelect, majorIDs)) {
+      var array = [...majorIDs];
+      var index = array.indexOf(majorIdSelect);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({majorIDs: array});
       }
-      this.setState({industry: industryTemp});
-      return;
+    } else {
+      majorIDs.push(majorIdSelect);
+      this.setState({majorIDs: majorIDs});
     }
-    this.setState({
-      industry: (this.state.industry + '; ' + industrySelect).replace(
-        text_select + '; ',
-        '',
-      ),
-    });
   };
 
   _openHomeScreen = () => {
     dispatchScreen(this.props, SCREEN_MAIN, {});
   };
-
-  _setJobDuration = isLongTerm => {
-    if (isLongTerm) this.setState({isJobLongTerm: !this.state.isJobLongTerm});
-    else this.setState({isJobShortTerm: !this.state.isJobShortTerm});
-  };
-
-  render() {
-    const {} = this.props;
-    return (
-      <View style={{flex: 1}}>
-        <Image
-          style={{width: '100%', height: '100%', position: 'absolute'}}
-          source={require('../../../assets/images/bg.png')}
-        />
-        <SafeAreaView style={[styles.container]}>
-          <InfoForm
-            onChangeText={this._onChangeText}
-            lastName={this.state.lastName}
-            firstName={this.state.firstName}
-            genderMale={this.state.genderMale}
-            genderFeMale={this.state.genderFeMale}
-            handleGenderSelect={this._handleGenderSelect}
-            selectYearOfBirth={this._selectYearOfBirth}
-            yearOfBirth={this.state.yearOfBirth}
-            selectCity={this._selectCity}
-            city={this.state.city}
-            selectIndustry={this._selectIndustry}
-            industry={this.state.industry}
-            setJobDuration={this._setJobDuration}
-            jobLongTerm={this.state.isJobLongTerm}
-            jobShortTerm={this.state.isJobShortTerm}
-            openHomeScreen={this._openHomeScreen}
-          />
-        </SafeAreaView>
-      </View>
-    );
-  }
 }
 
 function mapStateToProps(state) {
@@ -137,4 +201,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(InfoContainer);
+export default connect(mapStateToProps, {
+  doUpdateUserInfo,
+  changeMsgCode,
+})(InfoContainer);

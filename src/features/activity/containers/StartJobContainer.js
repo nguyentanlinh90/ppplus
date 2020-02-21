@@ -63,7 +63,6 @@ class StartJobContainer extends Component {
     });
   };
   _openOptionsEdit = () => {
-    console.log('linhnt open');
     this.optionsEdit.show();
   };
 

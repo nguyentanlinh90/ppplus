@@ -21,9 +21,14 @@ import {
   SCREEN_INPUT_OTP,
   SCREEN_CREATE_ACCOUNT,
   SCREEN_MAIN,
+  SCREEN_INFO,
 } from '../../../api/screen';
 import {dispatchScreen, setStoreData} from '../../../utils/utils';
-import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
+import {
+  KEY_CHECK_LOGIN,
+  ACCESS_TOKEN,
+  VALUE_ONE,
+} from '../../../utils/constants';
 import {showAlert} from '../../../utils/utils';
 import * as types from '../../../api/types';
 var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
@@ -94,7 +99,7 @@ export class LoginContainer extends Component {
             {
               text: 'Đồng Ý',
               onPress: () => {
-                doSendOTP(phone, 'forgot_password');
+                doSendOTP(phone, types.TYPE_USER_FORGOT_PASSWORD);
               },
             },
           ],
@@ -105,7 +110,7 @@ export class LoginContainer extends Component {
   };
 
   _handleNotYetAccount = () => {
-    this.props.navigation.navigate(SCREEN_CREATE_ACCOUNT);
+    dispatchScreen(this.props, SCREEN_CREATE_ACCOUNT, {});
   };
 
   _handleLogin = () => {
@@ -136,8 +141,14 @@ export class LoginContainer extends Component {
     } else if (nextProps.msg_code == types.LOGIN_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      setStoreData(KEY_CHECK_LOGIN, VALUE_ONE);
-      dispatchScreen(this.props, SCREEN_MAIN, {});
+
+      if (nextProps.data.is_updated_basic == 1) {
+        // 1: User has updated basic info, 0: not yet
+        setStoreData(KEY_CHECK_LOGIN, VALUE_ONE);
+        dispatchScreen(this.props, SCREEN_MAIN, {});
+      } else {
+        dispatchScreen(this.props, SCREEN_INFO, nextProps.data);
+      }
     } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
       nextProps.changeMsgCode('');
       dispatchScreen(this.props, SCREEN_INPUT_OTP, [

@@ -228,7 +228,6 @@ class HomeContainer extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('linhnt', nextProps)
     if (nextProps.msg_code == types.GET_JOBS_SUCCESS) {
       this.setState({
         isLoading: false,

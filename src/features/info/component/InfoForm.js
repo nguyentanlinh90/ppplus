@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import BgButton from '../../../components/BgButton';
@@ -16,43 +16,16 @@ import CBUnChecked from '../../../components/CBUnChecked';
 import RadioChecked from '../../../components/RadioChecked';
 import RadioUnChecked from '../../../components/RadioUnChecked';
 import ArrowUpDown from '../../../components/ArrowUpDown';
-import {jewelStyle} from '../../../utils/constants';
-const listCity = require('../../../assets/json/city.json');
-
-const listIndustry = [
-  {
-    id: '1',
-    name: 'Bia, rượu, thuốc lá',
-  },
-  {
-    id: '2',
-    name: 'Sữa',
-  },
-  {
-    id: '3',
-    name: 'Chăm sóc cá nhân',
-  },
-  {
-    id: '4',
-    name: 'Điện tử tiêu dùng',
-  },
-  {
-    id: '5',
-    name: 'Thức uống giải khát',
-  },
-  {
-    id: '6',
-    name: 'Thực phẩm đóng gói',
-  },
-];
+import {handleCheck} from '../../../utils/utils';
+import {text_select} from '../../../utils/constants';
 
 export default class InfoContainer_1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isShowYOB: false,
-      isShowCity: false,
-      isShowIndustry: false,
+      isShowProvince: false,
+      isShowMajor: false,
     };
   }
 
@@ -70,6 +43,26 @@ export default class InfoContainer_1 extends Component {
     };
   };
 
+  _getListName = (ids, list) => {
+    var names = '';
+    if (ids.length == 0) {
+      names = text_select;
+    } else {
+      for (let i = 0; i < ids.length; i++) {
+        for (let j = 0; j < list.length; j++) {
+          if (ids[i] == list[j].id) {
+            if (names == '') {
+              names = list[j].name;
+            } else {
+              names = names + '; ' + list[j].name;
+            }
+          }
+        }
+      }
+    }
+    return names;
+  };
+
   render() {
     const {
       onChangeText,
@@ -80,19 +73,18 @@ export default class InfoContainer_1 extends Component {
       handleGenderSelect,
       selectYearOfBirth,
       yearOfBirth,
-      selectCity,
-      city,
-      selectIndustry,
-      industry,
-      setJobDuration,
-      jobLongTerm,
-      jobShortTerm,
-      openHomeScreen,
+      listProvince,
+      handleSelectProvince,
+      provinceIDs,
+      listMajor,
+      handleSelectMajor,
+      majorIDs,
+      handleUpdateBasicInfo,
     } = this.props;
 
     var listYear = [];
     var year = new Date().getFullYear();
-    for (var i = 1900; i < year; i++) {
+    for (var i = 1950; i < year; i++) {
       listYear.push(i);
     }
 
@@ -107,9 +99,10 @@ export default class InfoContainer_1 extends Component {
           <View style={styles.flexRow}>
             <View style={[styles.boxInput, {marginEnd: 10}]}>
               <TextInput
+                maxLength={100}
                 numberOfLines={1}
                 style={styles.txtInput}
-                returnKeyType="go"
+                returnKeyType="done"
                 value={lastName}
                 name="lastName"
                 placeholder="Nhập họ và tên đệm"
@@ -118,9 +111,10 @@ export default class InfoContainer_1 extends Component {
             </View>
             <View style={styles.boxInput}>
               <TextInput
+                maxLength={100}
                 numberOfLines={1}
                 style={styles.txtInput}
-                returnKeyType="go"
+                returnKeyType="done"
                 value={firstName}
                 name="firstName"
                 placeholder="Nhập tên"
@@ -153,7 +147,6 @@ export default class InfoContainer_1 extends Component {
           </View>
           <Text style={styles.titleContent}>3. Năm sinh</Text>
           <TouchableOpacity
-            activeOpacity={0.8}
             onPress={() => this.setState({isShowYOB: !this.state.isShowYOB})}>
             <View
               style={this._boxSelectStyle(
@@ -171,7 +164,6 @@ export default class InfoContainer_1 extends Component {
               renderItem={({item: rowData}) => {
                 return (
                   <TouchableOpacity
-                    activeOpacity={0.8}
                     onPress={() => {
                       selectYearOfBirth(rowData);
                       this.setState({isShowYOB: false});
@@ -187,32 +179,36 @@ export default class InfoContainer_1 extends Component {
           ) : null}
           <Text style={styles.titleContent}>4. Địa điểm làm việc</Text>
           <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => this.setState({isShowCity: !this.state.isShowCity})}>
+            onPress={() =>
+              this.setState({isShowProvince: !this.state.isShowProvince})
+            }>
             <View
               style={this._boxSelectStyle(
-                this.state.isShowCity ? '#F0532D' : '#d8d8d8',
+                this.state.isShowProvince ? '#F0532D' : '#d8d8d8',
               )}>
-              <Text style={styles.txtSelect}>{city}</Text>
+              <Text style={styles.txtSelect}>
+                {this._getListName(provinceIDs, listProvince)}
+              </Text>
               {<ArrowUpDown />}
             </View>
           </TouchableOpacity>
-          {this.state.isShowCity ? (
+          {this.state.isShowProvince ? (
             <FlatList
-              visibility={this.state.isShowCity}
+              visibility={this.state.isShowProvince}
               style={styles.viewSelect}
-              data={listCity}
+              data={listProvince}
               renderItem={({item: rowData}) => {
                 return (
                   <TouchableOpacity
-                    activeOpacity={0.8}
                     onPress={() => {
-                      selectCity(rowData.city);
+                      handleSelectProvince(rowData.id);
                     }}>
                     <View style={styles.infoBoxSelect}>
-                      <Text style={styles.txtViewSelect}>{rowData.city}</Text>
+                      <Text style={styles.txtViewSelect}>{rowData.name}</Text>
                       <CheckBox
-                        isChecked={city.includes(rowData.city) ? true : false}
+                        isChecked={
+                          handleCheck(rowData.id, provinceIDs) ? true : false
+                        }
                         checkedImage={<CBChecked />}
                         unCheckedImage={<CBUnChecked />}
                       />
@@ -227,35 +223,37 @@ export default class InfoContainer_1 extends Component {
 
           <Text style={styles.titleContent}>5. Nhóm ngành</Text>
           <TouchableOpacity
-            activeOpacity={0.8}
             onPress={() =>
-              this.setState({isShowIndustry: !this.state.isShowIndustry})
+              this.setState({isShowMajor: !this.state.isShowMajor})
             }>
             <View
               style={this._boxSelectStyle(
-                this.state.isShowIndustry ? '#F0532D' : '#d8d8d8',
+                this.state.isShowMajor ? '#F0532D' : '#d8d8d8',
               )}>
-              <Text style={styles.txtSelect}>{industry}</Text>
+              <Text style={styles.txtSelect}>
+                {this._getListName(majorIDs, listMajor)}
+              </Text>
               {<ArrowUpDown />}
             </View>
           </TouchableOpacity>
-          {this.state.isShowIndustry ? (
+          {this.state.isShowMajor ? (
             <FlatList
-              visibility={this.state.isShowIndustry}
+              visibility={this.state.isShowMajor}
               style={styles.viewSelect}
-              data={listIndustry}
+              data={listMajor}
               renderItem={({item: rowData}) => {
                 return (
                   <TouchableOpacity
-                    activeOpacity={0.8}
                     onPress={() => {
-                      selectIndustry(rowData.name);
+                      handleSelectMajor(rowData.id);
                     }}>
                     <View style={styles.infoBoxSelect}>
                       <Text style={styles.txtViewSelect}>{rowData.name}</Text>
+
                       <CheckBox
+                        disabled={true}
                         isChecked={
-                          industry.includes(rowData.name) ? true : false
+                          handleCheck(rowData.id, majorIDs) ? true : false
                         }
                         checkedImage={<CBChecked />}
                         unCheckedImage={<CBUnChecked />}
@@ -270,35 +268,14 @@ export default class InfoContainer_1 extends Component {
           ) : null}
 
           <Text style={styles.titleContent}>6. Thời lượng công việc</Text>
-          <View style={{flexDirection: 'row'}}>
-            <View style={styles.containerCheckBox}>
-              <CheckBox
-                style={styles.checkbox}
-                onClick={() => setJobDuration(true)}
-                isChecked={jobLongTerm}
-                rightText={'Dài hạn'}
-                checkedImage={<CBChecked />}
-                unCheckedImage={<CBUnChecked />}
-              />
-            </View>
-            <View style={styles.containerCheckBox}>
-              <CheckBox
-                style={styles.checkbox}
-                onClick={() => setJobDuration(false)}
-                isChecked={jobShortTerm}
-                rightText={'Ngắn hạn'}
-                checkedImage={<CBChecked />}
-                unCheckedImage={<CBUnChecked />}
-              />
-            </View>
-          </View>
+
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => openHomeScreen()}
+            onPress={() => handleUpdateBasicInfo()}
             style={styles.buttonContinue}>
-          <BgButton />
+            <BgButton />
 
-          <Text style={styles.txtDone}>Hoàn Thành</Text>
+            <Text style={styles.txtDone}>Hoàn Thành</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
