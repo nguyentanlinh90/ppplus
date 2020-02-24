@@ -10,7 +10,9 @@ import Notification from '../../notification/containers/NotificationContainer';
 import Profile from '../../profile/containers/ProfileContainer';
 import SpinnerComponent from '../../../components/Spinner';
 import AlertJob from '../../activity/components/AlertJob';
-import {SCREEN_START_JOB} from '../../../api/screen';
+import {SCREEN_START_JOB, SCREEN_RETRO} from '../../../api/screen';
+import {dispatchScreen} from '../../../utils/utils';
+
 import styles from '../styles/styles';
 
 class MainContainer extends Component {
@@ -84,6 +86,10 @@ class MainContainer extends Component {
       timeStart: '13:00',
       timeEnd: '17:00',
     });
+  };
+
+  _gotoRetroScreen = () => {
+    dispatchScreen(this.props, SCREEN_RETRO, {});
   };
   render() {
     return (
@@ -203,7 +209,10 @@ class MainContainer extends Component {
               </View>
             )}
             onPress={() => this._openTab('profile')}>
-            <Profile props={this.props} />
+            <Profile
+              props={this.props}
+              _gotoRetroScreen={this._gotoRetroScreen}
+            />
           </TabNavigator.Item>
         </TabNavigator>
         <DropdownAlert ref={ref => (this.dropdown = ref)} />

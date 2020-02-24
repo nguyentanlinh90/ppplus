@@ -23,12 +23,8 @@ import {
   SCREEN_MAIN,
   SCREEN_INFO,
 } from '../../../api/screen';
-import {dispatchScreen, setStoreData} from '../../../utils/utils';
-import {
-  KEY_CHECK_LOGIN,
-  ACCESS_TOKEN,
-  VALUE_ONE,
-} from '../../../utils/constants';
+import {dispatchScreen} from '../../../utils/utils';
+import {ACCESS_TOKEN} from '../../../utils/constants';
 import {showAlert} from '../../../utils/utils';
 import * as types from '../../../api/types';
 var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
@@ -37,7 +33,7 @@ export class LoginContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '0988422495',
+      phone: '0988422496',
       password: 'Lin123@',
       isLoading: false,
       isConnecting: false,
@@ -144,9 +140,11 @@ export class LoginContainer extends Component {
 
       if (nextProps.data.is_updated_basic == 1) {
         // 1: User has updated basic info, 0: not yet
-        setStoreData(KEY_CHECK_LOGIN, VALUE_ONE);
+        console.log('linhnt SCREEN_MAIN')
+
         dispatchScreen(this.props, SCREEN_MAIN, {});
       } else {
+        console.log('linhnt SCREEN_INFO')
         dispatchScreen(this.props, SCREEN_INFO, nextProps.data);
       }
     } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {

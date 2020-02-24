@@ -55,12 +55,11 @@ export default StyleSheet.create({
     paddingEnd: 10,
   },
   txtSelect: {
-    color: '#2b2b2b',
-    fontSize: 16,
     flex: 1,
+    fontSize: 16,
+    color: '#2B2B2B',
     paddingTop: 10,
     paddingBottom: 10,
-    lineHeight: 25,
   },
   viewSelect: {
     borderWidth: 1,
@@ -111,5 +110,15 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
+  },
+  boxInfoItem: {
+    flex: 1,
+    borderColor: '#d8d8d8',
+    borderWidth: 1,
+    borderRadius: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingStart: 10,
+    paddingEnd: 10,
   },
 });

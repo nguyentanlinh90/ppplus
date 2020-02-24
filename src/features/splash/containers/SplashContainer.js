@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Image, AsyncStorage} from 'react-native';
 import {dispatchScreen} from '../../../utils/utils';
-import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
+import {ACCESS_TOKEN} from '../../../utils/constants';
 import {
-  SCREEN_FILL_PROFILE,
+  SCREEN_INFO,
   SCREEN_MAIN,
   SCREEN_RETRO,
+  SCREEN_LOGIN,
 } from '../../../api/screen';
 class SplashContainer extends Component {
   constructor(props) {
@@ -18,9 +19,9 @@ class SplashContainer extends Component {
     console.disableYellowBox = true;
   }
 
- async checkLogin() {
-    var loginStatus = await AsyncStorage.getItem(KEY_CHECK_LOGIN);
-    if (loginStatus && loginStatus == VALUE_ONE) {
+  async checkLogin() {
+    var token = await AsyncStorage.getItem(ACCESS_TOKEN);
+    if (token && token != '') {
       this.setState({isLogin: true});
     }
   }

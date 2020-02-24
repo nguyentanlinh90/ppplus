@@ -8,6 +8,8 @@ import {
   AsyncStorage,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 import styles from '../styles/styles';
 import InfoForm from '../component/InfoForm';
 import {SCREEN_MAIN} from '../../../api/screen';
@@ -18,72 +20,35 @@ import {doUpdateUserInfo} from '../../user/actions/index';
 import {ACCESS_TOKEN} from '../../../utils/constants';
 import {handleCheck, arrayToString} from '../../../utils/utils';
 import {changeMsgCode} from '../../../api/helpers';
+import * as types from '../../../api/types';
+
 var token = '';
 var provinceList = [];
 var majorList = [];
+var dayList = [];
+
 class InfoContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
+      isDateTimePickerVisible: false,
       firstName: 'Linh',
       lastName: 'Nguyen Tan',
       genderMale: true,
       genderFeMale: false,
-      yearOfBirth: text_select,
+      birthday: text_select,
       provinceIDs: [],
       majorIDs: [],
+      dayIDs: [],
     };
 
     provinceList = this.props.navigation.state.params.province_list;
     majorList = this.props.navigation.state.params.major_list;
+    dayList = this.props.navigation.state.params.day_list;
+
     this._getToKen();
   }
-
-  componentDidMount = () => {
-    this._loadListBasic();
-  };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('linhnt', nextProps);
-  }
-
-  render() {
-    return (
-      <View style={{flex: 1}}>
-        <Image
-          style={{width: '100%', height: '100%', position: 'absolute'}}
-          source={require('../../../assets/images/bg.png')}
-        />
-        <SafeAreaView style={[styles.container]}>
-          <Spinner
-            visible={this.state.isLoading}
-            color={'white'}
-            size={'large'}
-            textStyle={{color: '#fff'}}
-          />
-          <InfoForm
-            onChangeText={this._onChangeText}
-            lastName={this.state.lastName}
-            firstName={this.state.firstName}
-            genderMale={this.state.genderMale}
-            genderFeMale={this.state.genderFeMale}
-            handleGenderSelect={this._handleGenderSelect}
-            selectYearOfBirth={this._selectYearOfBirth}
-            yearOfBirth={this.state.yearOfBirth}
-            listProvince={provinceList}
-            handleSelectProvince={this._handleSelectProvince}
-            provinceIDs={this.state.provinceIDs}
-            listMajor={majorList}
-            handleSelectMajor={this._handleSelectMajor}
-            majorIDs={this.state.majorIDs}
-            handleUpdateBasicInfo={this._handleUpdateBasicInfo}
-          />
-        </SafeAreaView>
-      </View>
-    );
-  }
-
   async _getToKen() {
     token = await AsyncStorage.getItem(ACCESS_TOKEN);
   }
@@ -118,18 +83,20 @@ class InfoContainer extends Component {
       lastName,
       genderMale,
       genderFeMale,
-      yearOfBirth,
+      birthday,
       provinceIDs,
       majorIDs,
+      dayIDs,
     } = this.state;
 
     if (
       firstName == '' ||
       lastName == '' ||
       (!genderMale && !genderFeMale) ||
-      yearOfBirth == text_select ||
+      birthday == text_select ||
       provinceIDs.length == 0 ||
-      majorIDs.length == 0
+      majorIDs.length == 0 ||
+      dayIDs.length == 0
     ) {
       showAlert('Vui lòng cung cấp đầy đủ các trường thông tin ở trên');
       return;
@@ -145,19 +112,16 @@ class InfoContainer extends Component {
       first_name: firstName,
       last_name: lastName,
       gender: genderMale ? '1' : '2',
-      birthday: yearOfBirth+"",
+      birthday: birthday,
       working_places: arrayToString(provinceIDs),
       working_careers: arrayToString(majorIDs),
+      working_days: arrayToString(dayIDs),
       type: 'basic_detail',
     };
 
     if (token != '') {
       doUpdateUserInfo(params, token);
     }
-  };
-
-  _selectYearOfBirth = yearSelect => {
-    this.setState({yearOfBirth: yearSelect});
   };
 
   _handleSelectProvince = provinceIdSelect => {
@@ -190,14 +154,113 @@ class InfoContainer extends Component {
     }
   };
 
-  _openHomeScreen = () => {
-    dispatchScreen(this.props, SCREEN_MAIN, {});
+  _handleSelectDay = dayIdSelect => {
+    const {dayIDs} = this.state;
+    if (handleCheck(dayIdSelect, dayIDs)) {
+      var array = [...dayIDs];
+      var index = array.indexOf(dayIdSelect);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({dayIDs: array});
+      }
+    } else {
+      dayIDs.push(dayIdSelect);
+      this.setState({dayIDs: dayIDs});
+    }
   };
+
+  componentDidMount = () => {
+    this._loadListBasic();
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
+      this.setState({isLoading: false});
+      nextProps.changeMsgCode('');
+      dispatchScreen(this.props, SCREEN_MAIN, {});
+    } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
+      this.setState({isLoading: false});
+      showAlert(nextProps.message);
+      nextProps.changeMsgCode('');
+    }
+  }
+
+  _showDateTimePicker = () => {
+    this.setState({isDateTimePickerVisible: true});
+  };
+
+  _hideDateTimePicker = () => {
+    this.setState({isDateTimePickerVisible: false});
+  };
+
+  _handleDatePicked = date => {
+    const dateFormat = moment(date).format('DD/MM/YYYY');
+    this.setState({birthday: dateFormat});
+    this._hideDateTimePicker();
+  };
+
+  _renderDOBPicker() {
+    return (
+      <DateTimePicker
+        isVisible={this.state.isDateTimePickerVisible}
+        onConfirm={this._handleDatePicked}
+        onCancel={this._hideDateTimePicker}
+        mode="date"
+        locale="vi"
+        minimumDate={new Date('01/01/1950')}
+        maximumDate={new Date()}
+        titleIOS="Chọn ngày sinh"
+        confirmTextIOS="Xác nhận"
+        cancelTextIOS="Huỷ"
+      />
+    );
+  }
+
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        {this._renderDOBPicker()}
+        <Image
+          style={{width: '100%', height: '100%', position: 'absolute'}}
+          source={require('../../../assets/images/bg.png')}
+        />
+        <SafeAreaView style={[styles.container]}>
+          <Spinner
+            visible={this.state.isLoading}
+            color={'white'}
+            size={'large'}
+            textStyle={{color: '#fff'}}
+          />
+          <InfoForm
+            onChangeText={this._onChangeText}
+            lastName={this.state.lastName}
+            firstName={this.state.firstName}
+            genderMale={this.state.genderMale}
+            genderFeMale={this.state.genderFeMale}
+            handleGenderSelect={this._handleGenderSelect}
+            showDateTimePicker={this._showDateTimePicker}
+            txtDOB={this.state.birthday}
+            listProvince={provinceList}
+            handleSelectProvince={this._handleSelectProvince}
+            provinceIDs={this.state.provinceIDs}
+            listMajor={majorList}
+            handleSelectMajor={this._handleSelectMajor}
+            majorIDs={this.state.majorIDs}
+            listDay={dayList}
+            handleSelectDay={this._handleSelectDay}
+            dayIDs={this.state.dayIDs}
+            handleUpdateBasicInfo={this._handleUpdateBasicInfo}
+          />
+        </SafeAreaView>
+      </View>
+    );
+  }
 }
 
 function mapStateToProps(state) {
   return {
-    state: state,
+    msg_code: state.user.msg_code,
+    message: state.user.message,
   };
 }
 

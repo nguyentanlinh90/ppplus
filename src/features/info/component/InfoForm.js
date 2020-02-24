@@ -23,9 +23,9 @@ export default class InfoContainer_1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isShowYOB: false,
       isShowProvince: false,
       isShowMajor: false,
+      isShowDay: false,
     };
   }
 
@@ -71,22 +71,19 @@ export default class InfoContainer_1 extends Component {
       genderMale,
       genderFeMale,
       handleGenderSelect,
-      selectYearOfBirth,
-      yearOfBirth,
+      showDateTimePicker,
+      txtDOB,
       listProvince,
       handleSelectProvince,
       provinceIDs,
       listMajor,
       handleSelectMajor,
       majorIDs,
+      listDay,
+      handleSelectDay,
+      dayIDs,
       handleUpdateBasicInfo,
     } = this.props;
-
-    var listYear = [];
-    var year = new Date().getFullYear();
-    for (var i = 1950; i < year; i++) {
-      listYear.push(i);
-    }
 
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -147,36 +144,12 @@ export default class InfoContainer_1 extends Component {
           </View>
           <Text style={styles.titleContent}>3. Năm sinh</Text>
           <TouchableOpacity
-            onPress={() => this.setState({isShowYOB: !this.state.isShowYOB})}>
-            <View
-              style={this._boxSelectStyle(
-                this.state.isShowYOB ? '#F0532D' : '#d8d8d8',
-              )}>
-              <Text style={styles.txtSelect}>{yearOfBirth}</Text>
-              {<ArrowUpDown />}
-            </View>
+            onPress={() => showDateTimePicker()}
+            style={styles.boxInfoItem}>
+            <Text style={styles.txtSelect}>{txtDOB}</Text>
+            {<ArrowUpDown />}
           </TouchableOpacity>
-          {this.state.isShowYOB ? (
-            <FlatList
-              visibility={this.state.isShowYOB}
-              style={styles.viewSelect}
-              data={listYear}
-              renderItem={({item: rowData}) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      selectYearOfBirth(rowData);
-                      this.setState({isShowYOB: false});
-                    }}>
-                    <Text style={styles.txtViewSelect}>{rowData}</Text>
 
-                    <View style={styles.lineSelect} />
-                  </TouchableOpacity>
-                );
-              }}
-              keyExtractor={(item, index) => index}
-            />
-          ) : null}
           <Text style={styles.titleContent}>4. Địa điểm làm việc</Text>
           <TouchableOpacity
             onPress={() =>
@@ -267,8 +240,51 @@ export default class InfoContainer_1 extends Component {
             />
           ) : null}
 
-          <Text style={styles.titleContent}>6. Thời lượng công việc</Text>
+          <Text style={styles.titleContent}>6. Ngày làm việc trong tuần</Text>
+          <TouchableOpacity
+            onPress={() =>
+              this.setState({isShowDay: !this.state.isShowDay})
+            }>
+            <View
+              style={this._boxSelectStyle(
+                this.state.isShowDay ? '#F0532D' : '#d8d8d8',
+              )}>
+              <Text style={styles.txtSelect}>
+                {this._getListName(dayIDs, listDay)}
+              </Text>
+              {<ArrowUpDown />}
+            </View>
+          </TouchableOpacity>
+          {this.state.isShowDay ? (
+            <FlatList
+              visibility={this.state.isShowDay}
+              style={styles.viewSelect}
+              data={listDay}
+              renderItem={({item: rowData}) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleSelectDay(rowData.id);
+                    }}>
+                    <View style={styles.infoBoxSelect}>
+                      <Text style={styles.txtViewSelect}>{rowData.name}</Text>
 
+                      <CheckBox
+                        disabled={true}
+                        isChecked={
+                          handleCheck(rowData.id, dayIDs) ? true : false
+                        }
+                        checkedImage={<CBChecked />}
+                        unCheckedImage={<CBUnChecked />}
+                      />
+                    </View>
+                    <View style={styles.lineSelect} />
+                  </TouchableOpacity>
+                );
+              }}
+              keyExtractor={(item, index) => index}
+            />
+          ) : null}
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => handleUpdateBasicInfo()}

@@ -25,6 +25,8 @@ export default function entities(state = initialState, action) {
     case types.REGISTER_USER_SUCCESS:
     case types.PROCESS_OTP_SUCCESS:
     case types.LOGIN_SUCCESS:
+    case types.LOGOUT_SUCCESS:
+    case types.UPDATE_USER_INFO_SUCCESS:
       return {
         ...state,
         data: action.data,

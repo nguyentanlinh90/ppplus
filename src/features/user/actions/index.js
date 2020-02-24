@@ -94,7 +94,8 @@ export const doLogin = (phone, password) => async dispatch => {
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
   ) {
-    setStoreData(ACCESS_TOKEN, json.access_token);
+    setStoreData(ACCESS_TOKEN, 'Bearer ' + json.access_token);
+    console.log('linhnt login token ', 'Bearer' + json.access_token);
     await dispatch(fetchDataSuccess(types.LOGIN_SUCCESS, json.data));
     await dispatch(
       fetchDataSuccess(types.CHANGE_MSG_CODE, types.LOGIN_SUCCESS),
@@ -105,12 +106,25 @@ export const doLogin = (phone, password) => async dispatch => {
   }
 };
 
+export const doLogout = token => async dispatch => {
+  const path = 'user/logout';
+  const {json} = await callPostApi(getUrl(path), {}, token);
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.LOGOUT_SUCCESS),
+    );
+  } else {
+    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
+    await dispatch(fetchDataSuccess(types.CHANGE_MSG_CODE, types.LOGOUT_FAIL));
+  }
+};
+
 export const doUpdateUserInfo = (params, access_token) => async dispatch => {
   const path = 'user/info';
-  console.log('linhnt path', getUrl(path), params, access_token);
-
   const {json} = await callPostApi(getUrl(path), params, access_token);
-  console.log('linhnt json', json);
 
   if (
     typeof json !== types.UNDEFINED &&

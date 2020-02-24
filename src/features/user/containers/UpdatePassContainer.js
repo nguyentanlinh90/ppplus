@@ -18,7 +18,6 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_LOGIN} from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
-import {KEY_CHECK_LOGIN, VALUE_ONE} from '../../../utils/constants';
 import {showAlert} from '../../../utils/utils';
 import * as types from '../../../api/types';
 export class UpdatePassContainer extends Component {

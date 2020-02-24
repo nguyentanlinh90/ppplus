@@ -1,7 +1,6 @@
 export const demo = 'Ví dụ';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const text_select = 'Chọn';
-export const KEY_CHECK_LOGIN = 'KEY_CHECK_LOGIN';
 export const ACCESS_TOKEN = 'ACCESS_TOKEN';
 export const VALUE_ONE = '1';
 export const VALUE_ZERO = '0';

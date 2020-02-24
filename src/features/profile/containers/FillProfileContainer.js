@@ -262,6 +262,10 @@ class FillProfileContainer extends Component {
         isVisible={this.state.isDateTimePickerVisible}
         onConfirm={this._handleDatePicked}
         onCancel={this._hideDateTimePicker}
+        mode="date"
+        locale="vi"
+        minimumDate={new Date('01/01/1950')}
+        maximumDate={new Date()}
         titleIOS="Chọn ngày sinh"
         confirmTextIOS="Xác nhận"
         cancelTextIOS="Huỷ"

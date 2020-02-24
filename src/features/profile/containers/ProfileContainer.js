@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
+  AsyncStorage,
 } from 'react-native';
 import {Rating} from 'react-native-ratings';
 import ProgressCircle from 'react-native-progress-circle';
@@ -18,9 +19,15 @@ import {
   SCREEN_RETRO,
   SCREEN_PROGRAM,
   SCREEN_CREATE_ACCOUNT,
+  SCREEN_INFO,
 } from '../../../api/screen';
 import {dispatchScreen, setStoreData} from '../../../utils/utils';
-import {KEY_CHECK_LOGIN, VALUE_ZERO} from '../../../utils/constants';
+import {ACCESS_TOKEN} from '../../../utils/constants';
+import {doLogout} from '../../user/actions/index';
+import {changeMsgCode} from '../../../api/helpers';
+import * as types from '../../../api/types';
+
+var token = '';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +35,12 @@ class ProfileContainer extends Component {
       percentage: 70,
       name: 'Nguyễn Tấn Linh',
     };
+    this._getToken();
+    this._handleLogout = this._handleLogout.bind(this);
+  }
+
+  async _getToken() {
+    token = await AsyncStorage.getItem(ACCESS_TOKEN);
   }
 
   refresh = data => {
@@ -47,14 +60,29 @@ class ProfileContainer extends Component {
         {
           text: 'Đồng Ý',
           onPress: () => {
-            setStoreData(KEY_CHECK_LOGIN, VALUE_ZERO);
-            dispatchScreen(props, SCREEN_RETRO, {});
+            this._handleLogout();
           },
         },
       ],
       {cancelable: true},
     );
   };
+
+  _handleLogout = () => {
+    const {doLogout} = this.props;
+    doLogout(token);
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.msg_code == types.LOGOUT_SUCCESS) {
+      nextProps.changeMsgCode('');
+      setStoreData(ACCESS_TOKEN, '');
+      this.props._gotoRetroScreen()
+    } else if (nextProps.msg_code == types.LOGOUT_FAIL) {
+      showAlert(nextProps.message);
+      nextProps.changeMsgCode('');
+    }
+  }
 
   render() {
     const {props, percentage, name} = this.props;
@@ -215,7 +243,11 @@ class ProfileContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    state: state,
+    msg_code: state.user.msg_code,
+    message: state.user.message,
   };
 }
-export default connect(mapStateToProps, {})(ProfileContainer);
+export default connect(mapStateToProps, {
+  doLogout,
+  changeMsgCode,
+})(ProfileContainer);
