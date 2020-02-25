@@ -115,3 +115,14 @@ export const checkIdInIds = (id, ids) => {
   }
   return exits;
 };
+
+export const getNameFromId = (id, list) => {
+  var name = text_select;
+  for (var i = 0; i < list.length; i++) {
+    if (id == list[i].id) {
+      name = list[i].name;
+      break;
+    }
+  }
+  return name;
+};

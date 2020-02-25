@@ -28,6 +28,7 @@ export default StyleSheet.create({
     height: 95,
     borderRadius: 95 / 2,
     position: 'absolute',
+    backgroundColor: '#d8d8d8',
   },
   viewCamera: {
     width: 95,
@@ -96,7 +97,7 @@ export default StyleSheet.create({
     margin: 15,
     justifyContent: 'space-evenly',
   },
-  boxShowImage: {width:80, height:80},
+  boxShowImage: {width: 80, height: 80},
   imageLoad: {width: '100%', height: '100%', borderRadius: 6},
   boxClose: {
     width: 25,
@@ -146,7 +147,7 @@ export default StyleSheet.create({
 
   boxContainer: {
     flex: 1,
-    flexDirection:'row',
+    flexDirection: 'row',
     height: 44,
     borderColor: '#d8d8d8',
     borderWidth: 1,
@@ -232,10 +233,10 @@ export default StyleSheet.create({
     borderRadius: 6,
     height: 300,
   },
-  txtSelectStyle:{
+  txtSelectStyle: {
     flex: 1,
     fontSize: 16,
-    color:  '#2B2B2B',
+    color: '#2B2B2B',
     paddingTop: 10,
     paddingBottom: 10,
   },
@@ -266,19 +267,19 @@ export default StyleSheet.create({
     paddingBottom: 10,
     lineHeight: 25,
   },
-  boxID:{
+  boxID: {
     flexDirection: 'row',
     height: 108,
     marginTop: 10,
   },
-  boxIDItem:{
+  boxIDItem: {
     flex: 1,
   },
-  boxIDItemImage:{
+  boxIDItemImage: {
     height: '100%',
     width: '100%',
   },
-  boxIDItemClose:{
+  boxIDItemClose: {
     position: 'absolute',
     width: 35,
     height: 35,
@@ -286,7 +287,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-end',
   },
-  viewButtonSelectID:{
+  viewButtonSelectID: {
     flexDirection: 'row',
     height: 44,
     marginTop: 10,

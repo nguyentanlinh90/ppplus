@@ -13,7 +13,7 @@ import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
 import {text_select} from '../../../utils/constants';
-import {getNamesFromIds, checkIdInIds} from '../../../utils/utils';
+import {getNamesFromIds, checkIdInIds, getNameFromId} from '../../../utils/utils';
 
 import {
   boxSelectStyle,
@@ -21,37 +21,11 @@ import {
   txtInputStyle,
 } from '../../../utils/utils';
 
-const listIndustry = [
-  {
-    id: '1',
-    name: 'Bia, rượu, thuốc lá',
-  },
-  {
-    id: '2',
-    name: 'Sữa',
-  },
-  {
-    id: '3',
-    name: 'Chăm sóc cá nhân',
-  },
-  {
-    id: '4',
-    name: 'Điện tử tiêu dùng',
-  },
-  {
-    id: '5',
-    name: 'Thức uống giải khát',
-  },
-  {
-    id: '6',
-    name: 'Thực phẩm đóng gói',
-  },
-];
 export default class FormBasicInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: true,
+      isCollapsed: false,
       isShowListGender: false,
       isShowProvince: false,
       isShowMajor: false,
@@ -62,16 +36,6 @@ export default class FormBasicInfo extends Component {
     this.setState({
       isShowListGender: !this.state.isShowListGender,
     });
-  };
-
-  _getNameGenderFromId = (id, list) => {
-    var name = text_select;
-    for (var i = 0; i < list.length; i++) {
-      if (id == list[i].id) {
-        name = list[i].name;
-      }
-    }
-    return name;
   };
 
   render() {
@@ -93,8 +57,8 @@ export default class FormBasicInfo extends Component {
 
       showDateTimePicker,
       handleSelectGender,
-      handleSelectProvince,
-      handleSelectMajor,
+      handleSelectProvinces,
+      handleSelectMajors,
     } = this.props;
 
     return (
@@ -159,14 +123,12 @@ export default class FormBasicInfo extends Component {
                     gender != 0 || this.state.isShowListGender,
                   )}>
                   <Text style={txtInBoxSelectStyle(gender)}>
-                    {this._getNameGenderFromId(gender, gender_list)}
+                    {getNameFromId(gender, gender_list)}
                   </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
                 {this.state.isShowListGender ? (
                   <FlatList
-                    visibility={this.state.isShowListGender}
-                    style={styles.viewSelectGender}
                     data={gender_list}
                     renderItem={({item: rowData}) => {
                       return (
@@ -232,14 +194,13 @@ export default class FormBasicInfo extends Component {
             </TouchableOpacity>
             {this.state.isShowProvince ? (
               <FlatList
-                visibility={this.state.isShowProvince}
                 style={styles.viewSelect}
                 data={province_list}
                 renderItem={({item: rowData}) => {
                   return (
                     <TouchableOpacity
                       onPress={() => {
-                        handleSelectProvince(rowData.id.toString());
+                        handleSelectProvinces(rowData.id.toString());
                       }}>
                       <View style={styles.infoBoxSelect}>
                         <Text style={styles.txtViewSelect}>{rowData.name}</Text>
@@ -275,14 +236,13 @@ export default class FormBasicInfo extends Component {
               </TouchableOpacity>
               {this.state.isShowMajor ? (
                 <FlatList
-                  visibility={this.state.isShowProvince}
                   style={styles.viewSelect}
                   data={major_list}
                   renderItem={({item: rowData}) => {
                     return (
                       <TouchableOpacity
                         onPress={() => {
-                          handleSelectMajor(rowData.id.toString());
+                          handleSelectMajors(rowData.id.toString());
                         }}>
                         <View style={styles.infoBoxSelect}>
                           <Text style={styles.txtViewSelect}>

@@ -59,13 +59,16 @@ export class FillProfileContainer extends Component {
       isLoading: true,
       gender_list: [],
       province_list: [],
+      district_list:[],
       major_list: [],
-      percentage: 20,
-      urlAvatar: 'http://via.placeholder.com/150x150',
+
+      percent_updated: 0,
       urlImage_1: '',
       urlImage_2: '',
       urlImage_3: '',
       urlImage_4: '',
+
+      avatar: '',
       last_name: '',
       first_name: '',
       birthday: '',
@@ -74,6 +77,8 @@ export class FillProfileContainer extends Component {
       weight: 0,
       working_places: [],
       working_majors: [],
+      province_id: 0,
+
       isDateTimePickerVisible: false,
       isShowPopupSelectGender: false,
       isShowPopupSelectLevel: false,
@@ -170,7 +175,7 @@ export class FillProfileContainer extends Component {
       } else {
         if (numberOfImage == IMAGE_AVATAR) {
           this.setState({
-            urlAvatar: response.uri,
+            avatar: response.uri,
           });
         } else if (numberOfImage == IMAGE_1) {
           this.setState({
@@ -340,7 +345,11 @@ export class FillProfileContainer extends Component {
     this.setState({gender: genderSelect});
   };
 
-  _handleSelectProvince = provinceIdSelect => {
+  _handleSelectProvince = provinceSelect => {
+    this.setState({province_id: provinceSelect});
+  };
+
+  _handleSelectProvinces = provinceIdSelect => {
     const {working_places} = this.state;
     if (handleCheck(provinceIdSelect, working_places)) {
       var array = [...working_places];
@@ -354,7 +363,7 @@ export class FillProfileContainer extends Component {
       this.setState({working_places: working_places});
     }
   };
-  _handleSelectMajor = majorIdSelect => {
+  _handleSelectMajors = majorIdSelect => {
     const {working_majors} = this.state;
     if (handleCheck(majorIdSelect, working_majors)) {
       var array = [...working_majors];
@@ -378,7 +387,11 @@ export class FillProfileContainer extends Component {
     this.setState({
       gender_list: data.gender_list,
       province_list: data.province_list,
+      district_list: data.district_list,
       major_list: data.major_list,
+
+      avatar: data.avatar,
+      percent_updated: data.percent_updated,
       first_name: data.first_name,
       last_name: data.last_name,
       birthday: data.birthday,
@@ -387,6 +400,7 @@ export class FillProfileContainer extends Component {
       weight: data.weight,
       working_places: stringToArray(data.working_places),
       working_majors: stringToArray(data.working_majors),
+      province_id: data.province_id
     });
   };
 
@@ -405,7 +419,7 @@ export class FillProfileContainer extends Component {
   }
 
   render() {
-    const {percentage, name, user} = this.props;
+    const {percent_updated, name, user} = this.props;
     return (
       <KeyboardShift>
         {() => (
@@ -428,7 +442,7 @@ export class FillProfileContainer extends Component {
             </TouchableOpacity>
             <View style={styles.viewCircleAvatar}>
               <ProgressCircle
-                percent={this.state.percentage}
+                percent={this.state.percent_updated}
                 radius={58}
                 borderWidth={3}
                 color="#F0532D"
@@ -437,7 +451,7 @@ export class FillProfileContainer extends Component {
               />
               <Image
                 resizeMode="cover"
-                source={{uri: this.state.urlAvatar}}
+                source={{uri: this.state.avatar}}
                 style={styles.circleAvatarFill}
               />
               <View style={styles.viewCamera}>
@@ -476,20 +490,21 @@ export class FillProfileContainer extends Component {
               working_places={this.state.working_places}
               working_majors={this.state.working_majors}
               showDateTimePicker={this._showDateTimePicker}
-              txtDOB={this.state.birthday ? this.state.birthday : text_select}
-              showSelectGender={this._handleShowSelectGender}
-              txtGender={this.state.gender}
-              selectCity={this._selectCity}
-              city={this.state.city}
-              selectIndustry={this._selectIndustry}
-              industry={this.state.industry}
               handleSelectGender={this._handleSelectGender}
-              handleSelectProvince={this._handleSelectProvince}
-              handleSelectMajor={this._handleSelectMajor}
+              handleSelectProvinces={this._handleSelectProvinces}
+              handleSelectMajors={this._handleSelectMajors}
             />
             <View style={styles.boxIndicatorFill} />
             <FormContactInfo
               onChangeText={this._onChangeText}
+
+              province_list={this.state.province_list}
+
+              province_id={this.state.province_id}
+
+
+              handleSelectProvince={this._handleSelectProvince}
+
               showSelectCity={this._handleShowSelectCity}
               valueCity={this.state.valueCity}
               valueCityRelative={this.state.valueCityRelative}

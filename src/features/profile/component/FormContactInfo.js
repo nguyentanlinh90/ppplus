@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
 import {
   Collapse,
   CollapseHeader,
@@ -12,6 +12,12 @@ import styles from '../styles/styles';
 import {ADDRESS_OF_RELATIVE} from '../../../utils/constants';
 import {text_select} from '../../../utils/constants';
 import {
+  getNamesFromIds,
+  checkIdInIds,
+  getNameFromId,
+} from '../../../utils/utils';
+
+import {
   boxSelectStyle,
   txtInBoxSelectStyle,
   txtInputStyle,
@@ -21,12 +27,25 @@ export default class FormContactInfo extends Component {
     super(props);
     this.state = {
       isCollapsed: true,
+      isShowProvince: false,
     };
   }
 
+  _setShowProvince = () => {
+    this.setState({
+      isShowProvince: !this.state.isShowProvince,
+    });
+  };
   render() {
     const {
       onChangeText,
+
+      province_list,
+
+      province_id,
+
+      handleSelectProvince,
+
       showSelectCity,
       showSelectDistrict,
       valueCity,
@@ -36,7 +55,7 @@ export default class FormContactInfo extends Component {
       address,
       nameRelative,
       phoneRelative,
-      addressRelative
+      addressRelative,
     } = this.props;
 
     return (
@@ -54,25 +73,89 @@ export default class FormContactInfo extends Component {
         <CollapseBody>
           <View style={{marginEnd: 16, marginStart: 16, paddingBottom: 20}}>
             <Text style={styles.txtTitleBasicInfo}>Địa chỉ thường trú*</Text>
-            <View style={{flexDirection: 'row', marginBottom: 10}}>
-              <TouchableOpacity
-                style={[
-                  boxSelectStyle(valueCity != text_select),
-                  {marginEnd: 10},
-                ]}
-                onPress={() => showSelectCity(!ADDRESS_OF_RELATIVE)}>
-                <Text style={txtInBoxSelectStyle(valueCity)}>{valueCity}</Text>
-                <ArrowUpDown />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={boxSelectStyle(valueDistrict != text_select)}
-                onPress={() => showSelectDistrict(!ADDRESS_OF_RELATIVE)}>
-                <Text style={txtInBoxSelectStyle(valueDistrict)}>
-                  {valueDistrict}
-                </Text>
-                <ArrowUpDown />
-              </TouchableOpacity>
+            <View
+              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
+              <Text style={styles.txtTitleBasicInfo}>Tỉnh / Thành Phố: </Text>
+              <View style={{flex: 1, marginStart: 10}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({isShowProvince: !this.state.isShowProvince});
+                  }}
+                  style={boxSelectStyle(
+                    this.state.isShowProvince || province_id != null,
+                  )}>
+                  <Text style={styles.txtSelectStyle}>
+                    {getNameFromId(province_id, province_list)}
+                  </Text>
+                  <ArrowUpDown />
+                </TouchableOpacity>
+                {this.state.isShowProvince ? (
+                  <FlatList
+                    style={styles.viewSelect}
+                    data={province_list}
+                    renderItem={({item: rowData}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            this._setShowProvince();
+                            handleSelectProvince(rowData.id);
+                          }}>
+                          <View style={styles.infoBoxSelect}>
+                            <Text style={styles.txtViewSelect}>
+                              {rowData.name}
+                            </Text>
+                          </View>
+                          <View style={styles.lineSelect} />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item, index) => index}
+                  />
+                ) : null}
+              </View>
             </View>
+            <View
+              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
+              <Text style={styles.txtTitleBasicInfo}>Quận / Huyện: </Text>
+              <View style={{flex: 1, marginStart: 10}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({isShowProvince: !this.state.isShowProvince});
+                  }}
+                  style={boxSelectStyle(
+                    this.state.isShowProvince || province_id != null,
+                  )}>
+                  <Text style={styles.txtSelectStyle}>
+                    {getNameFromId(province_id, province_list)}
+                  </Text>
+                  <ArrowUpDown />
+                </TouchableOpacity>
+                {this.state.isShowProvince ? (
+                  <FlatList
+                    style={styles.viewSelect}
+                    data={province_list}
+                    renderItem={({item: rowData}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            this._setShowProvince();
+                            handleSelectProvince(rowData.id);
+                          }}>
+                          <View style={styles.infoBoxSelect}>
+                            <Text style={styles.txtViewSelect}>
+                              {rowData.name}
+                            </Text>
+                          </View>
+                          <View style={styles.lineSelect} />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item, index) => index}
+                  />
+                ) : null}
+              </View>
+            </View>
+            
             <TextInput
               style={[txtInputStyle(address), {marginBottom: 10}]}
               returnKeyType="done"
