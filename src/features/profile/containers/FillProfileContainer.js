@@ -8,18 +8,18 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
+  AsyncStorage,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import Modal from 'react-native-modal';
-import RadioForm from 'react-native-simple-radio-button';
 import {
   Collapse,
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import styles from '../styles/styles';
 import FormImageProfile from '../component/FormImageProfile';
 import FormBasicInfo from '../component/FormBasicInfo';
@@ -28,9 +28,19 @@ import FormLevel from '../component/FormLevel';
 import FormAccountIdentifier from '../component/FormAccountIdentifier';
 import {SCREEN_PROFILE} from '../../../api/screen';
 import KeyboardShift from './KeyboardShift';
-import PopupSelect from '../component/PopupSelect';
 import {ADDRESS_OF_RELATIVE} from '../../../utils/constants';
 import {text_select} from '../../../utils/constants';
+import {changeMsgCode} from '../../home/actions/index';
+import {getUserInfo} from '../../../features/user/actions';
+import {ACCESS_TOKEN} from '../../../utils/constants';
+import * as types from '../../../api/types';
+import {
+  showAlert,
+  handleCheck,
+  arrayToString,
+  stringToArray,
+} from '../../../utils/utils';
+
 const IMAGE_AVATAR = 0;
 import {
   IMAGE_1,
@@ -42,48 +52,30 @@ import {
   IMAGE_DEGREE,
 } from '../../../utils/constants';
 
-var listGender = [
-  {label: 'Nam     ', value: 0},
-  {label: 'Nữ', value: 1},
-];
-
-var listLevel = [
-  {label: 'Trung Học Cơ Sở', value: 0},
-  {label: 'Trung Học Phổ Thông', value: 1},
-  {label: 'Trung Cấp', value: 2},
-  {label: 'Cao Đẳng', value: 3},
-  {label: 'Đại Học', value: 4},
-];
-var listCity = [
-  {label: 'Hồ Chí Minh', value: 0},
-  {label: 'Hà Nội', value: 1},
-];
-var listDistrict = [
-  {label: 'Quận 1', value: 0},
-  {label: 'Quận 2', value: 1},
-  {label: 'Quận 3', value: 2},
-];
-var listBank = [
-  {label: 'Vietcombank', value: 0},
-  {label: 'Sacombank', value: 1},
-  {label: 'ACB', value: 2},
-];
-class FillProfileContainer extends Component {
+export class FillProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
+      gender_list: [],
+      province_list: [],
+      major_list: [],
       percentage: 20,
       urlAvatar: 'http://via.placeholder.com/150x150',
       urlImage_1: '',
       urlImage_2: '',
       urlImage_3: '',
       urlImage_4: '',
-      lastName: '',
-      firstName: '',
+      last_name: '',
+      first_name: '',
+      birthday: '',
+      gender: 0,
+      height: 0,
+      weight: 0,
+      working_places: [],
+      working_majors: [],
       isDateTimePickerVisible: false,
-      dob: '',
       isShowPopupSelectGender: false,
-      valueGender: text_select,
       isShowPopupSelectLevel: false,
       valueLevel: text_select,
       isShowPopupSelectCity: false,
@@ -98,8 +90,6 @@ class FillProfileContainer extends Component {
       nameRelative: '',
       phoneRelative: '',
       addressRelative: '',
-      height: 0,
-      weight: 0,
       major: '',
       isShowPopupSelectBank: false,
       valueBank: text_select,
@@ -114,12 +104,20 @@ class FillProfileContainer extends Component {
       urlDegree: '',
     };
     this._onChangeText = this._onChangeText.bind(this);
+    this._getToken();
+  }
+
+  async _getToken() {
+    var token = await AsyncStorage.getItem(ACCESS_TOKEN);
+    if (token && token != '') {
+      this._getUserInfo(token);
+    }
   }
   _onChangeText = (text, type) => {
-    if (type == 'lastName') {
-      this.setState({lastName: text});
-    } else if (type == 'firstName') {
-      this.setState({firstName: text});
+    if (type == 'last_name') {
+      this.setState({last_name: text});
+    } else if (type == 'first_name') {
+      this.setState({first_name: text});
     } else if (type == 'height') {
       this.setState({height: text});
     } else if (type == 'weight') {
@@ -251,8 +249,8 @@ class FillProfileContainer extends Component {
   };
 
   _handleDatePicked = date => {
-    const dateFormat = moment(date).format('DD/MM/YYYY');
-    this.setState({dob: dateFormat});
+    const dateFormat = moment(date).format('DD-MM-YYYY');
+    this.setState({birthday: dateFormat});
     this._hideDateTimePicker();
   };
 
@@ -298,114 +296,6 @@ class FillProfileContainer extends Component {
     });
   };
 
-  _popupSelectGender = () => {
-    return (
-      <PopupSelect
-        title="Chọn giới tính"
-        isVisible={this.state.isShowPopupSelectGender}
-        data={this.state.valueGender}
-        listData={listGender}
-        onConfirm={dataSelect =>
-          this.setState({
-            isShowPopupSelectGender: false,
-            valueGender: dataSelect,
-          })
-        }
-      />
-    );
-  };
-
-  _popupSelectLevel = () => {
-    return (
-      <PopupSelect
-        title="Chọn trình độ"
-        isVisible={this.state.isShowPopupSelectLevel}
-        data={this.state.valueLevel}
-        listData={listLevel}
-        onConfirm={dataSelect =>
-          this.setState({
-            isShowPopupSelectLevel: false,
-            valueLevel: dataSelect,
-          })
-        }
-      />
-    );
-  };
-
-  _popupSelectCity = typeUser => {
-    return (
-      <PopupSelect
-        title="Chọn Tỉnh / Thành Phố"
-        isVisible={this.state.isShowPopupSelectCity}
-        data={
-          this.state.isCityRelative
-            ? this.state.valueCityRelative
-            : this.state.valueCity
-        }
-        listData={listCity}
-        onConfirm={dataSelect => {
-          this.setState({
-            isShowPopupSelectCity: false,
-          });
-          if (this.state.isCityRelative) {
-            this.setState({
-              valueCityRelative: dataSelect,
-            });
-          } else {
-            this.setState({
-              valueCity: dataSelect,
-            });
-          }
-        }}
-      />
-    );
-  };
-  _popupSelectDistrict = typeUser => {
-    return (
-      <PopupSelect
-        title="Chọn Quận / Huyện"
-        isVisible={this.state.isShowPopupSelectDistrict}
-        data={
-          this.state.isDistrictRelative
-            ? this.state.valueDistrictRelative
-            : this.state.valueDistrict
-        }
-        listData={listDistrict}
-        onConfirm={dataSelect => {
-          this.setState({
-            isShowPopupSelectDistrict: false,
-          });
-          if (this.state.isDistrictRelative) {
-            this.setState({
-              valueDistrictRelative: dataSelect,
-            });
-          } else {
-            this.setState({
-              valueDistrict: dataSelect,
-            });
-          }
-        }}
-      />
-    );
-  };
-
-  _popupSelectBank = () => {
-    return (
-      <PopupSelect
-        title="Chọn ngân hàng"
-        isVisible={this.state.isShowPopupSelectBank}
-        data={this.state.valueBank}
-        listData={listBank}
-        onConfirm={dataSelect =>
-          this.setState({
-            isShowPopupSelectBank: false,
-            valueBank: dataSelect,
-          })
-        }
-      />
-    );
-  };
-
   _selectCity = citySelect => {
     if (this.state.city.includes(citySelect)) {
       var cityTemp = this.state.city
@@ -446,18 +336,87 @@ class FillProfileContainer extends Component {
     });
   };
 
+  _handleSelectGender = genderSelect => {
+    this.setState({gender: genderSelect});
+  };
+
+  _handleSelectProvince = provinceIdSelect => {
+    const {working_places} = this.state;
+    if (handleCheck(provinceIdSelect, working_places)) {
+      var array = [...working_places];
+      var index = array.indexOf(provinceIdSelect);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({working_places: array});
+      }
+    } else {
+      working_places.push(provinceIdSelect);
+      this.setState({working_places: working_places});
+    }
+  };
+  _handleSelectMajor = majorIdSelect => {
+    const {working_majors} = this.state;
+    if (handleCheck(majorIdSelect, working_majors)) {
+      var array = [...working_majors];
+      var index = array.indexOf(majorIdSelect);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({working_majors: array});
+      }
+    } else {
+      working_majors.push(majorIdSelect);
+      this.setState({working_majors: working_majors});
+    }
+  };
+
+  _getUserInfo = token => {
+    const {getUserInfo} = this.props;
+    getUserInfo('full', token);
+  };
+
+  _setUser = data => {
+    this.setState({
+      gender_list: data.gender_list,
+      province_list: data.province_list,
+      major_list: data.major_list,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      birthday: data.birthday,
+      gender: data.gender,
+      height: data.height,
+      weight: data.weight,
+      working_places: stringToArray(data.working_places),
+      working_majors: stringToArray(data.working_majors),
+    });
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    // console.log('linhnt nextProps data', nextProps.data);
+
+    if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
+      // nextProps.changeMsgCode('');
+      this.setState({isLoading: false});
+      this._setUser(nextProps.data);
+    } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
+      showAlert(nextProps.message);
+      this.setState({isLoading: false});
+      nextProps.changeMsgCode('');
+    }
+  }
+
   render() {
-    const {percentage, name} = this.props;
+    const {percentage, name, user} = this.props;
     return (
       <KeyboardShift>
         {() => (
           <ScrollView style={styles.container}>
+            <Spinner
+              visible={this.state.isLoading}
+              color={'white'}
+              size={'large'}
+              textStyle={{color: '#fff'}}
+            />
             {this._renderDOBPicker()}
-            {this._popupSelectGender()}
-            {this._popupSelectLevel()}
-            {this._popupSelectCity()}
-            {this._popupSelectDistrict()}
-            {this._popupSelectBank()}
 
             <TouchableOpacity
               style={styles.viewEdit}
@@ -505,18 +464,28 @@ class FillProfileContainer extends Component {
             <View style={styles.boxIndicatorFill} />
             <FormBasicInfo
               onChangeText={this._onChangeText}
-              lastName={this.state.lastName}
-              firstName={this.state.firstName}
-              showDateTimePicker={this._showDateTimePicker}
-              txtDOB={this.state.dob ? this.state.dob : 'Chọn'}
-              showSelectGender={this._handleShowSelectGender}
-              txtGender={this.state.valueGender}
+              gender_list={this.state.gender_list}
+              province_list={this.state.province_list}
+              major_list={this.state.major_list}
+              last_name={this.state.last_name}
+              first_name={this.state.first_name}
               height={this.state.height}
               weight={this.state.weight}
+              birthday={this.state.birthday}
+              gender={this.state.gender}
+              working_places={this.state.working_places}
+              working_majors={this.state.working_majors}
+              showDateTimePicker={this._showDateTimePicker}
+              txtDOB={this.state.birthday ? this.state.birthday : text_select}
+              showSelectGender={this._handleShowSelectGender}
+              txtGender={this.state.gender}
               selectCity={this._selectCity}
               city={this.state.city}
               selectIndustry={this._selectIndustry}
               industry={this.state.industry}
+              handleSelectGender={this._handleSelectGender}
+              handleSelectProvince={this._handleSelectProvince}
+              handleSelectMajor={this._handleSelectMajor}
             />
             <View style={styles.boxIndicatorFill} />
             <FormContactInfo
@@ -565,7 +534,12 @@ class FillProfileContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    state: state,
+    msg_code: state.user.msg_code,
+    message: state.user.message,
+    data: state.user.data,
   };
 }
-export default connect(mapStateToProps, {})(FillProfileContainer);
+export default connect(mapStateToProps, {
+  getUserInfo,
+  changeMsgCode,
+})(FillProfileContainer);

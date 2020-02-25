@@ -232,6 +232,13 @@ export default StyleSheet.create({
     borderRadius: 6,
     height: 300,
   },
+  txtSelectStyle:{
+    flex: 1,
+    fontSize: 16,
+    color:  '#2B2B2B',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
   infoBoxSelect: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -284,5 +291,16 @@ export default StyleSheet.create({
     height: 44,
     marginTop: 10,
     marginBottom: 10,
-  }
+  },
+  viewSelect: {
+    borderWidth: 1,
+    borderColor: '#F0532D',
+    borderRadius: 6,
+    height: 200,
+  },
+  viewSelectGender: {
+    borderWidth: 1,
+    borderColor: '#F0532D',
+    borderRadius: 6,
+  },
 });

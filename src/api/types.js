@@ -21,6 +21,8 @@ export const UPDATE_USER_INFO_FAIL = 'UPDATE_USER_INFO_FAIL';
 export const TYPE_USER_FORGOT_PASSWORD = 'forgot_password';
 export const TYPE_USER_BASIC_DETAIL = 'basic_detail';
 export const TYPE_USER_FULL_DETAIL = 'full_detail';
+export const GET_USER_INFO_SUCCESS = 'GET_USER_INFO_SUCCESS';
+export const GET_USER_INFO_FAIL = 'GET_USER_INFO_FAIL';
 
 
 

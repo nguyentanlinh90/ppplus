@@ -20,7 +20,7 @@ class MainContainer extends Component {
     super(props);
     this.state = {
       isConnecting: false,
-      selectedTab: 'home',
+      selectedTab: 'profile',
       isLoading: false,
       messages: [],
       showJobAlert: false, //=true for phase 2

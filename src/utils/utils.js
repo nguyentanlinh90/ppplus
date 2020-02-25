@@ -68,6 +68,12 @@ export const handleCheck = function(val, list) {
   return list.some(item => val === item);
 };
 
+export const checkIdInList = function(id, list) {
+  for (var i = 0; i < list.length; i++) {
+    return (id = list[i].id);
+  }
+};
+
 export const arrayToString = function(array) {
   var text = '';
   for (let i = 0; i < array.length; i++) {
@@ -78,4 +84,34 @@ export const arrayToString = function(array) {
     }
   }
   return text;
+};
+
+export const stringToArray = function(string) {
+  return string.split(',');
+};
+
+export const getNamesFromIds = (ids, list) => {
+  var names = '';
+  for (var i = 0; i < ids.length; i++) {
+    for (var j = 0; j < list.length; j++) {
+      if (ids[i] == list[j].id) {
+        if (names == '') {
+          names = list[j].name;
+        } else {
+          names = names + '; ' + list[j].name;
+        }
+      }
+    }
+  }
+  return names == '' ? text_select : names;
+};
+
+export const checkIdInIds = (id, ids) => {
+  var exits = false;
+  for (var i = 0; i < ids.length; i++) {
+    if (id == ids[i]) {
+      exits = true;
+    }
+  }
+  return exits;
 };

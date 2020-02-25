@@ -140,11 +140,9 @@ export class LoginContainer extends Component {
 
       if (nextProps.data.is_updated_basic == 1) {
         // 1: User has updated basic info, 0: not yet
-        console.log('linhnt SCREEN_MAIN')
 
         dispatchScreen(this.props, SCREEN_MAIN, {});
       } else {
-        console.log('linhnt SCREEN_INFO')
         dispatchScreen(this.props, SCREEN_INFO, nextProps.data);
       }
     } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {

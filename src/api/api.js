@@ -1,13 +1,13 @@
 import camelize from 'camelize';
 import axios from 'axios';
 
-export const callGetApi = (url, data) =>
+export const callGetApi = (url, token) =>
   axios
     .get(url, {
-      params: data,
+      // params: data,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: '',
+        Authorization: token,
       },
       responseType: 'json',
       timeout: 600000,
@@ -21,7 +21,7 @@ export const callGetApi = (url, data) =>
     )
     .then(
       json => ({
-        json: camelize(json),
+        json: json,
       }),
       error => ({
         error,

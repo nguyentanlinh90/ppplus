@@ -140,3 +140,22 @@ export const doUpdateUserInfo = (params, access_token) => async dispatch => {
     );
   }
 };
+
+export const getUserInfo = (type, token) => async dispatch => {
+  const path = 'user/info/?type='+type;
+  const {json} = await callGetApi(getUrl(path), token);
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
+    await dispatch(fetchDataSuccess(types.GET_USER_INFO_SUCCESS, json.data));
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_USER_INFO_SUCCESS),
+    );
+  } else {
+    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_USER_INFO_SUCCESS),
+    );
+  }
+};

@@ -13,6 +13,8 @@ import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
 import {text_select} from '../../../utils/constants';
+import {getNamesFromIds, checkIdInIds} from '../../../utils/utils';
+
 import {
   boxSelectStyle,
   txtInBoxSelectStyle,
@@ -50,35 +52,50 @@ export default class FormBasicInfo extends Component {
     super(props);
     this.state = {
       isCollapsed: true,
-      isShowListPlace: false,
-      isShowListIndustry: false,
+      isShowListGender: false,
+      isShowProvince: false,
+      isShowMajor: false,
     };
   }
+
+  _setShowGender = () => {
+    this.setState({
+      isShowListGender: !this.state.isShowListGender,
+    });
+  };
+
+  _getNameGenderFromId = (id, list) => {
+    var name = text_select;
+    for (var i = 0; i < list.length; i++) {
+      if (id == list[i].id) {
+        name = list[i].name;
+      }
+    }
+    return name;
+  };
 
   render() {
     const {
       onChangeText,
-      lastName,
-      firstName,
-      showDateTimePicker,
-      txtDOB,
-      showSelectGender,
-      txtGender,
+
+      gender_list,
+      province_list,
+      major_list,
+
+      last_name,
+      first_name,
+      birthday,
+      gender,
       height,
       weight,
-      selectCity,
-      city,
-      selectIndustry,
-      industry,
+      working_places,
+      working_majors,
+
+      showDateTimePicker,
+      handleSelectGender,
+      handleSelectProvince,
+      handleSelectMajor,
     } = this.props;
-    let gender = '';
-    if (txtGender == 0) {
-      gender = 'Nam';
-    } else if (txtGender == 1) {
-      gender = 'Nữ';
-    } else {
-      gender = 'Chọn';
-    }
 
     return (
       <Collapse
@@ -98,46 +115,78 @@ export default class FormBasicInfo extends Component {
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Họ và tên đệm*</Text>
                 <TextInput
-                  style={txtInputStyle(lastName)}
+                  style={txtInputStyle(last_name)}
                   returnKeyType="done"
-                  value={lastName}
-                  name="lastName"
+                  value={last_name}
+                  name="last_name"
                   placeholder="Nhập họ và tên đệm"
-                  onChangeText={text => onChangeText(text, 'lastName')}
+                  onChangeText={text => onChangeText(text, 'last_name')}
                 />
               </View>
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Tên*</Text>
                 <TextInput
-                  style={txtInputStyle(firstName)}
+                  style={txtInputStyle(first_name)}
                   returnKeyType="done"
-                  value={firstName}
-                  name="firstName"
+                  value={first_name}
+                  name="first_name"
                   placeholder="Nhập tên"
-                  onChangeText={text => onChangeText(text, 'firstName')}
+                  onChangeText={text => onChangeText(text, 'first_name')}
                 />
               </View>
             </View>
             <View style={styles.groupContainer}>
-              <View style={styles.boxBasicInfo}>
+              <View
+                style={[
+                  styles.boxBasicInfo,
+                  {height: this.state.isShowListGender ? 80 : null},
+                ]}>
                 <Text style={styles.txtTitleBasicInfo}>
                   Ngày tháng năm sinh*
                 </Text>
                 <TouchableOpacity
                   onPress={() => showDateTimePicker()}
-                  style={boxSelectStyle(!txtDOB.includes(text_select))}>
-                  <Text style={txtInBoxSelectStyle(txtDOB)}>{txtDOB}</Text>
+                  style={boxSelectStyle(!birthday.includes(text_select))}>
+                  <Text style={txtInBoxSelectStyle(birthday)}>{birthday}</Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
               </View>
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Giới tính*</Text>
-                <TouchableOpacity onPress={() => showSelectGender()}>
-                  <View style={boxSelectStyle(!gender.includes(text_select))}>
-                    <Text style={txtInBoxSelectStyle(gender)}>{gender}</Text>
-                    <ArrowUpDown />
-                  </View>
+                <TouchableOpacity
+                  onPress={() => this._setShowGender()}
+                  style={boxSelectStyle(
+                    gender != 0 || this.state.isShowListGender,
+                  )}>
+                  <Text style={txtInBoxSelectStyle(gender)}>
+                    {this._getNameGenderFromId(gender, gender_list)}
+                  </Text>
+                  <ArrowUpDown />
                 </TouchableOpacity>
+                {this.state.isShowListGender ? (
+                  <FlatList
+                    visibility={this.state.isShowListGender}
+                    style={styles.viewSelectGender}
+                    data={gender_list}
+                    renderItem={({item: rowData}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            this._setShowGender();
+                            handleSelectGender(rowData.id);
+                          }}>
+                          <View style={styles.infoBoxSelect}>
+                            <Text style={styles.txtViewSelect}>
+                              {rowData.name}
+                            </Text>
+                          </View>
+                          <View style={styles.lineSelect} />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item, index) => index}
+                  />
+                ) : null}
               </View>
             </View>
             <View style={styles.groupContainer}>
@@ -146,7 +195,7 @@ export default class FormBasicInfo extends Component {
                 <TextInput
                   style={txtInputStyle(height)}
                   returnKeyType="done"
-                  value={height}
+                  value={height ? height.toString() : height}
                   name="height"
                   placeholder="Nhập chiều cao"
                   keyboardType="numeric"
@@ -158,7 +207,7 @@ export default class FormBasicInfo extends Component {
                 <TextInput
                   style={txtInputStyle(weight)}
                   returnKeyType="done"
-                  value={weight}
+                  value={weight ? weight.toString() : weight}
                   name="weight"
                   placeholder="Nhập cân nặng"
                   keyboardType="numeric"
@@ -171,29 +220,32 @@ export default class FormBasicInfo extends Component {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                this.setState({isShowListPlace: !this.state.isShowListPlace});
+                this.setState({isShowProvince: !this.state.isShowProvince});
               }}
               style={boxSelectStyle(
-                this.state.isShowListPlace || !city.includes(text_select),
+                this.state.isShowProvince || working_places.length != 0,
               )}>
-              <Text style={txtInBoxSelectStyle(city)}>{city}</Text>
+              <Text style={styles.txtSelectStyle}>
+                {getNamesFromIds(working_places, province_list)}
+              </Text>
               <ArrowUpDown />
             </TouchableOpacity>
-            {this.state.isShowListPlace ? (
+            {this.state.isShowProvince ? (
               <FlatList
-                visibility={this.state.isShowListPlace}
-                style={styles.boxSelect}
-                data={listCity}
+                visibility={this.state.isShowProvince}
+                style={styles.viewSelect}
+                data={province_list}
                 renderItem={({item: rowData}) => {
                   return (
                     <TouchableOpacity
                       onPress={() => {
-                        selectCity(rowData.city);
+                        handleSelectProvince(rowData.id.toString());
                       }}>
                       <View style={styles.infoBoxSelect}>
-                        <Text style={styles.txtViewSelect}>{rowData.city}</Text>
+                        <Text style={styles.txtViewSelect}>{rowData.name}</Text>
                         <CheckBox
-                          isChecked={city.includes(rowData.city) ? true : false}
+                          disabled={true}
+                          isChecked={checkIdInIds(rowData.id, working_places)}
                           checkedImage={<CBChecked />}
                           unCheckedImage={<CBUnChecked />}
                         />
@@ -211,36 +263,34 @@ export default class FormBasicInfo extends Component {
             <View style={{marginBottom: 20}}>
               <TouchableOpacity
                 onPress={() => {
-                  this.setState({
-                    isShowListIndustry: !this.state.isShowListIndustry,
-                  });
+                  this.setState({isShowMajor: !this.state.isShowMajor});
                 }}
                 style={boxSelectStyle(
-                  this.state.isShowListIndustry ||
-                    !industry.includes(text_select),
+                  this.state.isShowMajor || working_majors.length != 0,
                 )}>
-                <Text style={txtInBoxSelectStyle(industry)}>{industry}</Text>
+                <Text style={styles.txtSelectStyle}>
+                  {getNamesFromIds(working_majors, major_list)}
+                </Text>
                 <ArrowUpDown />
               </TouchableOpacity>
-              {this.state.isShowListIndustry ? (
+              {this.state.isShowMajor ? (
                 <FlatList
-                  visibility={this.state.isShowListIndustry}
-                  style={styles.boxSelect}
-                  data={listIndustry}
+                  visibility={this.state.isShowProvince}
+                  style={styles.viewSelect}
+                  data={major_list}
                   renderItem={({item: rowData}) => {
                     return (
                       <TouchableOpacity
                         onPress={() => {
-                          selectIndustry(rowData.name);
+                          handleSelectMajor(rowData.id.toString());
                         }}>
                         <View style={styles.infoBoxSelect}>
                           <Text style={styles.txtViewSelect}>
                             {rowData.name}
                           </Text>
                           <CheckBox
-                            isChecked={
-                              industry.includes(rowData.name) ? true : false
-                            }
+                            disabled={true}
+                            isChecked={checkIdInIds(rowData.id, working_majors)}
                             checkedImage={<CBChecked />}
                             unCheckedImage={<CBUnChecked />}
                           />
