@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, FlatList} from 'react-native';
 import {
   Collapse,
   CollapseHeader,
@@ -9,36 +9,34 @@ import ArrowUpDown from '../../../components/ArrowUpDown';
 import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
-import {text_select} from '../../../utils/constants';
 import {
   boxSelectStyle,
   txtInBoxSelectStyle,
   txtInputStyle,
+  getNameFromId,
 } from '../../../utils/utils';
 export default class FormLevel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: true,
+      isCollapsed: false,
+      isShowEducation: false,
     };
   }
+  _setShowEducation = () => {
+    this.setState({
+      isShowEducation: !this.state.isShowEducation,
+    });
+  };
 
   render() {
-    const {onChangeText, showSelectLevel, valueLevel, major} = this.props;
-    let txtLevel = '';
-    if (valueLevel == 0) {
-      txtLevel = 'Trung Học Cơ Sở';
-    } else if (valueLevel == 1) {
-      txtLevel = 'Trung Học Phổ Thông';
-    } else if (valueLevel == 2) {
-      txtLevel = 'Trung Cấp';
-    } else if (valueLevel == 3) {
-      txtLevel = 'Cao Đẳng';
-    } else if (valueLevel == 4) {
-      txtLevel = 'Đại Học';
-    } else {
-      txtLevel = text_select;
-    }
+    const {
+      onChangeText,
+      education_id,
+      education_list,
+      education_major,
+      handleSelectEducation,
+    } = this.props;
 
     return (
       <Collapse
@@ -56,21 +54,48 @@ export default class FormLevel extends Component {
           <View style={{marginEnd: 16, marginStart: 16, paddingBottom: 20}}>
             <Text style={styles.txtTitleBasicInfo}>Học vấn</Text>
             <TouchableOpacity
-              style={boxSelectStyle(txtLevel != text_select)}
-              onPress={() => showSelectLevel()}>
-              <Text style={txtInBoxSelectStyle(txtLevel)}>{txtLevel}</Text>
+              onPress={() => {
+                this.setState({isShowEducation: !this.state.isShowEducation});
+              }}
+              style={boxSelectStyle(
+                this.state.isShowEducation || education_id != '',
+              )}>
+              <Text style={styles.txtSelectStyle}>
+                {getNameFromId(education_id, education_list)}
+              </Text>
               <ArrowUpDown />
             </TouchableOpacity>
+            {this.state.isShowEducation ? (
+              <FlatList
+                style={styles.viewSelect}
+                data={education_list}
+                renderItem={({item: rowData}) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        this._setShowEducation();
+                        handleSelectEducation(rowData.id);
+                      }}>
+                      <View style={styles.infoBoxSelect}>
+                        <Text style={styles.txtViewSelect}>{rowData.name}</Text>
+                      </View>
+                      <View style={styles.lineSelect} />
+                    </TouchableOpacity>
+                  );
+                }}
+                keyExtractor={(item, index) => index}
+              />
+            ) : null}
             <Text style={[styles.txtTitleBasicInfo, {marginTop: 20}]}>
               Chuyên ngành
             </Text>
             <TextInput
-              style={txtInputStyle(major)}
+              style={[txtInputStyle(education_major), {marginBottom: 10}]}
               returnKeyType="done"
-              value={major}
-              name="major"
+              value={education_major}
+              name="education_major"
               placeholder="Nhập chuyên ngành"
-              onChangeText={text => onChangeText(text, 'major')}
+              onChangeText={text => onChangeText(text, 'education_major')}
             />
           </View>
         </CollapseBody>

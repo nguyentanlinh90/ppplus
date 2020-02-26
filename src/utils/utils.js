@@ -44,7 +44,7 @@ export const txtInBoxSelectStyle = function(text) {
   return {
     flex: 1,
     fontSize: 16,
-    color: text == text_select ? '#D8D8D8' : '#2B2B2B',
+    color: '#2B2B2B',
     paddingTop: 10,
     paddingBottom: 10,
   };
@@ -121,6 +121,17 @@ export const getNameFromId = (id, list) => {
   for (var i = 0; i < list.length; i++) {
     if (id == list[i].id) {
       name = list[i].name;
+      break;
+    }
+  }
+  return name;
+};
+
+export const getDistrictNameFromId = (id, list) => {
+  var name = text_select;
+  for (var i = 0; i < list.length; i++) {
+    if (id == list[i].id) {
+      name = list[i].prefix + ' ' + list[i].name;
       break;
     }
   }

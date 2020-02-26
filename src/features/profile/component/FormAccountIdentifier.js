@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 import {
   Collapse,
   CollapseHeader,
@@ -19,7 +26,11 @@ import {
   boxSelectStyle,
   txtInBoxSelectStyle,
   txtInputStyle,
+  getNameFromId,
+  getDistrictNameFromId,
+  showAlert,
 } from '../../../utils/utils';
+
 import ImageClose from '../../../components/CloseImage';
 import CloseImage from '../../../components/CloseImage';
 
@@ -28,32 +39,57 @@ export default class FormAccountIdentifier extends Component {
     super(props);
     this.state = {
       isCollapsed: true,
+      isShowBank: false,
+      isShowBranch: false,
+      isShowProvince: false,
     };
   }
+
+  _setShowBank = () => {
+    this.setState({
+      isShowBank: !this.state.isShowBank,
+    });
+  };
+  _setShowBranch = () => {
+    this.setState({
+      isShowBranch: !this.state.isShowBranch,
+    });
+  };
+  _setShowProvince = () => {
+    this.setState({
+      isShowProvince: !this.state.isShowProvince,
+    });
+  };
 
   render() {
     const {
       onChangeText,
-      showSelectCity,
-      showSelectDistrict,
-      valueCity,
-      valueDistrict,
-      address,
-      nameRelative,
-      phoneRelative,
-      showSelectBank,
-      valueBank,
-      bankBranch,
-      accountBankName,
-      accountBankNumber,
-      urlIDFront,
-      urlIDBehind,
+      province_list,
+      bank_list,
+      bank_branch_list_follow_bank,
+
+      bank_id,
+      branch_id,
+      account_name,
+      number_account,
+      number,
+      issue_place,
+      issue_date,
+      front_image,
+      behind_image,
+
+      handleSelectBank,
+      handleSelectBranch,
+      handleSelectProvinceIdentification,
+      showPickerIdentification,
+
       handleOpenImage,
       degreeName,
       urlDegree,
       handleCloseImage,
     } = this.props;
 
+    console.log('linhnt', bank_list, bank_branch_list_follow_bank);
     return (
       <Collapse
         isCollapsed={this.state.isCollapsed}
@@ -69,56 +105,190 @@ export default class FormAccountIdentifier extends Component {
         <CollapseBody>
           <View style={{marginEnd: 16, marginStart: 16, paddingBottom: 20}}>
             <Text style={styles.txtTitleBasicInfo}>Thông tin chuyển khoản</Text>
-            <View style={styles.groupContainer}>
-              <TouchableOpacity
-                style={[
-                  boxSelectStyle(valueBank != text_select),
-                  {marginEnd: 10},
-                ]}
-                onPress={() => showSelectBank()}>
-                <Text style={txtInBoxSelectStyle(valueBank)}>{valueBank}</Text>
-                <ArrowUpDown />
-              </TouchableOpacity>
-              <TextInput
-                style={txtInputStyle(bankBranch)}
-                returnKeyType="done"
-                value={bankBranch}
-                name="bankBranch"
-                placeholder="Chi nhánh"
-                onChangeText={text => onChangeText(text, 'bankBranch')}
-              />
+            <View
+              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
+              <Text style={styles.txtTitleBasicInfo}>Ngân hàng: </Text>
+              <View style={{flex: 1, marginStart: 10}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({isShowBank: !this.state.isShowBank});
+                  }}
+                  style={boxSelectStyle(
+                    this.state.isShowBank || bank_id != '',
+                  )}>
+                  <Text style={styles.txtSelectStyle}>
+                    {getNameFromId(bank_id, bank_list)}
+                  </Text>
+                  <ArrowUpDown />
+                </TouchableOpacity>
+                {this.state.isShowBank ? (
+                  <FlatList
+                    style={styles.viewSelect}
+                    data={bank_list}
+                    renderItem={({item: rowData}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            this._setShowBank();
+                            handleSelectBank(rowData.id);
+                          }}>
+                          <View style={styles.infoBoxSelect}>
+                            <Text style={styles.txtViewSelect}>
+                              {rowData.name}
+                            </Text>
+                          </View>
+                          <View style={styles.lineSelect} />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item, index) => index}
+                  />
+                ) : null}
+              </View>
+            </View>
+            <View
+              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
+              <Text style={styles.txtTitleBasicInfo}>Chi nhánh: </Text>
+              <View style={{flex: 1, marginStart: 10}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (getNameFromId(bank_id, bank_list) == text_select) {
+                      showAlert('Bạn chưa chọn ngân hàng');
+                    } else {
+                      this._setShowBranch();
+                    }
+                  }}
+                  style={boxSelectStyle(
+                    this.state.isShowBranch || branch_id != '',
+                  )}>
+                  <Text style={styles.txtSelectStyle}>
+                    {getNameFromId(
+                      branch_id,
+                      bank_branch_list_follow_bank,
+                    )}
+                  </Text>
+                  <ArrowUpDown />
+                </TouchableOpacity>
+                {this.state.isShowBranch ? (
+                  <FlatList
+                    style={styles.viewSelect}
+                    data={bank_branch_list_follow_bank}
+                    renderItem={({item: rowData}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            this._setShowBranch();
+                            handleSelectBranch(rowData.id);
+                          }}>
+                          <View style={styles.infoBoxSelect}>
+                            <Text style={styles.txtViewSelect}>
+                              {rowData.name}
+                            </Text>
+                          </View>
+                          <View style={styles.lineSelect} />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item, index) => index}
+                  />
+                ) : null}
+              </View>
             </View>
             <TextInput
-              style={[txtInputStyle(accountBankName), {marginBottom: 10}]}
+              style={[txtInputStyle(account_name), {marginBottom: 10}]}
               returnKeyType="done"
-              value={accountBankName}
-              name="accountBankName"
+              value={account_name}
+              name="account_name"
               placeholder="Tên chủ tài khoản"
-              onChangeText={text => onChangeText(text, 'accountBankName')}
+              onChangeText={text => onChangeText(text, 'account_name')}
             />
             <TextInput
-              style={[txtInputStyle(accountBankNumber), {marginBottom: 10}]}
+              style={[txtInputStyle(number_account), {marginBottom: 10}]}
               returnKeyType="done"
-              value={accountBankNumber}
-              name="accountBankNumber"
+              value={number_account}
+              name="number_account"
               placeholder="Số tài khoản"
-              onChangeText={text => onChangeText(text, 'accountBankNumber')}
+              keyboardType="numeric"
+              onChangeText={text => onChangeText(text, 'number_account')}
             />
             <Text style={styles.txtTitleBasicInfo}>
               Xác nhận thông tin cá nhân
             </Text>
+            <TextInput
+              style={[txtInputStyle(number), {marginBottom: 10}]}
+              returnKeyType="done"
+              value={number}
+              name="number"
+              placeholder="Số CMND / CCCD"
+              keyboardType="numeric"
+              onChangeText={text => onChangeText(text, 'number')}
+            />
+            <View
+              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
+              <Text style={styles.txtTitleBasicInfo}>Ngày cấp: </Text>
+              <TouchableOpacity
+                onPress={() => showPickerIdentification()}
+                style={boxSelectStyle(!issue_date.includes(text_select))}>
+                <Text style={txtInBoxSelectStyle()}>
+                  {issue_date}
+                </Text>
+                <ArrowUpDown />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
+              <Text style={styles.txtTitleBasicInfo}>Nơi cấp: </Text>
+              <View style={{flex: 1, marginStart: 10}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this._setShowProvince();
+                  }}
+                  style={boxSelectStyle(
+                    this.state.isShowProvince || issue_place != '',
+                  )}>
+                  <Text style={styles.txtSelectStyle}>
+                    {getNameFromId(issue_place, province_list)}
+                  </Text>
+                  <ArrowUpDown />
+                </TouchableOpacity>
+                {this.state.isShowProvince ? (
+                  <FlatList
+                    style={styles.viewSelect}
+                    data={province_list}
+                    renderItem={({item: rowData}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            this._setShowProvince();
+                            handleSelectProvinceIdentification(rowData.id);
+                          }}>
+                          <View style={styles.infoBoxSelect}>
+                            <Text style={styles.txtViewSelect}>
+                              {rowData.name}
+                            </Text>
+                          </View>
+                          <View style={styles.lineSelect} />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item, index) => index}
+                  />
+                ) : null}
+              </View>
+            </View>
+
             <View style={styles.boxID}>
               <View style={{flex: 1, marginEnd: 10}}>
                 <Image
                   resizeMode="stretch"
                   source={
-                    urlIDFront
-                      ? {uri: urlIDFront}
+                    front_image
+                      ? {uri: front_image}
                       : require('../../../assets/images/bg-id-front.png')
                   }
                   style={styles.boxIDItemImage}
                 />
-                {urlIDFront ? (
+                {front_image ? (
                   <TouchableOpacity
                     style={styles.boxIDItemClose}
                     onPress={() => handleCloseImage(IMAGE_ID_FRONT)}>
@@ -130,13 +300,13 @@ export default class FormAccountIdentifier extends Component {
                 <Image
                   resizeMode="stretch"
                   source={
-                    urlIDBehind
-                      ? {uri: urlIDBehind}
+                    behind_image
+                      ? {uri: behind_image}
                       : require('../../../assets/images/bg-id-front.png')
                   }
                   style={styles.boxIDItemImage}
                 />
-                {urlIDBehind ? (
+                {behind_image ? (
                   <TouchableOpacity
                     style={styles.boxIDItemClose}
                     onPress={() => handleCloseImage(IMAGE_ID_BEHIND)}>

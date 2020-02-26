@@ -95,7 +95,7 @@ export const doLogin = (phone, password) => async dispatch => {
     json.result_code == types.RESULT_CODE_SUCCESS
   ) {
     setStoreData(ACCESS_TOKEN, 'Bearer ' + json.access_token);
-    console.log('linhnt login token ', 'Bearer' + json.access_token);
+    console.log('linhnt login token ', 'Bearer ' + json.access_token);
     await dispatch(fetchDataSuccess(types.LOGIN_SUCCESS, json.data));
     await dispatch(
       fetchDataSuccess(types.CHANGE_MSG_CODE, types.LOGIN_SUCCESS),

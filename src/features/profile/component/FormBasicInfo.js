@@ -55,7 +55,7 @@ export default class FormBasicInfo extends Component {
       working_places,
       working_majors,
 
-      showDateTimePicker,
+      showPicker,
       handleSelectGender,
       handleSelectProvinces,
       handleSelectMajors,
@@ -109,9 +109,9 @@ export default class FormBasicInfo extends Component {
                   Ngày tháng năm sinh*
                 </Text>
                 <TouchableOpacity
-                  onPress={() => showDateTimePicker()}
+                  onPress={() => showPicker()}
                   style={boxSelectStyle(!birthday.includes(text_select))}>
-                  <Text style={txtInBoxSelectStyle(birthday)}>{birthday}</Text>
+                  <Text style={txtInBoxSelectStyle()}>{birthday}</Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
               </View>
@@ -122,7 +122,7 @@ export default class FormBasicInfo extends Component {
                   style={boxSelectStyle(
                     gender != 0 || this.state.isShowListGender,
                   )}>
-                  <Text style={txtInBoxSelectStyle(gender)}>
+                  <Text style={txtInBoxSelectStyle()}>
                     {getNameFromId(gender, gender_list)}
                   </Text>
                   <ArrowUpDown />
