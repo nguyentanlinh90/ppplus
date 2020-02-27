@@ -3,6 +3,7 @@ import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styles from '../styles/styles';
 import {IMAGE_1, IMAGE_2, IMAGE_3, IMAGE_4} from '../../../utils/constants';
 import CloseImage from '../../../components/CloseImage';
+import {isEmpty} from '../../../utils/utils';
 export default class FormImageProfile extends Component {
   constructor(props) {
     super(props);
@@ -46,27 +47,27 @@ export default class FormImageProfile extends Component {
   };
   render() {
     const {
-      urlImage_1,
-      urlImage_2,
-      urlImage_3,
-      urlImage_4,
+      sub_avatar_1,
+      sub_avatar_2,
+      sub_avatar_3,
+      sub_avatar_4,
       handleOpenImage,
       handleCloseImage,
     } = this.props;
 
     return (
       <View style={styles.containerAddImage}>
-        {urlImage_1
-          ? this._renderImageOpen(urlImage_1, IMAGE_1)
+        {!isEmpty(sub_avatar_1)
+          ? this._renderImageOpen(sub_avatar_1, IMAGE_1)
           : this._renderImageEmpty(IMAGE_1)}
-        {urlImage_2
-          ? this._renderImageOpen(urlImage_2, IMAGE_2)
+        {!isEmpty(sub_avatar_2)
+          ? this._renderImageOpen(sub_avatar_2, IMAGE_2)
           : this._renderImageEmpty(IMAGE_2)}
-        {urlImage_3
-          ? this._renderImageOpen(urlImage_3, IMAGE_3)
+        {!isEmpty(sub_avatar_3)
+          ? this._renderImageOpen(sub_avatar_3, IMAGE_3)
           : this._renderImageEmpty(IMAGE_3)}
-        {urlImage_4
-          ? this._renderImageOpen(urlImage_4, IMAGE_4)
+        {!isEmpty(sub_avatar_4)
+          ? this._renderImageOpen(sub_avatar_4, IMAGE_4)
           : this._renderImageEmpty(IMAGE_4)}
       </View>
     );

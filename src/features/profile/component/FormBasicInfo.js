@@ -13,7 +13,13 @@ import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
 import {text_select} from '../../../utils/constants';
-import {getNamesFromIds, checkIdInIds, getNameFromId} from '../../../utils/utils';
+import {
+  getNamesFromIds,
+  checkIdInIds,
+  getNameFromId,
+  isEmpty,
+  isZero,
+} from '../../../utils/utils';
 
 import {
   boxSelectStyle,
@@ -25,7 +31,7 @@ export default class FormBasicInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: false,
+      isCollapsed: true,
       isShowListGender: false,
       isShowProvince: false,
       isShowMajor: false,
@@ -120,7 +126,7 @@ export default class FormBasicInfo extends Component {
                 <TouchableOpacity
                   onPress={() => this._setShowGender()}
                   style={boxSelectStyle(
-                    gender != 0 || this.state.isShowListGender,
+                    !isZero(gender) || this.state.isShowListGender,
                   )}>
                   <Text style={txtInBoxSelectStyle()}>
                     {getNameFromId(gender, gender_list)}

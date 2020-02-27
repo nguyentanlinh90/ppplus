@@ -137,3 +137,11 @@ export const getDistrictNameFromId = (id, list) => {
   }
   return name;
 };
+
+export const isEmpty = string => {
+  return string == '';
+};
+
+export const isZero = string => {
+  return string == 0;
+};

@@ -14,12 +14,13 @@ import {
   txtInBoxSelectStyle,
   txtInputStyle,
   getNameFromId,
+  isEmpty,
 } from '../../../utils/utils';
 export default class FormLevel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: false,
+      isCollapsed: true,
       isShowEducation: false,
     };
   }
@@ -34,7 +35,7 @@ export default class FormLevel extends Component {
       onChangeText,
       education_id,
       education_list,
-      education_major,
+      education_major_name,
       handleSelectEducation,
     } = this.props;
 
@@ -58,7 +59,7 @@ export default class FormLevel extends Component {
                 this.setState({isShowEducation: !this.state.isShowEducation});
               }}
               style={boxSelectStyle(
-                this.state.isShowEducation || education_id != '',
+                this.state.isShowEducation || !isEmpty(education_id),
               )}>
               <Text style={styles.txtSelectStyle}>
                 {getNameFromId(education_id, education_list)}
@@ -90,12 +91,12 @@ export default class FormLevel extends Component {
               Chuyên ngành
             </Text>
             <TextInput
-              style={[txtInputStyle(education_major), {marginBottom: 10}]}
+              style={[txtInputStyle(education_major_name), {marginBottom: 10}]}
               returnKeyType="done"
-              value={education_major}
-              name="education_major"
+              value={education_major_name}
+              name="education_major_name"
               placeholder="Nhập chuyên ngành"
-              onChangeText={text => onChangeText(text, 'education_major')}
+              onChangeText={text => onChangeText(text, 'education_major_name')}
             />
           </View>
         </CollapseBody>

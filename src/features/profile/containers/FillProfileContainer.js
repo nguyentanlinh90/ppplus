@@ -32,6 +32,8 @@ import {ADDRESS_OF_RELATIVE} from '../../../utils/constants';
 import {text_select} from '../../../utils/constants';
 import {changeMsgCode} from '../../home/actions/index';
 import {getUserInfo} from '../../../features/user/actions';
+import {doUpdateUserInfo} from '../../user/actions/index';
+
 import {ACCESS_TOKEN} from '../../../utils/constants';
 import * as types from '../../../api/types';
 import {
@@ -39,6 +41,8 @@ import {
   handleCheck,
   arrayToString,
   stringToArray,
+  isEmpty,
+  isZero,
 } from '../../../utils/utils';
 
 const IMAGE_AVATAR = 0;
@@ -51,7 +55,7 @@ import {
   IMAGE_ID_BEHIND,
   IMAGE_DEGREE,
 } from '../../../utils/constants';
-
+var token = '';
 export class FillProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -72,15 +76,20 @@ export class FillProfileContainer extends Component {
       bank_branch_list_follow_bank: [],
 
       percent_updated: 0,
-      urlImage_1: '',
-      urlImage_2: '',
-      urlImage_3: '',
-      urlImage_4: '',
-
       avatar: '',
+      avatar_data: '',
+      sub_avatar_1: '',
+      sub_avatar_1_data: '',
+      sub_avatar_2: '',
+      sub_avatar_2_data: '',
+      sub_avatar_3: '',
+      sub_avatar_3_data: '',
+      sub_avatar_4: '',
+      sub_avatar_4_data: '',
+
       last_name: '',
       first_name: '',
-      birthday: '',
+      birthday: text_select,
       gender: 0,
       height: 0,
       weight: 0,
@@ -95,9 +104,9 @@ export class FillProfileContainer extends Component {
       district_id_relative: '',
       address_relative: '',
       education_id: '',
+      education_major_name: '',
       education_degree_name: '',
       education_degree_images: '',
-      education_major_name: '',
       bank_id: '',
       branch_id: '',
       account_name: '',
@@ -106,7 +115,9 @@ export class FillProfileContainer extends Component {
       issue_date: text_select,
       issue_place: '',
       front_image: '',
+      front_image_data: '',
       behind_image: '',
+      behind_image_data: '',
       degree_name: '',
       degree_image: '',
     };
@@ -115,8 +126,8 @@ export class FillProfileContainer extends Component {
   }
 
   async _getToken() {
-    var token = await AsyncStorage.getItem(ACCESS_TOKEN);
-    if (token && token != '') {
+    token = await AsyncStorage.getItem(ACCESS_TOKEN);
+    if (token && !isEmpty(token)) {
       this._getUserInfo(token);
     }
   }
@@ -170,41 +181,37 @@ export class FillProfileContainer extends Component {
       } else if (response.customButton) {
       } else {
         if (numberOfImage == IMAGE_AVATAR) {
+          console.log('linhnt response', response);
           this.setState({
             avatar: response.uri,
+            avatar_data: response.data,
           });
         } else if (numberOfImage == IMAGE_1) {
           this.setState({
-            showButtonAdd_1: false,
-            urlImage_1: response.uri,
+            sub_avatar_1: response.uri,
+            sub_avatar_1_data: response.data,
           });
         } else if (numberOfImage == IMAGE_2) {
           this.setState({
-            showButtonAdd_2: false,
-            urlImage_2: response.uri,
+            sub_avatar_2: response.uri,
+            sub_avatar_2_data: response.data,
           });
         } else if (numberOfImage == IMAGE_3) {
           this.setState({
-            showButtonAdd_3: false,
-            urlImage_3: response.uri,
+            sub_avatar_3: response.uri,
+            sub_avatar_3_data: response.data,
           });
         } else if (numberOfImage == IMAGE_4) {
           this.setState({
-            showButtonAdd_4: false,
-            urlImage_4: response.uri,
+            sub_avatar_4: response.uri,
+            sub_avatar_4_data: response.data,
           });
         } else if (numberOfImage == IMAGE_ID_FRONT) {
-          this.setState({
-            urlIDFront: response.uri,
-          });
+          this.setState({front_image: response.uri});
         } else if (numberOfImage == IMAGE_ID_BEHIND) {
-          this.setState({
-            urlIDBehind: response.uri,
-          });
+          this.setState({behind_image: response.uri});
         } else if (numberOfImage == IMAGE_DEGREE) {
-          this.setState({
-            urlDegree: response.uri,
-          });
+          this.setState({urlDegree: response.uri});
         }
       }
     });
@@ -213,27 +220,33 @@ export class FillProfileContainer extends Component {
   _handleCloseImage = numberOfImage => {
     if (numberOfImage == IMAGE_1) {
       this.setState({
-        urlImage_1: '',
+        sub_avatar_1: '',
+        sub_avatar_1_data: '',
       });
     } else if (numberOfImage == IMAGE_2) {
       this.setState({
-        urlImage_2: '',
+        sub_avatar_2: '',
+        sub_avatar_2_data: '',
       });
     } else if (numberOfImage == IMAGE_3) {
       this.setState({
-        urlImage_3: '',
+        sub_avatar_3: '',
+        sub_avatar_3_data: '',
       });
     } else if (numberOfImage == IMAGE_4) {
       this.setState({
-        urlImage_4: '',
+        sub_avatar_4: '',
+        sub_avatar_4_data: '',
       });
     } else if (numberOfImage == IMAGE_ID_FRONT) {
       this.setState({
-        urlIDFront: '',
+        front_image: '',
+        front_image_data: '',
       });
     } else if (numberOfImage == IMAGE_ID_BEHIND) {
       this.setState({
-        urlIDBehind: '',
+        behind_image: '',
+        behind_image_data: '',
       });
     } else if (numberOfImage == IMAGE_DEGREE) {
       this.setState({
@@ -404,9 +417,13 @@ export class FillProfileContainer extends Component {
       major_list: data.major_list,
       education_list: data.education_list,
       bank_list: data.bank_list,
-      bank_branch_list:data.bank_branch_list,
+      bank_branch_list: data.bank_branch_list,
 
       avatar: data.avatar,
+      sub_avatar_1: data.sub_avatar_list.sub_avatar_1,
+      sub_avatar_2: data.sub_avatar_list.sub_avatar_2,
+      sub_avatar_3: data.sub_avatar_list.sub_avatar_3,
+      sub_avatar_4: data.sub_avatar_list.sub_avatar_4,
       percent_updated: data.percent_updated,
       first_name: data.first_name,
       last_name: data.last_name,
@@ -435,17 +452,115 @@ export class FillProfileContainer extends Component {
     });
   };
 
+  _handleUpdateFullInfo = () => {
+    const {doUpdateUserInfo} = this.props;
+    const {
+      avatar_data,
+      sub_avatar_1_data,
+      sub_avatar_2_data,
+      sub_avatar_3_data,
+      sub_avatar_4_data,
+      first_name,
+      last_name,
+      birthday,
+      gender,
+      height,
+      weight,
+      working_places,
+      working_majors,
+      province_id,
+      district_id,
+      address,
+      name_relative,
+      phone_relative,
+      province_id_relative,
+      district_id_relative,
+      address_relative,
+      education_id,
+      education_major_name,
+      bank_id,
+      branch_id,
+      account_name,
+      number_account,
+      number,
+      issue_date,
+      issue_place,
+      front_image_data,
+      behind_image_data,
+      education_degree_name,
+    } = this.state;
+
+    if (
+      isEmpty(first_name) ||
+      isEmpty(last_name) ||
+      isEmpty(birthday) ||
+      isZero(gender) ||
+      isZero(height) ||
+      isZero(weight)
+    ) {
+      // showAlert('Vui lòng cung cấp đầy đủ các trường thông tin bắt buộc');
+      // return;
+    }
+    const params = {
+      avatar: avatar_data,
+      sub_avatar_1: sub_avatar_1_data,
+      sub_avatar_2: sub_avatar_2_data,
+      sub_avatar_3: sub_avatar_3_data,
+      sub_avatar_4: sub_avatar_4_data,
+      first_name: first_name,
+      last_name: last_name,
+      birthday: birthday,
+      gender: gender,
+      height: height,
+      weight: weight,
+      working_places: arrayToString(working_places),
+      working_majors: arrayToString(working_majors),
+      province_id: province_id,
+      district_id: district_id,
+      address: address,
+      name_relative: name_relative,
+      phone_relative: phone_relative,
+      province_id_relative: province_id_relative,
+      district_id_relative: district_id_relative,
+      address_relative: address_relative,
+      education_id: education_id,
+      education_major_name: education_major_name,
+      bank_id: bank_id,
+      branch_id: branch_id,
+      account_name: account_name,
+      number_account: number_account,
+      number: number,
+      issue_date: issue_date,
+      issue_place: issue_place,
+      front_image: front_image_data,
+      behind_image: behind_image_data,
+      education_degree_name: education_degree_name,
+      type: 'full_detail',
+    };
+    const params1 = {
+      avatar: avatar_data,
+      type: 'full_detail',
+    };
+    if (token != '') {
+      doUpdateUserInfo(params1, token);
+    }
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     // console.log('linhnt nextProps data', nextProps.data);
 
     if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
-      // nextProps.changeMsgCode('');
       this.setState({isLoading: false});
       this._setUser(nextProps.data);
+      nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
       showAlert(nextProps.message);
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
+      console.log('linhnt nextProps UPDATE_USER_INFO_SUCCESS');
+    } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
+      console.log('linhnt nextProps UPDATE_USER_INFO_FAIL');
     }
   }
 
@@ -467,8 +582,9 @@ export class FillProfileContainer extends Component {
             <TouchableOpacity
               style={styles.viewEdit}
               onPress={() => {
-                this.props.navigation.state.params.onGoBack('Linh Nguyen');
-                this.props.navigation.goBack();
+                this._handleUpdateFullInfo();
+                // this.props.navigation.state.params.onGoBack('Linh Nguyen');
+                // this.props.navigation.goBack();
               }}>
               <Text style={styles.txtSave}>Lưu</Text>
             </TouchableOpacity>
@@ -500,10 +616,10 @@ export class FillProfileContainer extends Component {
               </View>
             </View>
             <FormImageProfile
-              urlImage_1={this.state.urlImage_1}
-              urlImage_2={this.state.urlImage_2}
-              urlImage_3={this.state.urlImage_3}
-              urlImage_4={this.state.urlImage_4}
+              sub_avatar_1={this.state.sub_avatar_1}
+              sub_avatar_2={this.state.sub_avatar_2}
+              sub_avatar_3={this.state.sub_avatar_3}
+              sub_avatar_4={this.state.sub_avatar_4}
               handleOpenImage={this._handleOpenImage}
               handleCloseImage={this._handleCloseImage}
             />
@@ -603,5 +719,6 @@ function mapStateToProps(state) {
 }
 export default connect(mapStateToProps, {
   getUserInfo,
+  doUpdateUserInfo,
   changeMsgCode,
 })(FillProfileContainer);

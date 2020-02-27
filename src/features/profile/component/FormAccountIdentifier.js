@@ -29,6 +29,7 @@ import {
   getNameFromId,
   getDistrictNameFromId,
   showAlert,
+  isEmpty
 } from '../../../utils/utils';
 
 import ImageClose from '../../../components/CloseImage';
@@ -89,7 +90,6 @@ export default class FormAccountIdentifier extends Component {
       handleCloseImage,
     } = this.props;
 
-    console.log('linhnt', bank_list, bank_branch_list_follow_bank);
     return (
       <Collapse
         isCollapsed={this.state.isCollapsed}
@@ -114,7 +114,7 @@ export default class FormAccountIdentifier extends Component {
                     this.setState({isShowBank: !this.state.isShowBank});
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowBank || bank_id != '',
+                    this.state.isShowBank || !isEmpty(bank_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getNameFromId(bank_id, bank_list)}
@@ -159,7 +159,7 @@ export default class FormAccountIdentifier extends Component {
                     }
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowBranch || branch_id != '',
+                    this.state.isShowBranch || !isEmpty(branch_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getNameFromId(
@@ -244,7 +244,7 @@ export default class FormAccountIdentifier extends Component {
                     this._setShowProvince();
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowProvince || issue_place != '',
+                    this.state.isShowProvince || !isEmpty(issue_place),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getNameFromId(issue_place, province_list)}

@@ -21,12 +21,13 @@ import {
   boxSelectStyle,
   txtInBoxSelectStyle,
   txtInputStyle,
+  isEmpty,
 } from '../../../utils/utils';
 export default class FormContactInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: false,
+      isCollapsed: true,
       isShowProvince: false,
       isShowProvinceRelative: false,
       isShowDistrict: false,
@@ -92,7 +93,7 @@ export default class FormContactInfo extends Component {
         <CollapseBody>
           <View style={{marginEnd: 16, marginStart: 16, paddingBottom: 20}}>
             <Text style={styles.txtTitleBasicInfo}>Địa chỉ thường trú*</Text>
-             <View
+            <View
               style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
               <Text style={styles.txtTitleBasicInfo}>Tỉnh / Thành Phố: </Text>
               <View style={{flex: 1, marginStart: 10}}>
@@ -101,7 +102,7 @@ export default class FormContactInfo extends Component {
                     this.setState({isShowProvince: !this.state.isShowProvince});
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowProvince || province_id != '',
+                    this.state.isShowProvince || !isEmpty(province_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getNameFromId(province_id, province_list)}
@@ -133,7 +134,7 @@ export default class FormContactInfo extends Component {
                 ) : null}
               </View>
             </View>
-            <View 
+            <View
               style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
               <Text style={styles.txtTitleBasicInfo}>Quận / Huyện: </Text>
               <View style={{flex: 1, marginStart: 10}}>
@@ -148,7 +149,7 @@ export default class FormContactInfo extends Component {
                     }
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowDistrict || district_id != '',
+                    this.state.isShowDistrict || !isEmpty(district_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getDistrictNameFromId(
@@ -212,16 +213,20 @@ export default class FormContactInfo extends Component {
               placeholder="Nhập số điện thoại người thân"
               onChangeText={text => onChangeText(text, 'phone_relative')}
             />
-             <View
+            <View
               style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
               <Text style={styles.txtTitleBasicInfo}>Tỉnh / Thành Phố: </Text>
               <View style={{flex: 1, marginStart: 10}}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.setState({isShowProvinceRelative: !this.state.isShowProvinceRelative});
+                    this.setState({
+                      isShowProvinceRelative: !this.state
+                        .isShowProvinceRelative,
+                    });
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowProvinceRelative || province_id_relative != '',
+                    this.state.isShowProvinceRelative ||
+                      !isEmpty(province_id_relative),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getNameFromId(province_id_relative, province_list)}
@@ -260,7 +265,8 @@ export default class FormContactInfo extends Component {
                 <TouchableOpacity
                   onPress={() => {
                     if (
-                      getNameFromId(province_id_relative, province_list) == text_select
+                      getNameFromId(province_id_relative, province_list) ==
+                      text_select
                     ) {
                       showAlert('Bạn chưa chọn Tỉnh / Thành Phố');
                     } else {
@@ -268,13 +274,14 @@ export default class FormContactInfo extends Component {
                     }
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowDistrictRelative || district_id_relative != '',
+                    this.state.isShowDistrictRelative ||
+                      !isEmpty(district_id_relative),
                   )}>
                   <Text style={styles.txtSelectStyle}>
-                    {/* {getDistrictNameFromId(
+                    {getDistrictNameFromId(
                       district_id_relative,
                       district_list_follow_province_relative,
-                    )} */}
+                    )}
                   </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
@@ -302,7 +309,7 @@ export default class FormContactInfo extends Component {
                   />
                 ) : null}
               </View>
-            </View> 
+            </View>
             <TextInput
               style={txtInputStyle(address_relative)}
               returnKeyType="done"
