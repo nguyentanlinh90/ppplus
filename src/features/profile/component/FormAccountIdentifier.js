@@ -19,7 +19,8 @@ import styles from '../styles/styles';
 import {
   IMAGE_ID_FRONT,
   IMAGE_ID_BEHIND,
-  IMAGE_DEGREE,
+  IMAGE_DEGREE_FRONT,
+  IMAGE_DEGREE_BEHIND,
   text_select,
 } from '../../../utils/constants';
 import {
@@ -29,7 +30,7 @@ import {
   getNameFromId,
   getDistrictNameFromId,
   showAlert,
-  isEmpty
+  isEmpty,
 } from '../../../utils/utils';
 
 import ImageClose from '../../../components/CloseImage';
@@ -73,20 +74,20 @@ export default class FormAccountIdentifier extends Component {
       branch_id,
       account_name,
       number_account,
-      number,
-      issue_place,
-      issue_date,
-      front_image,
-      behind_image,
+      id_number,
+      id_issue_place,
+      id_issue_date,
+      id_front_image,
+      id_behind_image,
+      education_degree_name,
+      degree_image_front,
+      degree_image_behind,
 
       handleSelectBank,
       handleSelectBranch,
       handleSelectProvinceIdentification,
       showPickerIdentification,
-
       handleOpenImage,
-      degreeName,
-      urlDegree,
       handleCloseImage,
     } = this.props;
 
@@ -162,10 +163,7 @@ export default class FormAccountIdentifier extends Component {
                     this.state.isShowBranch || !isEmpty(branch_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
-                    {getNameFromId(
-                      branch_id,
-                      bank_branch_list_follow_bank,
-                    )}
+                    {getNameFromId(branch_id, bank_branch_list_follow_bank)}
                   </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
@@ -215,23 +213,21 @@ export default class FormAccountIdentifier extends Component {
               Xác nhận thông tin cá nhân
             </Text>
             <TextInput
-              style={[txtInputStyle(number), {marginBottom: 10}]}
+              style={[txtInputStyle(id_number), {marginBottom: 10}]}
               returnKeyType="done"
-              value={number}
-              name="number"
+              value={id_number}
+              name="id_number"
               placeholder="Số CMND / CCCD"
               keyboardType="numeric"
-              onChangeText={text => onChangeText(text, 'number')}
+              onChangeText={text => onChangeText(text, 'id_number')}
             />
             <View
               style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
               <Text style={styles.txtTitleBasicInfo}>Ngày cấp: </Text>
               <TouchableOpacity
                 onPress={() => showPickerIdentification()}
-                style={boxSelectStyle(!issue_date.includes(text_select))}>
-                <Text style={txtInBoxSelectStyle()}>
-                  {issue_date}
-                </Text>
+                style={boxSelectStyle(!id_issue_date.includes(text_select))}>
+                <Text style={txtInBoxSelectStyle()}>{id_issue_date}</Text>
                 <ArrowUpDown />
               </TouchableOpacity>
             </View>
@@ -244,10 +240,10 @@ export default class FormAccountIdentifier extends Component {
                     this._setShowProvince();
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowProvince || !isEmpty(issue_place),
+                    this.state.isShowProvince || !isEmpty(id_issue_place),
                   )}>
                   <Text style={styles.txtSelectStyle}>
-                    {getNameFromId(issue_place, province_list)}
+                    {getNameFromId(id_issue_place, province_list)}
                   </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
@@ -276,19 +272,18 @@ export default class FormAccountIdentifier extends Component {
                 ) : null}
               </View>
             </View>
-
             <View style={styles.boxID}>
               <View style={{flex: 1, marginEnd: 10}}>
                 <Image
                   resizeMode="stretch"
                   source={
-                    front_image
-                      ? {uri: front_image}
+                    id_front_image
+                      ? {uri: id_front_image}
                       : require('../../../assets/images/bg-id-front.png')
                   }
                   style={styles.boxIDItemImage}
                 />
-                {front_image ? (
+                {id_front_image ? (
                   <TouchableOpacity
                     style={styles.boxIDItemClose}
                     onPress={() => handleCloseImage(IMAGE_ID_FRONT)}>
@@ -300,13 +295,13 @@ export default class FormAccountIdentifier extends Component {
                 <Image
                   resizeMode="stretch"
                   source={
-                    behind_image
-                      ? {uri: behind_image}
-                      : require('../../../assets/images/bg-id-front.png')
+                    id_behind_image
+                      ? {uri: id_behind_image}
+                      : require('../../../assets/images/bg-id-behind.png')
                   }
                   style={styles.boxIDItemImage}
                 />
-                {behind_image ? (
+                {id_behind_image ? (
                   <TouchableOpacity
                     style={styles.boxIDItemClose}
                     onPress={() => handleCloseImage(IMAGE_ID_BEHIND)}>
@@ -335,37 +330,69 @@ export default class FormAccountIdentifier extends Component {
             </View>
             <Text style={styles.txtTitleBasicInfo}>Bằng cấp</Text>
             <TextInput
-              style={[txtInputStyle(degreeName), {marginBottom: 10}]}
+              style={[txtInputStyle(education_degree_name), {marginBottom: 10}]}
               returnKeyType="done"
-              value={degreeName}
-              name="degreeName"
+              value={education_degree_name}
+              name="education_degree_name"
               placeholder="Nhập tên bằng cấp"
-              onChangeText={text => onChangeText(text, 'degreeName')}
+              onChangeText={text => onChangeText(text, 'education_degree_name')}
             />
-            {urlDegree ? (
-              <View style={{height: 200, marginBottom: 10}}>
+            <View style={styles.boxID}>
+              <View style={{flex: 1, marginEnd: 10}}>
                 <Image
                   resizeMode="stretch"
-                  source={{uri: urlDegree}}
-                  style={{width: '100%', height: '100%'}}
+                  source={
+                    degree_image_front
+                      ? {uri: degree_image_front}
+                      : require('../../../assets/images/bg-id-front.png')
+                  }
+                  style={styles.boxIDItemImage}
                 />
-                {urlDegree ? (
+                {degree_image_front ? (
                   <TouchableOpacity
                     style={styles.boxIDItemClose}
-                    onPress={() => handleCloseImage(IMAGE_DEGREE)}>
+                    onPress={() => handleCloseImage(IMAGE_DEGREE_FRONT)}>
                     <CloseImage />
                   </TouchableOpacity>
                 ) : null}
               </View>
-            ) : null}
-            <TouchableOpacity
-              style={[styles.buttonSelectID, {height: 44}]}
-              onPress={() => handleOpenImage(IMAGE_DEGREE)}>
-              <Image
-                source={require('../../../assets/images/ic-camera-white.png')}
-              />
-              <Text style={styles.txtSelectID}>Chụp ảnh</Text>
-            </TouchableOpacity>
+              <View style={{flex: 1}}>
+                <Image
+                  resizeMode="stretch"
+                  source={
+                    degree_image_behind
+                      ? {uri: degree_image_behind}
+                      : require('../../../assets/images/bg-id-behind.png')
+                  }
+                  style={styles.boxIDItemImage}
+                />
+                {degree_image_behind ? (
+                  <TouchableOpacity
+                    style={styles.boxIDItemClose}
+                    onPress={() => handleCloseImage(IMAGE_DEGREE_BEHIND)}>
+                    <CloseImage />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </View>
+            <View style={styles.viewButtonSelectID}>
+              <TouchableOpacity
+                style={[styles.buttonSelectID, {marginEnd: 10}]}
+                onPress={() => handleOpenImage(IMAGE_DEGREE_FRONT)}>
+                <Image
+                  source={require('../../../assets/images/ic-camera-white.png')}
+                />
+                <Text style={styles.txtSelectID}>Mặt trước</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonSelectID}
+                onPress={() => handleOpenImage(IMAGE_DEGREE_BEHIND)}>
+                <Image
+                  source={require('../../../assets/images/ic-camera-white.png')}
+                />
+                <Text style={styles.txtSelectID}>Mặt sau</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </CollapseBody>
       </Collapse>

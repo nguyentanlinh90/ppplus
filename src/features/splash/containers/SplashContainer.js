@@ -8,6 +8,7 @@ import {
   SCREEN_MAIN,
   SCREEN_RETRO,
   SCREEN_LOGIN,
+  SCREEN_FILL_PROFILE,
 } from '../../../api/screen';
 class SplashContainer extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class SplashContainer extends Component {
 
   async checkLogin() {
     var token = await AsyncStorage.getItem(ACCESS_TOKEN);
+
     if (token && token != '') {
       this.setState({isLogin: true});
     }

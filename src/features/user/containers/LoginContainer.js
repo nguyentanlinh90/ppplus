@@ -13,8 +13,7 @@ import LoginForm from '../components/LoginForm';
 import {doLogin, doSendOTP} from '../actions/index';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
-import {convertPhone} from '../../../api/helpers';
-import {changeMsgCode} from '../../home/actions/index';
+import {changeMsgCode} from '../../../api/helpers';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {
@@ -25,7 +24,7 @@ import {
 } from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
 import {ACCESS_TOKEN} from '../../../utils/constants';
-import {showAlert} from '../../../utils/utils';
+import {convertPhone, showAlert} from '../../../utils/utils';
 import * as types from '../../../api/types';
 var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
 export class LoginContainer extends Component {
@@ -33,8 +32,8 @@ export class LoginContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '0988422496',
-      password: 'Lin123@',
+      phone: '',
+      password: '',
       isLoading: false,
       isConnecting: false,
     };

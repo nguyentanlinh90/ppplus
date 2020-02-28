@@ -12,7 +12,7 @@ import InputOTPForm from '../components/InputOTPForm';
 import {doInputOTP} from '../actions/index';
 import styles from '../styles/styles';
 import rootStyles from '../../../styles/styles';
-import {changeMsgCode} from '../../home/actions/index';
+import {changeMsgCode} from '../../../api/helpers';
 import {dispatchScreen} from '../../../utils/utils';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';

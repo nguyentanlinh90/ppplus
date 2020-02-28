@@ -1,48 +1,32 @@
 export const version = {
-    "1.0.0": {
-        "login": {
-            version: 1,
-            path: '/api/v1/user/login'
-        },
-        "brand": {
-            version: 1,
-            path: '/api/v1/brand'
-        },
-        "voucher": {
-            version: 1,
-            path: '/api/v1/user/voucher'
-        },
-        "exchangeVoucher": {
-            version: 1,
-            path: '/api/v1/user/exchange/voucher'
-        },
-        "revenue": {
-            version: 1,
-            path: '/api/v1/user/revenue'
-        } ,
-        "checkExchange": {
-            version: 1,
-            path: '/api/v1/user/check/exchange'
-        },
-        "changePassword":{
-            version: 1,
-            path: '/api/v1/user/password/change'
-        },
-        "updateAvatar":{
-            version: 1,
-            path: '/api/v1/user/update/avatar'
-        },
-        "userInfo":{
-            version: 1,
-            path: '/api/v1/user/info'
-        },
-        "addDevice":{
-            version: 1,
-            path: '/api/v1/user/device'
-        },
-        "setting":{
-            version: 1,
-            path: '/api/v1/user/setting'
-        }
-    }
+  '1.0.0': {
+    register: {
+      version: 1,
+      path: '/api/user/register',
+    },
+    process_otp: {
+      version: 1,
+      path: '/api/user/process/otp',
+    },
+    send_otp: {
+      version: 1,
+      path: '/api/user/send/otp',
+    },
+    login: {
+      version: 1,
+      path: '/api/user/login',
+    },
+    logout: {
+      version: 1,
+      path: '/api/user/logout',
+    },
+    user_info_update: {
+      version: 1,
+      path: '/api/user/info',
+    },
+    get_user_info: {
+      version: 1,
+      path: '/api/user/info/?type=',
+    },
+  },
 };

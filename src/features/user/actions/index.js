@@ -1,8 +1,8 @@
 import {callGetApi, callPostApi, callPutApi} from '../../../api/api';
-import {fetchDataSuccess, getApiPath, getUrl} from '../../../api/helpers';
+import {fetchDataSuccess, getApiPath} from '../../../api/helpers';
 import * as types from '../../../api/types';
 import {setStoreData} from '../../../utils/utils';
-import {ACCESS_TOKEN} from '../../../utils/constants';
+import {ACCESS_TOKEN, V_1_0_0} from '../../../utils/constants';
 
 export const doCreateAccount = (
   phone,
@@ -10,14 +10,15 @@ export const doCreateAccount = (
   password,
   password_confirm,
 ) => async dispatch => {
-  const path = 'user/register';
+  const path = getApiPath(V_1_0_0, 'register');
+
   const params = {
     phone: phone,
     reference_code: reference_code,
     password: password,
     password_confirm: password_confirm,
   };
-  const {json} = await callPostApi(getUrl(path), params, '');
+  const {json} = await callPostApi(path, params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -35,13 +36,13 @@ export const doCreateAccount = (
 };
 
 export const doProcessOTP = (phone, otp_code) => async dispatch => {
-  const path = 'user/process/otp';
+  const path = getApiPath(V_1_0_0, 'process_otp');
   const params = {
     phone: phone,
     otp_code: otp_code,
   };
 
-  const {json} = await callPostApi(getUrl(path), params, '');
+  const {json} = await callPostApi(path, params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -59,13 +60,13 @@ export const doProcessOTP = (phone, otp_code) => async dispatch => {
 };
 
 export const doSendOTP = (phone, type) => async dispatch => {
-  const path = 'user/send/otp';
+  const path = getApiPath(V_1_0_0, 'send_otp');
   const params = {
     phone: phone,
     type: type,
   };
 
-  const {json} = await callPostApi(getUrl(path), params, '');
+  const {json} = await callPostApi(path, params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -83,13 +84,13 @@ export const doSendOTP = (phone, type) => async dispatch => {
 };
 
 export const doLogin = (phone, password) => async dispatch => {
-  const path = 'user/login';
+  const path = getApiPath(V_1_0_0, 'login');
   const params = {
     phone: phone,
     password: password,
   };
 
-  const {json} = await callPostApi(getUrl(path), params, '');
+  const {json} = await callPostApi(path, params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -107,8 +108,9 @@ export const doLogin = (phone, password) => async dispatch => {
 };
 
 export const doLogout = token => async dispatch => {
-  const path = 'user/logout';
-  const {json} = await callPostApi(getUrl(path), {}, token);
+  const path = getApiPath(V_1_0_0, 'logout');
+
+  const {json} = await callPostApi(path, {}, token);
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -123,8 +125,9 @@ export const doLogout = token => async dispatch => {
 };
 
 export const doUpdateUserInfo = (params, access_token) => async dispatch => {
-  const path = 'user/info';
-  const {json} = await callPostApi(getUrl(path), params, access_token);
+  const path = getApiPath(V_1_0_0, 'user_info_update');
+
+  const {json} = await callPostApi(path, params, access_token);
 
   if (
     typeof json !== types.UNDEFINED &&
@@ -142,8 +145,8 @@ export const doUpdateUserInfo = (params, access_token) => async dispatch => {
 };
 
 export const getUserInfo = (type, token) => async dispatch => {
-  const path = 'user/info/?type='+type;
-  const {json} = await callGetApi(getUrl(path), token);
+  const path = getApiPath(V_1_0_0, 'get_user_info') + type;
+  const {json} = await callGetApi(path, token);
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS

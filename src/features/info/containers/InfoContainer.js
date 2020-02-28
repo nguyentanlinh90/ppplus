@@ -33,8 +33,8 @@ class InfoContainer extends Component {
     this.state = {
       isLoading: false,
       isDateTimePickerVisible: false,
-      firstName: 'Linh',
-      lastName: 'Nguyen Tan',
+      firstName: '',
+      lastName: '',
       genderMale: true,
       genderFeMale: false,
       birthday: text_select,
@@ -52,7 +52,6 @@ class InfoContainer extends Component {
   async _getToKen() {
     token = await AsyncStorage.getItem(ACCESS_TOKEN);
   }
-  _loadListBasic = () => {};
   _onChangeText = (text, type) => {
     if (type == 'lastName') {
       this.setState({lastName: text});

@@ -10,17 +10,15 @@ import {
   Keyboard,
   Alert,
 } from 'react-native';
-import {convertPhone} from '../../../api/helpers';
 import CreateAccountForm from '../components/CreateAccountForm';
 import {doCreateAccount} from '../actions/index';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
-import {changeMsgCode} from '../../home/actions/index';
+import {changeMsgCode} from '../../../api/helpers';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_INPUT_OTP} from '../../../api/screen';
-import {showAlert} from '../../../utils/utils';
-import {dispatchScreen} from '../../../utils/utils';
+import {showAlert, convertPhone, dispatchScreen} from '../../../utils/utils';
 import * as types from '../../../api/types';
 
 export class CreateAccountContainer extends Component {
@@ -28,10 +26,10 @@ export class CreateAccountContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '0988422495',
-      reference_code: 'ABC123',
-      password: 'Lin123@',
-      password_confirm: 'Lin123@',
+      phone: '',
+      reference_code: '',
+      password: '',
+      password_confirm: '',
       isLoading: false,
       isConnecting: false,
       isAgree: true,
@@ -150,7 +148,7 @@ export class CreateAccountContainer extends Component {
       dispatchScreen(this.props, SCREEN_INPUT_OTP, [
         this.state.phone,
         nextProps.data.waiting_time_otp,
-        true // check isRegister
+        true, // check isRegister
       ]);
     }
   }

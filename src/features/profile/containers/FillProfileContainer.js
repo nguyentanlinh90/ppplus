@@ -28,11 +28,9 @@ import FormLevel from '../component/FormLevel';
 import FormAccountIdentifier from '../component/FormAccountIdentifier';
 import {SCREEN_PROFILE} from '../../../api/screen';
 import KeyboardShift from './KeyboardShift';
-import {ADDRESS_OF_RELATIVE} from '../../../utils/constants';
 import {text_select} from '../../../utils/constants';
-import {changeMsgCode} from '../../home/actions/index';
-import {getUserInfo} from '../../../features/user/actions';
-import {doUpdateUserInfo} from '../../user/actions/index';
+import {changeMsgCode} from '../../../api/helpers';
+import {getUserInfo, doUpdateUserInfo} from '../../../features/user/actions';
 
 import {ACCESS_TOKEN} from '../../../utils/constants';
 import * as types from '../../../api/types';
@@ -53,9 +51,11 @@ import {
   IMAGE_4,
   IMAGE_ID_FRONT,
   IMAGE_ID_BEHIND,
-  IMAGE_DEGREE,
+  IMAGE_DEGREE_FRONT,
+  IMAGE_DEGREE_BEHIND,
 } from '../../../utils/constants';
 var token = '';
+import {API_HOSTNAME} from '../../../api/constants';
 export class FillProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -105,21 +105,22 @@ export class FillProfileContainer extends Component {
       address_relative: '',
       education_id: '',
       education_major_name: '',
-      education_degree_name: '',
-      education_degree_images: '',
       bank_id: '',
       branch_id: '',
       account_name: '',
       number_account: '',
-      number: '',
-      issue_date: text_select,
-      issue_place: '',
-      front_image: '',
-      front_image_data: '',
-      behind_image: '',
-      behind_image_data: '',
-      degree_name: '',
-      degree_image: '',
+      id_number: '',
+      id_issue_date: text_select,
+      id_issue_place: '',
+      id_front_image: '',
+      id_front_image_data: '',
+      id_behind_image: '',
+      id_behind_image_data: '',
+      education_degree_name: '',
+      degree_image_front: '',
+      degree_image_front_data: '',
+      degree_image_behind: '',
+      degree_image_behind_data: '',
     };
     this._onChangeText = this._onChangeText.bind(this);
     this._getToken();
@@ -154,10 +155,10 @@ export class FillProfileContainer extends Component {
       this.setState({account_name: text});
     } else if (type == 'number_account') {
       this.setState({number_account: text});
-    } else if (type == 'degree_name') {
-      this.setState({degree_name: text});
-    } else if (type == 'number') {
-      this.setState({number: text});
+    } else if (type == 'id_number') {
+      this.setState({id_number: text});
+    } else if (type == 'education_degree_name') {
+      this.setState({education_degree_name: text});
     }
   };
 
@@ -207,11 +208,25 @@ export class FillProfileContainer extends Component {
             sub_avatar_4_data: response.data,
           });
         } else if (numberOfImage == IMAGE_ID_FRONT) {
-          this.setState({front_image: response.uri});
+          this.setState({
+            id_front_image: response.uri,
+            id_front_image_data: response.data,
+          });
         } else if (numberOfImage == IMAGE_ID_BEHIND) {
-          this.setState({behind_image: response.uri});
-        } else if (numberOfImage == IMAGE_DEGREE) {
-          this.setState({urlDegree: response.uri});
+          this.setState({
+            id_behind_image: response.uri,
+            id_behind_image_data: response.data,
+          });
+        } else if (numberOfImage == IMAGE_DEGREE_FRONT) {
+          this.setState({
+            degree_image_front: response.uri,
+            degree_image_front_data: response.data,
+          });
+        } else if (numberOfImage == IMAGE_DEGREE_BEHIND) {
+          this.setState({
+            degree_image_behind: response.uri,
+            degree_image_behind_data: response.data,
+          });
         }
       }
     });
@@ -240,17 +255,23 @@ export class FillProfileContainer extends Component {
       });
     } else if (numberOfImage == IMAGE_ID_FRONT) {
       this.setState({
-        front_image: '',
-        front_image_data: '',
+        id_front_image: '',
+        id_front_image_data: '',
       });
     } else if (numberOfImage == IMAGE_ID_BEHIND) {
       this.setState({
-        behind_image: '',
-        behind_image_data: '',
+        id_behind_image: '',
+        id_behind_image_data: '',
       });
-    } else if (numberOfImage == IMAGE_DEGREE) {
+    } else if (numberOfImage == IMAGE_DEGREE_FRONT) {
       this.setState({
-        urlDegree: '',
+        degree_image_front: '',
+        degree_image_front_data: '',
+      });
+    } else if (numberOfImage == IMAGE_DEGREE_BEHIND) {
+      this.setState({
+        degree_image_behind: '',
+        degree_image_behind_data: '',
       });
     }
   };
@@ -391,13 +412,13 @@ export class FillProfileContainer extends Component {
 
   _handleSelectProvinceIdentification = provinceSelect => {
     this.setState({
-      issue_place: provinceSelect,
+      id_issue_place: provinceSelect,
     });
   };
 
   _getUserInfo = token => {
     const {getUserInfo} = this.props;
-    getUserInfo('full', token);
+    getUserInfo('full_detail', token);
   };
 
   _setUser = data => {
@@ -419,7 +440,7 @@ export class FillProfileContainer extends Component {
       bank_list: data.bank_list,
       bank_branch_list: data.bank_branch_list,
 
-      avatar: data.avatar,
+      avatar: API_HOSTNAME + data.avatar,
       sub_avatar_1: data.sub_avatar_list.sub_avatar_1,
       sub_avatar_2: data.sub_avatar_list.sub_avatar_2,
       sub_avatar_3: data.sub_avatar_list.sub_avatar_3,
@@ -442,13 +463,21 @@ export class FillProfileContainer extends Component {
       district_id_relative: data.user_relative_info.district_id_relative,
       address_relative: data.user_relative_info.address_relative,
       education_id: data.education.education_id,
-      education_degree_name: data.education.education_degree_name,
       education_major_name: data.education.education_major_name,
-      education_degree_images: data.education.education_degree_images,
       bank_id: data.user_bank_info.bank_id,
       branch_id: data.user_bank_info.branch_id,
       account_name: data.user_bank_info.account_name,
       number_account: data.user_bank_info.number_account,
+      id_number: data.identification_info.id_number,
+      id_issue_date: data.identification_info.id_issue_date,
+      id_issue_place: data.identification_info.id_issue_place,
+      id_front_image: data.identification_info.id_front_image,
+      id_behind_image: data.identification_info.id_behind_image,
+      education_degree_name: data.education.education_degree_name,
+      degree_image_front:
+        data.education.education_degree_images.degree_image_front,
+      degree_image_behind:
+        data.education.education_degree_images.degree_image_behind,
     });
   };
 
@@ -482,12 +511,14 @@ export class FillProfileContainer extends Component {
       branch_id,
       account_name,
       number_account,
-      number,
-      issue_date,
-      issue_place,
-      front_image_data,
-      behind_image_data,
-      education_degree_name,
+      id_number,
+      id_issue_date,
+      id_issue_place,
+      id_front_image_data,
+      id_behind_image_data,
+      education_education_degree_name,
+      degree_image_front_data,
+      degree_image_behind_data,
     } = this.state;
 
     if (
@@ -498,8 +529,8 @@ export class FillProfileContainer extends Component {
       isZero(height) ||
       isZero(weight)
     ) {
-      // showAlert('Vui lòng cung cấp đầy đủ các trường thông tin bắt buộc');
-      // return;
+      showAlert('Vui lòng cung cấp đầy đủ các trường thông tin bắt buộc');
+      return;
     }
     const params = {
       avatar: avatar_data,
@@ -529,20 +560,23 @@ export class FillProfileContainer extends Component {
       branch_id: branch_id,
       account_name: account_name,
       number_account: number_account,
-      number: number,
-      issue_date: issue_date,
-      issue_place: issue_place,
-      front_image: front_image_data,
-      behind_image: behind_image_data,
-      education_degree_name: education_degree_name,
+      id_number: id_number,
+      id_issue_date: id_issue_date,
+      id_issue_place: id_issue_place,
+      id_front_image: id_front_image_data,
+      id_behind_image: id_behind_image_data,
+      education_education_degree_name: education_education_degree_name,
+      degree_image_front: degree_image_front_data,
+      degree_image_behind: degree_image_behind_data,
       type: 'full_detail',
     };
     const params1 = {
       avatar: avatar_data,
       type: 'full_detail',
     };
+    console.log('linhnt param', params);
     if (token != '') {
-      doUpdateUserInfo(params1, token);
+      // doUpdateUserInfo(params1, token);
     }
   };
 
@@ -692,6 +726,9 @@ export class FillProfileContainer extends Component {
               issue_date={this.state.issue_date}
               front_image={this.state.front_image}
               behind_image={this.state.behind_image}
+              education_degree_name={this.education_degree_name}
+              degree_image_front={this.degree_image_front}
+              degree_image_behind={this.degree_image_behind}
               handleSelectBank={this._handleSelectBank}
               handleSelectBranch={this._handleSelectBranch}
               showPickerIdentification={this._showPickerIdentification}
@@ -699,7 +736,6 @@ export class FillProfileContainer extends Component {
                 this._handleSelectProvinceIdentification
               }
               handleOpenImage={this._handleOpenImage}
-              degreeName={this.state.degreeName}
               handleCloseImage={this._handleCloseImage}
             />
             <View style={styles.boxIndicatorFill} />

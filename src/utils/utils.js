@@ -10,6 +10,26 @@ export const dispatchScreen = (props, screen, params?) => {
   });
 };
 
+export const isEmpty = string => {
+  return string == '';
+};
+
+export const isZero = string => {
+  return string == 0;
+};
+
+export const convertPhone = text => {
+  let newText = '';
+  let numbers = '0123456789';
+
+  for (let i = 0; i < text.length; i++) {
+    if (numbers.indexOf(text[i]) > -1) {
+      newText = newText + text[i];
+    }
+  }
+  return newText;
+};
+
 export const showAlert = massage => {
   Alert.alert(
     'Thông báo',
@@ -136,12 +156,4 @@ export const getDistrictNameFromId = (id, list) => {
     }
   }
   return name;
-};
-
-export const isEmpty = string => {
-  return string == '';
-};
-
-export const isZero = string => {
-  return string == 0;
 };

@@ -24,7 +24,9 @@ import {SCREEN_CREATE_ACCOUNT, SCREEN_SEARCH} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {changeMsgCode, getJobs} from '../actions/index';
+import { getJobs} from '../actions/index';
+import {changeMsgCode} from '../../../api/helpers';
+
 const dimensions = Dimensions.get('window');
 
 class HomeContainer extends Component {

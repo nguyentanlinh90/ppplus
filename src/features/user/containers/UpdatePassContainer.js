@@ -13,7 +13,7 @@ import UpdatePassForm from '../components/UpdatePassForm';
 import {doUpdateUserInfo} from '../actions/index';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
-import {changeMsgCode} from '../../home/actions/index';
+import {changeMsgCode} from '../../../api/helpers';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_LOGIN} from '../../../api/screen';
@@ -30,7 +30,7 @@ export class UpdatePassContainer extends Component {
       new_password: 'Lin123@',
       new_password_confirm: 'Lin123@',
       isConnecting: false,
-      isLoading:false,
+      isLoading: false,
     };
     this._handleUpdatePass = this._handleUpdatePass.bind(this);
     this._onChangeText = this._onChangeText.bind(this);
