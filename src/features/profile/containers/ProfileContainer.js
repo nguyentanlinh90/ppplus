@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {Rating} from 'react-native-ratings';
 import ProgressCircle from 'react-native-progress-circle';
+import Spinner from 'react-native-loading-spinner-overlay';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
 import {
@@ -24,24 +25,37 @@ import {
 import {dispatchScreen, setStoreData} from '../../../utils/utils';
 import {ACCESS_TOKEN} from '../../../utils/constants';
 import {doLogout} from '../../user/actions/index';
-import {changeMsgCode} from '../../../api/helpers';
 import * as types from '../../../api/types';
-
+import {isEmpty} from '../../../utils/utils';
+import {changeMsgCode} from '../../../api/helpers';
+import {getUserInfo} from '../../../features/user/actions';
 var token = '';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      percentage: 70,
-      name: 'Nguyễn Tấn Linh',
+      isLoading: true,
+      avatar: '',
+      percent_updated: 0,
+      rating: 0,
+      last_name: '',
+      first_name: '',
+      point_rewards: 0,
     };
     this._getToken();
-    this._handleLogout = this._handleLogout.bind(this);
   }
 
   async _getToken() {
     token = await AsyncStorage.getItem(ACCESS_TOKEN);
+    if (token && !isEmpty(token)) {
+      this._getUserInfo(token);
+    }
   }
+
+  _getUserInfo = token => {
+    const {getUserInfo} = this.props;
+    getUserInfo('basic_detail', token);
+  };
 
   refresh = data => {
     this.setState({name: data});
@@ -73,11 +87,30 @@ class ProfileContainer extends Component {
     doLogout(token);
   };
 
+  _setUser = data => {
+    this.setState({
+      avatar: data.avatar,
+      percent_updated: data.percent_updated,
+      rating: data.rating,
+      last_name: data.last_name,
+      first_name: data.first_name,
+      point_rewards: data.point_rewards,
+    });
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == types.LOGOUT_SUCCESS) {
+    if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
+      this.setState({isLoading: false});
+      this._setUser(nextProps.data);
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
+      showAlert(nextProps.message);
+      this.setState({isLoading: false});
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.LOGOUT_SUCCESS) {
       nextProps.changeMsgCode('');
       setStoreData(ACCESS_TOKEN, '');
-      this.props._gotoRetroScreen()
+      this.props._gotoRetroScreen();
     } else if (nextProps.msg_code == types.LOGOUT_FAIL) {
       showAlert(nextProps.message);
       nextProps.changeMsgCode('');
@@ -85,10 +118,16 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const {props, percentage, name} = this.props;
+    const {props} = this.props;
     return (
       <SafeAreaView style={{flex: 1}}>
         <ScrollView>
+          <Spinner
+            visible={this.state.isLoading}
+            color={'white'}
+            size={'large'}
+            textStyle={{color: '#fff'}}
+          />
           <TouchableOpacity
             style={styles.viewEdit}
             activeOpacity={0.8}
@@ -105,7 +144,7 @@ class ProfileContainer extends Component {
           </TouchableOpacity>
           <View style={styles.viewCircleAvatar}>
             <ProgressCircle
-              percent={this.state.percentage}
+              percent={this.state.percent_updated}
               radius={58}
               borderWidth={3}
               color="#F0532D"
@@ -113,8 +152,7 @@ class ProfileContainer extends Component {
               bgColor="#fff"
             />
             <Image
-              resizeMode="contain"
-              source={{uri: 'http://via.placeholder.com/150x150'}}
+              source={{uri: this.state.avatar}}
               style={styles.circleAvatar}
             />
           </View>
@@ -125,15 +163,19 @@ class ProfileContainer extends Component {
             ratingBackgroundColor="#d8d8d8"
             ratingCount={5}
             imageSize={20}
-            startingValue={3.6}
+            startingValue={this.state.rating}
             style={{paddingVertical: 5}}
             tintColor="#fff"
           />
-          <Text style={styles.name}>{this.state.name}</Text>
+          <Text style={styles.name}>
+            {this.state.last_name + ' ' + this.state.first_name}
+          </Text>
           <View style={styles.viewReward}>
             <View style={styles.boxReward}>
               <Text style={styles.boxRewardTextReward}>Điểm thưởng </Text>
-              <Text style={styles.boxRewardTextPoint}>3,480</Text>
+              <Text style={styles.boxRewardTextPoint}>
+                {this.state.point_rewards}
+              </Text>
             </View>
           </View>
           <View style={{backgroundColor: '#d8d8d8', height: 5}} />
@@ -245,9 +287,11 @@ function mapStateToProps(state) {
   return {
     msg_code: state.user.msg_code,
     message: state.user.message,
+    data: state.user.data,
   };
 }
 export default connect(mapStateToProps, {
+  getUserInfo,
   doLogout,
   changeMsgCode,
 })(ProfileContainer);

@@ -71,15 +71,15 @@ export default class FormAccountIdentifier extends Component {
       bank_branch_list_follow_bank,
 
       bank_id,
-      branch_id,
-      account_name,
-      number_account,
+      bank_branch_id,
+      bank_account_name,
+      bank_account_number,
       id_number,
       id_issue_place,
       id_issue_date,
       id_front_image,
       id_behind_image,
-      education_degree_name,
+      degree_name,
       degree_image_front,
       degree_image_behind,
 
@@ -90,7 +90,6 @@ export default class FormAccountIdentifier extends Component {
       handleOpenImage,
       handleCloseImage,
     } = this.props;
-
     return (
       <Collapse
         isCollapsed={this.state.isCollapsed}
@@ -160,10 +159,10 @@ export default class FormAccountIdentifier extends Component {
                     }
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowBranch || !isEmpty(branch_id),
+                    this.state.isShowBranch || !isEmpty(bank_branch_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
-                    {getNameFromId(branch_id, bank_branch_list_follow_bank)}
+                    {getNameFromId(bank_branch_id, bank_branch_list_follow_bank)}
                   </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
@@ -193,21 +192,21 @@ export default class FormAccountIdentifier extends Component {
               </View>
             </View>
             <TextInput
-              style={[txtInputStyle(account_name), {marginBottom: 10}]}
+              style={[txtInputStyle(bank_account_name), {marginBottom: 10}]}
               returnKeyType="done"
-              value={account_name}
-              name="account_name"
+              value={bank_account_name}
+              name="bank_account_name"
               placeholder="Tên chủ tài khoản"
-              onChangeText={text => onChangeText(text, 'account_name')}
+              onChangeText={text => onChangeText(text, 'bank_account_name')}
             />
             <TextInput
-              style={[txtInputStyle(number_account), {marginBottom: 10}]}
+              style={[txtInputStyle(bank_account_number), {marginBottom: 10}]}
               returnKeyType="done"
-              value={number_account}
-              name="number_account"
+              value={bank_account_number}
+              name="bank_account_number"
               placeholder="Số tài khoản"
               keyboardType="numeric"
-              onChangeText={text => onChangeText(text, 'number_account')}
+              onChangeText={text => onChangeText(text, 'bank_account_number')}
             />
             <Text style={styles.txtTitleBasicInfo}>
               Xác nhận thông tin cá nhân
@@ -226,8 +225,10 @@ export default class FormAccountIdentifier extends Component {
               <Text style={styles.txtTitleBasicInfo}>Ngày cấp: </Text>
               <TouchableOpacity
                 onPress={() => showPickerIdentification()}
-                style={boxSelectStyle(!id_issue_date.includes(text_select))}>
-                <Text style={txtInBoxSelectStyle()}>{id_issue_date}</Text>
+                style={boxSelectStyle(!isEmpty(id_issue_date))}>
+                <Text style={txtInBoxSelectStyle()}>
+                  {isEmpty(id_issue_date) ? text_select : id_issue_date}
+                </Text>
                 <ArrowUpDown />
               </TouchableOpacity>
             </View>
@@ -330,12 +331,12 @@ export default class FormAccountIdentifier extends Component {
             </View>
             <Text style={styles.txtTitleBasicInfo}>Bằng cấp</Text>
             <TextInput
-              style={[txtInputStyle(education_degree_name), {marginBottom: 10}]}
+              style={[txtInputStyle(degree_name), {marginBottom: 10}]}
               returnKeyType="done"
-              value={education_degree_name}
-              name="education_degree_name"
+              value={degree_name}
+              name="degree_name"
               placeholder="Nhập tên bằng cấp"
-              onChangeText={text => onChangeText(text, 'education_degree_name')}
+              onChangeText={text => onChangeText(text, 'degree_name')}
             />
             <View style={styles.boxID}>
               <View style={{flex: 1, marginEnd: 10}}>

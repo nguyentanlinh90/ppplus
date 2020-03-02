@@ -17,12 +17,16 @@ export default class FormImageProfile extends Component {
     );
   };
 
+  _onError(error) {
+    this.setState({image: require('../../../assets/images/broken-image.png')});
+  }
   _renderImageOpen = (url, type) => {
     return (
       <View style={styles.boxShowImage}>
         <Image
           resizeMode="stretch"
           source={{uri: url}}
+          onError={this._onError.bind(this)}
           style={styles.imageLoad}
         />
         <TouchableOpacity

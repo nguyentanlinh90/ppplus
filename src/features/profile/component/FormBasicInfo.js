@@ -14,17 +14,14 @@ import ArrowDown from '../../../components/ArrowDown';
 import styles from '../styles/styles';
 import {text_select} from '../../../utils/constants';
 import {
+  boxSelectStyle,
+  txtInBoxSelectStyle,
+  txtInputStyle,
   getNamesFromIds,
   checkIdInIds,
   getNameFromId,
   isEmpty,
   isZero,
-} from '../../../utils/utils';
-
-import {
-  boxSelectStyle,
-  txtInBoxSelectStyle,
-  txtInputStyle,
 } from '../../../utils/utils';
 
 export default class FormBasicInfo extends Component {
@@ -116,8 +113,11 @@ export default class FormBasicInfo extends Component {
                 </Text>
                 <TouchableOpacity
                   onPress={() => showPicker()}
-                  style={boxSelectStyle(!birthday.includes(text_select))}>
-                  <Text style={txtInBoxSelectStyle()}>{birthday}</Text>
+                  style={boxSelectStyle(!isEmpty(birthday))}>
+                  <Text style={txtInBoxSelectStyle()}>
+                    {' '}
+                    {isEmpty(birthday) ? text_select : birthday}
+                  </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
               </View>
@@ -135,6 +135,7 @@ export default class FormBasicInfo extends Component {
                 </TouchableOpacity>
                 {this.state.isShowListGender ? (
                   <FlatList
+                    style={styles.viewSelectGender}
                     data={gender_list}
                     renderItem={({item: rowData}) => {
                       return (

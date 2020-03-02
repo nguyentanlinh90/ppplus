@@ -126,8 +126,10 @@ export const doLogout = token => async dispatch => {
 
 export const doUpdateUserInfo = (params, access_token) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'user_info_update');
+  console.log('linhnt param',path,  params);
 
   const {json} = await callPostApi(path, params, access_token);
+  console.log('linhnt json',json);
 
   if (
     typeof json !== types.UNDEFINED &&
@@ -146,7 +148,9 @@ export const doUpdateUserInfo = (params, access_token) => async dispatch => {
 
 export const getUserInfo = (type, token) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'get_user_info') + type;
+
   const {json} = await callGetApi(path, token);
+
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS

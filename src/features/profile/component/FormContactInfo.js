@@ -69,15 +69,16 @@ export default class FormContactInfo extends Component {
       province_id,
       district_id,
       address,
-      name_relative,
-      phone_relative,
-      province_id_relative,
-      district_id_relative,
-      address_relative,
+      relative_name,
+      relative_phone,
+      relative_province_id,
+      relative_district_id,
+      relative_address,
 
       handleSelectProvince,
       handleSelectDistrict,
     } = this.props;
+    
     return (
       <Collapse
         isCollapsed={this.state.isCollapsed}
@@ -197,21 +198,21 @@ export default class FormContactInfo extends Component {
               Liên hệ trong trường hợp khẩn cấp*
             </Text>
             <TextInput
-              style={[txtInputStyle(name_relative), {marginBottom: 10}]}
+              style={[txtInputStyle(relative_name), {marginBottom: 10}]}
               returnKeyType="done"
-              value={name_relative}
-              name="name_relative"
+              value={relative_name}
+              name="relative_name"
               placeholder="Nhập tên người thân"
-              onChangeText={text => onChangeText(text, 'name_relative')}
+              onChangeText={text => onChangeText(text, 'relative_name')}
             />
             <TextInput
-              style={[txtInputStyle(phone_relative), {marginBottom: 10}]}
+              style={[txtInputStyle(relative_phone), {marginBottom: 10}]}
               returnKeyType="done"
               keyboardType="phone-pad"
-              value={phone_relative}
-              name="phone_relative"
+              value={relative_phone}
+              name="relative_phone"
               placeholder="Nhập số điện thoại người thân"
-              onChangeText={text => onChangeText(text, 'phone_relative')}
+              onChangeText={text => onChangeText(text, 'relative_phone')}
             />
             <View
               style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
@@ -226,10 +227,10 @@ export default class FormContactInfo extends Component {
                   }}
                   style={boxSelectStyle(
                     this.state.isShowProvinceRelative ||
-                      !isEmpty(province_id_relative),
+                      !isEmpty(relative_province_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
-                    {getNameFromId(province_id_relative, province_list)}
+                    {getNameFromId(relative_province_id, province_list)}
                   </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
@@ -265,7 +266,7 @@ export default class FormContactInfo extends Component {
                 <TouchableOpacity
                   onPress={() => {
                     if (
-                      getNameFromId(province_id_relative, province_list) ==
+                      getNameFromId(relative_province_id, province_list) ==
                       text_select
                     ) {
                       showAlert('Bạn chưa chọn Tỉnh / Thành Phố');
@@ -275,11 +276,11 @@ export default class FormContactInfo extends Component {
                   }}
                   style={boxSelectStyle(
                     this.state.isShowDistrictRelative ||
-                      !isEmpty(district_id_relative),
+                      !isEmpty(relative_district_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getDistrictNameFromId(
-                      district_id_relative,
+                      relative_district_id,
                       district_list_follow_province_relative,
                     )}
                   </Text>
@@ -311,12 +312,12 @@ export default class FormContactInfo extends Component {
               </View>
             </View>
             <TextInput
-              style={txtInputStyle(address_relative)}
+              style={txtInputStyle(relative_address)}
               returnKeyType="done"
-              value={address_relative}
-              name="address_relative"
+              value={relative_address}
+              name="relative_address"
               placeholder="Nhập số nhà và tên đường người thân"
-              onChangeText={text => onChangeText(text, 'address_relative')}
+              onChangeText={text => onChangeText(text, 'relative_address')}
             />
           </View>
         </CollapseBody>

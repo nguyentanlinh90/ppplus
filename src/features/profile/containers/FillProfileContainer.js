@@ -55,7 +55,6 @@ import {
   IMAGE_DEGREE_BEHIND,
 } from '../../../utils/constants';
 var token = '';
-import {API_HOSTNAME} from '../../../api/constants';
 export class FillProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -89,7 +88,7 @@ export class FillProfileContainer extends Component {
 
       last_name: '',
       first_name: '',
-      birthday: text_select,
+      birthday: '',
       gender: 0,
       height: 0,
       weight: 0,
@@ -98,25 +97,25 @@ export class FillProfileContainer extends Component {
       province_id: '',
       district_id: '',
       address: '',
-      name_relative: '',
-      phone_relative: '',
-      province_id_relative: '',
-      district_id_relative: '',
-      address_relative: '',
+      relative_name: '',
+      relative_phone: '',
+      relative_province_id: '',
+      relative_district_id: '',
+      relative_address: '',
       education_id: '',
       education_major_name: '',
       bank_id: '',
-      branch_id: '',
-      account_name: '',
-      number_account: '',
+      bank_branch_id: '',
+      bank_account_name: '',
+      bank_account_number: '',
       id_number: '',
-      id_issue_date: text_select,
+      id_issue_date: '',
       id_issue_place: '',
       id_front_image: '',
       id_front_image_data: '',
       id_behind_image: '',
       id_behind_image_data: '',
-      education_degree_name: '',
+      degree_name: '',
       degree_image_front: '',
       degree_image_front_data: '',
       degree_image_behind: '',
@@ -143,22 +142,22 @@ export class FillProfileContainer extends Component {
       this.setState({weight: text});
     } else if (type == 'address') {
       this.setState({address: text});
-    } else if (type == 'name_relative') {
-      this.setState({name_relative: text});
-    } else if (type == 'phone_relative') {
-      this.setState({phone_relative: text});
-    } else if (type == 'address_relative') {
-      this.setState({address_relative: text});
+    } else if (type == 'relative_name') {
+      this.setState({relative_name: text});
+    } else if (type == 'relative_phone') {
+      this.setState({relative_phone: text});
+    } else if (type == 'relative_address') {
+      this.setState({relative_address: text});
     } else if (type == 'education_major_name') {
       this.setState({education_major_name: text});
-    } else if (type == 'account_name') {
-      this.setState({account_name: text});
-    } else if (type == 'number_account') {
-      this.setState({number_account: text});
+    } else if (type == 'bank_account_name') {
+      this.setState({bank_account_name: text});
+    } else if (type == 'bank_account_number') {
+      this.setState({bank_account_number: text});
     } else if (type == 'id_number') {
       this.setState({id_number: text});
-    } else if (type == 'education_degree_name') {
-      this.setState({education_degree_name: text});
+    } else if (type == 'degree_name') {
+      this.setState({degree_name: text});
     }
   };
 
@@ -182,7 +181,6 @@ export class FillProfileContainer extends Component {
       } else if (response.customButton) {
       } else {
         if (numberOfImage == IMAGE_AVATAR) {
-          console.log('linhnt response', response);
           this.setState({
             avatar: response.uri,
             avatar_data: response.data,
@@ -285,12 +283,17 @@ export class FillProfileContainer extends Component {
   };
 
   _handleDatePicked = date => {
-    const dateFormat = moment(date).format('DD-MM-YYYY');
+    const dateFormat = moment(date).format('DD/MM/YYYY');
     this.setState({birthday: dateFormat});
     this._hidePicker();
   };
 
   _renderBirthdayPicker() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const c = new Date(year - 18, month, day);
     return (
       <DateTimePicker
         isVisible={this.state.isShowBirthday}
@@ -299,7 +302,7 @@ export class FillProfileContainer extends Component {
         mode="date"
         locale="vi"
         minimumDate={new Date('01/01/1950')}
-        maximumDate={new Date()}
+        maximumDate={c}
         titleIOS="Chọn ngày sinh"
         confirmTextIOS="Xác nhận"
         cancelTextIOS="Huỷ"
@@ -315,8 +318,8 @@ export class FillProfileContainer extends Component {
   };
 
   _handleDatePickedIdentification = date => {
-    const dateFormat = moment(date).format('DD-MM-YYYY');
-    this.setState({issue_date: dateFormat});
+    const dateFormat = moment(date).format('DD/MM/YYYY');
+    this.setState({id_issue_date: dateFormat});
     this._hidePickerIdentification();
   };
 
@@ -350,7 +353,7 @@ export class FillProfileContainer extends Component {
       });
     } else {
       this.setState({
-        province_id_relative: provinceSelect,
+        relative_province_id: provinceSelect,
         district_list_follow_province_relative: district_list[provinceSelect],
       });
     }
@@ -360,7 +363,7 @@ export class FillProfileContainer extends Component {
     if (isUser) {
       this.setState({district_id: districtSelect});
     } else {
-      this.setState({district_id_relative: districtSelect});
+      this.setState({relative_district_id: districtSelect});
     }
   };
 
@@ -407,7 +410,7 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectBranch = branchSelect => {
-    this.setState({branch_id: branchSelect});
+    this.setState({bank_branch_id: branchSelect});
   };
 
   _handleSelectProvinceIdentification = provinceSelect => {
@@ -422,7 +425,7 @@ export class FillProfileContainer extends Component {
   };
 
   _setUser = data => {
-    var province_id_relative = data.user_relative_info.province_id_relative;
+    var relative_province_id = data.user_relative_info.relative_province_id;
     var province_id = data.address.province_id;
 
     this.setState({
@@ -432,15 +435,15 @@ export class FillProfileContainer extends Component {
       district_list_follow_province:
         province_id == '' ? [] : data.district_list[province_id],
       district_list_follow_province_relative:
-        province_id_relative == ''
+        relative_province_id == ''
           ? []
-          : data.district_list[province_id_relative],
+          : data.district_list[relative_province_id],
       major_list: data.major_list,
       education_list: data.education_list,
       bank_list: data.bank_list,
       bank_branch_list: data.bank_branch_list,
 
-      avatar: API_HOSTNAME + data.avatar,
+      avatar: data.avatar,
       sub_avatar_1: data.sub_avatar_list.sub_avatar_1,
       sub_avatar_2: data.sub_avatar_list.sub_avatar_2,
       sub_avatar_3: data.sub_avatar_list.sub_avatar_3,
@@ -457,27 +460,25 @@ export class FillProfileContainer extends Component {
       province_id: data.address.province_id,
       district_id: data.address.district_id,
       address: data.address.address,
-      name_relative: data.user_relative_info.name_relative,
-      phone_relative: data.user_relative_info.phone_relative,
-      province_id_relative: data.user_relative_info.province_id_relative,
-      district_id_relative: data.user_relative_info.district_id_relative,
-      address_relative: data.user_relative_info.address_relative,
+      relative_name: data.user_relative_info.relative_name,
+      relative_phone: data.user_relative_info.relative_phone,
+      relative_province_id: data.user_relative_info.relative_province_id,
+      relative_district_id: data.user_relative_info.relative_district_id,
+      relative_address: data.user_relative_info.relative_address,
       education_id: data.education.education_id,
       education_major_name: data.education.education_major_name,
       bank_id: data.user_bank_info.bank_id,
-      branch_id: data.user_bank_info.branch_id,
-      account_name: data.user_bank_info.account_name,
-      number_account: data.user_bank_info.number_account,
+      bank_branch_id: data.user_bank_info.bank_branch_id,
+      bank_account_name: data.user_bank_info.bank_account_name,
+      bank_account_number: data.user_bank_info.bank_account_number,
       id_number: data.identification_info.id_number,
       id_issue_date: data.identification_info.id_issue_date,
       id_issue_place: data.identification_info.id_issue_place,
       id_front_image: data.identification_info.id_front_image,
       id_behind_image: data.identification_info.id_behind_image,
-      education_degree_name: data.education.education_degree_name,
-      degree_image_front:
-        data.education.education_degree_images.degree_image_front,
-      degree_image_behind:
-        data.education.education_degree_images.degree_image_behind,
+      degree_name: data.education.degree_name,
+      degree_image_front: data.education.degree_images.degree_image_front,
+      degree_image_behind: data.education.degree_images.degree_image_behind,
     });
   };
 
@@ -500,23 +501,23 @@ export class FillProfileContainer extends Component {
       province_id,
       district_id,
       address,
-      name_relative,
-      phone_relative,
-      province_id_relative,
-      district_id_relative,
-      address_relative,
+      relative_name,
+      relative_phone,
+      relative_province_id,
+      relative_district_id,
+      relative_address,
       education_id,
       education_major_name,
       bank_id,
-      branch_id,
-      account_name,
-      number_account,
+      bank_branch_id,
+      bank_account_name,
+      bank_account_number,
       id_number,
       id_issue_date,
       id_issue_place,
       id_front_image_data,
       id_behind_image_data,
-      education_education_degree_name,
+      degree_name,
       degree_image_front_data,
       degree_image_behind_data,
     } = this.state;
@@ -527,7 +528,12 @@ export class FillProfileContainer extends Component {
       isEmpty(birthday) ||
       isZero(gender) ||
       isZero(height) ||
-      isZero(weight)
+      isZero(weight) ||
+      isEmpty(province_id) ||
+      isEmpty(district_id) ||
+      isEmpty(address) ||
+      isEmpty(relative_name) ||
+      isEmpty(relative_phone)
     ) {
       showAlert('Vui lòng cung cấp đầy đủ các trường thông tin bắt buộc');
       return;
@@ -549,34 +555,30 @@ export class FillProfileContainer extends Component {
       province_id: province_id,
       district_id: district_id,
       address: address,
-      name_relative: name_relative,
-      phone_relative: phone_relative,
-      province_id_relative: province_id_relative,
-      district_id_relative: district_id_relative,
-      address_relative: address_relative,
+      relative_name: relative_name,
+      relative_phone: relative_phone,
+      relative_province_id: relative_province_id,
+      relative_district_id: relative_district_id,
+      relative_address: relative_address,
       education_id: education_id,
       education_major_name: education_major_name,
       bank_id: bank_id,
-      branch_id: branch_id,
-      account_name: account_name,
-      number_account: number_account,
+      bank_branch_id: bank_branch_id,
+      bank_account_name: bank_account_name,
+      bank_account_number: bank_account_number,
       id_number: id_number,
       id_issue_date: id_issue_date,
       id_issue_place: id_issue_place,
       id_front_image: id_front_image_data,
       id_behind_image: id_behind_image_data,
-      education_education_degree_name: education_education_degree_name,
+      degree_name: degree_name,
       degree_image_front: degree_image_front_data,
       degree_image_behind: degree_image_behind_data,
       type: 'full_detail',
     };
-    const params1 = {
-      avatar: avatar_data,
-      type: 'full_detail',
-    };
-    console.log('linhnt param', params);
+
     if (token != '') {
-      // doUpdateUserInfo(params1, token);
+      doUpdateUserInfo(params, token);
     }
   };
 
@@ -592,14 +594,14 @@ export class FillProfileContainer extends Component {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
-      console.log('linhnt nextProps UPDATE_USER_INFO_SUCCESS');
+      showAlert('Cập nhật thông tin thành công');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
-      console.log('linhnt nextProps UPDATE_USER_INFO_FAIL');
+      showAlert('Cập nhật thông tin thất bại');
     }
   }
 
   render() {
-    const {percent_updated, name, user} = this.props;
+    const {navigation, percent_updated, name, user} = this.props;
     return (
       <KeyboardShift>
         {() => (
@@ -612,16 +614,28 @@ export class FillProfileContainer extends Component {
             />
             {this._renderBirthdayPicker()}
             {this._renderIdentificationPicker()}
+            <View style={styles.viewTop}>
+              <View style={{flex: 1}}>
+                <TouchableOpacity
+                  style={styles.viewBack}
+                  onPress={() => {
+                    // navigation.state.params.onGoBack('Linh');
+                    // navigation.goBack();
+                  }}>
+                  <Image
+                    source={require('../../../assets/images/ic-back-1.png')}
+                  />
+                </TouchableOpacity>
+              </View>
 
-            <TouchableOpacity
-              style={styles.viewEdit}
-              onPress={() => {
-                this._handleUpdateFullInfo();
-                // this.props.navigation.state.params.onGoBack('Linh Nguyen');
-                // this.props.navigation.goBack();
-              }}>
-              <Text style={styles.txtSave}>Lưu</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this._handleUpdateFullInfo();
+                }}>
+                <Text style={styles.txtSave}>Lưu</Text>
+              </TouchableOpacity>
+            </View>
+
             <View style={styles.viewCircleAvatar}>
               <ProgressCircle
                 percent={this.state.percent_updated}
@@ -691,11 +705,11 @@ export class FillProfileContainer extends Component {
               province_id={this.state.province_id}
               district_id={this.state.district_id}
               address={this.state.address}
-              name_relative={this.state.name_relative}
-              phone_relative={this.state.phone_relative}
-              province_id_relative={this.state.province_id_relative}
-              district_id_relative={this.state.district_id_relative}
-              address_relative={this.state.address_relative}
+              relative_name={this.state.relative_name}
+              relative_phone={this.state.relative_phone}
+              relative_province_id={this.state.relative_province_id}
+              relative_district_id={this.state.relative_district_id}
+              relative_address={this.state.relative_address}
               //
               handleSelectProvince={this._handleSelectProvince}
               handleSelectDistrict={this._handleSelectDistrict}
@@ -718,17 +732,17 @@ export class FillProfileContainer extends Component {
               }
               province_list={this.state.province_list}
               bank_id={this.state.bank_id}
-              branch_id={this.state.branch_id}
-              account_name={this.state.account_name}
-              number_account={this.state.number_account}
+              bank_branch_id={this.state.bank_branch_id}
+              bank_account_name={this.state.bank_account_name}
+              bank_account_number={this.state.bank_account_number}
               number={this.state.number}
-              issue_place={this.state.issue_place}
-              issue_date={this.state.issue_date}
-              front_image={this.state.front_image}
-              behind_image={this.state.behind_image}
-              education_degree_name={this.education_degree_name}
-              degree_image_front={this.degree_image_front}
-              degree_image_behind={this.degree_image_behind}
+              id_issue_place={this.state.id_issue_place}
+              id_issue_date={this.state.id_issue_date}
+              id_front_image={this.state.id_front_image}
+              id_behind_image={this.state.id_behind_image}
+              degree_name={this.state.degree_name}
+              degree_image_front={this.state.degree_image_front}
+              degree_image_behind={this.state.degree_image_behind}
               handleSelectBank={this._handleSelectBank}
               handleSelectBranch={this._handleSelectBranch}
               showPickerIdentification={this._showPickerIdentification}

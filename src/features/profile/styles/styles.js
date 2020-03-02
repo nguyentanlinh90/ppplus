@@ -11,6 +11,9 @@ export default StyleSheet.create({
   },
   viewEdit: {
     alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    alignContent: 'flex-end',
   },
   viewCircleAvatar: {
     alignItems: 'center',
@@ -76,11 +79,24 @@ export default StyleSheet.create({
   },
   boxItemTitle: {color: '#1c1c1c', fontSize: 16, marginStart: 10},
   boxItemIndicator: {backgroundColor: '#d8d8d8', height: 1, marginStart: 14},
+  viewTop: {
+    height: 60,
+    flexDirection: 'row',
+  },
   txtSave: {
+    width: 100,
+    height: 60,
     color: '#F0532D',
     fontSize: 18,
     fontWeight: 'bold',
-    padding: 16,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  viewBack: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   boxAddImage: {
     width: 80,
