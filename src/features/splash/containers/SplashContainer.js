@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Image, AsyncStorage} from 'react-native';
 import {dispatchScreen} from '../../../utils/utils';
-import {ACCESS_TOKEN} from '../../../utils/constants';
+import {ACCESS_TOKEN, IS_UPDATE_BASIC} from '../../../utils/constants';
 import {
   SCREEN_INFO,
   SCREEN_MAIN,
@@ -10,6 +10,7 @@ import {
   SCREEN_LOGIN,
   SCREEN_FILL_PROFILE,
 } from '../../../api/screen';
+var token = '';
 class SplashContainer extends Component {
   constructor(props) {
     super(props);
@@ -21,16 +22,17 @@ class SplashContainer extends Component {
   }
 
   async checkLogin() {
-    var token = await AsyncStorage.getItem(ACCESS_TOKEN);
+    token = await AsyncStorage.getItem(ACCESS_TOKEN);
+    var is_update_basic = await AsyncStorage.getItem(IS_UPDATE_BASIC);
 
-    if (token && token != '') {
+    if (token && token != '' && is_update_basic == 1) {
       this.setState({isLogin: true});
     }
   }
   componentDidMount() {
     setTimeout(() => {
       if (this.state.isLogin) {
-        dispatchScreen(this.props, SCREEN_MAIN, {});
+        dispatchScreen(this.props, SCREEN_MAIN, {token});
       } else {
         dispatchScreen(this.props, SCREEN_RETRO, {});
       }

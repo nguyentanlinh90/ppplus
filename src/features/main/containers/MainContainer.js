@@ -14,7 +14,7 @@ import {SCREEN_START_JOB, SCREEN_RETRO} from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
 
 import styles from '../styles/styles';
-
+var token='';
 class MainContainer extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +25,7 @@ class MainContainer extends Component {
       messages: [],
       showJobAlert: false, //=true for phase 2
     };
+    token = this.props.navigation.state.params;
     this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
   }
 
@@ -132,7 +133,7 @@ class MainContainer extends Component {
             onPress={() => {
               this._openTab('home');
             }}>
-            <Home props={this.props} />
+            <Home props={this.props, token} />
           </TabNavigator.Item>
 
           <TabNavigator.Item

@@ -1,25 +1,27 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Text} from 'react-native';
-import {Card} from 'react-native-shadow-cards';
+import {View, TouchableOpacity, Text} from 'react-native';
 
 export default class ButtonSeeMore extends Component {
   render() {
     const {isSeeMore, handlePress} = this.props;
     return (
       <TouchableOpacity onPress={() => handlePress()}>
-        <Card
+        <View
           style={{
-            width: '100%',
+            borderColor: '#fa6400',
             height: 44,
+            borderWidth: 1,
+            borderRadius: 6,
             justifyContent: 'center',
             alignItems: 'center',
-          }}
-          elevation={1}
-          opacity={0.5}>
-          <Text style={{color: '#ababab', fontSize: 14, fontWeight: '600'}}>
+            marginBottom: 20,
+            marginStart: 20,
+            marginEnd: 20,
+          }}>
+          <Text style={{color: '#fa6400', fontSize: 16, fontWeight: 'bold'}}>
             {isSeeMore ? 'Thu Gọn' : 'Xem thêm'}
           </Text>
-        </Card>
+        </View>
       </TouchableOpacity>
     );
   }

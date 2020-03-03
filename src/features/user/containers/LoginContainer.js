@@ -23,8 +23,8 @@ import {
   SCREEN_INFO,
 } from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
-import {ACCESS_TOKEN} from '../../../utils/constants';
-import {convertPhone, showAlert} from '../../../utils/utils';
+import {ACCESS_TOKEN, IS_UPDATE_BASIC} from '../../../utils/constants';
+import {convertPhone, showAlert, setStoreData} from '../../../utils/utils';
 import * as types from '../../../api/types';
 var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
 export class LoginContainer extends Component {
@@ -136,6 +136,7 @@ export class LoginContainer extends Component {
     } else if (nextProps.msg_code == types.LOGIN_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
+      setStoreData(IS_UPDATE_BASIC, nextProps.data.is_updated_basic);
 
       if (nextProps.data.is_updated_basic == 1) {
         // 1: User has updated basic info, 0: not yet

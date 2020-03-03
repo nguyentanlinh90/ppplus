@@ -57,8 +57,12 @@ class ProfileContainer extends Component {
     getUserInfo('basic_detail', token);
   };
 
-  refresh = data => {
-    this.setState({name: data});
+  refresh = (avatar, last_name, first_name) => {
+    this.setState({
+      avatar: avatar,
+      last_name: last_name,
+      first_name: first_name,
+    });
   };
 
   _showAlert = () => {
@@ -99,11 +103,11 @@ class ProfileContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
+    if (nextProps.msg_code == types.GET_USER_BASIC_INFO_SUCCESS) {
       this.setState({isLoading: false});
       this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
+    } else if (nextProps.msg_code == types.GET_USER_BASIC_INFO_FAIL) {
       showAlert(nextProps.message);
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
@@ -133,7 +137,8 @@ class ProfileContainer extends Component {
             activeOpacity={0.8}
             onPress={() => {
               props.navigation.navigate(SCREEN_FILL_PROFILE, {
-                onGoBack: data => this.refresh(data),
+                onGoBack: (avatar, last_name, first_name) =>
+                  this.refresh(avatar, last_name, first_name),
               });
             }}>
             <Image

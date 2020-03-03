@@ -27,8 +27,8 @@ export class UpdatePassContainer extends Component {
     this.state = {
       phone: this.props.navigation.state.params[0],
       access_token: this.props.navigation.state.params[1],
-      new_password: 'Lin123@',
-      new_password_confirm: 'Lin123@',
+      new_password: '',
+      new_password_confirm: '',
       isConnecting: false,
       isLoading: false,
     };

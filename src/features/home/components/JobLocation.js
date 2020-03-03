@@ -12,8 +12,12 @@ export default class JobLocation extends Component {
   render() {
     const {handlePress, city, district} = this.props;
     return (
-      <View style={{padding: 16, backgroundColor:'#fff'}}>
+      <View style={{padding: 16, backgroundColor: '#fff'}}>
         <Text style={styles.txtJobDetailTitle}>ĐỊA ĐIỂM LÀM VIỆC</Text>
+        <Text style={{fontSize: 16, color: '#1c1c1c', marginBottom: 10}}>
+          Chọn địa điểm và thời gian làm việc mong muốn
+        </Text>
+
         <TouchableOpacity
           onPress={() => {}}
           style={{marginStart: 16, marginEnd: 16, marginBottom: 16}}>

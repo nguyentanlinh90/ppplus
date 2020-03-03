@@ -28,5 +28,9 @@ export const version = {
       version: 1,
       path: '/api/user/info/?type=',
     },
+    get_jobs: {
+      version: 1,
+      path: '/api/job',
+    },
   },
 };

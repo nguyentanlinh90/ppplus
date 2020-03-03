@@ -89,7 +89,6 @@ export const doLogin = (phone, password) => async dispatch => {
     phone: phone,
     password: password,
   };
-
   const {json} = await callPostApi(path, params, '');
   if (
     typeof json !== types.UNDEFINED &&
@@ -126,11 +125,7 @@ export const doLogout = token => async dispatch => {
 
 export const doUpdateUserInfo = (params, access_token) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'user_info_update');
-  console.log('linhnt param',path,  params);
-
   const {json} = await callPostApi(path, params, access_token);
-  console.log('linhnt json',json);
-
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -155,14 +150,33 @@ export const getUserInfo = (type, token) => async dispatch => {
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
   ) {
-    await dispatch(fetchDataSuccess(types.GET_USER_INFO_SUCCESS, json.data));
-    await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_USER_INFO_SUCCESS),
-    );
+    if (type == 'full_detail') {
+      await dispatch(fetchDataSuccess(types.GET_USER_INFO_SUCCESS, json.data));
+      await dispatch(
+        fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_USER_INFO_SUCCESS),
+      );
+    } else {
+      await dispatch(
+        fetchDataSuccess(types.GET_USER_BASIC_INFO_SUCCESS, json.data),
+      );
+      await dispatch(
+        fetchDataSuccess(
+          types.CHANGE_MSG_CODE,
+          types.GET_USER_BASIC_INFO_SUCCESS,
+        ),
+      );
+    }
   } else {
     await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
-    await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_USER_INFO_SUCCESS),
-    );
+
+    if (type == 'full_detail') {
+      await dispatch(
+        fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_USER_INFO_FAIL),
+      );
+    } else {
+      await dispatch(
+        fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_USER_BASIC_INFO_FAIL),
+      );
+    }
   }
 };

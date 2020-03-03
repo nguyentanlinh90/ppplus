@@ -12,6 +12,7 @@ import {
 import {Rating} from 'react-native-ratings';
 import CheckBox from 'react-native-check-box';
 import moment from 'moment';
+import Stars from 'react-native-stars';
 import styles from '../styles/styles';
 import JobFollowLocationItem from '../components/JobFollowLocationItem';
 import BookmarkChecked from '../../../components/BookmarkChecked';
@@ -70,24 +71,7 @@ export default class JobHotDetailContainer extends Component {
   };
 
   render() {
-    const {item, data, submit} = this.props;
-    if (this.state.listLocation.length == 0) {
-      for (let i = 0; i < data.length; i++) {
-        const itemLocation = data[i].location;
-        const itemValue = data[i].id;
-        const obj = {label: itemLocation, value: itemValue};
-        this.state.listLocation.push(obj);
-      }
-    }
-    let titleLocation = '';
-    if (this.state.itemId != -1) {
-      for (let i = 0; i < data.length; i++) {
-        if (this.state.itemId == data[i].id) {
-          titleLocation = data[i].location;
-          break;
-        }
-      }
-    }
+    const {item, submit} = this.props;
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -113,7 +97,7 @@ export default class JobHotDetailContainer extends Component {
             <View style={styles.jobDetailTopInfo}>
               <View style={{flexDirection: 'row', marginBottom: 5}}>
                 <Text style={{flex: 1, fontSize: 18, fontWeight: 'bold'}}>
-                  {item.jobTitle}
+                  {item.name}
                 </Text>
                 <CheckBox
                   onClick={() => {
@@ -124,16 +108,19 @@ export default class JobHotDetailContainer extends Component {
                   unCheckedImage={<BookmarkUnChecked />}
                 />
               </View>
-              <Rating
-                readonly={true}
-                type="custom"
-                ratingColor="#FEBE10"
-                ratingBackgroundColor="#d8d8d8"
-                ratingCount={5}
-                imageSize={18}
-                startingValue={item.rating}
-                tintColor="#fff"
-              />
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{color: '#6D7278', fontSize: 13, marginEnd: 5}}>
+                  Độ khó
+                </Text>
+                <Stars
+                  rating={3}
+                  spacing={1}
+                  starSize={16}
+                  count={5}
+                  fullStar={require('../../../assets/images/ic-thunder-red.png')}
+                  emptyStar={require('../../../assets/images/ic-thunder-gray.png')}
+                />
+              </View>
             </View>
           </View>
           <JobInfo />

@@ -203,4 +203,63 @@ export default StyleSheet.create({
   },
   txtJobDetailContent: {color: '#1c1c1c', fontSize: 16, lineHeight: 25},
   viewJobDetailItem: {padding: 16},
+  hotItemTopRight: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginStart: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  hotItemLogo: {
+    width: 44,
+    height: 44,
+    borderRadius: 6,
+  },
+  hotItemCompanyName: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1c1c1c',
+    paddingEnd: 5,
+  },
+  itemViewTrending: {
+    borderRadius: 30,
+    fontSize: 12,
+  },
+  itemTextTrending: {
+    paddingStart: 10,
+    paddingBottom: 2,
+    paddingEnd: 10,
+    paddingTop: 2,
+    fontSize: 12,
+  },
+  hotItemTextDescription: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 5,
+    marginBottom: 5,
+    color: '#1c1c1c',
+  },
+  hotItemBoxContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  newItemViewRight: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginBottom: 5,
+    marginTop: 5,
+  },
+  newItemCompanyName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#060606',
+  },
+  newItemViewAddress: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
 });

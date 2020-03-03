@@ -18,7 +18,7 @@ export default class JobInfo extends Component {
       <View>
         {this.state.isSeeMore ? (
           <View style={styles.viewJobDetailItem}>
-            <Text style={styles.txtJobDetailTitle}>THÔNG TIN CÔNG VIỆC</Text>
+            <Text style={styles.txtJobDetailTitle}>THÔNG TIN CHI TIẾT</Text>
             <Text style={styles.txtJobDetailContent}>
               - Giới thiệu và quảng bá sản phẩm của công ty {'\n'}- Tư vấn và
               bán hàng ĐTDĐ OPPO {'\n'}- Ghi nhận thông tin bán hàng, cập nhật

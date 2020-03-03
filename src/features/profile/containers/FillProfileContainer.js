@@ -583,8 +583,6 @@ export class FillProfileContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // console.log('linhnt nextProps data', nextProps.data);
-
     if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});
       this._setUser(nextProps.data);
@@ -595,8 +593,12 @@ export class FillProfileContainer extends Component {
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       showAlert('Cập nhật thông tin thành công');
+      this.setState({isLoading: false});
+      nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       showAlert('Cập nhật thông tin thất bại');
+      this.setState({isLoading: false});
+      nextProps.changeMsgCode('');
     }
   }
 
@@ -619,8 +621,12 @@ export class FillProfileContainer extends Component {
                 <TouchableOpacity
                   style={styles.viewBack}
                   onPress={() => {
-                    // navigation.state.params.onGoBack('Linh');
-                    // navigation.goBack();
+                    navigation.state.params.onGoBack(
+                      this.state.avatar,
+                      this.state.last_name,
+                      this.state.first_name,
+                    );
+                    navigation.goBack();
                   }}>
                   <Image
                     source={require('../../../assets/images/ic-back-1.png')}

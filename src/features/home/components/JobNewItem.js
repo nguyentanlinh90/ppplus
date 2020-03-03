@@ -1,17 +1,27 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styleHome from '../styles/styles';
+import styles from '../styles/styles';
 import {Card} from 'react-native-shadow-cards';
-import {Rating} from 'react-native-ratings';
-import moment from 'moment';
+import {getNamesFromIds} from '../../../utils/utils';
 export default class JobHotItem extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  _setLocation = (working_places, province_list) => {
+    var text = '';
+    if (working_places.length > 1) {
+      text = working_places.length + ' địa điểm';
+    } else {
+      text = getNamesFromIds(working_places, province_list);
+    }
+    return text;
+  };
+
   render() {
-    const {item} = this.props;
+    const {item, province_list} = this.props;
     let colorOfBgTrending;
     let textTrending;
     let textColorTrending;
@@ -34,90 +44,57 @@ export default class JobHotItem extends Component {
         <View style={{flexDirection: 'row'}}>
           <Image
             resizeMode="cover"
-            source={{uri: item.logoUrl}}
+            source={{uri: item.job_company.icon}}
             style={{width: 80, height: 80, borderRadius: 6, marginEnd: 12}}
           />
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'space-between',
-              marginBottom: 5,
-              marginTop: 5,
-            }}>
-            <Text
-              numberOfLines={1}
-              style={{
-                fontSize: 14,
-                fontWeight: 'bold',
-                color: '#060606',
-              }}>
-              {item.jobTitle}
+          <View style={styles.newItemViewRight}>
+            <Text numberOfLines={1} style={styles.newItemCompanyName}>
+              {item.job_company.name}
             </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Rating
-                readonly={true}
-                type="custom"
-                ratingColor="#FEBE10"
-                ratingBackgroundColor="#d8d8d8"
-                ratingCount={5}
-                imageSize={16}
-                startingValue={item.rating}
-                tintColor="#fff"
-              />
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                }}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{flexDirection: 'row'}}>
+                <Image
+                  resizeMode="stretch"
+                  source={require('../../../assets/images/ic-thunder-red.png')}
+                  style={styleHome.imgInfoJob}
+                />
+                <Text style={{color: '#fa6400', fontSize: 13}}>Độ khó: </Text>
+                <Text
+                  style={{color: '#fa6400', fontSize: 13, fontWeight: 'bold'}}>
+                  {item.hard_level}
+                </Text>
+                <Text style={{color: '#fa6400', fontSize: 13}}>/5</Text>
+              </View>
+              <View style={styles.newItemViewAddress}>
                 <Image
                   resizeMode="stretch"
                   source={require('../../../assets/images/ic-location.png')}
                   style={styleHome.imgInfoJob}
                 />
-                <Text style={styleHome.txtInfoJob}> 12 địa điểm</Text>
+                <Text style={styleHome.txtInfoJob}>
+                  {' '}
+                  {this._setLocation(item.working_places, province_list)}
+                </Text>
               </View>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{flex: 1, flexDirection: 'row'}}>
                 <Image
                   resizeMode="stretch"
                   source={require('../../../assets/images/ic-calendar.png')}
                   style={styleHome.imgInfoJob}
                 />
                 <Text numberOfLines={1} style={styleHome.txtInfoJob}>
-                  {moment(item.timeStart).format('DD/MM/YYYY')} -{' '}
-                  {moment(item.timeEnd).format('DD/MM/YYYY')}
+                  {item.start_date} - {item.end_date}
                 </Text>
               </View>
               <View
-                style={{
-                  backgroundColor: colorOfBgTrending,
-                  borderRadius: 20,
-                  justifyContent: 'center',
-                }}>
+                style={[
+                  styles.itemViewTrending,
+                  {backgroundColor: colorOfBgTrending},
+                ]}>
                 <Text
-                  style={{
-                    paddingStart: 12,
-                    paddingBottom: 3,
-                    paddingEnd: 12,
-                    paddingTop: 3,
-                    fontSize: 12,
-                    color: textColorTrending,
-                  }}>
+                  style={[styles.itemTextTrending, {color: textColorTrending}]}>
                   {textTrending}
                 </Text>
               </View>

@@ -24,10 +24,14 @@ import {SCREEN_CREATE_ACCOUNT, SCREEN_SEARCH} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import { getJobs} from '../actions/index';
+import {getJobs} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 
 const dimensions = Dimensions.get('window');
+var token = '';
+var province_list = [];
+var district_list = [];
+var gender_list = [];
 
 class HomeContainer extends Component {
   constructor(props) {
@@ -39,11 +43,11 @@ class HomeContainer extends Component {
       refreshing: false,
       isOpenFilter: false,
       inputSearch: '',
-      item: {},
-      jobs: [],
+      jobDetail: {},
+      jobs_hot: [],
+      jobs_new: [],
     };
-
-    // console.disableYellowBox = true;
+    token = this.props.props.token;
   }
 
   _randomColor = () => {
@@ -60,11 +64,11 @@ class HomeContainer extends Component {
       colorHeaderJobDetail: colorCode,
     });
   };
-  _onClickItem(item) {
-    this._randomColor();
-    this.setState({item: item});
-    this.jobHotDetail.open();
-  }
+
+  _showJobDetail = id => {
+    this.setState({isLoading: true});
+    this._getJobDetail(id);
+  };
 
   _closeRBSheet = () => {
     this.jobHotDetail.close();
@@ -97,8 +101,7 @@ class HomeContainer extends Component {
             </TouchableOpacity>
           </View>
           <JobDetailContainer
-            item={this.state.item}
-            data={this.state.jobs}
+            item={this.state.jobDetail}
             submit={this._closeRBSheet}
           />
         </View>
@@ -112,7 +115,12 @@ class HomeContainer extends Component {
   };
   _fetchData = () => {
     const {getJobs} = this.props;
-    getJobs();
+    getJobs('', token, false);
+  };
+
+  _getJobDetail = id => {
+    const {getJobs} = this.props;
+    getJobs('/' + id, token, true);
   };
 
   _openFilter = () => {
@@ -169,13 +177,18 @@ class HomeContainer extends Component {
             }}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
-            data={this.state.jobs}
+            data={this.state.jobs_hot}
             renderItem={({item: rowData}) => {
               return (
                 <TouchableOpacity
                   activeOpacity={0.5}
-                  onPress={() => this._onClickItem(rowData)}>
-                  <JobHotItem item={rowData} />
+                  onPress={() => this._getJobDetail(rowData.id)}>
+                  <JobHotItem
+                    province_list={province_list}
+                    district_list={district_list}
+                    gender_list={gender_list}
+                    item={rowData}
+                  />
                 </TouchableOpacity>
               );
             }}
@@ -186,13 +199,13 @@ class HomeContainer extends Component {
           <Text style={styles.txtTitleGroupContent}>Việc mới cập nhật</Text>
           <FlatList
             style={{paddingStart: 16, marginTop: 10, marginEnd: 16}}
-            data={this.state.jobs}
+            data={this.state.jobs_new}
             renderItem={({item: rowData}) => {
               return (
                 <TouchableOpacity
                   activeOpacity={0.5}
-                  onPress={() => this._onClickItem(rowData)}>
-                  <JobNewItem item={rowData} />
+                  onPress={() => this._getJobDetail(rowData.id)}>
+                  <JobNewItem province_list={province_list} item={rowData} />
                 </TouchableOpacity>
               );
             }}
@@ -234,14 +247,41 @@ class HomeContainer extends Component {
       this.setState({
         isLoading: false,
         refreshing: false,
-        jobs: nextProps.jobs,
+        jobs_hot: nextProps.data.job_hot_list.data,
+        jobs_new: nextProps.data.job_new_list.data,
       });
+      if (province_list.length == 0) {
+        province_list = nextProps.data.province_list;
+      }
+      if (district_list.length == 0) {
+        district_list = nextProps.data.district_list;
+      }
+      if (gender_list.length == 0) {
+        gender_list = nextProps.data.gender_list;
+      }
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_FAIL) {
       this.setState({
         isLoading: false,
         refreshing: false,
-        jobs: [],
+        jobs_hot: [],
+        jobs_new: [],
+      });
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_SUCCESS) {
+      this.setState({
+        isLoading: false,
+        refreshing: false,
+        jobDetail: nextProps.data.data,
+      });
+      this.jobHotDetail.open();
+      this._randomColor();
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_FAIL) {
+      this.setState({
+        isLoading: false,
+        refreshing: false,
+        jobDetail: {},
       });
       nextProps.changeMsgCode('');
     }
@@ -316,7 +356,7 @@ class HomeContainer extends Component {
             />
           }>
           {!this.state.isLoading
-            ? this.state.jobs.length > 0
+            ? this.state.jobs_new.length > 0
               ? this._renderContent()
               : this._renderNoData()
             : null}
@@ -329,7 +369,8 @@ class HomeContainer extends Component {
 function mapStateToProps(state) {
   return {
     msg_code: state.home.msg_code,
-    jobs: state.home.jobs,
+    message: state.home.message,
+    data: state.home.data,
   };
 }
 export default connect(mapStateToProps, {

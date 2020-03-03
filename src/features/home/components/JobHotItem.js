@@ -2,16 +2,38 @@ import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import {Card} from 'react-native-shadow-cards';
 import styles from '../styles/styles';
-import {Rating} from 'react-native-ratings';
-import moment from 'moment';
+import {getNamesFromIds, isEmpty} from '../../../utils/utils';
 export default class JobHotItem extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  _setLocation = (working_places, province_list) => {
+    var text = '';
+    if (working_places.length > 1) {
+      text = working_places.length + ' tỉnh';
+    } else {
+      text = getNamesFromIds(working_places, province_list);
+    }
+    return text;
+  };
+
+  _setGender = (employee_gender, gender_list) => {
+    var text = '';
+    for (var i = 0; i < employee_gender.length; i++) {
+      if (isEmpty(text)) {
+        text = gender_list[employee_gender[i]];
+      } else {
+        text = text + ' / ' + gender_list[employee_gender[i]];
+      }
+    }
+    return text;
+  };
+
   render() {
-    const {item} = this.props;
+    const {item, province_list, gender_list} = this.props;
+    // console.log('linhnt', item.job_company.icon);
 
     let colorOfBgTrending;
     let textTrending;
@@ -32,130 +54,77 @@ export default class JobHotItem extends Component {
     }
     return (
       <Card
-        style={{width: 200, marginEnd: 16, padding: 12}}
+        style={{width: 200, marginEnd: 16, padding: 10}}
         cornerRadius={6}
         elevation={1.5}
         opacity={0.4}>
-        <View
-          style={{
-            height: 44,
-            flexDirection: 'row',
-          }}>
+        <View style={{flexDirection: 'row'}}>
           <Image
-            resizeMode="cover"
-            source={{uri: item.logoUrl}}
-            style={{width: 44, height: '100%', borderRadius: 6}}
+            source={{uri: item.job_company.icon}}
+            style={styles.hotItemLogo}
           />
-
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-              marginStart: 5,
-              marginEnd: 5,
-            }}>
-            <View style={{flexDirection: 'row'}}>
+          <View style={styles.hotItemTopRight}>
+            <Text numberOfLines={1} style={styles.hotItemCompanyName}>
+              {item.job_company.name}
+            </Text>
+            <View
+              style={[
+                styles.itemViewTrending,
+                {backgroundColor: colorOfBgTrending},
+              ]}>
               <Text
-                numberOfLines={1}
-                style={{flex: 1, fontSize: 16, fontWeight: 'bold', color:'#1c1c1c'}}>
-                {item.merchantName}
+                style={[styles.itemTextTrending, {color: textColorTrending}]}>
+                {textTrending}
               </Text>
-              <View
-                style={{
-                  backgroundColor: colorOfBgTrending,
-                  borderRadius: 30,
-                  fontSize: 12,
-                }}>
-                <Text
-                  style={{
-                    paddingStart: 10,
-                    paddingBottom: 2,
-                    paddingEnd: 10,
-                    paddingTop: 2,
-                    fontSize: 12,
-                    color: textColorTrending,
-                  }}>
-                  {textTrending}
-                </Text>
-              </View>
             </View>
-
-            <Rating
-              readonly={true}
-              type="custom"
-              ratingColor="#FEBE10"
-              ratingBackgroundColor="#d8d8d8"
-              ratingCount={5}
-              imageSize={16}
-              startingValue={item.rating}
-              tintColor="#fff"
-            />
           </View>
         </View>
-        <Text
-          numberOfLines={1}
-          style={{
-            flex: 1,
-            fontSize: 16,
-            fontWeight: '700',
-            marginTop: 5,
-            marginBottom: 5,
-            color: '#1c1c1c',
-          }}>
-          {item.jobTitle}
+        <Text numberOfLines={1} style={styles.hotItemTextDescription}>
+          {item.description}
         </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 5,
-          }}>
+        <View style={styles.hotItemBoxContent}>
+          <Image
+            resizeMode="stretch"
+            source={require('../../../assets/images/ic-thunder-red.png')}
+            style={styles.imgInfoJob}
+          />
+          <Text style={{color: '#fa6400', fontSize: 13}}>Độ khó: </Text>
+          <Text style={{color: '#fa6400', fontSize: 13, fontWeight: 'bold'}}>
+            {item.hard_level}
+          </Text>
+          <Text style={{color: '#fa6400', fontSize: 13}}>/5</Text>
+        </View>
+        <View style={styles.hotItemBoxContent}>
           <Image
             resizeMode="stretch"
             source={require('../../../assets/images/ic-dob.png')}
             style={styles.imgInfoJob}
           />
           <Text style={styles.txtInfoJob}>
-            {item.ageMin} - {item.ageMax} tuổi
+            {item.employee_min_age} - {item.employee_max_age} tuổi
           </Text>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 5,
-          }}>
+        <View style={styles.hotItemBoxContent}>
           <Image
             resizeMode="contain"
-            source={require('../../../assets/images/ic-sex.png')}
+            source={require('../../../assets/images/ic-gender.png')}
             style={styles.imgInfoJob}
           />
           <Text style={styles.txtInfoJob}>
-            {item.gender == 0 ? 'Nữ' : 'Nam'}
+            {this._setGender(item.employee_gender, gender_list)}
           </Text>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 5,
-          }}>
+        <View style={styles.hotItemBoxContent}>
           <Image
             resizeMode="contain"
             source={require('../../../assets/images/ic-location.png')}
             style={styles.imgInfoJob}
           />
           <Text numberOfLines={1} style={styles.txtInfoJob}>
-            {item.location}
+            {this._setLocation(item.working_places, province_list)}
           </Text>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 5,
-          }}>
+        <View style={styles.hotItemBoxContent}>
           <Image
             resizeMode="stretch"
             source={require('../../../assets/images/ic-calendar.png')}
@@ -166,8 +135,7 @@ export default class JobHotItem extends Component {
             adjustsFontSizeToFit
             allowFontScaling
             style={styles.txtInfoJob}>
-            {moment(item.timeStart).format('DD/MM/YYYY')} -{' '}
-            {moment(item.timeEnd).format('DD/MM/YYYY')}
+            {item.start_date} - {item.end_date}
           </Text>
         </View>
       </Card>
