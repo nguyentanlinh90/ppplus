@@ -9,6 +9,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   AsyncStorage,
+  BackHandler,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import ImagePicker from 'react-native-image-picker';
@@ -582,6 +583,18 @@ export class FillProfileContainer extends Component {
     }
   };
 
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    return true; //disable 
+  }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});
@@ -602,6 +615,15 @@ export class FillProfileContainer extends Component {
     }
   }
 
+  _goBack = navigation => {
+    navigation.state.params.onGoBack(
+      this.state.avatar,
+      this.state.last_name,
+      this.state.first_name,
+    );
+    navigation.goBack();
+  };
+
   render() {
     const {navigation, percent_updated, name, user} = this.props;
     return (
@@ -621,15 +643,12 @@ export class FillProfileContainer extends Component {
                 <TouchableOpacity
                   style={styles.viewBack}
                   onPress={() => {
-                    navigation.state.params.onGoBack(
-                      this.state.avatar,
-                      this.state.last_name,
-                      this.state.first_name,
-                    );
-                    navigation.goBack();
+                    this._goBack(navigation);
                   }}>
                   <Image
-                    source={require('../../../assets/images/ic-back-1.png')}
+                    resizeMode="contain"
+                    source={require('../../../assets/images/ic-back-black.png')}
+                    style={{width: 24, height: 24}}
                   />
                 </TouchableOpacity>
               </View>

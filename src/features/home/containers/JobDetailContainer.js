@@ -96,7 +96,7 @@ export default class JobDetailContainer extends Component {
           <View style={styles.jobDetailViewLine} />
           <JobInfo description={item.description} />
           <View style={styles.jobDetailViewLine} />
-          <View style={{padding: 16, }}>
+          <View style={{padding: 16}}>
             <Text style={styles.txtJobDetailTitle}>ĐỊA ĐIỂM LÀM VIỆC</Text>
             <Text style={{fontSize: 16, color: '#1c1c1c', marginBottom: 10}}>
               Chọn địa điểm và thời gian làm việc mong muốn

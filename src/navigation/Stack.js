@@ -10,11 +10,7 @@ import UpdatePass from '../features/user/containers/UpdatePassContainer';
 import Info from '../features/info/containers/InfoContainer';
 import ConfirmInfo from '../features/info/containers/ConfirmInfoContainer';
 import Main from '../features/main/containers/MainContainer';
-import Home from '../features/home/containers/HomeContainer';
 import Search from '../features/search/containers/SearchContainer';
-import Message from '../features/message/containers/MessageContainer';
-import Notification from '../features/notification/containers/NotificationContainer';
-import Profile from '../features/profile/containers/ProfileContainer';
 import FillProfile from '../features/profile/containers/FillProfileContainer';
 import Program from '../features/program/containers/ProgramContainer';
 import StartJob from '../features/activity/containers/StartJobContainer';
@@ -76,33 +72,8 @@ const Stack = createStackNavigator(
         header: null,
       },
     },
-
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        header: null,
-      },
-    },
     Search: {
       screen: Search,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Message: {
-      screen: Message,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Notification: {
-      screen: Notification,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Profile: {
-      screen: Profile,
       navigationOptions: {
         header: null,
       },

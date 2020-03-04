@@ -192,6 +192,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-program.png')}
+              style={styles.boxItemImage}
             />
             <Text style={styles.boxItemTitle}>Chương trình</Text>
           </TouchableOpacity>
@@ -204,6 +205,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-history.png')}
+              style={styles.boxItemImage}
             />
             <Text style={styles.boxItemTitle}>Lịch sử</Text>
           </TouchableOpacity>
@@ -214,6 +216,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-gift.png')}
+              style={styles.boxItemImage}
             />
             <Text style={styles.boxItemTitle}>Ưu đãi</Text>
           </TouchableOpacity>
@@ -224,6 +227,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-add-friend.png')}
+              style={styles.boxItemImage}
             />
             <Text style={styles.boxItemTitle}>Mời bạn bè</Text>
           </TouchableOpacity>
@@ -234,6 +238,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-process.png')}
+              style={styles.boxItemImage}
             />
             <Text style={styles.boxItemTitle}>
               Quy trình làm việc và chế độ phúc lợi
@@ -246,6 +251,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-tutorial.png')}
+              style={styles.boxItemImage}
             />
             <Text style={styles.boxItemTitle}>Hướng dẫn</Text>
           </TouchableOpacity>
@@ -256,6 +262,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-sp.png')}
+              style={styles.boxItemImage}
             />
             <Text style={styles.boxItemTitle}>Hỗ trợ</Text>
           </TouchableOpacity>
@@ -266,6 +273,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-star-gray.png')}
+              style={styles.boxItemImage}
             />
             <Text style={styles.boxItemTitle}>Đánh giá ứng dụng</Text>
           </TouchableOpacity>
@@ -278,6 +286,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-logout.png')}
+              style={styles.boxItemImage}
             />
             <Text style={styles.boxItemTitle}>Đăng xuất</Text>
           </TouchableOpacity>

@@ -47,7 +47,7 @@ class HomeContainer extends Component {
       jobs_hot: [],
       jobs_new: [],
     };
-    token = this.props.props.token;
+    token = this.props.token.token;
   }
 
   _closeRBSheet = () => {
@@ -87,7 +87,7 @@ class HomeContainer extends Component {
               onPress={() => {
                 this._closeRBSheet();
               }}>
-              <Image source={require('../../../assets/images/ic-back.png')} />
+              <Image source={require('../../../assets/images/ic-back-white.png')} />
             </TouchableOpacity>
           </View>
           <JobDetailContainer
@@ -233,8 +233,8 @@ class HomeContainer extends Component {
       </View>
     );
   };
-  _openSearch = props => {
-    props.navigation.navigate(SCREEN_SEARCH);
+  _openSearch = () => {
+    this.props.props.navigation.navigate(SCREEN_SEARCH);
   };
 
   componentDidMount() {
@@ -286,7 +286,6 @@ class HomeContainer extends Component {
   }
 
   render() {
-    const {props, inputSearch} = this.props;
     return (
       <View style={styles.container}>
         {this._openFilter()}
@@ -315,7 +314,7 @@ class HomeContainer extends Component {
               <TouchableOpacity
                 activeOpacity={1}
                 style={styles.inputSearch}
-                onPress={() => this._openSearch(props)}>
+                onPress={() => this._openSearch()}>
                 <Text style={styles.txtSearch}>Tìm kiếm</Text>
                 <View style={styles.imgBoxSearch}>
                   <Image

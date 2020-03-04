@@ -125,7 +125,7 @@ export default class JobFollowLocationItem extends Component {
         <View style={styles.jobFollowLocationDetail}>
           <Image
             resizeMode="contain"
-            source={require('../../../assets/images/ic-time.png')}
+            source={require('../../../assets/images/ic-time-gray.png')}
           />
           <Text style={styles.jobFollowLocationTxtDetail}>{hourDay}</Text>
         </View>

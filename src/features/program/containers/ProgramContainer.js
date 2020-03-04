@@ -23,7 +23,11 @@ class ProgramContainer extends Component {
               activeOpacity={0.8}
               onPress={() => this.props.navigation.goBack()}
               style={styles.buttonBack}>
-              <Image source={require('../../../assets/images/ic-back-1.png')} />
+              <Image
+                resizeMode="contain"
+                source={require('../../../assets/images/ic-back-black.png')}
+                style={{width: 24, height: 24}}
+              />
             </TouchableOpacity>
 
             <Text style={styles.txtHeader}>Chương trình</Text>
@@ -40,7 +44,8 @@ class ProgramContainer extends Component {
             }}
             tabsContainerStyle={{
               backgroundColor: '#098',
-              height:50,width:100
+              height: 50,
+              width: 100,
             }}
             initialPage={0}>
             <View key={'1'} tabLabel={'Ứng tuyển'} style={{flex: 1}}>

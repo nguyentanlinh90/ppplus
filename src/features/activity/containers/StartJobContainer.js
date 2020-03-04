@@ -120,7 +120,11 @@ class StartJobContainer extends Component {
               activeOpacity={0.8}
               onPress={() => this.props.navigation.goBack()}
               style={styles.buttonBack}>
-              <Image source={require('../../../assets/images/ic-back-1.png')} />
+              <Image
+                resizeMode="contain"
+                source={require('../../../assets/images/ic-back-black.png')}
+                style={{width: 24, height: 24}}
+              />
             </TouchableOpacity>
 
             <Text style={{color: '#1c1c1c', fontSize: 18, fontWeight: 'bold'}}>

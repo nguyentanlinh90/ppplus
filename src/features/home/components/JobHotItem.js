@@ -71,7 +71,7 @@ export default class JobHotItem extends Component {
         </Text>
         <View style={styles.hotItemBoxContent}>
           <Image
-            resizeMode="stretch"
+            resizeMode="contain"
             source={require('../../../assets/images/ic-thunder-red.png')}
             style={styles.imgInfoJob}
           />
@@ -83,7 +83,7 @@ export default class JobHotItem extends Component {
         </View>
         <View style={styles.hotItemBoxContent}>
           <Image
-            resizeMode="stretch"
+            resizeMode="contain"
             source={require('../../../assets/images/ic-dob.png')}
             style={styles.imgInfoJob}
           />
@@ -113,7 +113,7 @@ export default class JobHotItem extends Component {
         </View>
         <View style={styles.hotItemBoxContent}>
           <Image
-            resizeMode="stretch"
+            resizeMode="contain"
             source={require('../../../assets/images/ic-calendar.png')}
             style={styles.imgInfoJob}
           />

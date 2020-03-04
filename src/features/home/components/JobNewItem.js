@@ -54,7 +54,7 @@ export default class JobHotItem extends Component {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View style={{flexDirection: 'row'}}>
                 <Image
-                  resizeMode="stretch"
+                  resizeMode="contain"
                   source={require('../../../assets/images/ic-thunder-red.png')}
                   style={styleHome.imgInfoJob}
                 />
@@ -67,7 +67,7 @@ export default class JobHotItem extends Component {
               </View>
               <View style={styles.newItemViewAddress}>
                 <Image
-                  resizeMode="stretch"
+                  resizeMode="contain"
                   source={require('../../../assets/images/ic-location.png')}
                   style={styleHome.imgInfoJob}
                 />
@@ -80,7 +80,7 @@ export default class JobHotItem extends Component {
             <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1, flexDirection: 'row'}}>
                 <Image
-                  resizeMode="stretch"
+                  resizeMode="contain"
                   source={require('../../../assets/images/ic-calendar.png')}
                   style={styleHome.imgInfoJob}
                 />

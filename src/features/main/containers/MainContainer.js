@@ -7,6 +7,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import Home from '../../home/containers/HomeContainer';
 import Message from '../../message/containers/MessageContainer';
 import Notification from '../../notification/containers/NotificationContainer';
+import Schedule from '../../schedule/containers/ScheduleContainer';
 import Profile from '../../profile/containers/ProfileContainer';
 import SpinnerComponent from '../../../components/Spinner';
 import AlertJob from '../../activity/components/AlertJob';
@@ -14,7 +15,8 @@ import {SCREEN_START_JOB, SCREEN_RETRO} from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
 
 import styles from '../styles/styles';
-var token='';
+import ScheduleContainer from '../../schedule/containers/ScheduleContainer';
+var token = '';
 class MainContainer extends Component {
   constructor(props) {
     super(props);
@@ -92,6 +94,7 @@ class MainContainer extends Component {
   _gotoRetroScreen = () => {
     dispatchScreen(this.props, SCREEN_RETRO, {});
   };
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -133,7 +136,7 @@ class MainContainer extends Component {
             onPress={() => {
               this._openTab('home');
             }}>
-            <Home props={this.props, token} />
+            <Home props={this.props} token={token} />
           </TabNavigator.Item>
 
           <TabNavigator.Item
@@ -189,7 +192,32 @@ class MainContainer extends Component {
             }}>
             <Notification props={this.props} />
           </TabNavigator.Item>
-
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'schedule'}
+            renderIcon={() => (
+              <Image
+                resizeMode="contain"
+                source={require('../../../assets/images/ic-schedule-unselect.png')}
+                style={styles.imgNav}
+              />
+            )}
+            renderSelectedIcon={() => (
+              <View style={styles.viewSelect}>
+                <Image
+                  resizeMode="contain"
+                  source={require('../../../assets/images/ic-schedule-select.png')}
+                  style={styles.imgNav}
+                />
+                <View style={styles.circleMenu} />
+              </View>
+            )}
+            onPress={() => {
+              this._openTab('schedule');
+              return;
+              this._loadData('schedule');
+            }}>
+            <ScheduleContainer messages={this.state.messages} props={this.props} />
+          </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'profile'}
             renderIcon={() => (

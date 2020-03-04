@@ -100,7 +100,7 @@ export default class ItemSelectLocation extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-location.png')}
-              style={{width: 24, height: 24, marginEnd: 5}}
+              style={{width: 20, height: 20, marginEnd: 5}}
             />
             <Text style={styles.txtSelectStyle}>
               {getDistrictsFromIds(
@@ -174,7 +174,7 @@ export default class ItemSelectLocation extends Component {
           <Image
             resizeMode="contain"
             source={require('../../../assets/images/ic-time-gray.png')}
-            style={{width: 24, height: 24, marginEnd: 5}}
+            style={{width: 20, height: 20, marginEnd: 5}}
           />
           <Text style={styles.txtSelectStyle}>
             {this._setTextTime(working_times)}
