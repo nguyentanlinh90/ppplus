@@ -126,6 +126,22 @@ export const getNamesFromIds = (ids, list) => {
   return names == '' ? text_select : names;
 };
 
+export const getDistrictsFromIds = (idProvince, ids, listDistrict) => {
+  var names = '';
+  for (var i = 0; i < ids.length; i++) {
+    for (var j = 0; j < listDistrict[idProvince].length; j++) {
+      if (ids[i] == listDistrict[idProvince][j].id) {
+        if (names == '') {
+          names = listDistrict[idProvince][j].name;
+        } else {
+          names = names + '; ' + listDistrict[idProvince][j].name;
+        }
+      }
+    }
+  }
+  return names == '' ? 'Chọn Quận / Huyện' : names;
+};
+
 export const checkIdInIds = (id, ids) => {
   var exits = false;
   for (var i = 0; i < ids.length; i++) {
@@ -147,6 +163,19 @@ export const getNameFromId = (id, list) => {
   return name;
 };
 
+export const getNameDistrictFromId = (idProvince, idDistrict, listDistrict) => {
+  var name = 'Chọn Quận / Huyện';
+
+  for (var i = 0; i < listDistrict[idProvince].length; i++) {
+    if (idDistrict == listDistrict[idProvince][i].id) {
+      name = listDistrict[idProvince][i].name;
+      break;
+    }
+  }
+
+  return name;
+};
+
 export const getDistrictNameFromId = (id, list) => {
   var name = text_select;
   for (var i = 0; i < list.length; i++) {
@@ -156,4 +185,23 @@ export const getDistrictNameFromId = (id, list) => {
     }
   }
   return name;
+};
+
+export const setGender = (employee_gender, gender_list) => {
+  var text = '';
+  for (var i = 0; i < employee_gender.length; i++) {
+    if (isEmpty(text)) {
+      text = gender_list[employee_gender[i]];
+    } else {
+      text = text + ' / ' + gender_list[employee_gender[i]];
+    }
+  }
+  return text;
+};
+
+export const isEmptyObject = obj => {
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) return false;
+  }
+  return true;
 };

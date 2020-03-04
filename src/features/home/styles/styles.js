@@ -262,4 +262,56 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+  txtSelectStyle: {
+    flex: 1,
+    fontSize: 16,
+    color: '#2B2B2B',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  viewSelect: {
+    borderWidth: 1,
+    borderColor: '#F0532D',
+    borderRadius: 6,
+  },
+  infoBoxSelect: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingEnd: 10,
+  },
+  txtViewSelect: {
+    height: 44,
+    color: '#000',
+    fontSize: 16,
+    paddingStart: 10,
+    flex: 1,
+    paddingTop: 14,
+  },
+  lineSelect: {
+    height: 0.5,
+    backgroundColor: '#d8d8d8',
+    marginStart: 10,
+    marginEnd: 10,
+  },
+  selectLocationTextChoice: {
+    color: '#1c1c1c',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  selectLocationViewNumberApply: {
+    width: 150,
+    height: 20,
+    backgroundColor: '#d8d8d8',
+    borderRadius: 8,
+    marginEnd: 10,
+  },
+  selectLocationTextNumberApply:{
+    height: '100%',
+    color: '#fbfbfb',
+    fontSize: 12,
+    alignSelf: 'center',
+    position: 'absolute',
+    textAlignVertical: 'center',
+  }
 });

@@ -12,7 +12,6 @@ import {
 import {Rating} from 'react-native-ratings';
 import CheckBox from 'react-native-check-box';
 import moment from 'moment';
-import Stars from 'react-native-stars';
 import styles from '../styles/styles';
 import JobFollowLocationItem from '../components/JobFollowLocationItem';
 import BookmarkChecked from '../../../components/BookmarkChecked';
@@ -21,77 +20,29 @@ import LocationPicker from '../components/LocationPicker';
 import BgButton from '../../../components/BgButton';
 import JobInfo from '../components/JobInfo';
 import JobRequest from '../components/JobRequest';
-import JobLocation from '../components/JobLocation';
+import ItemSelectLocation from '../components/ItemSelectLocation';
+import {setGender, handleCheck} from '../../../utils/utils';
 
-var cityList = [
-  'Hà Nội',
-  'Hồ Chí Minh',
-  'Huế',
-  'Đà Nẵng',
-  'Hải Phòng',
-  'Nghệ An',
-];
-
-var district = [
-  'Quận 1',
-  'Quận 2',
-  'Quận 3',
-  'Quận Bình Thạnh',
-  'Quận Gò Vấp',
-  'Quận Bình Tân',
-];
-export default class JobHotDetailContainer extends Component {
+export default class JobDetailContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listLocation: [],
-      showLocationSelect: false,
-      itemId: -1,
       jobBookMark: false,
-      cityList: cityList,
-      districtList: district,
-      city: 'Hồ Chí Minh',
-      district: 'Quận 1',
     };
   }
-  _closeSelectLocation = (citySelect, districtSelect) => {
-    this.setState({
-      showLocationSelect: false,
-      city: citySelect,
-      district: districtSelect,
-    });
-  };
-
-  _getTime = (timeStart, timeEnd) => {
-    return (
-      moment(timeStart).format('DD/MM/YYYY') +
-      '-' +
-      moment(timeEnd).format('DD/MM/YYYY')
-    );
-  };
 
   render() {
-    const {item, submit} = this.props;
+    const {item, submit, handleSelectDistrict} = this.props;
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{borderRadius: 20, marginTop: -30, backgroundColor: '#fff'}}>
         <View style={styles.jobDetailIndicator} />
-        <View style={{position: 'absolute'}}>
-          <LocationPicker
-            handleClose={this._closeSelectLocation}
-            visible={this.state.showLocationSelect}
-            cityList={this.state.cityList}
-            districtList={this.state.districtList}
-            city={this.state.city}
-            district={this.state.district}
-          />
-        </View>
         <View>
           <View style={[styles.jobDetailTop]}>
             <Image
               resizeMode="cover"
-              source={{uri: item.logoUrl}}
+              source={{uri: item.job_company.icon}}
               style={styles.jobDetailLogo}
             />
             <View style={styles.jobDetailTopInfo}>
@@ -110,37 +61,64 @@ export default class JobHotDetailContainer extends Component {
               </View>
               <View style={{flexDirection: 'row'}}>
                 <Text style={{color: '#6D7278', fontSize: 13, marginEnd: 5}}>
-                  Độ khó
+                  Độ khó:
                 </Text>
-                <Stars
-                  rating={3}
-                  spacing={1}
-                  starSize={16}
-                  count={5}
-                  fullStar={require('../../../assets/images/ic-thunder-red.png')}
-                  emptyStar={require('../../../assets/images/ic-thunder-gray.png')}
-                />
+                <Text
+                  style={{color: '#fa6400', fontSize: 13, fontWeight: 'bold'}}>
+                  {item.hard_level}
+                </Text>
+                <Text style={{color: '#6D7278', fontSize: 13}}>/5</Text>
               </View>
             </View>
           </View>
-          <JobInfo />
-          <View style={styles.jobDetailViewLine} />
           <JobRequest
-            time={this._getTime(item.timeStart, item.timeEnd)}
-            position="Nhân viên"
-            rankAge="18 - 25 tuổi"
-            gender="Nam/Nữ"
-            figure="Ưa nhìn"
-            height="> 1m58"
-            weight="45 - 60kg"
-            uniform="Công ty cấp"
+            time={item.start_date + ' - ' + item.end_date}
+            position={item.position}
+            rankAge={
+              item.employee_min_age + ' - ' + item.employee_max_age + ' tuổi'
+            }
+            gender={setGender(item.employee_gender, item.gender_list)}
+            figure={item.employee_figure}
+            height={
+              item.employee_min_height +
+              ' - ' +
+              item.employee_max_height +
+              ' cm'
+            }
+            weight={
+              item.employee_min_weight +
+              ' - ' +
+              item.employee_max_weight +
+              ' kg'
+            }
+            uniform={item.employee_uniform_description}
           />
           <View style={styles.jobDetailViewLine} />
-          <JobLocation
-            handlePress={{}}
-            city={this.state.city}
-            district={this.state.district}
-          />
+          <JobInfo description={item.description} />
+          <View style={styles.jobDetailViewLine} />
+          <View style={{padding: 16, }}>
+            <Text style={styles.txtJobDetailTitle}>ĐỊA ĐIỂM LÀM VIỆC</Text>
+            <Text style={{fontSize: 16, color: '#1c1c1c', marginBottom: 10}}>
+              Chọn địa điểm và thời gian làm việc mong muốn
+            </Text>
+            <FlatList
+              style={{}}
+              data={item.job_detail_lists}
+              renderItem={({item: rowData, index}) => {
+                return (
+                  <ItemSelectLocation
+                    province_list={item.province_list}
+                    district_list={item.district_list}
+                    index={index}
+                    province_id={rowData.province_id}
+                    working_district_list={rowData.working_district_list}
+                    working_time_list={Object.values(rowData.working_time_list)}
+                  />
+                );
+              }}
+              keyExtractor={(item, index) => index}
+            />
+          </View>
           <View style={styles.jobDetailViewLine} />
 
           <TouchableOpacity

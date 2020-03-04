@@ -26,6 +26,7 @@ const screenHeight = Math.round(Dimensions.get('window').height);
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {getJobs} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
+import {isEmptyObject} from '../../../utils/utils';
 
 const dimensions = Dimensions.get('window');
 var token = '';
@@ -38,7 +39,6 @@ class HomeContainer extends Component {
     super(props);
 
     this.state = {
-      colorHeaderJobDetail: '',
       isLoading: true,
       refreshing: false,
       isOpenFilter: false,
@@ -50,38 +50,19 @@ class HomeContainer extends Component {
     token = this.props.props.token;
   }
 
-  _randomColor = () => {
-    var colorCode =
-      'rgb(' +
-      Math.floor(Math.random() * 256) +
-      ',' +
-      Math.floor(Math.random() * 256) +
-      ',' +
-      Math.floor(Math.random() * 256) +
-      ')';
-
-    this.setState({
-      colorHeaderJobDetail: colorCode,
-    });
-  };
-
-  _showJobDetail = id => {
-    this.setState({isLoading: true});
-    this._getJobDetail(id);
-  };
-
   _closeRBSheet = () => {
-    this.jobHotDetail.close();
+    this.jobDetail.close();
   };
   _renderRBSheet() {
+    const {jobDetail} = this.state;
     return (
       <RBSheet
         height={screenHeight}
         ref={ref => {
-          this.jobHotDetail = ref;
+          this.jobDetail = ref;
         }}
         closeOnDragDown={false}
-        closeOnPressBack={true} // just android
+        closeOnPressBack={true}
         customStyles={{
           container: {},
           wrapper: {},
@@ -90,8 +71,17 @@ class HomeContainer extends Component {
           <View
             style={{
               height: Platform.OS === 'ios' ? getStatusBarHeight() + 100 : 100,
-              backgroundColor: this.state.colorHeaderJobDetail,
+              backgroundColor: '#098',
             }}>
+            <Image
+              resizeMode="stretch"
+              source={{
+                uri: isEmptyObject(jobDetail)
+                  ? ''
+                  : jobDetail.job_company.banner,
+              }}
+              style={{position: 'absolute', width: '100%', height: '100%'}}
+            />
             <TouchableOpacity
               style={styles.jobDetailBoxButtonBack}
               onPress={() => {
@@ -126,7 +116,6 @@ class HomeContainer extends Component {
   _openFilter = () => {
     return (
       <Modal
-        // style={{position: 'absolute'}}
         backdropOpacity={0.4}
         backdropColor="#000"
         useNativeDriver={true}
@@ -216,16 +205,25 @@ class HomeContainer extends Component {
           style={[styles.groupContent, {marginTop: 10}, {marginBottom: 10}]}>
           <Text style={styles.txtTitleGroupContent}>Thương hiệu hàng đầu</Text>
           <FlatList
-            style={{backgroundColor: '#fff', paddingBottom: 16}}
+            style={{
+              backgroundColor: '#fff',
+              paddingBottom: 16,
+              paddingStart: 16,
+            }}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
-            data={this.state.jobs}
+            data={this.state.jobs_new}
             renderItem={({item: rowData}) => {
               return (
                 <Image
                   resizeMode="contain"
-                  source={{uri: rowData.logoUrl}}
-                  style={{width: 94, height: 59}}
+                  source={{uri: rowData.job_company.icon}}
+                  style={{
+                    width: 94,
+                    height: 59,
+                    backgroundColor: '#757575',
+                    marginEnd: 16,
+                  }}
                 />
               );
             }}
@@ -238,6 +236,7 @@ class HomeContainer extends Component {
   _openSearch = props => {
     props.navigation.navigate(SCREEN_SEARCH);
   };
+
   componentDidMount() {
     this._fetchData();
   }
@@ -272,10 +271,9 @@ class HomeContainer extends Component {
       this.setState({
         isLoading: false,
         refreshing: false,
-        jobDetail: nextProps.data.data,
+        jobDetail: nextProps.data,
       });
-      this.jobHotDetail.open();
-      this._randomColor();
+      this.jobDetail.open();
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_FAIL) {
       this.setState({
@@ -288,7 +286,7 @@ class HomeContainer extends Component {
   }
 
   render() {
-    const {props, inputSearch, jobs} = this.props;
+    const {props, inputSearch} = this.props;
     return (
       <View style={styles.container}>
         {this._openFilter()}

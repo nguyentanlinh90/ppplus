@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import {Card} from 'react-native-shadow-cards';
 import styles from '../styles/styles';
-import {getNamesFromIds, isEmpty} from '../../../utils/utils';
+import {getNamesFromIds, isEmpty, setGender} from '../../../utils/utils';
 export default class JobHotItem extends Component {
   constructor(props) {
     super(props);
@@ -19,21 +19,8 @@ export default class JobHotItem extends Component {
     return text;
   };
 
-  _setGender = (employee_gender, gender_list) => {
-    var text = '';
-    for (var i = 0; i < employee_gender.length; i++) {
-      if (isEmpty(text)) {
-        text = gender_list[employee_gender[i]];
-      } else {
-        text = text + ' / ' + gender_list[employee_gender[i]];
-      }
-    }
-    return text;
-  };
-
   render() {
     const {item, province_list, gender_list} = this.props;
-    // console.log('linhnt', item.job_company.icon);
 
     let colorOfBgTrending;
     let textTrending;
@@ -111,7 +98,7 @@ export default class JobHotItem extends Component {
             style={styles.imgInfoJob}
           />
           <Text style={styles.txtInfoJob}>
-            {this._setGender(item.employee_gender, gender_list)}
+            {setGender(item.employee_gender, gender_list)}
           </Text>
         </View>
         <View style={styles.hotItemBoxContent}>

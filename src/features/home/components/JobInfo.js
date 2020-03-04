@@ -14,18 +14,15 @@ export default class JobInfo extends Component {
   };
 
   render() {
+    const {description} = this.props;
     return (
       <View>
-        {this.state.isSeeMore ? (
+        {/* {this.state.isSeeMore ? ( */}
           <View style={styles.viewJobDetailItem}>
             <Text style={styles.txtJobDetailTitle}>THÔNG TIN CHI TIẾT</Text>
-            <Text style={styles.txtJobDetailContent}>
-              - Giới thiệu và quảng bá sản phẩm của công ty {'\n'}- Tư vấn và
-              bán hàng ĐTDĐ OPPO {'\n'}- Ghi nhận thông tin bán hàng, cập nhật
-              thị trường {'\n'}- Giải quyết thắc mắc của khách hàng về sản phẩm
-            </Text>
+            <Text style={styles.txtJobDetailContent}>{description}</Text>
           </View>
-        ) : (
+        {/* ) : (
           <View style={styles.viewJobDetailItem}>
             <Text style={styles.txtJobDetailTitle}>THÔNG TIN CÔNG VIỆC</Text>
             <Text style={styles.txtJobDetailContent}>
@@ -33,12 +30,12 @@ export default class JobInfo extends Component {
               bán hàng ĐTDĐ OPPO
             </Text>
           </View>
-        )}
+        )} */}
 
-        <ButtonSeeMore
+        {/* <ButtonSeeMore
           isSeeMore={this.state.isSeeMore}
           handlePress={this._handlePress}
-        />
+        /> */}
       </View>
     );
   }
