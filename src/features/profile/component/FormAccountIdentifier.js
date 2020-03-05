@@ -65,6 +65,9 @@ export default class FormAccountIdentifier extends Component {
 
   render() {
     const {
+      myScroll,
+      handleScrollView,
+      enableScrollViewScroll,
       onChangeText,
       province_list,
       bank_list,
@@ -122,27 +125,38 @@ export default class FormAccountIdentifier extends Component {
                   <ArrowUpDown />
                 </TouchableOpacity>
                 {this.state.isShowBank ? (
-                  <FlatList
-                    style={styles.viewSelect}
-                    data={bank_list}
-                    renderItem={({item: rowData}) => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            this._setShowBank();
-                            handleSelectBank(rowData.id);
-                          }}>
-                          <View style={styles.infoBoxSelect}>
-                            <Text style={styles.txtViewSelect}>
-                              {rowData.name}
-                            </Text>
-                          </View>
-                          <View style={styles.lineSelect} />
-                        </TouchableOpacity>
-                      );
-                    }}
-                    keyExtractor={(item, index) => index}
-                  />
+                  <View
+                    onStartShouldSetResponderCapture={() => {
+                      handleScrollView(false);
+                      if (
+                        myScroll.contentOffset === 0 &&
+                        enableScrollViewScroll === false
+                      ) {
+                        handleScrollView(true);
+                      }
+                    }}>
+                    <FlatList
+                      style={styles.viewSelect}
+                      data={bank_list}
+                      renderItem={({item: rowData}) => {
+                        return (
+                          <TouchableOpacity
+                            onPress={() => {
+                              this._setShowBank();
+                              handleSelectBank(rowData.id);
+                            }}>
+                            <View style={styles.infoBoxSelect}>
+                              <Text style={styles.txtViewSelect}>
+                                {rowData.name}
+                              </Text>
+                            </View>
+                            <View style={styles.lineSelect} />
+                          </TouchableOpacity>
+                        );
+                      }}
+                      keyExtractor={(item, index) => index}
+                    />
+                  </View>
                 ) : null}
               </View>
             </View>
@@ -162,32 +176,46 @@ export default class FormAccountIdentifier extends Component {
                     this.state.isShowBranch || !isEmpty(bank_branch_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
-                    {getNameFromId(bank_branch_id, bank_branch_list_follow_bank)}
+                    {getNameFromId(
+                      bank_branch_id,
+                      bank_branch_list_follow_bank,
+                    )}
                   </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
                 {this.state.isShowBranch ? (
-                  <FlatList
-                    style={styles.viewSelect}
-                    data={bank_branch_list_follow_bank}
-                    renderItem={({item: rowData}) => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            this._setShowBranch();
-                            handleSelectBranch(rowData.id);
-                          }}>
-                          <View style={styles.infoBoxSelect}>
-                            <Text style={styles.txtViewSelect}>
-                              {rowData.name}
-                            </Text>
-                          </View>
-                          <View style={styles.lineSelect} />
-                        </TouchableOpacity>
-                      );
-                    }}
-                    keyExtractor={(item, index) => index}
-                  />
+                  <View
+                    onStartShouldSetResponderCapture={() => {
+                      handleScrollView(false);
+                      if (
+                        myScroll.contentOffset === 0 &&
+                        enableScrollViewScroll === false
+                      ) {
+                        handleScrollView(true);
+                      }
+                    }}>
+                    <FlatList
+                      style={styles.viewSelect}
+                      data={bank_branch_list_follow_bank}
+                      renderItem={({item: rowData}) => {
+                        return (
+                          <TouchableOpacity
+                            onPress={() => {
+                              this._setShowBranch();
+                              handleSelectBranch(rowData.id);
+                            }}>
+                            <View style={styles.infoBoxSelect}>
+                              <Text style={styles.txtViewSelect}>
+                                {rowData.name}
+                              </Text>
+                            </View>
+                            <View style={styles.lineSelect} />
+                          </TouchableOpacity>
+                        );
+                      }}
+                      keyExtractor={(item, index) => index}
+                    />
+                  </View>
                 ) : null}
               </View>
             </View>
@@ -249,27 +277,38 @@ export default class FormAccountIdentifier extends Component {
                   <ArrowUpDown />
                 </TouchableOpacity>
                 {this.state.isShowProvince ? (
-                  <FlatList
-                    style={styles.viewSelect}
-                    data={province_list}
-                    renderItem={({item: rowData}) => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            this._setShowProvince();
-                            handleSelectProvinceIdentification(rowData.id);
-                          }}>
-                          <View style={styles.infoBoxSelect}>
-                            <Text style={styles.txtViewSelect}>
-                              {rowData.name}
-                            </Text>
-                          </View>
-                          <View style={styles.lineSelect} />
-                        </TouchableOpacity>
-                      );
-                    }}
-                    keyExtractor={(item, index) => index}
-                  />
+                  <View
+                    onStartShouldSetResponderCapture={() => {
+                      handleScrollView(false);
+                      if (
+                        myScroll.contentOffset === 0 &&
+                        enableScrollViewScroll === false
+                      ) {
+                        handleScrollView(true);
+                      }
+                    }}>
+                    <FlatList
+                      style={styles.viewSelect}
+                      data={province_list}
+                      renderItem={({item: rowData}) => {
+                        return (
+                          <TouchableOpacity
+                            onPress={() => {
+                              this._setShowProvince();
+                              handleSelectProvinceIdentification(rowData.id);
+                            }}>
+                            <View style={styles.infoBoxSelect}>
+                              <Text style={styles.txtViewSelect}>
+                                {rowData.name}
+                              </Text>
+                            </View>
+                            <View style={styles.lineSelect} />
+                          </TouchableOpacity>
+                        );
+                      }}
+                      keyExtractor={(item, index) => index}
+                    />
+                  </View>
                 ) : null}
               </View>
             </View>
@@ -316,7 +355,9 @@ export default class FormAccountIdentifier extends Component {
                 style={[styles.buttonSelectID, {marginEnd: 10}]}
                 onPress={() => handleOpenImage(IMAGE_ID_FRONT)}>
                 <Image
+                  resizeMode="contain"
                   source={require('../../../assets/images/ic-camera-white.png')}
+                  style={{width: 24, height: 24}}
                 />
                 <Text style={styles.txtSelectID}>Mặt trước</Text>
               </TouchableOpacity>
@@ -324,7 +365,9 @@ export default class FormAccountIdentifier extends Component {
                 style={styles.buttonSelectID}
                 onPress={() => handleOpenImage(IMAGE_ID_BEHIND)}>
                 <Image
+                  resizeMode="contain"
                   source={require('../../../assets/images/ic-camera-white.png')}
+                  style={{width: 24, height: 24}}
                 />
                 <Text style={styles.txtSelectID}>Mặt sau</Text>
               </TouchableOpacity>
@@ -381,7 +424,9 @@ export default class FormAccountIdentifier extends Component {
                 style={[styles.buttonSelectID, {marginEnd: 10}]}
                 onPress={() => handleOpenImage(IMAGE_DEGREE_FRONT)}>
                 <Image
+                  resizeMode="contain"
                   source={require('../../../assets/images/ic-camera-white.png')}
+                  style={{width: 24, height: 24}}
                 />
                 <Text style={styles.txtSelectID}>Mặt trước</Text>
               </TouchableOpacity>
@@ -389,7 +434,9 @@ export default class FormAccountIdentifier extends Component {
                 style={styles.buttonSelectID}
                 onPress={() => handleOpenImage(IMAGE_DEGREE_BEHIND)}>
                 <Image
+                  resizeMode="contain"
                   source={require('../../../assets/images/ic-camera-white.png')}
+                  style={{width: 24, height: 24}}
                 />
                 <Text style={styles.txtSelectID}>Mặt sau</Text>
               </TouchableOpacity>

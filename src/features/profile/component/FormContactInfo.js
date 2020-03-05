@@ -60,6 +60,9 @@ export default class FormContactInfo extends Component {
   };
   render() {
     const {
+      myScroll,
+      handleScrollView,
+      enableScrollViewScroll,
       onChangeText,
 
       province_list,
@@ -78,7 +81,7 @@ export default class FormContactInfo extends Component {
       handleSelectProvince,
       handleSelectDistrict,
     } = this.props;
-    
+
     return (
       <Collapse
         isCollapsed={this.state.isCollapsed}
@@ -111,27 +114,38 @@ export default class FormContactInfo extends Component {
                   <ArrowUpDown />
                 </TouchableOpacity>
                 {this.state.isShowProvince ? (
-                  <FlatList
-                    style={styles.viewSelect}
-                    data={province_list}
-                    renderItem={({item: rowData}) => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            this._setShowProvince(true);
-                            handleSelectProvince(true, rowData.id);
-                          }}>
-                          <View style={styles.infoBoxSelect}>
-                            <Text style={styles.txtViewSelect}>
-                              {rowData.name}
-                            </Text>
-                          </View>
-                          <View style={styles.lineSelect} />
-                        </TouchableOpacity>
-                      );
-                    }}
-                    keyExtractor={(item, index) => index}
-                  />
+                  <View
+                    onStartShouldSetResponderCapture={() => {
+                      handleScrollView(false);
+                      if (
+                        myScroll.contentOffset === 0 &&
+                        enableScrollViewScroll === false
+                      ) {
+                        handleScrollView(true);
+                      }
+                    }}>
+                    <FlatList
+                      style={styles.viewSelect}
+                      data={province_list}
+                      renderItem={({item: rowData}) => {
+                        return (
+                          <TouchableOpacity
+                            onPress={() => {
+                              this._setShowProvince(true);
+                              handleSelectProvince(true, rowData.id);
+                            }}>
+                            <View style={styles.infoBoxSelect}>
+                              <Text style={styles.txtViewSelect}>
+                                {rowData.name}
+                              </Text>
+                            </View>
+                            <View style={styles.lineSelect} />
+                          </TouchableOpacity>
+                        );
+                      }}
+                      keyExtractor={(item, index) => index}
+                    />
+                  </View>
                 ) : null}
               </View>
             </View>
@@ -161,27 +175,38 @@ export default class FormContactInfo extends Component {
                   <ArrowUpDown />
                 </TouchableOpacity>
                 {this.state.isShowDistrict ? (
-                  <FlatList
-                    style={styles.viewSelect}
-                    data={district_list_follow_province}
-                    renderItem={({item: rowData}) => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            this._setShowDistrict(true);
-                            handleSelectDistrict(true, rowData.id);
-                          }}>
-                          <View style={styles.infoBoxSelect}>
-                            <Text style={styles.txtViewSelect}>
-                              {rowData.prefix + ' ' + rowData.name}
-                            </Text>
-                          </View>
-                          <View style={styles.lineSelect} />
-                        </TouchableOpacity>
-                      );
-                    }}
-                    keyExtractor={(item, index) => index}
-                  />
+                  <View
+                    onStartShouldSetResponderCapture={() => {
+                      handleScrollView(false);
+                      if (
+                        myScroll.contentOffset === 0 &&
+                        enableScrollViewScroll === false
+                      ) {
+                        handleScrollView(true);
+                      }
+                    }}>
+                    <FlatList
+                      style={styles.viewSelect}
+                      data={district_list_follow_province}
+                      renderItem={({item: rowData}) => {
+                        return (
+                          <TouchableOpacity
+                            onPress={() => {
+                              this._setShowDistrict(true);
+                              handleSelectDistrict(true, rowData.id);
+                            }}>
+                            <View style={styles.infoBoxSelect}>
+                              <Text style={styles.txtViewSelect}>
+                                {rowData.prefix + ' ' + rowData.name}
+                              </Text>
+                            </View>
+                            <View style={styles.lineSelect} />
+                          </TouchableOpacity>
+                        );
+                      }}
+                      keyExtractor={(item, index) => index}
+                    />
+                  </View>
                 ) : null}
               </View>
             </View>
@@ -191,7 +216,7 @@ export default class FormContactInfo extends Component {
               returnKeyType="done"
               value={address}
               name="address"
-              placeholder="Nhập số nhà và tên đường"
+              placeholder="Nhập số nhà, tên đường và phường / xã"
               onChangeText={text => onChangeText(text, 'address')}
             />
             <Text style={styles.txtTitleBasicInfo}>
@@ -235,27 +260,38 @@ export default class FormContactInfo extends Component {
                   <ArrowUpDown />
                 </TouchableOpacity>
                 {this.state.isShowProvinceRelative ? (
-                  <FlatList
-                    style={styles.viewSelect}
-                    data={province_list}
-                    renderItem={({item: rowData}) => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            this._setShowProvince(false);
-                            handleSelectProvince(false, rowData.id);
-                          }}>
-                          <View style={styles.infoBoxSelect}>
-                            <Text style={styles.txtViewSelect}>
-                              {rowData.name}
-                            </Text>
-                          </View>
-                          <View style={styles.lineSelect} />
-                        </TouchableOpacity>
-                      );
-                    }}
-                    keyExtractor={(item, index) => index}
-                  />
+                  <View
+                    onStartShouldSetResponderCapture={() => {
+                      handleScrollView(false);
+                      if (
+                        myScroll.contentOffset === 0 &&
+                        enableScrollViewScroll === false
+                      ) {
+                        handleScrollView(true);
+                      }
+                    }}>
+                    <FlatList
+                      style={styles.viewSelect}
+                      data={province_list}
+                      renderItem={({item: rowData}) => {
+                        return (
+                          <TouchableOpacity
+                            onPress={() => {
+                              this._setShowProvince(false);
+                              handleSelectProvince(false, rowData.id);
+                            }}>
+                            <View style={styles.infoBoxSelect}>
+                              <Text style={styles.txtViewSelect}>
+                                {rowData.name}
+                              </Text>
+                            </View>
+                            <View style={styles.lineSelect} />
+                          </TouchableOpacity>
+                        );
+                      }}
+                      keyExtractor={(item, index) => index}
+                    />
+                  </View>
                 ) : null}
               </View>
             </View>
@@ -287,27 +323,38 @@ export default class FormContactInfo extends Component {
                   <ArrowUpDown />
                 </TouchableOpacity>
                 {this.state.isShowDistrictRelative ? (
-                  <FlatList
-                    style={styles.viewSelect}
-                    data={district_list_follow_province_relative}
-                    renderItem={({item: rowData}) => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            this._setShowDistrict(false);
-                            handleSelectDistrict(false, rowData.id);
-                          }}>
-                          <View style={styles.infoBoxSelect}>
-                            <Text style={styles.txtViewSelect}>
-                              {rowData.prefix + ' ' + rowData.name}
-                            </Text>
-                          </View>
-                          <View style={styles.lineSelect} />
-                        </TouchableOpacity>
-                      );
-                    }}
-                    keyExtractor={(item, index) => index}
-                  />
+                  <View
+                    onStartShouldSetResponderCapture={() => {
+                      handleScrollView(false);
+                      if (
+                        myScroll.contentOffset === 0 &&
+                        enableScrollViewScroll === false
+                      ) {
+                        handleScrollView(true);
+                      }
+                    }}>
+                    <FlatList
+                      style={styles.viewSelect}
+                      data={district_list_follow_province_relative}
+                      renderItem={({item: rowData}) => {
+                        return (
+                          <TouchableOpacity
+                            onPress={() => {
+                              this._setShowDistrict(false);
+                              handleSelectDistrict(false, rowData.id);
+                            }}>
+                            <View style={styles.infoBoxSelect}>
+                              <Text style={styles.txtViewSelect}>
+                                {rowData.prefix + ' ' + rowData.name}
+                              </Text>
+                            </View>
+                            <View style={styles.lineSelect} />
+                          </TouchableOpacity>
+                        );
+                      }}
+                      keyExtractor={(item, index) => index}
+                    />
+                  </View>
                 ) : null}
               </View>
             </View>
@@ -316,7 +363,7 @@ export default class FormContactInfo extends Component {
               returnKeyType="done"
               value={relative_address}
               name="relative_address"
-              placeholder="Nhập số nhà và tên đường người thân"
+              placeholder="Nhập số nhà, tên đường và phường / xã"
               onChangeText={text => onChangeText(text, 'relative_address')}
             />
           </View>

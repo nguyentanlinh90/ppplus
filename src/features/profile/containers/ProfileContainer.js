@@ -144,7 +144,7 @@ class ProfileContainer extends Component {
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-edit.png')}
-              style={{margin: 16}}
+              style={{margin: 16, width: 24, height: 24}}
             />
           </TouchableOpacity>
           <View style={styles.viewCircleAvatar}>

@@ -21,6 +21,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   circleAvatar: {
+    backgroundColor: '#d8d8d8',
     width: 100,
     height: 100,
     borderRadius: 100 / 2,

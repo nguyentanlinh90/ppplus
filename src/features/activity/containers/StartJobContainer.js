@@ -225,7 +225,9 @@ class StartJobContainer extends Component {
                   <BgButton />
                   <View style={{flexDirection: 'row'}}>
                     <Image
+                      resizeMode='contain'
                       source={require('../../../assets/images/ic-camera-white.png')}
+                      style={{width: 24, height: 24}}
                     />
                     <Text style={styles.txtTakePicture}>Chụp ảnh</Text>
                   </View>

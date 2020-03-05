@@ -13,6 +13,7 @@ export default class FormImageProfile extends Component {
       <Image
         resizeMode="contain"
         source={require('../../../assets/images/ic-plus.png')}
+        style={{width: 24, height: 24}}
       />
     );
   };
@@ -26,7 +27,7 @@ export default class FormImageProfile extends Component {
         <Image
           resizeMode="stretch"
           source={{uri: url}}
-          onError={this._onError.bind(this)}
+          // onError={this._onError.bind(this)}
           style={styles.imageLoad}
         />
         <TouchableOpacity

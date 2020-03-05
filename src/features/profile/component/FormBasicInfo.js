@@ -43,6 +43,9 @@ export default class FormBasicInfo extends Component {
 
   render() {
     const {
+      myScroll,
+      handleScrollView,
+      enableScrollViewScroll,
       onChangeText,
 
       gender_list,
@@ -108,9 +111,7 @@ export default class FormBasicInfo extends Component {
                   styles.boxBasicInfo,
                   {height: this.state.isShowListGender ? 80 : null},
                 ]}>
-                <Text style={styles.txtTitleBasicInfo}>
-                  Ngày tháng năm sinh*
-                </Text>
+                <Text style={styles.txtTitleBasicInfo}>Năm sinh*</Text>
                 <TouchableOpacity
                   onPress={() => showPicker()}
                   style={boxSelectStyle(!isEmpty(birthday))}>
@@ -199,31 +200,45 @@ export default class FormBasicInfo extends Component {
               </Text>
               <ArrowUpDown />
             </TouchableOpacity>
+
             {this.state.isShowProvince ? (
-              <FlatList
-                style={styles.viewSelect}
-                data={province_list}
-                renderItem={({item: rowData}) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        handleSelectProvinces(rowData.id.toString());
-                      }}>
-                      <View style={styles.infoBoxSelect}>
-                        <Text style={styles.txtViewSelect}>{rowData.name}</Text>
-                        <CheckBox
-                          disabled={true}
-                          isChecked={checkIdInIds(rowData.id, working_places)}
-                          checkedImage={<CBChecked />}
-                          unCheckedImage={<CBUnChecked />}
-                        />
-                      </View>
-                      <View style={styles.lineSelect} />
-                    </TouchableOpacity>
-                  );
-                }}
-                keyExtractor={(item, index) => index}
-              />
+              <View
+                onStartShouldSetResponderCapture={() => {
+                  handleScrollView(false);
+                  if (
+                    myScroll.contentOffset === 0 &&
+                    enableScrollViewScroll === false
+                  ) {
+                    handleScrollView(true);
+                  }
+                }}>
+                <FlatList
+                  style={styles.viewSelect}
+                  data={province_list}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleSelectProvinces(rowData.id.toString());
+                        }}>
+                        <View style={styles.infoBoxSelect}>
+                          <Text style={styles.txtViewSelect}>
+                            {rowData.name}
+                          </Text>
+                          <CheckBox
+                            disabled={true}
+                            isChecked={checkIdInIds(rowData.id, working_places)}
+                            checkedImage={<CBChecked />}
+                            unCheckedImage={<CBUnChecked />}
+                          />
+                        </View>
+                        <View style={styles.lineSelect} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+              </View>
             ) : null}
             <Text style={[styles.txtTitleBasicInfo, {marginTop: 20}]}>
               Nhóm ngành
@@ -242,32 +257,46 @@ export default class FormBasicInfo extends Component {
                 <ArrowUpDown />
               </TouchableOpacity>
               {this.state.isShowMajor ? (
-                <FlatList
-                  style={styles.viewSelect}
-                  data={major_list}
-                  renderItem={({item: rowData}) => {
-                    return (
-                      <TouchableOpacity
-                        onPress={() => {
-                          handleSelectMajors(rowData.id.toString());
-                        }}>
-                        <View style={styles.infoBoxSelect}>
-                          <Text style={styles.txtViewSelect}>
-                            {rowData.name}
-                          </Text>
-                          <CheckBox
-                            disabled={true}
-                            isChecked={checkIdInIds(rowData.id, working_majors)}
-                            checkedImage={<CBChecked />}
-                            unCheckedImage={<CBUnChecked />}
-                          />
-                        </View>
-                        <View style={styles.lineSelect} />
-                      </TouchableOpacity>
-                    );
-                  }}
-                  keyExtractor={(item, index) => index}
-                />
+                <View
+                  onStartShouldSetResponderCapture={() => {
+                    handleScrollView(false);
+                    if (
+                      myScroll.contentOffset === 0 &&
+                      enableScrollViewScroll === false
+                    ) {
+                      handleScrollView(true);
+                    }
+                  }}>
+                  <FlatList
+                    style={styles.viewSelect}
+                    data={major_list}
+                    renderItem={({item: rowData}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            handleSelectMajors(rowData.id.toString());
+                          }}>
+                          <View style={styles.infoBoxSelect}>
+                            <Text style={styles.txtViewSelect}>
+                              {rowData.name}
+                            </Text>
+                            <CheckBox
+                              disabled={true}
+                              isChecked={checkIdInIds(
+                                rowData.id,
+                                working_majors,
+                              )}
+                              checkedImage={<CBChecked />}
+                              unCheckedImage={<CBUnChecked />}
+                            />
+                          </View>
+                          <View style={styles.lineSelect} />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item, index) => index}
+                  />
+                </View>
               ) : null}
             </View>
           </View>

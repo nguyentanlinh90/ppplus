@@ -32,6 +32,9 @@ export default class FormLevel extends Component {
 
   render() {
     const {
+      myScroll,
+      handleScrollView,
+      enableScrollViewScroll,
       onChangeText,
       education_id,
       education_list,
@@ -67,25 +70,38 @@ export default class FormLevel extends Component {
               <ArrowUpDown />
             </TouchableOpacity>
             {this.state.isShowEducation ? (
-              <FlatList
-                style={styles.viewSelect}
-                data={education_list}
-                renderItem={({item: rowData}) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        this._setShowEducation();
-                        handleSelectEducation(rowData.id);
-                      }}>
-                      <View style={styles.infoBoxSelect}>
-                        <Text style={styles.txtViewSelect}>{rowData.name}</Text>
-                      </View>
-                      <View style={styles.lineSelect} />
-                    </TouchableOpacity>
-                  );
-                }}
-                keyExtractor={(item, index) => index}
-              />
+              <View
+                onStartShouldSetResponderCapture={() => {
+                  handleScrollView(false);
+                  if (
+                    myScroll.contentOffset === 0 &&
+                    enableScrollViewScroll === false
+                  ) {
+                    handleScrollView(true);
+                  }
+                }}>
+                <FlatList
+                  style={styles.viewSelect}
+                  data={education_list}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          this._setShowEducation();
+                          handleSelectEducation(rowData.id);
+                        }}>
+                        <View style={styles.infoBoxSelect}>
+                          <Text style={styles.txtViewSelect}>
+                            {rowData.name}
+                          </Text>
+                        </View>
+                        <View style={styles.lineSelect} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+              </View>
             ) : null}
             <Text style={[styles.txtTitleBasicInfo, {marginTop: 20}]}>
               Chuyên ngành

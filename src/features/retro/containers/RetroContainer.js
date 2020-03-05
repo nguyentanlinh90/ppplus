@@ -88,19 +88,20 @@ class RetroContainer extends Component {
           }}>
           <View style={styles.viewPage}>
             <Image
-              resizeMode="contain"
+              resizeMode="center"
               source={require('../../../assets/images/retro-1.png')}
+              
             />
           </View>
           <View style={styles.viewPage}>
             <Image
-              resizeMode="contain"
+              resizeMode="center"
               source={require('../../../assets/images/retro-2.png')}
             />
           </View>
           <View style={styles.viewPage}>
             <Image
-              resizeMode="contain"
+              resizeMode="center"
               source={require('../../../assets/images/retro-3.png')}
             />
           </View>

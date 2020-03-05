@@ -88,7 +88,9 @@ class HomeContainer extends Component {
                 this._closeRBSheet();
               }}>
               <Image
+                resizeMode="contain"
                 source={require('../../../assets/images/ic-back-white.png')}
+                style={{width: 30, height: 30}}
               />
             </TouchableOpacity>
           </View>
@@ -218,7 +220,7 @@ class HomeContainer extends Component {
             renderItem={({item: rowData}) => {
               return (
                 <Image
-                  resizeMode="contain"
+                  resizeMode="stretch"
                   source={{uri: rowData.job_company.icon}}
                   style={{
                     width: 94,
@@ -245,11 +247,13 @@ class HomeContainer extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.GET_JOBS_SUCCESS) {
+      var job_hot_list = nextProps.data.job_hot_list;
+      var job_new_list = nextProps.data.job_new_list;
       this.setState({
         isLoading: false,
         refreshing: false,
-        jobs_hot: nextProps.data.job_hot_list.data,
-        jobs_new: nextProps.data.job_new_list.data,
+        jobs_hot: job_hot_list.length != 0 ? job_hot_list.data : [],
+        jobs_new: job_new_list.length != 0 ? job_new_list.data : [],
       });
       if (province_list.length == 0) {
         province_list = nextProps.data.province_list;
@@ -320,7 +324,9 @@ class HomeContainer extends Component {
                 <Text style={styles.txtSearch}>Tìm kiếm</Text>
                 <View style={styles.imgBoxSearch}>
                   <Image
+                    resizeMode="contain"
                     source={require('../../../assets/images/ic-search.png')}
+                    style={{width: 20, height: 20}}
                   />
                 </View>
               </TouchableOpacity>
@@ -337,7 +343,9 @@ class HomeContainer extends Component {
                   this.setState({isOpenFilter: true});
                 }}>
                 <Image
+                  resizeMode="contain"
                   source={require('../../../assets/images/ic-filter.png')}
+                  style={{width: 20, height: 20}}
                 />
               </TouchableOpacity>
             </Card>

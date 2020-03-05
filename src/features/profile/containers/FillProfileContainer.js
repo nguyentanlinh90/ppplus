@@ -60,6 +60,8 @@ export class FillProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      enableScrollViewScroll: true,
+
       isLoading: true,
       isShowBirthday: false,
       isShowIdentification: false,
@@ -592,7 +594,7 @@ export class FillProfileContainer extends Component {
   }
 
   handleBackButton() {
-    return true; //disable 
+    return true; //disable
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -624,161 +626,186 @@ export class FillProfileContainer extends Component {
     navigation.goBack();
   };
 
+  _handleScrollView = isEnable => {
+    this.setState({enableScrollViewScroll: isEnable});
+  };
+
   render() {
     const {navigation, percent_updated, name, user} = this.props;
     return (
       <KeyboardShift>
         {() => (
-          <ScrollView style={styles.container}>
-            <Spinner
-              visible={this.state.isLoading}
-              color={'white'}
-              size={'large'}
-              textStyle={{color: '#fff'}}
-            />
-            {this._renderBirthdayPicker()}
-            {this._renderIdentificationPicker()}
-            <View style={styles.viewTop}>
-              <View style={{flex: 1}}>
-                <TouchableOpacity
-                  style={styles.viewBack}
-                  onPress={() => {
-                    this._goBack(navigation);
-                  }}>
-                  <Image
-                    resizeMode="contain"
-                    source={require('../../../assets/images/ic-back-black.png')}
-                    style={{width: 24, height: 24}}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <TouchableOpacity
-                onPress={() => {
-                  this._handleUpdateFullInfo();
-                }}>
-                <Text style={styles.txtSave}>Lưu</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.viewCircleAvatar}>
-              <ProgressCircle
-                percent={this.state.percent_updated}
-                radius={58}
-                borderWidth={3}
-                color="#F0532D"
-                shadowColor="#d8d8d8"
-                bgColor="#fff"
+          <View
+            onStartShouldSetResponderCapture={() => {
+              this._handleScrollView(true);
+            }}>
+            <ScrollView
+              style={styles.container}
+              scrollEnabled={this.state.enableScrollViewScroll}
+              ref={myScroll => (this._myScroll = myScroll)}>
+              <Spinner
+                visible={this.state.isLoading}
+                color={'white'}
+                size={'large'}
+                textStyle={{color: '#fff'}}
               />
-              <Image
-                resizeMode="cover"
-                source={{uri: this.state.avatar}}
-                style={styles.circleAvatarFill}
-              />
-              <View style={styles.viewCamera}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => this._handleOpenImage(IMAGE_AVATAR)}>
-                  <View style={styles.boxCamera}>
+              {this._renderBirthdayPicker()}
+              {this._renderIdentificationPicker()}
+              <View style={styles.viewTop}>
+                <View style={{flex: 1}}>
+                  <TouchableOpacity
+                    style={styles.viewBack}
+                    onPress={() => {
+                      this._goBack(navigation);
+                    }}>
                     <Image
                       resizeMode="contain"
-                      source={require('../../../assets/images/ic-camera.png')}
+                      source={require('../../../assets/images/ic-back-black.png')}
+                      style={{width: 24, height: 24}}
                     />
-                  </View>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    this._handleUpdateFullInfo();
+                  }}>
+                  <Text style={styles.txtSave}>Lưu</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-            <FormImageProfile
-              sub_avatar_1={this.state.sub_avatar_1}
-              sub_avatar_2={this.state.sub_avatar_2}
-              sub_avatar_3={this.state.sub_avatar_3}
-              sub_avatar_4={this.state.sub_avatar_4}
-              handleOpenImage={this._handleOpenImage}
-              handleCloseImage={this._handleCloseImage}
-            />
-            <View style={styles.boxIndicatorFill} />
-            <FormBasicInfo
-              onChangeText={this._onChangeText}
-              gender_list={this.state.gender_list}
-              province_list={this.state.province_list}
-              major_list={this.state.major_list}
-              last_name={this.state.last_name}
-              first_name={this.state.first_name}
-              height={this.state.height}
-              weight={this.state.weight}
-              birthday={this.state.birthday}
-              gender={this.state.gender}
-              working_places={this.state.working_places}
-              working_majors={this.state.working_majors}
-              showPicker={this._showPicker}
-              handleSelectGender={this._handleSelectGender}
-              handleSelectProvinces={this._handleSelectProvinces}
-              handleSelectMajors={this._handleSelectMajors}
-            />
-            <View style={styles.boxIndicatorFill} />
-            <FormContactInfo
-              onChangeText={this._onChangeText}
-              //
-              province_list={this.state.province_list}
-              district_list_follow_province={
-                this.state.district_list_follow_province
-              }
-              district_list_follow_province_relative={
-                this.state.district_list_follow_province_relative
-              }
-              //
-              province_id={this.state.province_id}
-              district_id={this.state.district_id}
-              address={this.state.address}
-              relative_name={this.state.relative_name}
-              relative_phone={this.state.relative_phone}
-              relative_province_id={this.state.relative_province_id}
-              relative_district_id={this.state.relative_district_id}
-              relative_address={this.state.relative_address}
-              //
-              handleSelectProvince={this._handleSelectProvince}
-              handleSelectDistrict={this._handleSelectDistrict}
-            />
-            <View style={styles.boxIndicatorFill} />
 
-            <FormLevel
-              onChangeText={this._onChangeText}
-              education_list={this.state.education_list}
-              education_id={this.state.education_id}
-              education_major_name={this.state.education_major_name}
-              handleSelectEducation={this._handleSelectEducation}
-            />
-            <View style={styles.boxIndicatorFill} />
-            <FormAccountIdentifier
-              onChangeText={this._onChangeText}
-              bank_list={this.state.bank_list}
-              bank_branch_list_follow_bank={
-                this.state.bank_branch_list_follow_bank
-              }
-              province_list={this.state.province_list}
-              bank_id={this.state.bank_id}
-              bank_branch_id={this.state.bank_branch_id}
-              bank_account_name={this.state.bank_account_name}
-              bank_account_number={this.state.bank_account_number}
-              number={this.state.number}
-              id_issue_place={this.state.id_issue_place}
-              id_issue_date={this.state.id_issue_date}
-              id_front_image={this.state.id_front_image}
-              id_behind_image={this.state.id_behind_image}
-              degree_name={this.state.degree_name}
-              degree_image_front={this.state.degree_image_front}
-              degree_image_behind={this.state.degree_image_behind}
-              handleSelectBank={this._handleSelectBank}
-              handleSelectBranch={this._handleSelectBranch}
-              showPickerIdentification={this._showPickerIdentification}
-              handleSelectProvinceIdentification={
-                this._handleSelectProvinceIdentification
-              }
-              handleOpenImage={this._handleOpenImage}
-              handleCloseImage={this._handleCloseImage}
-            />
-            <View style={styles.boxIndicatorFill} />
-          </ScrollView>
+              <View style={styles.viewCircleAvatar}>
+                <ProgressCircle
+                  percent={this.state.percent_updated}
+                  radius={58}
+                  borderWidth={3}
+                  color="#F0532D"
+                  shadowColor="#d8d8d8"
+                  bgColor="#fff"
+                />
+                <Image
+                  resizeMode="cover"
+                  source={{uri: this.state.avatar}}
+                  style={styles.circleAvatarFill}
+                />
+                <View style={styles.viewCamera}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => this._handleOpenImage(IMAGE_AVATAR)}>
+                    <View style={styles.boxCamera}>
+                      <Image
+                        resizeMode="contain"
+                        source={require('../../../assets/images/ic-camera.png')}
+                        style={{width: 18, height: 18}}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <FormImageProfile
+                sub_avatar_1={this.state.sub_avatar_1}
+                sub_avatar_2={this.state.sub_avatar_2}
+                sub_avatar_3={this.state.sub_avatar_3}
+                sub_avatar_4={this.state.sub_avatar_4}
+                handleOpenImage={this._handleOpenImage}
+                handleCloseImage={this._handleCloseImage}
+              />
+              <View style={styles.boxIndicatorFill} />
+              <FormBasicInfo
+                myScroll={this._myScroll}
+                handleScrollView={this._handleScrollView}
+                enableScrollViewScroll={this.state.enableScrollViewScroll}
+                onChangeText={this._onChangeText}
+                gender_list={this.state.gender_list}
+                province_list={this.state.province_list}
+                major_list={this.state.major_list}
+                last_name={this.state.last_name}
+                first_name={this.state.first_name}
+                height={this.state.height}
+                weight={this.state.weight}
+                birthday={this.state.birthday}
+                gender={this.state.gender}
+                working_places={this.state.working_places}
+                working_majors={this.state.working_majors}
+                showPicker={this._showPicker}
+                handleSelectGender={this._handleSelectGender}
+                handleSelectProvinces={this._handleSelectProvinces}
+                handleSelectMajors={this._handleSelectMajors}
+              />
+              <View style={styles.boxIndicatorFill} />
+              <FormContactInfo
+                myScroll={this._myScroll}
+                handleScrollView={this._handleScrollView}
+                enableScrollViewScroll={this.state.enableScrollViewScroll}
+                onChangeText={this._onChangeText}
+                //
+                province_list={this.state.province_list}
+                district_list_follow_province={
+                  this.state.district_list_follow_province
+                }
+                district_list_follow_province_relative={
+                  this.state.district_list_follow_province_relative
+                }
+                //
+                province_id={this.state.province_id}
+                district_id={this.state.district_id}
+                address={this.state.address}
+                relative_name={this.state.relative_name}
+                relative_phone={this.state.relative_phone}
+                relative_province_id={this.state.relative_province_id}
+                relative_district_id={this.state.relative_district_id}
+                relative_address={this.state.relative_address}
+                //
+                handleSelectProvince={this._handleSelectProvince}
+                handleSelectDistrict={this._handleSelectDistrict}
+              />
+              <View style={styles.boxIndicatorFill} />
+
+              <FormLevel
+                myScroll={this._myScroll}
+                handleScrollView={this._handleScrollView}
+                enableScrollViewScroll={this.state.enableScrollViewScroll}
+                onChangeText={this._onChangeText}
+                education_list={this.state.education_list}
+                education_id={this.state.education_id}
+                education_major_name={this.state.education_major_name}
+                handleSelectEducation={this._handleSelectEducation}
+              />
+              <View style={styles.boxIndicatorFill} />
+              <FormAccountIdentifier
+                myScroll={this._myScroll}
+                handleScrollView={this._handleScrollView}
+                enableScrollViewScroll={this.state.enableScrollViewScroll}
+                onChangeText={this._onChangeText}
+                bank_list={this.state.bank_list}
+                bank_branch_list_follow_bank={
+                  this.state.bank_branch_list_follow_bank
+                }
+                province_list={this.state.province_list}
+                bank_id={this.state.bank_id}
+                bank_branch_id={this.state.bank_branch_id}
+                bank_account_name={this.state.bank_account_name}
+                bank_account_number={this.state.bank_account_number}
+                number={this.state.number}
+                id_issue_place={this.state.id_issue_place}
+                id_issue_date={this.state.id_issue_date}
+                id_front_image={this.state.id_front_image}
+                id_behind_image={this.state.id_behind_image}
+                degree_name={this.state.degree_name}
+                degree_image_front={this.state.degree_image_front}
+                degree_image_behind={this.state.degree_image_behind}
+                handleSelectBank={this._handleSelectBank}
+                handleSelectBranch={this._handleSelectBranch}
+                showPickerIdentification={this._showPickerIdentification}
+                handleSelectProvinceIdentification={
+                  this._handleSelectProvinceIdentification
+                }
+                handleOpenImage={this._handleOpenImage}
+                handleCloseImage={this._handleCloseImage}
+              />
+              <View style={styles.boxIndicatorFill} />
+            </ScrollView>
+          </View>
         )}
       </KeyboardShift>
     );
