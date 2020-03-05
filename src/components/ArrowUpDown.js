@@ -7,7 +7,7 @@ export default class ArrowUpDown extends Component {
       <Image
         resizeMode="contain"
         source={require('../assets/images/ic-arrow-up-down.png')}
-        style={{width: 24, height: 24}}
+        style={{width: 20, height: 20}}
       />
     );
   }
