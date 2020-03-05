@@ -51,7 +51,7 @@ export default StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     height: '100%',
-    justifyContent: 'center',
+    justifyContent:'center'
   },
   inputLogin: {
     height: 48,

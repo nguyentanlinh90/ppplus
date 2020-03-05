@@ -50,7 +50,7 @@ export default class FormLevel extends Component {
           <View style={styles.boxTitleFill}>
             <Text style={styles.txtBasicInfo}>TRÌNH ĐỘ</Text>
             <View style={styles.boxArrow}>
-              {this.state.isCollapsedLevel ? <ArrowUp /> : <ArrowDown />}
+              {this.state.isCollapsed ? <ArrowUp /> : <ArrowDown />}
             </View>
           </View>
         </CollapseHeader>

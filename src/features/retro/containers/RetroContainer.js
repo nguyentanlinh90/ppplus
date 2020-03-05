@@ -90,19 +90,21 @@ class RetroContainer extends Component {
             <Image
               resizeMode="center"
               source={require('../../../assets/images/retro-1.png')}
-              
+              style={styles.imagePage}
             />
           </View>
           <View style={styles.viewPage}>
             <Image
               resizeMode="center"
               source={require('../../../assets/images/retro-2.png')}
+              style={styles.imagePage}
             />
           </View>
           <View style={styles.viewPage}>
             <Image
               resizeMode="center"
               source={require('../../../assets/images/retro-3.png')}
+              style={styles.imagePage}
             />
           </View>
         </Swiper>
