@@ -87,7 +87,9 @@ class HomeContainer extends Component {
               onPress={() => {
                 this._closeRBSheet();
               }}>
-              <Image source={require('../../../assets/images/ic-back-white.png')} />
+              <Image
+                source={require('../../../assets/images/ic-back-white.png')}
+              />
             </TouchableOpacity>
           </View>
           <JobDetailContainer
@@ -353,7 +355,7 @@ class HomeContainer extends Component {
             />
           }>
           {!this.state.isLoading
-            ? this.state.jobs_new.length > 0
+            ? this.state.jobs_new.length != 0 && this.state.jobs_hot.length != 0
               ? this._renderContent()
               : this._renderNoData()
             : null}

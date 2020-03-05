@@ -169,14 +169,13 @@ class InfoContainer extends Component {
   };
 
   componentDidMount = () => {
-    this._loadListBasic();
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      dispatchScreen(this.props, SCREEN_MAIN, {});
+      dispatchScreen(this.props, SCREEN_MAIN, {token});
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       this.setState({isLoading: false});
       showAlert(nextProps.message);

@@ -31,12 +31,6 @@ class MainContainer extends Component {
     this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
   }
 
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
-  _reloadTab = tab => {};
-
   _hideLoading = () => {
     this.setState({isLoading: false});
   };
