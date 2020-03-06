@@ -98,7 +98,7 @@ export const arrayToString = function(array) {
   var text = '';
   for (let i = 0; i < array.length; i++) {
     if (text == '') {
-      text = array[i];
+      text = array[i] + '';
     } else {
       text = text + ',' + array[i];
     }

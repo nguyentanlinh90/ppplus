@@ -17,7 +17,13 @@ import RadioChecked from '../../../components/RadioChecked';
 import RadioUnChecked from '../../../components/RadioUnChecked';
 import ArrowUpDown from '../../../components/ArrowUpDown';
 import {handleCheck} from '../../../utils/utils';
-import {text_select} from '../../../utils/constants';
+import {
+  text_select,
+  txt_address_select,
+  txt_major_select,
+  txt_day_select,
+  txt_turn_select,
+} from '../../../utils/constants';
 
 export default class InfoContainer_1 extends Component {
   constructor(props) {
@@ -28,6 +34,7 @@ export default class InfoContainer_1 extends Component {
       isShowProvince: false,
       isShowMajor: false,
       isShowDay: false,
+      isShowTurn: false,
     };
   }
 
@@ -45,10 +52,10 @@ export default class InfoContainer_1 extends Component {
     };
   };
 
-  _getListName = (ids, list) => {
+  _getListName = (text_default, ids, list) => {
     var names = '';
     if (ids.length == 0) {
-      names = text_select;
+      names = text_default;
     } else {
       for (let i = 0; i < ids.length; i++) {
         for (let j = 0; j < list.length; j++) {
@@ -65,8 +72,18 @@ export default class InfoContainer_1 extends Component {
     return names;
   };
 
-  _handleScrollView = isEnable => {
+  _setStateScrollView = isEnable => {
     this.setState({enableScrollViewScroll: isEnable});
+  };
+
+  _setStateFlatList = myScroll => {
+    this._setStateScrollView(false);
+    if (
+      myScroll.contentOffset === 0 &&
+      this.state.enableScrollViewScroll === false
+    ) {
+      this._setStateScrollView(true);
+    }
   };
 
   render() {
@@ -78,7 +95,7 @@ export default class InfoContainer_1 extends Component {
       genderFeMale,
       handleGenderSelect,
       showDateTimePicker,
-      txtDOB,
+      birthday,
       listProvince,
       handleSelectProvince,
       provinceIDs,
@@ -88,13 +105,16 @@ export default class InfoContainer_1 extends Component {
       listDay,
       handleSelectDay,
       dayIDs,
+      listTurn,
+      handleSelectTurn,
+      turnIDs,
       handleUpdateBasicInfo,
     } = this.props;
 
     return (
       <View
         onStartShouldSetResponderCapture={() => {
-          this._handleScrollView(true);
+          this._setStateScrollView(true);
         }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -155,11 +175,11 @@ export default class InfoContainer_1 extends Component {
                 />
               </View>
             </View>
-            <Text style={styles.titleContent}>3. Năm sinh</Text>
+            <Text style={styles.titleContent}>3. Ngày tháng năm sinh</Text>
             <TouchableOpacity
               onPress={() => showDateTimePicker()}
               style={styles.boxInfoItem}>
-              <Text style={styles.txtSelect}>{txtDOB}</Text>
+              <Text style={styles.txtSelect}>{birthday}</Text>
               {<ArrowUpDown />}
             </TouchableOpacity>
 
@@ -173,7 +193,11 @@ export default class InfoContainer_1 extends Component {
                   this.state.isShowProvince ? '#F0532D' : '#d8d8d8',
                 )}>
                 <Text style={styles.txtSelect}>
-                  {this._getListName(provinceIDs, listProvince)}
+                  {this._getListName(
+                    txt_address_select,
+                    provinceIDs,
+                    listProvince,
+                  )}
                 </Text>
                 {<ArrowUpDown />}
               </View>
@@ -181,13 +205,7 @@ export default class InfoContainer_1 extends Component {
             {this.state.isShowProvince ? (
               <View
                 onStartShouldSetResponderCapture={() => {
-                  this._handleScrollView(false);
-                  if (
-                    this._myScroll.contentOffset === 0 &&
-                    this.state.enableScrollViewScroll === false
-                  ) {
-                    this._handleScrollView(true);
-                  }
+                  this._setStateFlatList(this._myScroll);
                 }}>
                 <FlatList
                   visibility={this.state.isShowProvince}
@@ -232,7 +250,7 @@ export default class InfoContainer_1 extends Component {
                   this.state.isShowMajor ? '#F0532D' : '#d8d8d8',
                 )}>
                 <Text style={styles.txtSelect}>
-                  {this._getListName(majorIDs, listMajor)}
+                  {this._getListName(txt_major_select, majorIDs, listMajor)}
                 </Text>
                 {<ArrowUpDown />}
               </View>
@@ -240,97 +258,144 @@ export default class InfoContainer_1 extends Component {
             {this.state.isShowMajor ? (
               <View
                 onStartShouldSetResponderCapture={() => {
-                  this._handleScrollView(false);
-                  if (
-                    this._myScroll.contentOffset === 0 &&
-                    this.state.enableScrollViewScroll === false
-                  ) {
-                    this._handleScrollView(true);
-                  }
+                  this._setStateFlatList(this._myScroll);
                 }}>
-              <FlatList
-                visibility={this.state.isShowMajor}
-                style={styles.viewSelect}
-                data={listMajor}
-                renderItem={({item: rowData}) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        handleSelectMajor(rowData.id);
-                      }}>
-                      <View style={styles.infoBoxSelect}>
-                        <Text style={styles.txtViewSelect}>{rowData.name}</Text>
+                <FlatList
+                  visibility={this.state.isShowMajor}
+                  style={styles.viewSelect}
+                  data={listMajor}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleSelectMajor(rowData.id);
+                        }}>
+                        <View style={styles.infoBoxSelect}>
+                          <Text style={styles.txtViewSelect}>
+                            {rowData.name}
+                          </Text>
 
-                        <CheckBox
-                          disabled={true}
-                          isChecked={
-                            handleCheck(rowData.id, majorIDs) ? true : false
-                          }
-                          checkedImage={<CBChecked />}
-                          unCheckedImage={<CBUnChecked />}
-                        />
-                      </View>
-                      <View style={styles.lineSelect} />
-                    </TouchableOpacity>
-                  );
-                }}
-                keyExtractor={(item, index) => index}
-              />
+                          <CheckBox
+                            disabled={true}
+                            isChecked={
+                              handleCheck(rowData.id, majorIDs) ? true : false
+                            }
+                            checkedImage={<CBChecked />}
+                            unCheckedImage={<CBUnChecked />}
+                          />
+                        </View>
+                        <View style={styles.lineSelect} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
               </View>
             ) : null}
 
-            <Text style={styles.titleContent}>6. Ngày làm việc trong tuần</Text>
+            <Text style={styles.titleContent}>6. Thời lượng công việc</Text>
+            <View style={{marginBottom: 10}}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.setState({isShowDay: !this.state.isShowDay})
+                }>
+                <View
+                  style={this._boxSelectStyle(
+                    this.state.isShowDay ? '#F0532D' : '#d8d8d8',
+                  )}>
+                  <Text style={styles.txtSelect}>
+                    {this._getListName(txt_day_select, dayIDs, listDay)}
+                  </Text>
+                  {<ArrowUpDown />}
+                </View>
+              </TouchableOpacity>
+              {this.state.isShowDay ? (
+                <View
+                  onStartShouldSetResponderCapture={() => {
+                    this._setStateFlatList(this._myScroll);
+                  }}>
+                  <FlatList
+                    visibility={this.state.isShowDay}
+                    style={styles.viewSelect}
+                    data={listDay}
+                    renderItem={({item: rowData}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            handleSelectDay(rowData.id);
+                          }}>
+                          <View style={styles.infoBoxSelect}>
+                            <Text style={styles.txtViewSelect}>
+                              {rowData.name}
+                            </Text>
+
+                            <CheckBox
+                              disabled={true}
+                              isChecked={
+                                handleCheck(rowData.id, dayIDs) ? true : false
+                              }
+                              checkedImage={<CBChecked />}
+                              unCheckedImage={<CBUnChecked />}
+                            />
+                          </View>
+                          <View style={styles.lineSelect} />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item, index) => index}
+                  />
+                </View>
+              ) : null}
+            </View>
             <TouchableOpacity
-              onPress={() => this.setState({isShowDay: !this.state.isShowDay})}>
+              onPress={() =>
+                this.setState({isShowTurn: !this.state.isShowTurn})
+              }>
               <View
                 style={this._boxSelectStyle(
-                  this.state.isShowDay ? '#F0532D' : '#d8d8d8',
+                  this.state.isShowTurn ? '#F0532D' : '#d8d8d8',
                 )}>
                 <Text style={styles.txtSelect}>
-                  {this._getListName(dayIDs, listDay)}
+                  {this._getListName(txt_turn_select, turnIDs, listTurn)}
                 </Text>
                 {<ArrowUpDown />}
               </View>
             </TouchableOpacity>
-            {this.state.isShowDay ? (
+            {this.state.isShowTurn ? (
               <View
                 onStartShouldSetResponderCapture={() => {
-                  this._handleScrollView(false);
-                  if (
-                    this._myScroll.contentOffset === 0 &&
-                    this.state.enableScrollViewScroll === false
-                  ) {
-                    this._handleScrollView(true);
-                  }
+                  this._setStateFlatList(this._myScroll);
                 }}>
-              <FlatList
-                visibility={this.state.isShowDay}
-                style={styles.viewSelect}
-                data={listDay}
-                renderItem={({item: rowData}) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        handleSelectDay(rowData.id);
-                      }}>
-                      <View style={styles.infoBoxSelect}>
-                        <Text style={styles.txtViewSelect}>{rowData.name}</Text>
+                <FlatList
+                  visibility={this.state.isShowTurn}
+                  style={styles.viewSelect}
+                  data={listTurn}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleSelectTurn(rowData.id);
+                        }}>
+                        <View style={styles.infoBoxSelect}>
+                          <Text style={styles.txtViewSelect}>
+                            {rowData.name}
+                          </Text>
 
-                        <CheckBox
-                          disabled={true}
-                          isChecked={
-                            handleCheck(rowData.id, dayIDs) ? true : false
-                          }
-                          checkedImage={<CBChecked />}
-                          unCheckedImage={<CBUnChecked />}
-                        />
-                      </View>
-                      <View style={styles.lineSelect} />
-                    </TouchableOpacity>
-                  );
-                }}
-                keyExtractor={(item, index) => index}
-              />
+                          <CheckBox
+                            disabled={true}
+                            isChecked={
+                              handleCheck(rowData.id, turnIDs) ? true : false
+                            }
+                            checkedImage={<CBChecked />}
+                            unCheckedImage={<CBUnChecked />}
+                          />
+                        </View>
+                        <View style={styles.lineSelect} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
               </View>
             ) : null}
             <TouchableOpacity

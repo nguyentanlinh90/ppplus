@@ -1,6 +1,11 @@
 export const demo = 'Ví dụ';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const text_select = 'Chọn';
+export const txt_dob_select = 'Chọn ngày tháng năm sinh';
+export const txt_address_select = 'Chọn địa điểm';
+export const txt_major_select = 'Chọn nhóm ngành';
+export const txt_day_select = 'Ngày trong tuần';
+export const txt_turn_select = 'Ca làm việc trong ngày';
 export const ACCESS_TOKEN = 'ACCESS_TOKEN';
 export const IS_UPDATE_BASIC = 'IS_UPDATE_BASIC';
 export const V_1_0_0 = '1.0.0';

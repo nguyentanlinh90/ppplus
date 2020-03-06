@@ -13,7 +13,11 @@ import moment from 'moment';
 import styles from '../styles/styles';
 import InfoForm from '../component/InfoForm';
 import {SCREEN_MAIN} from '../../../api/screen';
-import {text_select} from '../../../utils/constants';
+import {
+  text_select,
+  txt_dob_select,
+  txt_address_select,
+} from '../../../utils/constants';
 import {dispatchScreen} from '../../../utils/utils';
 import {showAlert} from '../../../utils/utils';
 import {doUpdateUserInfo} from '../../user/actions/index';
@@ -26,6 +30,7 @@ var token = '';
 var provinceList = [];
 var majorList = [];
 var dayList = [];
+var turnList = [];
 
 class InfoContainer extends Component {
   constructor(props) {
@@ -37,15 +42,17 @@ class InfoContainer extends Component {
       lastName: '',
       genderMale: true,
       genderFeMale: false,
-      birthday: text_select,
+      birthday: txt_dob_select,
       provinceIDs: [],
       majorIDs: [],
       dayIDs: [],
+      turnIDs: [],
     };
 
     provinceList = this.props.navigation.state.params.province_list;
     majorList = this.props.navigation.state.params.major_list;
     dayList = this.props.navigation.state.params.day_list;
+    turnList = this.props.navigation.state.params.turn_list;
 
     this._getToKen();
   }
@@ -86,16 +93,17 @@ class InfoContainer extends Component {
       provinceIDs,
       majorIDs,
       dayIDs,
+      turnIDs,
     } = this.state;
-
     if (
       firstName == '' ||
       lastName == '' ||
       (!genderMale && !genderFeMale) ||
-      birthday == text_select ||
+      birthday == txt_dob_select ||
       provinceIDs.length == 0 ||
       majorIDs.length == 0 ||
-      dayIDs.length == 0
+      dayIDs.length == 0 ||
+      turnIDs.length == 0
     ) {
       showAlert('Vui lòng cung cấp đầy đủ các trường thông tin ở trên');
       return;
@@ -113,8 +121,9 @@ class InfoContainer extends Component {
       gender: genderMale ? '1' : '2',
       birthday: birthday,
       working_places: arrayToString(provinceIDs),
-      working_careers: arrayToString(majorIDs),
+      working_majors: arrayToString(majorIDs),
       working_days: arrayToString(dayIDs),
+      working_turns: arrayToString(turnIDs),
       type: 'basic_detail',
     };
 
@@ -163,13 +172,41 @@ class InfoContainer extends Component {
         this.setState({dayIDs: array});
       }
     } else {
-      dayIDs.push(dayIdSelect);
-      this.setState({dayIDs: dayIDs});
+      if (dayIdSelect == 0) {
+        this.setState({dayIDs: [dayIdSelect]});
+      } else {
+        //check if user checked full week
+        var isFullWeek = false;
+        for (var i = 0; i < dayIDs.length; i++) {
+          if (dayIDs[i] == 0) {
+            isFullWeek = true;
+            break;
+          }
+        }
+        if (!isFullWeek) {
+          dayIDs.push(dayIdSelect);
+          this.setState({dayIDs: dayIDs});
+        }
+      }
     }
   };
 
-  componentDidMount = () => {
+  _handleSelectTurn = turnIdSelect => {
+    const {turnIDs} = this.state;
+    if (handleCheck(turnIdSelect, turnIDs)) {
+      var array = [...turnIDs];
+      var index = array.indexOf(turnIdSelect);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({turnIDs: array});
+      }
+    } else {
+      turnIDs.push(turnIdSelect);
+      this.setState({turnIDs: turnIDs});
+    }
   };
+
+  componentDidMount = () => {};
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
@@ -237,7 +274,7 @@ class InfoContainer extends Component {
             genderFeMale={this.state.genderFeMale}
             handleGenderSelect={this._handleGenderSelect}
             showDateTimePicker={this._showDateTimePicker}
-            txtDOB={this.state.birthday}
+            birthday={this.state.birthday}
             listProvince={provinceList}
             handleSelectProvince={this._handleSelectProvince}
             provinceIDs={this.state.provinceIDs}
@@ -247,6 +284,9 @@ class InfoContainer extends Component {
             listDay={dayList}
             handleSelectDay={this._handleSelectDay}
             dayIDs={this.state.dayIDs}
+            listTurn={turnList}
+            handleSelectTurn={this._handleSelectTurn}
+            turnIDs={this.state.turnIDs}
             handleUpdateBasicInfo={this._handleUpdateBasicInfo}
           />
         </SafeAreaView>

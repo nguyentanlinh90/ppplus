@@ -32,7 +32,7 @@ export class CreateAccountContainer extends Component {
       password_confirm: '',
       isLoading: false,
       isConnecting: false,
-      isAgree: true,
+      isAgree: false,
     };
     this.handleCreateAccount = this.handleCreateAccount.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
