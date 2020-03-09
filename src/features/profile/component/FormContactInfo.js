@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  Image,
+} from 'react-native';
 import {
   Collapse,
   CollapseHeader,
@@ -8,6 +15,7 @@ import {
 import ArrowUpDown from '../../../components/ArrowUpDown';
 import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
+import ItemRelativeContact from '../component/ItemRelativeContact';
 import styles from '../styles/styles';
 import {ADDRESS_OF_RELATIVE} from '../../../utils/constants';
 import {text_select} from '../../../utils/constants';
@@ -29,34 +37,20 @@ export default class FormContactInfo extends Component {
     this.state = {
       isCollapsed: true,
       isShowProvince: false,
-      isShowProvinceRelative: false,
       isShowDistrict: false,
-      isShowDistrictRelative: false,
     };
   }
 
-  _setShowProvince = isUser => {
-    if (isUser) {
-      this.setState({
-        isShowProvince: !this.state.isShowProvince,
-      });
-    } else {
-      this.setState({
-        isShowProvinceRelative: !this.state.isShowProvinceRelative,
-      });
-    }
+  _setShowProvince = () => {
+    this.setState({
+      isShowProvince: !this.state.isShowProvince,
+    });
   };
 
-  _setShowDistrict = isUser => {
-    if (isUser) {
-      this.setState({
-        isShowDistrict: !this.state.isShowDistrict,
-      });
-    } else {
-      this.setState({
-        isShowDistrictRelative: !this.state.isShowDistrictRelative,
-      });
-    }
+  _setShowDistrict = () => {
+    this.setState({
+      isShowDistrict: !this.state.isShowDistrict,
+    });
   };
   render() {
     const {
@@ -64,22 +58,26 @@ export default class FormContactInfo extends Component {
       handleScrollView,
       enableScrollViewScroll,
       onChangeText,
+      onChangeTextRelative,
 
       province_list,
       district_list_follow_province,
       district_list_follow_province_relative,
 
+      //for user
       province_id,
       district_id,
       address,
-      relative_name,
-      relative_phone,
-      relative_province_id,
-      relative_district_id,
-      relative_address,
+
+      //for relative
+      user_relative_info,
 
       handleSelectProvince,
       handleSelectDistrict,
+
+      handleSelectProvinceRelative,
+      handleSelectDistrictRelative,
+      handleAddInfoRelativeItem,
     } = this.props;
 
     return (
@@ -131,8 +129,8 @@ export default class FormContactInfo extends Component {
                         return (
                           <TouchableOpacity
                             onPress={() => {
-                              this._setShowProvince(true);
-                              handleSelectProvince(true, rowData.id);
+                              this._setShowProvince();
+                              handleSelectProvince(rowData.id);
                             }}>
                             <View style={styles.infoBoxSelect}>
                               <Text style={styles.txtViewSelect}>
@@ -160,7 +158,7 @@ export default class FormContactInfo extends Component {
                     ) {
                       showAlert('Bạn chưa chọn Tỉnh / Thành Phố');
                     } else {
-                      this._setShowDistrict(true);
+                      this._setShowDistrict();
                     }
                   }}
                   style={boxSelectStyle(
@@ -192,8 +190,8 @@ export default class FormContactInfo extends Component {
                         return (
                           <TouchableOpacity
                             onPress={() => {
-                              this._setShowDistrict(true);
-                              handleSelectDistrict(true, rowData.id);
+                              this._setShowDistrict();
+                              handleSelectDistrict(rowData.id);
                             }}>
                             <View style={styles.infoBoxSelect}>
                               <Text style={styles.txtViewSelect}>
@@ -222,150 +220,46 @@ export default class FormContactInfo extends Component {
             <Text style={styles.txtTitleBasicInfo}>
               Liên hệ trong trường hợp khẩn cấp*
             </Text>
-            <TextInput
-              style={[txtInputStyle(relative_name), {marginBottom: 10}]}
-              returnKeyType="done"
-              value={relative_name}
-              name="relative_name"
-              placeholder="Nhập tên người thân"
-              onChangeText={text => onChangeText(text, 'relative_name')}
-            />
-            <TextInput
-              style={[txtInputStyle(relative_phone), {marginBottom: 10}]}
-              returnKeyType="done"
-              keyboardType="phone-pad"
-              value={relative_phone}
-              name="relative_phone"
-              placeholder="Nhập số điện thoại người thân"
-              onChangeText={text => onChangeText(text, 'relative_phone')}
-            />
-            <View
-              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
-              <Text style={styles.txtTitleBasicInfo}>Tỉnh / Thành Phố: </Text>
-              <View style={{flex: 1, marginStart: 10}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.setState({
-                      isShowProvinceRelative: !this.state
-                        .isShowProvinceRelative,
-                    });
-                  }}
-                  style={boxSelectStyle(
-                    this.state.isShowProvinceRelative ||
-                      !isEmpty(relative_province_id),
-                  )}>
-                  <Text style={styles.txtSelectStyle}>
-                    {getNameFromId(relative_province_id, province_list)}
-                  </Text>
-                  <ArrowUpDown />
-                </TouchableOpacity>
-                {this.state.isShowProvinceRelative ? (
-                  <View
-                    onStartShouldSetResponderCapture={() => {
-                      handleScrollView(false);
-                      if (
-                        myScroll.contentOffset === 0 &&
-                        enableScrollViewScroll === false
-                      ) {
-                        handleScrollView(true);
-                      }
-                    }}>
-                    <FlatList
-                      style={styles.viewSelect}
-                      data={province_list}
-                      renderItem={({item: rowData}) => {
-                        return (
-                          <TouchableOpacity
-                            onPress={() => {
-                              this._setShowProvince(false);
-                              handleSelectProvince(false, rowData.id);
-                            }}>
-                            <View style={styles.infoBoxSelect}>
-                              <Text style={styles.txtViewSelect}>
-                                {rowData.name}
-                              </Text>
-                            </View>
-                            <View style={styles.lineSelect} />
-                          </TouchableOpacity>
-                        );
-                      }}
-                      keyExtractor={(item, index) => index}
-                    />
-                  </View>
-                ) : null}
-              </View>
-            </View>
-            <View
-              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
-              <Text style={styles.txtTitleBasicInfo}>Quận / Huyện: </Text>
-              <View style={{flex: 1, marginStart: 10}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    if (
-                      getNameFromId(relative_province_id, province_list) ==
-                      text_select
-                    ) {
-                      showAlert('Bạn chưa chọn Tỉnh / Thành Phố');
-                    } else {
-                      this._setShowDistrict(false);
+
+            <FlatList
+              style={{width: '100%'}}
+              data={user_relative_info}
+              renderItem={({item: rowData}) => {
+                return (
+                  <ItemRelativeContact
+                    myScroll={myScroll}
+                    handleScrollView={handleScrollView}
+                    enableScrollViewScroll={enableScrollViewScroll}
+                    onChangeTextRelative={onChangeTextRelative}
+                    province_list={province_list}
+                    district_list_follow_province_relative={
+                      district_list_follow_province_relative
                     }
-                  }}
-                  style={boxSelectStyle(
-                    this.state.isShowDistrictRelative ||
-                      !isEmpty(relative_district_id),
-                  )}>
-                  <Text style={styles.txtSelectStyle}>
-                    {getDistrictNameFromId(
-                      relative_district_id,
-                      district_list_follow_province_relative,
-                    )}
-                  </Text>
-                  <ArrowUpDown />
-                </TouchableOpacity>
-                {this.state.isShowDistrictRelative ? (
-                  <View
-                    onStartShouldSetResponderCapture={() => {
-                      handleScrollView(false);
-                      if (
-                        myScroll.contentOffset === 0 &&
-                        enableScrollViewScroll === false
-                      ) {
-                        handleScrollView(true);
-                      }
-                    }}>
-                    <FlatList
-                      style={styles.viewSelect}
-                      data={district_list_follow_province_relative}
-                      renderItem={({item: rowData}) => {
-                        return (
-                          <TouchableOpacity
-                            onPress={() => {
-                              this._setShowDistrict(false);
-                              handleSelectDistrict(false, rowData.id);
-                            }}>
-                            <View style={styles.infoBoxSelect}>
-                              <Text style={styles.txtViewSelect}>
-                                {rowData.prefix + ' ' + rowData.name}
-                              </Text>
-                            </View>
-                            <View style={styles.lineSelect} />
-                          </TouchableOpacity>
-                        );
-                      }}
-                      keyExtractor={(item, index) => index}
-                    />
-                  </View>
-                ) : null}
-              </View>
-            </View>
-            <TextInput
-              style={txtInputStyle(relative_address)}
-              returnKeyType="done"
-              value={relative_address}
-              name="relative_address"
-              placeholder="Nhập số nhà, tên đường và phường / xã"
-              onChangeText={text => onChangeText(text, 'relative_address')}
+                    item={rowData}
+                    handleSelectProvinceRelative={handleSelectProvinceRelative}
+                    handleSelectDistrictRelative={handleSelectDistrictRelative}
+                  />
+                );
+              }}
+              keyExtractor={(item, index) => index}
             />
+            {user_relative_info.length < 2 ? (
+              <TouchableOpacity onPress={() => handleAddInfoRelativeItem()}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={require('../../../assets/images/ic-add-circle.png')}
+                    style={{width: 20, height: 20, marginEnd: 5}}
+                  />
+                  <Text style={{fontSize: 14, color: '#c7c7c7'}}>
+                    Thêm thông tin người thân
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ) : null}
           </View>
         </CollapseBody>
       </Collapse>

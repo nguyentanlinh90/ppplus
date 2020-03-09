@@ -44,7 +44,6 @@ export default class FormAccountIdentifier extends Component {
       isCollapsed: true,
       isShowBank: false,
       isShowBranch: false,
-      isShowProvince: false,
     };
   }
 
@@ -56,11 +55,6 @@ export default class FormAccountIdentifier extends Component {
   _setShowBranch = () => {
     this.setState({
       isShowBranch: !this.state.isShowBranch,
-    });
-  };
-  _setShowProvince = () => {
-    this.setState({
-      isShowProvince: !this.state.isShowProvince,
     });
   };
 
@@ -79,8 +73,6 @@ export default class FormAccountIdentifier extends Component {
       bank_account_name,
       bank_account_number,
       id_number,
-      id_issue_place,
-      id_issue_date,
       id_front_image,
       id_behind_image,
       degree_name,
@@ -250,70 +242,7 @@ export default class FormAccountIdentifier extends Component {
               keyboardType="numeric"
               onChangeText={text => onChangeText(text, 'id_number')}
             />
-            <View
-              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
-              <Text style={styles.txtTitleBasicInfo}>Ngày cấp: </Text>
-              <TouchableOpacity
-                onPress={() => showPickerIdentification()}
-                style={boxSelectStyle(!isEmpty(id_issue_date))}>
-                <Text style={txtInBoxSelectStyle()}>
-                  {isEmpty(id_issue_date) ? text_select : id_issue_date}
-                </Text>
-                <ArrowUpDown />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
-              <Text style={styles.txtTitleBasicInfo}>Nơi cấp: </Text>
-              <View style={{flex: 1, marginStart: 10}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this._setShowProvince();
-                  }}
-                  style={boxSelectStyle(
-                    this.state.isShowProvince || !isEmpty(id_issue_place),
-                  )}>
-                  <Text style={styles.txtSelectStyle}>
-                    {getNameFromId(id_issue_place, province_list)}
-                  </Text>
-                  <ArrowUpDown />
-                </TouchableOpacity>
-                {this.state.isShowProvince ? (
-                  <View
-                    onStartShouldSetResponderCapture={() => {
-                      handleScrollView(false);
-                      if (
-                        myScroll.contentOffset === 0 &&
-                        enableScrollViewScroll === false
-                      ) {
-                        handleScrollView(true);
-                      }
-                    }}>
-                    <FlatList
-                      style={styles.viewSelect}
-                      data={province_list}
-                      renderItem={({item: rowData}) => {
-                        return (
-                          <TouchableOpacity
-                            onPress={() => {
-                              this._setShowProvince();
-                              handleSelectProvinceIdentification(rowData.id);
-                            }}>
-                            <View style={styles.infoBoxSelect}>
-                              <Text style={styles.txtViewSelect}>
-                                {rowData.name}
-                              </Text>
-                            </View>
-                            <View style={styles.lineSelect} />
-                          </TouchableOpacity>
-                        );
-                      }}
-                      keyExtractor={(item, index) => index}
-                    />
-                  </View>
-                ) : null}
-              </View>
-            </View>
+
             <View style={styles.boxID}>
               <View style={{flex: 1, marginEnd: 10}}>
                 <Image

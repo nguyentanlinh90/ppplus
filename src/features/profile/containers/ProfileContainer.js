@@ -118,7 +118,6 @@ class ProfileContainer extends Component {
 
   render() {
     const {props} = this.props;
-    console.log('linhnt dddd');
     return (
       <SafeAreaView style={{flex: 1}}>
         <ScrollView>
