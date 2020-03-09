@@ -21,6 +21,7 @@ import {
   IMAGE_ID_BEHIND,
   IMAGE_DEGREE_FRONT,
   IMAGE_DEGREE_BEHIND,
+  IMAGE_JUDICIAL_RECORD,
   text_select,
 } from '../../../utils/constants';
 import {
@@ -85,6 +86,7 @@ export default class FormAccountIdentifier extends Component {
       degree_name,
       degree_image_front,
       degree_image_behind,
+      judicial_record_image,
 
       handleSelectBank,
       handleSelectBranch,
@@ -237,7 +239,7 @@ export default class FormAccountIdentifier extends Component {
               onChangeText={text => onChangeText(text, 'bank_account_number')}
             />
             <Text style={styles.txtTitleBasicInfo}>
-              Xác nhận thông tin cá nhân
+              Xác nhận thông tin cá nhân*
             </Text>
             <TextInput
               style={[txtInputStyle(id_number), {marginBottom: 10}]}
@@ -371,6 +373,36 @@ export default class FormAccountIdentifier extends Component {
                 />
                 <Text style={styles.txtSelectID}>Mặt sau</Text>
               </TouchableOpacity>
+            </View>
+            <Text style={styles.txtTitleBasicInfo}>Lý lịch tư pháp*</Text>
+            <View style={styles.viewJudicial}>
+              {isEmpty(judicial_record_image) ? (
+                <TouchableOpacity
+                  onPress={() => handleOpenImage(IMAGE_JUDICIAL_RECORD)}>
+                  <Image
+                    resizeMode="contain"
+                    source={require('../../../assets/images/ic-plus.png')}
+                    style={{width: 45, height: 45}}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <View style={styles.viewImageJudicial}>
+                  <Image
+                    resizeMode="stretch"
+                    source={{uri: judicial_record_image}}
+                    style={styles.imageJudicial}
+                  />
+                  <TouchableOpacity
+                    onPress={() => handleOpenImage(IMAGE_JUDICIAL_RECORD)}
+                    style={styles.buttonOpenImageJudicial}>
+                    <Image
+                      resizeMode="contain"
+                      source={require('../../../assets/images/ic-camera-white.png')}
+                      style={{width: 24, height: 24}}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
             <Text style={styles.txtTitleBasicInfo}>Bằng cấp</Text>
             <TextInput

@@ -54,6 +54,7 @@ import {
   IMAGE_ID_BEHIND,
   IMAGE_DEGREE_FRONT,
   IMAGE_DEGREE_BEHIND,
+  IMAGE_JUDICIAL_RECORD
 } from '../../../utils/constants';
 var token = '';
 export class FillProfileContainer extends Component {
@@ -123,6 +124,8 @@ export class FillProfileContainer extends Component {
       degree_image_front_data: '',
       degree_image_behind: '',
       degree_image_behind_data: '',
+      judicial_record_image: '',
+      judicial_record_image_data:'',
     };
     this._onChangeText = this._onChangeText.bind(this);
     this._getToken();
@@ -228,6 +231,11 @@ export class FillProfileContainer extends Component {
             degree_image_behind: response.uri,
             degree_image_behind_data: response.data,
           });
+        } else if (numberOfImage == IMAGE_JUDICIAL_RECORD) {
+          this.setState({
+            judicial_record_image: response.uri,
+            judicial_record_image_data: response.data,
+          });
         }
       }
     });
@@ -273,6 +281,11 @@ export class FillProfileContainer extends Component {
       this.setState({
         degree_image_behind: '',
         degree_image_behind_data: '',
+      });
+    } else if (numberOfImage == IMAGE_JUDICIAL_RECORD) {
+      this.setState({
+        judicial_record_image: '',
+        judicial_record_image_data: '',
       });
     }
   };
@@ -482,6 +495,8 @@ export class FillProfileContainer extends Component {
       degree_name: data.education.degree_name,
       degree_image_front: data.education.degree_images.degree_image_front,
       degree_image_behind: data.education.degree_images.degree_image_behind,
+      judicial_record_image: '',//todo load api
+
     });
   };
 
@@ -523,9 +538,10 @@ export class FillProfileContainer extends Component {
       degree_name,
       degree_image_front_data,
       degree_image_behind_data,
+      judicial_record_image_data
     } = this.state;
 
-    if (
+      if (
       isEmpty(first_name) ||
       isEmpty(last_name) ||
       isEmpty(birthday) ||
@@ -577,9 +593,9 @@ export class FillProfileContainer extends Component {
       degree_name: degree_name,
       degree_image_front: degree_image_front_data,
       degree_image_behind: degree_image_behind_data,
+      judicial_record_image: judicial_record_image_data,
       type: 'full_detail',
     };
-
     if (token != '') {
       doUpdateUserInfo(params, token);
     }
@@ -794,6 +810,7 @@ export class FillProfileContainer extends Component {
                 degree_name={this.state.degree_name}
                 degree_image_front={this.state.degree_image_front}
                 degree_image_behind={this.state.degree_image_behind}
+                judicial_record_image={this.state.judicial_record_image}
                 handleSelectBank={this._handleSelectBank}
                 handleSelectBranch={this._handleSelectBranch}
                 showPickerIdentification={this._showPickerIdentification}

@@ -20,3 +20,4 @@ export const IMAGE_ID_FRONT = 5;
 export const IMAGE_ID_BEHIND = 6;
 export const IMAGE_DEGREE_FRONT = 7;
 export const IMAGE_DEGREE_BEHIND = 8;
+export const IMAGE_JUDICIAL_RECORD = 9;

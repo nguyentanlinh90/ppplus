@@ -42,20 +42,8 @@ class ProfileContainer extends Component {
       first_name: '',
       point_rewards: 0,
     };
-    this._getToken();
+    token = this.props.token.token;
   }
-
-  async _getToken() {
-    token = await AsyncStorage.getItem(ACCESS_TOKEN);
-    if (token && !isEmpty(token)) {
-      this._getUserInfo(token);
-    }
-  }
-
-  _getUserInfo = token => {
-    const {getUserInfo} = this.props;
-    getUserInfo('basic_detail', token);
-  };
 
   refresh = (avatar, last_name, first_name) => {
     this.setState({
@@ -102,6 +90,13 @@ class ProfileContainer extends Component {
     });
   };
 
+  _getUserInfo = () => {
+    const {getUserInfo} = this.props;
+    getUserInfo('basic_detail', token);
+  };
+  componentDidMount() {
+    this._getUserInfo();
+  }
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.GET_USER_BASIC_INFO_SUCCESS) {
       this.setState({isLoading: false});
@@ -114,7 +109,7 @@ class ProfileContainer extends Component {
     } else if (nextProps.msg_code == types.LOGOUT_SUCCESS) {
       nextProps.changeMsgCode('');
       setStoreData(ACCESS_TOKEN, '');
-      this.props._gotoRetroScreen();
+      this.props.gotoRetroScreen();
     } else if (nextProps.msg_code == types.LOGOUT_FAIL) {
       showAlert(nextProps.message);
       nextProps.changeMsgCode('');
@@ -123,6 +118,7 @@ class ProfileContainer extends Component {
 
   render() {
     const {props} = this.props;
+    console.log('linhnt dddd');
     return (
       <SafeAreaView style={{flex: 1}}>
         <ScrollView>

@@ -51,7 +51,7 @@ export default StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     height: '100%',
-    justifyContent:'center'
+    justifyContent: 'center',
   },
   inputLogin: {
     height: 48,
@@ -143,5 +143,22 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
+  },
+  defaultContainerAlert: {
+    paddingTop: 20,
+    paddingStart: 20,
+    paddingEnd: 20,
+  },
+  defaultTextAlert: {
+    ...Platform.select({
+      ios: {
+        margin: 30,
+      },
+      android: {
+        marginStart: 20,
+        marginEnd: 20,
+        marginBottom: 20,
+      },
+    }),
   },
 });

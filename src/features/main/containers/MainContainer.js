@@ -88,6 +88,14 @@ class MainContainer extends Component {
   _gotoRetroScreen = () => {
     dispatchScreen(this.props, SCREEN_RETRO, {});
   };
+  // componentDidMount() {
+  //   this._getUserInfo();
+  // }
+
+  // _getUserInfo = () => {
+  //   const {getUserInfo} = this.props;
+  //   getUserInfo('basic_detail', token);
+  // };
 
   render() {
     return (
@@ -210,7 +218,10 @@ class MainContainer extends Component {
               return;
               this._loadData('schedule');
             }}>
-            <ScheduleContainer messages={this.state.messages} props={this.props} />
+            <ScheduleContainer
+              messages={this.state.messages}
+              props={this.props}
+            />
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'profile'}
@@ -234,7 +245,8 @@ class MainContainer extends Component {
             onPress={() => this._openTab('profile')}>
             <Profile
               props={this.props}
-              _gotoRetroScreen={this._gotoRetroScreen}
+              token={token}
+              gotoRetroScreen={this._gotoRetroScreen}
             />
           </TabNavigator.Item>
         </TabNavigator>

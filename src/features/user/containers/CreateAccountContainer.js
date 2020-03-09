@@ -10,6 +10,7 @@ import {
   Keyboard,
   Alert,
 } from 'react-native';
+import DropdownAlert from 'react-native-dropdownalert';
 import CreateAccountForm from '../components/CreateAccountForm';
 import {doCreateAccount} from '../actions/index';
 import rootStyles from '../../../styles/styles';
@@ -26,13 +27,13 @@ export class CreateAccountContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '',
-      reference_code: '',
-      password: '',
-      password_confirm: '',
+      phone: '0988777666',
+      reference_code: 'ABC123',
+      password: 'Abc123@',
+      password_confirm: 'Abc123@',
       isLoading: false,
       isConnecting: false,
-      isAgree: false,
+      isAgree: true,
     };
     this.handleCreateAccount = this.handleCreateAccount.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
@@ -73,6 +74,10 @@ export class CreateAccountContainer extends Component {
     } else if (type == 'password_confirm') {
       this.setState({password_confirm: text});
     }
+  };
+
+  _showAlert = message => {
+    this.dropdown.alertWithType('error', 'Lỗi', message);
   };
 
   handleCreateAccount = () => {
@@ -140,7 +145,8 @@ export class CreateAccountContainer extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.REGISTER_USER_FAIL) {
       this.setState({isLoading: false});
-      showAlert(nextProps.message);
+      // showAlert(nextProps.message);
+      this._showAlert(nextProps.message);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.REGISTER_USER_SUCCESS) {
       this.setState({isLoading: false});
@@ -182,6 +188,11 @@ export class CreateAccountContainer extends Component {
               />
             </KeyboardAvoidingView>
           </View>
+          <DropdownAlert
+            ref={ref => (this.dropdown = ref)}
+            defaultContainer={styles.defaultContainerAlert}
+            defaultTextContainer={styles.defaultTextAlert}
+          />
         </SafeAreaView>
       </TouchableWithoutFeedback>
     );

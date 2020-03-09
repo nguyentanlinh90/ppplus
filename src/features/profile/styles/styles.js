@@ -322,4 +322,28 @@ export default StyleSheet.create({
     borderColor: '#F0532D',
     borderRadius: 6,
   },
+  viewJudicial: {
+    height: 222,
+    backgroundColor: '#f1f1f1',
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  viewImageJudicial: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'flex-end',
+  },
+  imageJudicial: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    borderRadius: 8,
+  },
+  buttonOpenImageJudicial: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

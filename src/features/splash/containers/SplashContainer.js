@@ -4,6 +4,7 @@ import {View, Image, AsyncStorage} from 'react-native';
 import {dispatchScreen} from '../../../utils/utils';
 import {ACCESS_TOKEN, IS_UPDATE_BASIC} from '../../../utils/constants';
 import {
+  SCREEN_INPUT_OTP,
   SCREEN_INFO,
   SCREEN_MAIN,
   SCREEN_RETRO,

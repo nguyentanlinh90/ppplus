@@ -34,8 +34,8 @@ export const showAlert = massage => {
   Alert.alert(
     'Thông báo',
     massage,
-    [{text: 'Đồng Ý', onPress: () => console.log('Ok Pressed')}],
-    {cancelable: true},
+    [{text: 'Đồng Ý', onPress: () => {}}],
+    {cancelable: false},
   );
 };
 

@@ -40,7 +40,7 @@ class InfoContainer extends Component {
       isDateTimePickerVisible: false,
       firstName: '',
       lastName: '',
-      genderMale: true,
+      genderMale: false,
       genderFeMale: false,
       birthday: txt_dob_select,
       provinceIDs: [],
