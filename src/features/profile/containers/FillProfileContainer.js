@@ -57,6 +57,16 @@ import {
   IMAGE_JUDICIAL_RECORD,
 } from '../../../utils/constants';
 var token = '';
+let options = {
+  title: 'Chọn ảnh',
+  cancelButtonTitle: 'Hủy',
+  takePhotoButtonTitle: 'Chụp từ Camera',
+  chooseFromLibraryButtonTitle: 'Chọn từ thư viện',
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+};
 export class FillProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -65,7 +75,6 @@ export class FillProfileContainer extends Component {
 
       isLoading: true,
       isShowBirthday: false,
-      isShowIdentification: false,
 
       gender_list: [],
       province_list: [],
@@ -77,18 +86,12 @@ export class FillProfileContainer extends Component {
       bank_list: [],
       bank_branch_list: [],
       bank_branch_list_follow_bank: [],
+      personal_types_list: [],
 
       percent_updated: 0,
       avatar: '',
       avatar_data: '',
-      sub_avatar_1: '',
-      sub_avatar_1_data: '',
-      sub_avatar_2: '',
-      sub_avatar_2_data: '',
-      sub_avatar_3: '',
-      sub_avatar_3_data: '',
-      sub_avatar_4: '',
-      sub_avatar_4_data: '',
+      sub_avatar_list: {},
 
       last_name: '',
       first_name: '',
@@ -102,29 +105,14 @@ export class FillProfileContainer extends Component {
       district_id: '',
       address: '',
       user_relative_info: [],
-      relative_name: '',
-      relative_phone: '',
-      relative_province_id: '',
-      relative_district_id: '',
-      relative_address: '',
       education_id: '',
       education_major_name: '',
       bank_id: '',
       bank_branch_id: '',
       bank_account_name: '',
       bank_account_number: '',
-      id_type: '',
-      id_issue_date: '',
-      id_issue_place: '',
-      id_front_image: '',
-      id_front_image_data: '',
-      id_behind_image: '',
-      id_behind_image_data: '',
-      degree_name: '',
-      degree_image_front: '',
-      degree_image_front_data: '',
-      degree_image_behind: '',
-      degree_image_behind_data: '',
+      personal_info: {},
+      degree_info: [],
       judicial_record_image: '',
       judicial_record_image_data: '',
     };
@@ -159,40 +147,30 @@ export class FillProfileContainer extends Component {
     }
   };
 
-  _onChangeTextRelative = (idRelative, text, type) => {
+  _onChangeTextRelative = (index, text, type) => {
     const {user_relative_info} = this.state;
-    for (var i = 0; i < user_relative_info.length; i++) {
-      if (idRelative == user_relative_info[i].relative_id) {
-        var arr = user_relative_info;
+    var arr = user_relative_info;
 
-        if (type == 'relative_name') {
-          arr[i].relative_name = text;
-          this.setState({user_relative_info: arr});
-        } else if (type == 'relative_phone') {
-          arr[i].relative_phone = text;
-          this.setState({user_relative_info: arr});
-        } else if (type == 'relative_address') {
-          arr[i].relative_address = text;
-          this.setState({user_relative_info: arr});
-        }
-      }
+    if (type == 'relative_name') {
+      arr[index].relative_name = text;
+      this.setState({user_relative_info: arr});
+    } else if (type == 'relative_phone') {
+      arr[index].relative_phone = text;
+      this.setState({user_relative_info: arr});
+    } else if (type == 'relative_address') {
+      arr[index].relative_address = text;
+      this.setState({user_relative_info: arr});
     }
   };
 
+  _onChangeTextDegree = (index, text, type) => {
+    const {degree_info} = this.state;
+    var arr = degree_info;
+    arr[index].degree_name = text;
+    this.setState({degree_info: arr});
+  };
+
   _handleOpenImage = numberOfImage => {
-    let options = {
-      title: 'Chọn ảnh',
-      cancelButtonTitle: 'Hủy',
-      takePhotoButtonTitle: 'Chụp từ Camera',
-      chooseFromLibraryButtonTitle: 'Chọn từ thư viện',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-
-    const {urlImage} = this.props;
-
     ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
       } else if (response.error) {
@@ -204,45 +182,37 @@ export class FillProfileContainer extends Component {
             avatar_data: response.data,
           });
         } else if (numberOfImage == IMAGE_1) {
-          this.setState({
-            sub_avatar_1: response.uri,
-            sub_avatar_1_data: response.data,
-          });
+          var temp = this.state.sub_avatar_list;
+          temp.sub_avatar_1 = response.uri;
+          temp.sub_avatar_1_data = response.data;
+          this.setState({sub_avatar_list: temp});
         } else if (numberOfImage == IMAGE_2) {
-          this.setState({
-            sub_avatar_2: response.uri,
-            sub_avatar_2_data: response.data,
-          });
+          var temp = this.state.sub_avatar_list;
+          temp.sub_avatar_2 = response.uri;
+          temp.sub_avatar_2_data = response.data;
+          this.setState({sub_avatar_list: temp});
         } else if (numberOfImage == IMAGE_3) {
-          this.setState({
-            sub_avatar_3: response.uri,
-            sub_avatar_3_data: response.data,
-          });
+          var temp = this.state.sub_avatar_list;
+          temp.sub_avatar_3 = response.uri;
+          temp.sub_avatar_3_data = response.data;
+          this.setState({sub_avatar_list: temp});
         } else if (numberOfImage == IMAGE_4) {
-          this.setState({
-            sub_avatar_4: response.uri,
-            sub_avatar_4_data: response.data,
-          });
+          var temp = this.state.sub_avatar_list;
+          temp.sub_avatar_4 = response.uri;
+          temp.sub_avatar_4_data = response.data;
+          this.setState({sub_avatar_list: temp});
         } else if (numberOfImage == IMAGE_ID_FRONT) {
-          this.setState({
-            id_front_image: response.uri,
-            id_front_image_data: response.data,
-          });
+          const {personal_info} = this.state;
+          var temp = personal_info;
+          temp.id_front_image = response.uri;
+          temp.id_front_image_data = response.data;
+          this.setState({personal_info: temp});
         } else if (numberOfImage == IMAGE_ID_BEHIND) {
-          this.setState({
-            id_behind_image: response.uri,
-            id_behind_image_data: response.data,
-          });
-        } else if (numberOfImage == IMAGE_DEGREE_FRONT) {
-          this.setState({
-            degree_image_front: response.uri,
-            degree_image_front_data: response.data,
-          });
-        } else if (numberOfImage == IMAGE_DEGREE_BEHIND) {
-          this.setState({
-            degree_image_behind: response.uri,
-            degree_image_behind_data: response.data,
-          });
+          const {personal_info} = this.state;
+          var temp = personal_info;
+          temp.id_behind_image = response.uri;
+          temp.id_behind_image_data = response.data;
+          this.setState({personal_info: temp});
         } else if (numberOfImage == IMAGE_JUDICIAL_RECORD) {
           this.setState({
             judicial_record_image: response.uri,
@@ -253,52 +223,87 @@ export class FillProfileContainer extends Component {
     });
   };
 
+  _handleOpenImageDegree = (index, numberOfImage) => {
+    ImagePicker.showImagePicker(options, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+        ``;
+      } else if (response.customButton) {
+      } else {
+        if (numberOfImage == IMAGE_DEGREE_FRONT) {
+          var arr = this.state.degree_info;
+          arr[index].degree_image_front = response.uri;
+          arr[index].degree_image_front_data = response.data;
+
+          this.setState({degree_info: arr});
+        } else if (numberOfImage == IMAGE_DEGREE_BEHIND) {
+          var arr = this.state.degree_info;
+          arr[index].degree_image_behind = response.uri;
+          arr[index].degree_image_behind_data = response.data;
+
+          this.setState({degree_info: arr});
+        }
+      }
+    });
+  };
+
   _handleCloseImage = numberOfImage => {
     if (numberOfImage == IMAGE_1) {
-      this.setState({
-        sub_avatar_1: '',
-        sub_avatar_1_data: '',
-      });
+      var temp = this.state.sub_avatar_list;
+      temp.sub_avatar_1 = '';
+      temp.sub_avatar_1_data = '';
+      this.setState({sub_avatar_list: temp});
     } else if (numberOfImage == IMAGE_2) {
-      this.setState({
-        sub_avatar_2: '',
-        sub_avatar_2_data: '',
-      });
+      var temp = this.state.sub_avatar_list;
+      temp.sub_avatar_2 = '';
+      temp.sub_avatar_2_data = '';
+      this.setState({sub_avatar_list: temp});
     } else if (numberOfImage == IMAGE_3) {
-      this.setState({
-        sub_avatar_3: '',
-        sub_avatar_3_data: '',
-      });
+      var temp = this.state.sub_avatar_list;
+      temp.sub_avatar_3 = '';
+      temp.sub_avatar_3_data = '';
+      this.setState({sub_avatar_list: temp});
     } else if (numberOfImage == IMAGE_4) {
-      this.setState({
-        sub_avatar_4: '',
-        sub_avatar_4_data: '',
-      });
+      var temp = this.state.sub_avatar_list;
+      temp.sub_avatar_4 = '';
+      temp.sub_avatar_4_data = '';
+      this.setState({sub_avatar_list: temp});
     } else if (numberOfImage == IMAGE_ID_FRONT) {
+      const {personal_info} = this.state;
+      var temp = personal_info;
+      temp.id_front_image = '';
       this.setState({
-        id_front_image: '',
+        personal_info: temp,
         id_front_image_data: '',
       });
     } else if (numberOfImage == IMAGE_ID_BEHIND) {
+      const {personal_info} = this.state;
+      var temp = personal_info;
+      temp.id_behind_image = '';
       this.setState({
-        id_behind_image: '',
+        personal_info: temp,
         id_behind_image_data: '',
-      });
-    } else if (numberOfImage == IMAGE_DEGREE_FRONT) {
-      this.setState({
-        degree_image_front: '',
-        degree_image_front_data: '',
-      });
-    } else if (numberOfImage == IMAGE_DEGREE_BEHIND) {
-      this.setState({
-        degree_image_behind: '',
-        degree_image_behind_data: '',
       });
     } else if (numberOfImage == IMAGE_JUDICIAL_RECORD) {
       this.setState({
         judicial_record_image: '',
         judicial_record_image_data: '',
       });
+    }
+  };
+  _handleCloseImageDegree = (index, numberOfImage) => {
+    if (numberOfImage == IMAGE_DEGREE_FRONT) {
+      var arr = this.state.degree_info;
+      arr[index].degree_image_front = '';
+      arr[index].degree_image_front_data = '';
+
+      this.setState({degree_info: arr});
+    } else if (numberOfImage == IMAGE_DEGREE_BEHIND) {
+      var arr = this.state.degree_info;
+      arr[index].degree_image_behind = '';
+      arr[index].degree_image_behind_data = '';
+
+      this.setState({degree_info: arr});
     }
   };
 
@@ -332,36 +337,6 @@ export class FillProfileContainer extends Component {
         minimumDate={new Date('01/01/1950')}
         maximumDate={c}
         titleIOS="Chọn ngày sinh"
-        confirmTextIOS="Xác nhận"
-        cancelTextIOS="Huỷ"
-      />
-    );
-  }
-  _showPickerIdentification = () => {
-    this.setState({isShowIdentification: true});
-  };
-
-  _hidePickerIdentification = () => {
-    this.setState({isShowBirthday: false});
-  };
-
-  _handleDatePickedIdentification = date => {
-    const dateFormat = moment(date).format('DD/MM/YYYY');
-    this.setState({id_issue_date: dateFormat});
-    this._hidePickerIdentification();
-  };
-
-  _renderIdentificationPicker() {
-    return (
-      <DateTimePicker
-        isVisible={this.state.isShowIdentification}
-        onConfirm={this._handleDatePickedIdentification}
-        onCancel={this._hidePickerIdentification}
-        mode="date"
-        locale="vi"
-        minimumDate={new Date('01/01/1950')}
-        maximumDate={new Date()}
-        titleIOS="Chọn ngày"
         confirmTextIOS="Xác nhận"
         cancelTextIOS="Huỷ"
       />
@@ -425,6 +400,19 @@ export class FillProfileContainer extends Component {
     this.setState({user_relative_info: arr});
   };
 
+  _handleAddDegreeRelativeItem = () => {
+    const objectParams = {
+      degree_name: '',
+      degree_image_front: '',
+      degree_image_front_data: '',
+      degree_image_behind: '',
+      degree_image_behind_data: '',
+    };
+    var arr = this.state.degree_info;
+    arr.push(objectParams);
+    this.setState({degree_info: arr});
+  };
+
   _handleSelectProvinces = provinceIdSelect => {
     const {working_places} = this.state;
     if (handleCheck(provinceIdSelect, working_places)) {
@@ -471,6 +459,12 @@ export class FillProfileContainer extends Component {
     this.setState({bank_branch_id: branchSelect});
   };
 
+  _handleSelectPersonalInfo = id_type => {
+    const {personal_info} = this.state;
+    var temp = personal_info;
+    temp.id_type = id_type;
+    this.setState({personal_info: temp});
+  };
   _handleSelectProvinceIdentification = provinceSelect => {
     this.setState({
       id_issue_place: provinceSelect,
@@ -500,12 +494,10 @@ export class FillProfileContainer extends Component {
       education_list: data.education_list,
       bank_list: data.bank_list,
       bank_branch_list: data.bank_branch_list,
+      personal_types_list: data.personal_types_list,
 
       avatar: data.avatar,
-      sub_avatar_1: data.sub_avatar_list.sub_avatar_1,
-      sub_avatar_2: data.sub_avatar_list.sub_avatar_2,
-      sub_avatar_3: data.sub_avatar_list.sub_avatar_3,
-      sub_avatar_4: data.sub_avatar_list.sub_avatar_4,
+      sub_avatar_list: data.sub_avatar_list,
       percent_updated: data.percent_updated,
       first_name: data.first_name,
       last_name: data.last_name,
@@ -519,37 +511,24 @@ export class FillProfileContainer extends Component {
       district_id: data.address.district_id,
       address: data.address.address,
       user_relative_info: data.user_relative_info,
-      relative_name: data.user_relative_info[0].relative_name,
-      relative_phone: data.user_relative_info[0].relative_phone,
-      relative_province_id: data.user_relative_info[0].relative_province_id,
-      relative_district_id: data.user_relative_info[0].relative_district_id,
-      relative_address: data.user_relative_info[0].relative_address,
       education_id: data.education.education_id,
       education_major_name: data.education.education_major_name,
       bank_id: data.user_bank_info.bank_id,
       bank_branch_id: data.user_bank_info.bank_branch_id,
       bank_account_name: data.user_bank_info.bank_account_name,
       bank_account_number: data.user_bank_info.bank_account_number,
-      id_type: data.personal_info.id_type,
-      id_front_image: data.personal_info.id_front_image,
-      id_behind_image: data.personal_info.id_behind_image,
+      personal_info: data.personal_info,
       judicial_record_image: data.judicial_record_image,
-      degree_name: data.education.degree_name,
-      degree_image_front: '',
-      degree_image_behind: '',
+      degree_info: data.degree_info,
     });
   };
 
   _handleUpdateFullInfo = () => {
     const {doUpdateUserInfo} = this.props;
 
-    con;
     const {
       avatar_data,
-      sub_avatar_1_data,
-      sub_avatar_2_data,
-      sub_avatar_3_data,
-      sub_avatar_4_data,
+      sub_avatar_list,
       first_name,
       last_name,
       birthday,
@@ -601,10 +580,10 @@ export class FillProfileContainer extends Component {
     }
     const params = {
       avatar: avatar_data,
-      sub_avatar_1: sub_avatar_1_data,
-      sub_avatar_2: sub_avatar_2_data,
-      sub_avatar_3: sub_avatar_3_data,
-      sub_avatar_4: sub_avatar_4_data,
+      sub_avatar_1: sub_avatar_list.sub_avatar_1_data,
+      sub_avatar_2: sub_avatar_list.sub_avatar_2_data,
+      sub_avatar_3: sub_avatar_list.sub_avatar_3_data,
+      sub_avatar_4: sub_avatar_list.sub_avatar_4_data,
       first_name: first_name,
       last_name: last_name,
       birthday: birthday,
@@ -616,11 +595,31 @@ export class FillProfileContainer extends Component {
       province_id: province_id,
       district_id: district_id,
       address: address,
-      relative_name: relative_name,
-      relative_phone: relative_phone,
-      relative_province_id: relative_province_id,
-      relative_district_id: relative_district_id,
-      relative_address: relative_address,
+      relative_name_1: user_relative_info[0].relative_name,
+      relative_phone_1: user_relative_info[0].relative_phone,
+      relative_province_id_1: user_relative_info[0].relative_province_id,
+      relative_district_id_1: user_relative_info[0].relative_district_id,
+      relative_address_1: user_relative_info[0].relative_address,
+      relative_name_2:
+        user_relative_info.length == 2
+          ? user_relative_info[1].relative_name
+          : '',
+      relative_phone_2:
+        user_relative_info.length == 2
+          ? user_relative_info[1].relative_phone
+          : '',
+      relative_province_id_2:
+        user_relative_info.length == 2
+          ? user_relative_info[1].relative_province_id
+          : '',
+      relative_district_id_2:
+        user_relative_info.length == 2
+          ? user_relative_info[1].relative_district_id
+          : '',
+      relative_address_2:
+        user_relative_info.length == 2
+          ? user_relative_info[1].relative_address
+          : '',
       education_id: education_id,
       education_major_name: education_major_name,
       bank_id: bank_id,
@@ -630,14 +629,42 @@ export class FillProfileContainer extends Component {
       id_type: id_type,
       id_front_image: id_front_image_data,
       id_behind_image: id_behind_image_data,
-      degree_name: degree_name,
-      degree_image_front: degree_image_front_data,
-      degree_image_behind: degree_image_behind_data,
+      //
+      degree_name_1: degree_info[0].degree_name,
+      degree_image_front_1: degree_info[0].degree_image_front_data,
+      degree_image_behind_1: degree_info[0].degree_image_behind_data,
+      //
+      degree_name_2: degree_info.length == 2 ? degree_info[1].degree_name : '',
+      degree_image_front_2:
+        degree_info.length == 2 ? degree_info[1].degree_image_front_data : '',
+      degree_image_behind_2:
+        degree_info.length == 2 ? degree_info[1].degree_image_behind_data : '',
+      //
+      degree_name_3: degree_info.length == 3 ? degree_info[2].degree_name : '',
+      degree_image_front_3:
+        degree_info.length == 3 ? degree_info[2].degree_image_front_data : '',
+      degree_image_behind_3:
+        degree_info.length == 3 ? degree_info[2].degree_image_behind_data : '',
+      //
+      degree_name_4: degree_info.length == 4 ? degree_info[3].degree_name : '',
+      degree_image_front_4:
+        degree_info.length == 4 ? degree_info[3].degree_image_front_data : '',
+      degree_image_behind_4:
+        degree_info.length == 4 ? degree_info[3].degree_image_behind_data : '',
+      //
+      degree_name_5: degree_info.length == 5 ? degree_info[4].degree_name : '',
+      degree_image_front_5:
+        degree_info.length == 5 ? degree_info[4].degree_image_front_data : '',
+      degree_image_behind_5:
+        degree_info.length == 5 ? degree_info[4].degree_image_behind_data : '',
+      //
       judicial_record_image: judicial_record_image_data,
       type: 'full_detail',
     };
+
+    console.log('linhnt', params);
     if (token != '') {
-      doUpdateUserInfo(params, token);
+      // doUpdateUserInfo(params, token);
     }
   };
 
@@ -706,7 +733,6 @@ export class FillProfileContainer extends Component {
                 textStyle={{color: '#fff'}}
               />
               {this._renderBirthdayPicker()}
-              {this._renderIdentificationPicker()}
               <View style={styles.viewTop}>
                 <View style={{flex: 1}}>
                   <TouchableOpacity
@@ -759,10 +785,7 @@ export class FillProfileContainer extends Component {
                 </View>
               </View>
               <FormImageProfile
-                sub_avatar_1={this.state.sub_avatar_1}
-                sub_avatar_2={this.state.sub_avatar_2}
-                sub_avatar_3={this.state.sub_avatar_3}
-                sub_avatar_4={this.state.sub_avatar_4}
+                sub_avatar_list={this.state.sub_avatar_list}
                 handleOpenImage={this._handleOpenImage}
                 handleCloseImage={this._handleCloseImage}
               />
@@ -838,32 +861,34 @@ export class FillProfileContainer extends Component {
                 handleScrollView={this._handleScrollView}
                 enableScrollViewScroll={this.state.enableScrollViewScroll}
                 onChangeText={this._onChangeText}
+                onChangeTextDegree={this._onChangeTextDegree}
                 bank_list={this.state.bank_list}
                 bank_branch_list_follow_bank={
                   this.state.bank_branch_list_follow_bank
                 }
                 province_list={this.state.province_list}
+                personal_types_list={this.state.personal_types_list}
+                //
                 bank_id={this.state.bank_id}
                 bank_branch_id={this.state.bank_branch_id}
                 bank_account_name={this.state.bank_account_name}
                 bank_account_number={this.state.bank_account_number}
                 number={this.state.number}
-                id_issue_place={this.state.id_issue_place}
-                id_issue_date={this.state.id_issue_date}
-                id_front_image={this.state.id_front_image}
-                id_behind_image={this.state.id_behind_image}
-                degree_name={this.state.degree_name}
-                degree_image_front={this.state.degree_image_front}
-                degree_image_behind={this.state.degree_image_behind}
-                judicial_record_image={this.state.judicial_record_image}
+                personal_info={this.state.personal_info}
+                degree_info={this.state.degree_info}
+                //
                 handleSelectBank={this._handleSelectBank}
                 handleSelectBranch={this._handleSelectBranch}
+                handleSelectPersonalInfo={this._handleSelectPersonalInfo}
                 showPickerIdentification={this._showPickerIdentification}
                 handleSelectProvinceIdentification={
                   this._handleSelectProvinceIdentification
                 }
                 handleOpenImage={this._handleOpenImage}
                 handleCloseImage={this._handleCloseImage}
+                handleAddDegreeRelativeItem={this._handleAddDegreeRelativeItem}
+                handleOpenImageDegree={this._handleOpenImageDegree}
+                handleCloseImageDegree={this._handleCloseImageDegree}
               />
               <View style={styles.boxIndicatorFill} />
             </ScrollView>

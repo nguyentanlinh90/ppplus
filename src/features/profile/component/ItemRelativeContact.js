@@ -7,11 +7,6 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import {
-  Collapse,
-  CollapseHeader,
-  CollapseBody,
-} from 'accordion-collapse-react-native';
 import ArrowUpDown from '../../../components/ArrowUpDown';
 import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
@@ -59,7 +54,8 @@ export default class ItemRelativeContact extends Component {
 
       province_list,
       district_list_follow_province_relative,
-
+      
+      index,
       item,
 
       handleSelectProvinceRelative,
@@ -75,7 +71,7 @@ export default class ItemRelativeContact extends Component {
           name="relative_name"
           placeholder="Nhập tên người thân"
           onChangeText={text =>
-            onChangeTextRelative(item.relative_id, text, 'relative_name')
+            onChangeTextRelative(index, text, 'relative_name')
           }
         />
         <TextInput
@@ -86,7 +82,7 @@ export default class ItemRelativeContact extends Component {
           name="relative_phone"
           placeholder="Nhập số điện thoại người thân"
           onChangeText={text =>
-            onChangeTextRelative(item.relative_id, text, 'relative_phone')
+            onChangeTextRelative(index, text, 'relative_phone')
           }
         />
         <View style={{marginBottom: 10, marginTop: 10, flexDirection: 'row'}}>
@@ -218,7 +214,7 @@ export default class ItemRelativeContact extends Component {
           name="relative_address"
           placeholder="Nhập số nhà, tên đường và phường / xã"
           onChangeText={text =>
-            onChangeTextRelative(item.relative_id, text, 'relative_address')
+            onChangeTextRelative(index, text, 'relative_address')
           }
         />
       </View>

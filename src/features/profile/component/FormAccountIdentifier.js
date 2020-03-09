@@ -15,6 +15,7 @@ import {
 import ArrowUpDown from '../../../components/ArrowUpDown';
 import ArrowUp from '../../../components/ArrowUp';
 import ArrowDown from '../../../components/ArrowDown';
+import ItemRelativeDegree from '../component/ItemRelativeDegree';
 import styles from '../styles/styles';
 import {
   IMAGE_ID_FRONT,
@@ -34,7 +35,6 @@ import {
   isEmpty,
 } from '../../../utils/utils';
 
-import ImageClose from '../../../components/CloseImage';
 import CloseImage from '../../../components/CloseImage';
 
 export default class FormAccountIdentifier extends Component {
@@ -44,6 +44,7 @@ export default class FormAccountIdentifier extends Component {
       isCollapsed: true,
       isShowBank: false,
       isShowBranch: false,
+      isShowPersonalInfo: false,
     };
   }
 
@@ -58,34 +59,42 @@ export default class FormAccountIdentifier extends Component {
     });
   };
 
+  _setShowPersonalInfo = () => {
+    this.setState({
+      isShowPersonalInfo: !this.state.isShowPersonalInfo,
+    });
+  };
+
   render() {
     const {
       myScroll,
       handleScrollView,
       enableScrollViewScroll,
       onChangeText,
+      onChangeTextDegree,
       province_list,
       bank_list,
       bank_branch_list_follow_bank,
+      personal_types_list,
 
       bank_id,
       bank_branch_id,
       bank_account_name,
       bank_account_number,
-      id_number,
-      id_front_image,
-      id_behind_image,
-      degree_name,
-      degree_image_front,
-      degree_image_behind,
+      personal_info,
       judicial_record_image,
+      degree_info,
 
       handleSelectBank,
       handleSelectBranch,
       handleSelectProvinceIdentification,
+      handleSelectPersonalInfo,
       showPickerIdentification,
       handleOpenImage,
       handleCloseImage,
+      handleOpenImageDegree,
+      handleCloseImageDegree,
+      handleAddDegreeRelativeItem,
     } = this.props;
     return (
       <Collapse
@@ -233,28 +242,60 @@ export default class FormAccountIdentifier extends Component {
             <Text style={styles.txtTitleBasicInfo}>
               Xác nhận thông tin cá nhân*
             </Text>
-            <TextInput
-              style={[txtInputStyle(id_number), {marginBottom: 10}]}
-              returnKeyType="done"
-              value={id_number}
-              name="id_number"
-              placeholder="Số CMND / CCCD"
-              keyboardType="numeric"
-              onChangeText={text => onChangeText(text, 'id_number')}
-            />
+
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({
+                  isShowPersonalInfo: !this.state.isShowPersonalInfo,
+                });
+              }}
+              style={boxSelectStyle(
+                this.state.isShowPersonalInfo ||
+                  !isEmpty(personal_info.id_type),
+              )}>
+              <Text style={styles.txtSelectStyle}>
+                {getNameFromId(personal_info.id_type, personal_types_list)}
+              </Text>
+              <ArrowUpDown />
+            </TouchableOpacity>
+            {this.state.isShowPersonalInfo ? (
+              <View>
+                <FlatList
+                  style={styles.viewSelectFullHeight}
+                  data={personal_types_list}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          this._setShowPersonalInfo();
+                          handleSelectPersonalInfo(rowData.id);
+                        }}>
+                        <View style={styles.infoBoxSelect}>
+                          <Text style={styles.txtViewSelect}>
+                            {rowData.name}
+                          </Text>
+                        </View>
+                        <View style={styles.lineSelect} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+              </View>
+            ) : null}
 
             <View style={styles.boxID}>
               <View style={{flex: 1, marginEnd: 10}}>
                 <Image
                   resizeMode="stretch"
                   source={
-                    id_front_image
-                      ? {uri: id_front_image}
+                    personal_info.id_front_image
+                      ? {uri: personal_info.id_front_image}
                       : require('../../../assets/images/bg-id-front.png')
                   }
                   style={styles.boxIDItemImage}
                 />
-                {id_front_image ? (
+                {personal_info.id_front_image ? (
                   <TouchableOpacity
                     style={styles.boxIDItemClose}
                     onPress={() => handleCloseImage(IMAGE_ID_FRONT)}>
@@ -266,13 +307,13 @@ export default class FormAccountIdentifier extends Component {
                 <Image
                   resizeMode="stretch"
                   source={
-                    id_behind_image
-                      ? {uri: id_behind_image}
+                    personal_info.id_behind_image
+                      ? {uri: personal_info.id_behind_image}
                       : require('../../../assets/images/bg-id-behind.png')
                   }
                   style={styles.boxIDItemImage}
                 />
-                {id_behind_image ? (
+                {personal_info.id_behind_image ? (
                   <TouchableOpacity
                     style={styles.boxIDItemClose}
                     onPress={() => handleCloseImage(IMAGE_ID_BEHIND)}>
@@ -334,74 +375,39 @@ export default class FormAccountIdentifier extends Component {
               )}
             </View>
             <Text style={styles.txtTitleBasicInfo}>Bằng cấp</Text>
-            <TextInput
-              style={[txtInputStyle(degree_name), {marginBottom: 10}]}
-              returnKeyType="done"
-              value={degree_name}
-              name="degree_name"
-              placeholder="Nhập tên bằng cấp"
-              onChangeText={text => onChangeText(text, 'degree_name')}
+            <FlatList
+              style={{width: '100%'}}
+              data={degree_info}
+              renderItem={({item: rowData, index}) => {
+                return (
+                  <ItemRelativeDegree
+                    onChangeTextDegree={onChangeTextDegree}
+                    index={index}
+                    item={rowData}
+                    handleOpenImageDegree={handleOpenImageDegree}
+                    handleCloseImageDegree={handleCloseImageDegree}
+                  />
+                );
+              }}
+              keyExtractor={(item, index) => index}
             />
-            <View style={styles.boxID}>
-              <View style={{flex: 1, marginEnd: 10}}>
-                <Image
-                  resizeMode="stretch"
-                  source={
-                    degree_image_front
-                      ? {uri: degree_image_front}
-                      : require('../../../assets/images/bg-id-front.png')
-                  }
-                  style={styles.boxIDItemImage}
-                />
-                {degree_image_front ? (
-                  <TouchableOpacity
-                    style={styles.boxIDItemClose}
-                    onPress={() => handleCloseImage(IMAGE_DEGREE_FRONT)}>
-                    <CloseImage />
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-              <View style={{flex: 1}}>
-                <Image
-                  resizeMode="stretch"
-                  source={
-                    degree_image_behind
-                      ? {uri: degree_image_behind}
-                      : require('../../../assets/images/bg-id-behind.png')
-                  }
-                  style={styles.boxIDItemImage}
-                />
-                {degree_image_behind ? (
-                  <TouchableOpacity
-                    style={styles.boxIDItemClose}
-                    onPress={() => handleCloseImage(IMAGE_DEGREE_BEHIND)}>
-                    <CloseImage />
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-            </View>
-            <View style={styles.viewButtonSelectID}>
-              <TouchableOpacity
-                style={[styles.buttonSelectID, {marginEnd: 10}]}
-                onPress={() => handleOpenImage(IMAGE_DEGREE_FRONT)}>
-                <Image
-                  resizeMode="contain"
-                  source={require('../../../assets/images/ic-camera-white.png')}
-                  style={{width: 24, height: 24}}
-                />
-                <Text style={styles.txtSelectID}>Mặt trước</Text>
+            {degree_info.length < 5 ? (
+              <TouchableOpacity onPress={() => handleAddDegreeRelativeItem()}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={require('../../../assets/images/ic-add-circle.png')}
+                    style={{width: 20, height: 20, marginEnd: 5}}
+                  />
+                  <Text style={{fontSize: 14, color: '#c7c7c7'}}>
+                    Thêm bằng cấp
+                  </Text>
+                </View>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.buttonSelectID}
-                onPress={() => handleOpenImage(IMAGE_DEGREE_BEHIND)}>
-                <Image
-                  resizeMode="contain"
-                  source={require('../../../assets/images/ic-camera-white.png')}
-                  style={{width: 24, height: 24}}
-                />
-                <Text style={styles.txtSelectID}>Mặt sau</Text>
-              </TouchableOpacity>
-            </View>
+            ) : null}
           </View>
         </CollapseBody>
       </Collapse>

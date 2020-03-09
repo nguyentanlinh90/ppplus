@@ -136,7 +136,7 @@ export default class FormBasicInfo extends Component {
                 </TouchableOpacity>
                 {this.state.isShowListGender ? (
                   <FlatList
-                    style={styles.viewSelectGender}
+                    style={styles.viewSelectFullHeight}
                     data={gender_list}
                     renderItem={({item: rowData}) => {
                       return (

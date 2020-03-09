@@ -51,28 +51,21 @@ export default class FormImageProfile extends Component {
     );
   };
   render() {
-    const {
-      sub_avatar_1,
-      sub_avatar_2,
-      sub_avatar_3,
-      sub_avatar_4,
-      handleOpenImage,
-      handleCloseImage,
-    } = this.props;
+    const {sub_avatar_list} = this.props;
 
     return (
       <View style={styles.containerAddImage}>
-        {!isEmpty(sub_avatar_1)
-          ? this._renderImageOpen(sub_avatar_1, IMAGE_1)
+        {!isEmpty(sub_avatar_list.sub_avatar_1)
+          ? this._renderImageOpen(sub_avatar_list.sub_avatar_1, IMAGE_1)
           : this._renderImageEmpty(IMAGE_1)}
-        {!isEmpty(sub_avatar_2)
-          ? this._renderImageOpen(sub_avatar_2, IMAGE_2)
+        {!isEmpty(sub_avatar_list.sub_avatar_2)
+          ? this._renderImageOpen(sub_avatar_list.sub_avatar_2, IMAGE_2)
           : this._renderImageEmpty(IMAGE_2)}
-        {!isEmpty(sub_avatar_3)
-          ? this._renderImageOpen(sub_avatar_3, IMAGE_3)
+        {!isEmpty(sub_avatar_list.sub_avatar_3)
+          ? this._renderImageOpen(sub_avatar_list.sub_avatar_3, IMAGE_3)
           : this._renderImageEmpty(IMAGE_3)}
-        {!isEmpty(sub_avatar_4)
-          ? this._renderImageOpen(sub_avatar_4, IMAGE_4)
+        {!isEmpty(sub_avatar_list.sub_avatar_4)
+          ? this._renderImageOpen(sub_avatar_list.sub_avatar_4, IMAGE_4)
           : this._renderImageEmpty(IMAGE_4)}
       </View>
     );

@@ -224,7 +224,7 @@ export default class FormContactInfo extends Component {
             <FlatList
               style={{width: '100%'}}
               data={user_relative_info}
-              renderItem={({item: rowData}) => {
+              renderItem={({item: rowData, index}) => {
                 return (
                   <ItemRelativeContact
                     myScroll={myScroll}
@@ -235,6 +235,7 @@ export default class FormContactInfo extends Component {
                     district_list_follow_province_relative={
                       district_list_follow_province_relative
                     }
+                    index ={index}
                     item={rowData}
                     handleSelectProvinceRelative={handleSelectProvinceRelative}
                     handleSelectDistrictRelative={handleSelectDistrictRelative}

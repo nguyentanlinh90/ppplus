@@ -317,7 +317,7 @@ export default StyleSheet.create({
     borderRadius: 6,
     height: 200,
   },
-  viewSelectGender: {
+  viewSelectFullHeight: {
     borderWidth: 1,
     borderColor: '#F0532D',
     borderRadius: 6,
