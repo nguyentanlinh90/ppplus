@@ -23,10 +23,9 @@ import {
   SCREEN_INFO,
 } from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
-import {ACCESS_TOKEN, IS_UPDATE_BASIC} from '../../../utils/constants';
+import {ACCESS_TOKEN, IS_UPDATE_BASIC, REGEX} from '../../../utils/constants';
 import {convertPhone, showAlert, setStoreData} from '../../../utils/utils';
 import * as types from '../../../api/types';
-var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
 export class LoginContainer extends Component {
   constructor(props) {
     super(props);
@@ -81,7 +80,7 @@ export class LoginContainer extends Component {
       showAlert('Vui lòng nhập số điện thoại đã đăng ký để lấy lại mật khẩu.');
       return;
     } else {
-      if (!regEx.test(phone)) {
+      if (!REGEX.test(phone)) {
         showAlert('Số điện thoại không đúng định dạng.');
       } else {
         Alert.alert(
@@ -113,7 +112,7 @@ export class LoginContainer extends Component {
     const {phone, password} = this.state;
 
     if (phone != '' && password != '') {
-      if (!regEx.test(phone)) {
+      if (!REGEX.test(phone)) {
         showAlert('Số điện thoại không đúng định dạng.');
       } else {
         if (this.state.isConnecting) {

@@ -65,8 +65,6 @@ export default class FormContactInfo extends Component {
       district_list_follow_province_relative,
 
       //for user
-      province_id,
-      district_id,
       address,
 
       //for relative
@@ -104,10 +102,10 @@ export default class FormContactInfo extends Component {
                     this.setState({isShowProvince: !this.state.isShowProvince});
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowProvince || !isEmpty(province_id),
+                    this.state.isShowProvince || !isEmpty(address.province_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
-                    {getNameFromId(province_id, province_list)}
+                    {getNameFromId(address.province_id, province_list)}
                   </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
@@ -154,7 +152,7 @@ export default class FormContactInfo extends Component {
                 <TouchableOpacity
                   onPress={() => {
                     if (
-                      getNameFromId(province_id, province_list) == text_select
+                      getNameFromId(address.province_id, province_list) == text_select
                     ) {
                       showAlert('Bạn chưa chọn Tỉnh / Thành Phố');
                     } else {
@@ -162,11 +160,11 @@ export default class FormContactInfo extends Component {
                     }
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowDistrict || !isEmpty(district_id),
+                    this.state.isShowDistrict || !isEmpty(address.district_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getDistrictNameFromId(
-                      district_id,
+                      address.district_id,
                       district_list_follow_province,
                     )}
                   </Text>
@@ -210,9 +208,9 @@ export default class FormContactInfo extends Component {
             </View>
 
             <TextInput
-              style={[txtInputStyle(address), {marginBottom: 10}]}
+              style={[txtInputStyle(address.address), {marginBottom: 10}]}
               returnKeyType="done"
-              value={address}
+              value={address.address}
               name="address"
               placeholder="Nhập số nhà, tên đường và phường / xã"
               onChangeText={text => onChangeText(text, 'address')}

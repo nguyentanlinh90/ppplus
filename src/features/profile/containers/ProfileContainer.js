@@ -127,21 +127,7 @@ class ProfileContainer extends Component {
             size={'large'}
             textStyle={{color: '#fff'}}
           />
-          <TouchableOpacity
-            style={styles.viewEdit}
-            activeOpacity={0.8}
-            onPress={() => {
-              props.navigation.navigate(SCREEN_FILL_PROFILE, {
-                onGoBack: (avatar, last_name, first_name) =>
-                  this.refresh(avatar, last_name, first_name),
-              });
-            }}>
-            <Image
-              resizeMode="contain"
-              source={require('../../../assets/images/ic-edit.png')}
-              style={{margin: 16, width: 24, height: 24}}
-            />
-          </TouchableOpacity>
+
           <View style={styles.viewCircleAvatar}>
             <ProgressCircle
               percent={this.state.percent_updated}
@@ -179,6 +165,31 @@ class ProfileContainer extends Component {
             </View>
           </View>
           <View style={{backgroundColor: '#d8d8d8', height: 5}} />
+          <TouchableOpacity
+            style={styles.boxItem}
+            onPress={() => {
+              props.navigation.navigate(SCREEN_FILL_PROFILE, {
+                onGoBack: (avatar, last_name, first_name) =>
+                  this.refresh(avatar, last_name, first_name),
+              });
+            }}>
+            <Image
+              resizeMode="contain"
+              source={require('../../../assets/images/ic-edit.png')}
+              style={styles.boxItemImage}
+            />
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.boxItemTitle}>Cập nhật hồ sơ</Text>
+              <Text style={{color: '#757575', fontSize: 12}}>
+                {' (Đã hoàn thiện'}
+              </Text>
+              <Text style={{color: '#f0532d', fontSize: 12}}>
+                {' ' + this.state.percent_updated}%
+              </Text>
+              <Text style={{color: '#757575', fontSize: 12}}>{')'}</Text>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.boxItemIndicator} />
           <TouchableOpacity
             style={styles.boxItem}
             onPress={() => {

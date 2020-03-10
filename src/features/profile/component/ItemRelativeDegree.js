@@ -26,7 +26,6 @@ export default class ItemRelativeDegree extends Component {
       handleOpenImageDegree,
       handleCloseImageDegree,
     } = this.props;
-    console.log('linhnt', item)
 
     return (
       <View style={{marginBottom: 20}}>
@@ -39,64 +38,79 @@ export default class ItemRelativeDegree extends Component {
           onChangeText={text => onChangeTextDegree(index, text, 'degree_name')}
         />
         <View style={styles.boxID}>
-          <View style={{flex: 1, marginEnd: 10}}>
-            <Image
-              resizeMode="stretch"
-              source={
-                item.degree_image_front
-                  ? {uri: item.degree_image_front}
-                  : require('../../../assets/images/bg-id-front.png')
-              }
-              style={styles.boxIDItemImage}
-            />
+          <View
+            style={{
+              flex: 1,
+              marginEnd: 10,
+              backgroundColor: '#f1f1f1',
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             {item.degree_image_front ? (
+              <View style={{width: '100%', height: '100%'}}>
+                <Image
+                  resizeMode="stretch"
+                  source={{uri: item.degree_image_front}}
+                  style={styles.boxIDItemImage}
+                />
+                <TouchableOpacity
+                  style={styles.boxIDItemClose}
+                  onPress={() =>
+                    handleCloseImageDegree(index, IMAGE_DEGREE_FRONT)
+                  }>
+                  <CloseImage />
+                </TouchableOpacity>
+              </View>
+            ) : (
               <TouchableOpacity
-                style={styles.boxIDItemClose}
-                onPress={() => handleCloseImageDegree(index, IMAGE_DEGREE_FRONT)}>
-                <CloseImage />
+                onPress={() =>
+                  handleOpenImageDegree(index, IMAGE_DEGREE_FRONT)
+                }>
+                <Image
+                  resizeMode="contain"
+                  source={require('../../../assets/images/ic-plus.png')}
+                  style={{width: 45, height: 45}}
+                />
               </TouchableOpacity>
-            ) : null}
+            )}
           </View>
-          <View style={{flex: 1}}>
-            <Image
-              resizeMode="stretch"
-              source={
-                item.degree_image_behind
-                  ? {uri: item.degree_image_behind}
-                  : require('../../../assets/images/bg-id-behind.png')
-              }
-              style={styles.boxIDItemImage}
-            />
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#f1f1f1',
+              borderRadius: 8,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             {item.degree_image_behind ? (
+              <View style={{width: '100%', height: '100%'}}>
+                <Image
+                  resizeMode="stretch"
+                  source={{uri: item.degree_image_behind}}
+                  style={styles.boxIDItemImage}
+                />
+                <TouchableOpacity
+                  style={styles.boxIDItemClose}
+                  onPress={() =>
+                    handleCloseImageDegree(index, IMAGE_DEGREE_BEHIND)
+                  }>
+                  <CloseImage />
+                </TouchableOpacity>
+              </View>
+            ) : (
               <TouchableOpacity
-                style={styles.boxIDItemClose}
-                onPress={() => handleCloseImageDegree(index, IMAGE_DEGREE_BEHIND)}>
-                <CloseImage />
+                onPress={() =>
+                  handleOpenImageDegree(index, IMAGE_DEGREE_BEHIND)
+                }>
+                <Image
+                  resizeMode="contain"
+                  source={require('../../../assets/images/ic-plus.png')}
+                  style={{width: 45, height: 45}}
+                />
               </TouchableOpacity>
-            ) : null}
+            )}
           </View>
-        </View>
-        <View style={styles.viewButtonSelectID}>
-          <TouchableOpacity
-            style={[styles.buttonSelectID, {marginEnd: 10}]}
-            onPress={() => handleOpenImageDegree(index, IMAGE_DEGREE_FRONT)}>
-            <Image
-              resizeMode="contain"
-              source={require('../../../assets/images/ic-camera-white.png')}
-              style={{width: 24, height: 24}}
-            />
-            <Text style={styles.txtSelectID}>Mặt trước</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonSelectID}
-            onPress={() => handleOpenImageDegree(index, IMAGE_DEGREE_BEHIND)}>
-            <Image
-              resizeMode="contain"
-              source={require('../../../assets/images/ic-camera-white.png')}
-              style={{width: 24, height: 24}}
-            />
-            <Text style={styles.txtSelectID}>Mặt sau</Text>
-          </TouchableOpacity>
         </View>
       </View>
     );

@@ -55,6 +55,7 @@ import {
   IMAGE_DEGREE_FRONT,
   IMAGE_DEGREE_BEHIND,
   IMAGE_JUDICIAL_RECORD,
+  REGEX,
 } from '../../../utils/constants';
 var token = '';
 let options = {
@@ -101,16 +102,10 @@ export class FillProfileContainer extends Component {
       weight: 0,
       working_places: [],
       working_majors: [],
-      province_id: '',
-      district_id: '',
-      address: '',
+      address: {},
       user_relative_info: [],
-      education_id: '',
-      education_major_name: '',
-      bank_id: '',
-      bank_branch_id: '',
-      bank_account_name: '',
-      bank_account_number: '',
+      education: {},
+      user_bank_info: {},
       personal_info: {},
       degree_info: [],
       judicial_record_image: '',
@@ -135,15 +130,27 @@ export class FillProfileContainer extends Component {
     } else if (type == 'weight') {
       this.setState({weight: text});
     } else if (type == 'address') {
-      this.setState({address: text});
+      const {address} = this.state;
+      var temp = address;
+      temp.address = text;
+      this.setState({address: temp});
     } else if (type == 'education_major_name') {
-      this.setState({education_major_name: text});
+      const {education} = this.state;
+      var temp = education;
+      temp.education_major_name = text;
+      this.setState({
+        education: temp,
+      });
     } else if (type == 'bank_account_name') {
-      this.setState({bank_account_name: text});
+      const {user_bank_info} = this.state;
+      var temp = user_bank_info;
+      temp.bank_account_name = text;
+      this.setState({user_bank_info: temp});
     } else if (type == 'bank_account_number') {
-      this.setState({bank_account_number: text});
-    } else if (type == 'degree_name') {
-      this.setState({degree_name: text});
+      const {user_bank_info} = this.state;
+      var temp = user_bank_info;
+      temp.bank_account_number = text;
+      this.setState({user_bank_info: temp});
     }
   };
 
@@ -204,14 +211,14 @@ export class FillProfileContainer extends Component {
         } else if (numberOfImage == IMAGE_ID_FRONT) {
           const {personal_info} = this.state;
           var temp = personal_info;
-          temp.id_front_image = response.uri;
-          temp.id_front_image_data = response.data;
+          temp.id_image_front = response.uri;
+          temp.id_image_front_data = response.data;
           this.setState({personal_info: temp});
         } else if (numberOfImage == IMAGE_ID_BEHIND) {
           const {personal_info} = this.state;
           var temp = personal_info;
-          temp.id_behind_image = response.uri;
-          temp.id_behind_image_data = response.data;
+          temp.id_image_behind = response.uri;
+          temp.id_image_behind_data = response.data;
           this.setState({personal_info: temp});
         } else if (numberOfImage == IMAGE_JUDICIAL_RECORD) {
           this.setState({
@@ -271,18 +278,18 @@ export class FillProfileContainer extends Component {
     } else if (numberOfImage == IMAGE_ID_FRONT) {
       const {personal_info} = this.state;
       var temp = personal_info;
-      temp.id_front_image = '';
+      temp.id_image_front = '';
       this.setState({
         personal_info: temp,
-        id_front_image_data: '',
+        id_image_front_data: '',
       });
     } else if (numberOfImage == IMAGE_ID_BEHIND) {
       const {personal_info} = this.state;
       var temp = personal_info;
-      temp.id_behind_image = '';
+      temp.id_image_behind = '';
       this.setState({
         personal_info: temp,
-        id_behind_image_data: '',
+        id_image_behind_data: '',
       });
     } else if (numberOfImage == IMAGE_JUDICIAL_RECORD) {
       this.setState({
@@ -348,9 +355,11 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectProvince = provinceSelect => {
-    const {district_list} = this.state;
+    const {district_list, address} = this.state;
+    var temp = address;
+    temp.province_id = provinceSelect;
     this.setState({
-      province_id: provinceSelect,
+      address: temp,
       district_list_follow_province: district_list[provinceSelect],
     });
   };
@@ -370,7 +379,10 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectDistrict = districtSelect => {
-    this.setState({district_id: districtSelect});
+    const {address} = this.state;
+    var temp = address;
+    temp.district_id = districtSelect;
+    this.setState({address: temp});
   };
 
   _handleSelectDistrictRelative = (idRelative, districtSelect) => {
@@ -443,20 +455,28 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectEducation = educationSelect => {
+    const {education} = this.state;
+    var temp = education;
+    temp.education_id = educationSelect;
     this.setState({
-      education_id: educationSelect,
+      education: temp,
     });
   };
   _handleSelectBank = bankSelect => {
-    const {bank_branch_list} = this.state;
+    const {bank_branch_list, user_bank_info} = this.state;
+    var temp = user_bank_info;
+    temp.bank_id = bankSelect;
     this.setState({
-      bank_id: bankSelect,
+      user_bank_info: temp,
       bank_branch_list_follow_bank: bank_branch_list[bankSelect],
     });
   };
 
   _handleSelectBranch = branchSelect => {
-    this.setState({bank_branch_id: branchSelect});
+    const {user_bank_info} = this.state;
+    var temp = user_bank_info;
+    temp.bank_branch_id = branchSelect;
+    this.setState({user_bank_info: temp});
   };
 
   _handleSelectPersonalInfo = id_type => {
@@ -507,16 +527,10 @@ export class FillProfileContainer extends Component {
       weight: data.weight,
       working_places: stringToArray(data.working_places),
       working_majors: stringToArray(data.working_majors),
-      province_id: data.address.province_id,
-      district_id: data.address.district_id,
-      address: data.address.address,
+      address: data.address,
       user_relative_info: data.user_relative_info,
-      education_id: data.education.education_id,
-      education_major_name: data.education.education_major_name,
-      bank_id: data.user_bank_info.bank_id,
-      bank_branch_id: data.user_bank_info.bank_branch_id,
-      bank_account_name: data.user_bank_info.bank_account_name,
-      bank_account_number: data.user_bank_info.bank_account_number,
+      education: data.education,
+      user_bank_info: data.user_bank_info,
       personal_info: data.personal_info,
       judicial_record_image: data.judicial_record_image,
       degree_info: data.degree_info,
@@ -537,28 +551,13 @@ export class FillProfileContainer extends Component {
       weight,
       working_places,
       working_majors,
-      province_id,
-      district_id,
       address,
-      relative_name,
-      relative_phone,
-      relative_province_id,
-      relative_district_id,
-      relative_address,
-      education_id,
-      education_major_name,
-      bank_id,
-      bank_branch_id,
-      bank_account_name,
-      bank_account_number,
-      id_type,
-      id_issue_date,
-      id_issue_place,
-      id_front_image_data,
-      id_behind_image_data,
-      degree_name,
-      degree_image_front_data,
-      degree_image_behind_data,
+      user_relative_info,
+      education,
+      user_bank_info,
+      personal_info,
+      degree_info,
+      judicial_record_image,
       judicial_record_image_data,
     } = this.state;
 
@@ -569,21 +568,49 @@ export class FillProfileContainer extends Component {
       isZero(gender) ||
       isZero(height) ||
       isZero(weight) ||
-      isEmpty(province_id) ||
-      isEmpty(district_id) ||
-      isEmpty(address) ||
-      isEmpty(relative_name) ||
-      isEmpty(relative_phone)
+      isEmpty(address.province_id) ||
+      isEmpty(address.district_id) ||
+      isEmpty(address.address) ||
+      isEmpty(user_relative_info[0].relative_name) ||
+      isEmpty(user_relative_info[0].relative_phone) ||
+      (user_relative_info.length == 2 &&
+        !isEmpty(user_relative_info[1].relative_name) &&
+        isEmpty(user_relative_info[1].relative_phone)) ||
+      (user_relative_info.length == 2 &&
+        isEmpty(user_relative_info[1].relative_name) &&
+        !isEmpty(user_relative_info[1].relative_phone)) ||
+      isZero(personal_info.id_type) ||
+      isEmpty(personal_info.id_image_front) ||
+      isEmpty(personal_info.id_image_behind) ||
+      isEmpty(judicial_record_image)
     ) {
       showAlert('Vui lòng cung cấp đầy đủ các trường thông tin bắt buộc');
       return;
     }
+    if (
+      !isEmpty(user_relative_info[0].relative_phone) &&
+      !REGEX.test(user_relative_info[0].relative_phone)
+    ) {
+      showAlert('Số điện thoại không đúng định dạng.');
+      return;
+    }
+    if (
+      user_relative_info.length == 2 &&
+      !isEmpty(user_relative_info[1].relative_phone) &&
+      !REGEX.test(user_relative_info[1].relative_phone)
+    ) {
+      showAlert('Số điện thoại không đúng định dạng.');
+      return;
+    }
+
     const params = {
       avatar: avatar_data,
+      //
       sub_avatar_1: sub_avatar_list.sub_avatar_1_data,
       sub_avatar_2: sub_avatar_list.sub_avatar_2_data,
       sub_avatar_3: sub_avatar_list.sub_avatar_3_data,
       sub_avatar_4: sub_avatar_list.sub_avatar_4_data,
+      //
       first_name: first_name,
       last_name: last_name,
       birthday: birthday,
@@ -592,9 +619,11 @@ export class FillProfileContainer extends Component {
       weight: weight,
       working_places: arrayToString(working_places),
       working_majors: arrayToString(working_majors),
-      province_id: province_id,
-      district_id: district_id,
-      address: address,
+      //
+      province_id: address.province_id,
+      district_id: address.district_id,
+      address: address.address,
+      //
       relative_name_1: user_relative_info[0].relative_name,
       relative_phone_1: user_relative_info[0].relative_phone,
       relative_province_id_1: user_relative_info[0].relative_province_id,
@@ -620,15 +649,18 @@ export class FillProfileContainer extends Component {
         user_relative_info.length == 2
           ? user_relative_info[1].relative_address
           : '',
-      education_id: education_id,
-      education_major_name: education_major_name,
-      bank_id: bank_id,
-      bank_branch_id: bank_branch_id,
-      bank_account_name: bank_account_name,
-      bank_account_number: bank_account_number,
-      id_type: id_type,
-      id_front_image: id_front_image_data,
-      id_behind_image: id_behind_image_data,
+      //
+      education_id: education.education_id,
+      education_major_name: education.education_major_name,
+      //
+      bank_id: user_bank_info.bank_id,
+      bank_branch_id: user_bank_info.bank_branch_id,
+      bank_account_name: user_bank_info.bank_account_name,
+      bank_account_number: user_bank_info.bank_account_number,
+      //
+      id_type: personal_info.id_type,
+      id_image_front: personal_info.id_image_front_data,
+      id_image_behind: personal_info.id_image_behind_data,
       //
       degree_name_1: degree_info[0].degree_name,
       degree_image_front_1: degree_info[0].degree_image_front_data,
@@ -664,7 +696,7 @@ export class FillProfileContainer extends Component {
 
     console.log('linhnt', params);
     if (token != '') {
-      // doUpdateUserInfo(params, token);
+      doUpdateUserInfo(params, token);
     }
   };
 
@@ -827,8 +859,6 @@ export class FillProfileContainer extends Component {
                   this.state.district_list_follow_province_relative
                 }
                 //
-                province_id={this.state.province_id}
-                district_id={this.state.district_id}
                 address={this.state.address}
                 user_relative_info={this.state.user_relative_info}
                 //
@@ -851,8 +881,7 @@ export class FillProfileContainer extends Component {
                 enableScrollViewScroll={this.state.enableScrollViewScroll}
                 onChangeText={this._onChangeText}
                 education_list={this.state.education_list}
-                education_id={this.state.education_id}
-                education_major_name={this.state.education_major_name}
+                education={this.state.education}
                 handleSelectEducation={this._handleSelectEducation}
               />
               <View style={styles.boxIndicatorFill} />
@@ -869,12 +898,9 @@ export class FillProfileContainer extends Component {
                 province_list={this.state.province_list}
                 personal_types_list={this.state.personal_types_list}
                 //
-                bank_id={this.state.bank_id}
-                bank_branch_id={this.state.bank_branch_id}
-                bank_account_name={this.state.bank_account_name}
-                bank_account_number={this.state.bank_account_number}
-                number={this.state.number}
+                user_bank_info={this.state.user_bank_info}
                 personal_info={this.state.personal_info}
+                judicial_record_image={this.state.judicial_record_image}
                 degree_info={this.state.degree_info}
                 //
                 handleSelectBank={this._handleSelectBank}

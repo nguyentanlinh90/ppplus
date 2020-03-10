@@ -21,6 +21,7 @@ import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_INPUT_OTP} from '../../../api/screen';
 import {showAlert, convertPhone, dispatchScreen} from '../../../utils/utils';
 import * as types from '../../../api/types';
+import {REGEX} from '../../../utils/constants'
 
 export class CreateAccountContainer extends Component {
   constructor(props) {
@@ -95,8 +96,7 @@ export class CreateAccountContainer extends Component {
     }
 
     if (phone != '') {
-      var regEx = /^(03|09|08|07|05)[0-9]{8}$/;
-      if (!regEx.test(phone)) {
+      if (!REGEX.test(phone)) {
         showAlert(
           'Số điện thoại không hợp lệ. Vui lòng điền 10 số điện thoại di động Việt Nam',
         );

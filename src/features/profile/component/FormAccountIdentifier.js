@@ -76,11 +76,8 @@ export default class FormAccountIdentifier extends Component {
       bank_list,
       bank_branch_list_follow_bank,
       personal_types_list,
-
-      bank_id,
-      bank_branch_id,
-      bank_account_name,
-      bank_account_number,
+      
+      user_bank_info,
       personal_info,
       judicial_record_image,
       degree_info,
@@ -120,10 +117,10 @@ export default class FormAccountIdentifier extends Component {
                     this.setState({isShowBank: !this.state.isShowBank});
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowBank || !isEmpty(bank_id),
+                    this.state.isShowBank || !isEmpty(user_bank_info.bank_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
-                    {getNameFromId(bank_id, bank_list)}
+                    {getNameFromId(user_bank_info.bank_id, bank_list)}
                   </Text>
                   <ArrowUpDown />
                 </TouchableOpacity>
@@ -169,18 +166,18 @@ export default class FormAccountIdentifier extends Component {
               <View style={{flex: 1, marginStart: 10}}>
                 <TouchableOpacity
                   onPress={() => {
-                    if (getNameFromId(bank_id, bank_list) == text_select) {
+                    if (getNameFromId(user_bank_info.bank_id, bank_list) == text_select) {
                       showAlert('Bạn chưa chọn ngân hàng');
                     } else {
                       this._setShowBranch();
                     }
                   }}
                   style={boxSelectStyle(
-                    this.state.isShowBranch || !isEmpty(bank_branch_id),
+                    this.state.isShowBranch || !isEmpty(user_bank_info.bank_branch_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getNameFromId(
-                      bank_branch_id,
+                      user_bank_info.bank_branch_id,
                       bank_branch_list_follow_bank,
                     )}
                   </Text>
@@ -223,17 +220,17 @@ export default class FormAccountIdentifier extends Component {
               </View>
             </View>
             <TextInput
-              style={[txtInputStyle(bank_account_name), {marginBottom: 10}]}
+              style={[txtInputStyle(user_bank_info.bank_account_name), {marginBottom: 10}]}
               returnKeyType="done"
-              value={bank_account_name}
+              value={user_bank_info.bank_account_name}
               name="bank_account_name"
               placeholder="Tên chủ tài khoản"
               onChangeText={text => onChangeText(text, 'bank_account_name')}
             />
             <TextInput
-              style={[txtInputStyle(bank_account_number), {marginBottom: 10}]}
+              style={[txtInputStyle(user_bank_info.bank_account_number), {marginBottom: 10}]}
               returnKeyType="done"
-              value={bank_account_number}
+              value={user_bank_info.bank_account_number}
               name="bank_account_number"
               placeholder="Số tài khoản"
               keyboardType="numeric"
@@ -283,19 +280,21 @@ export default class FormAccountIdentifier extends Component {
                 />
               </View>
             ) : null}
-
+            <Text style={{fontSize: 12, color: '#333333', marginTop: 5}}>
+              *Chụp hai mặt trước và sau như định dạng bên dưới
+            </Text>
             <View style={styles.boxID}>
               <View style={{flex: 1, marginEnd: 10}}>
                 <Image
                   resizeMode="stretch"
                   source={
-                    personal_info.id_front_image
-                      ? {uri: personal_info.id_front_image}
+                    personal_info.id_image_front
+                      ? {uri: personal_info.id_image_front}
                       : require('../../../assets/images/bg-id-front.png')
                   }
                   style={styles.boxIDItemImage}
                 />
-                {personal_info.id_front_image ? (
+                {personal_info.id_image_front ? (
                   <TouchableOpacity
                     style={styles.boxIDItemClose}
                     onPress={() => handleCloseImage(IMAGE_ID_FRONT)}>
@@ -307,13 +306,13 @@ export default class FormAccountIdentifier extends Component {
                 <Image
                   resizeMode="stretch"
                   source={
-                    personal_info.id_behind_image
-                      ? {uri: personal_info.id_behind_image}
+                    personal_info.id_image_behind
+                      ? {uri: personal_info.id_image_behind}
                       : require('../../../assets/images/bg-id-behind.png')
                   }
                   style={styles.boxIDItemImage}
                 />
-                {personal_info.id_behind_image ? (
+                {personal_info.id_image_behind ? (
                   <TouchableOpacity
                     style={styles.boxIDItemClose}
                     onPress={() => handleCloseImage(IMAGE_ID_BEHIND)}>
@@ -346,7 +345,20 @@ export default class FormAccountIdentifier extends Component {
             </View>
             <Text style={styles.txtTitleBasicInfo}>Lý lịch tư pháp*</Text>
             <View style={styles.viewJudicial}>
-              {isEmpty(judicial_record_image) ? (
+              {judicial_record_image ? (
+                <View style={{width: '100%', height: '100%'}}>
+                  <Image
+                    resizeMode="stretch"
+                    source={{uri: judicial_record_image}}
+                    style={styles.boxIDItemImage}
+                  />
+                  <TouchableOpacity
+                    style={styles.boxIDItemClose}
+                    onPress={() => handleCloseImage(IMAGE_JUDICIAL_RECORD)}>
+                    <CloseImage />
+                  </TouchableOpacity>
+                </View>
+              ) : (
                 <TouchableOpacity
                   onPress={() => handleOpenImage(IMAGE_JUDICIAL_RECORD)}>
                   <Image
@@ -355,23 +367,6 @@ export default class FormAccountIdentifier extends Component {
                     style={{width: 45, height: 45}}
                   />
                 </TouchableOpacity>
-              ) : (
-                <View style={styles.viewImageJudicial}>
-                  <Image
-                    resizeMode="stretch"
-                    source={{uri: judicial_record_image}}
-                    style={styles.imageJudicial}
-                  />
-                  <TouchableOpacity
-                    onPress={() => handleOpenImage(IMAGE_JUDICIAL_RECORD)}
-                    style={styles.buttonOpenImageJudicial}>
-                    <Image
-                      resizeMode="contain"
-                      source={require('../../../assets/images/ic-camera-white.png')}
-                      style={{width: 24, height: 24}}
-                    />
-                  </TouchableOpacity>
-                </View>
               )}
             </View>
             <Text style={styles.txtTitleBasicInfo}>Bằng cấp</Text>
