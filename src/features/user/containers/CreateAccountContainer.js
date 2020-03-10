@@ -28,13 +28,13 @@ export class CreateAccountContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '0988777666',
-      reference_code: 'ABC123',
-      password: 'Abc123@',
-      password_confirm: 'Abc123@',
+      phone: '',
+      reference_code: '',
+      password: '',
+      password_confirm: '',
       isLoading: false,
       isConnecting: false,
-      isAgree: true,
+      isAgree: false,
     };
     this.handleCreateAccount = this.handleCreateAccount.bind(this);
     this.onChangeText = this.onChangeText.bind(this);

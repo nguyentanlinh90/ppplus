@@ -113,6 +113,13 @@ class InfoContainer extends Component {
       showAlert('Tên không được chứa ký tự đặc biệt');
       return;
     }
+    if (provinceIDs.length > 2) {
+      showAlert(
+        'Bạn chỉ được chọn tối đa 2 địa điểm làm việc. Vui lòng bỏ bớt địa điểm làm việc',
+      );
+      return;
+    }
+
     this.setState({isLoading: true});
 
     const params = {
@@ -205,8 +212,6 @@ class InfoContainer extends Component {
       this.setState({turnIDs: turnIDs});
     }
   };
-
-  componentDidMount = () => {};
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
