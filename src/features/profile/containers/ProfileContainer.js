@@ -142,7 +142,7 @@ class ProfileContainer extends Component {
               style={styles.circleAvatar}
             />
           </View>
-          <Rating
+          {/* <Rating
             readonly={true}
             type="custom"
             ratingColor="#FEBE10"
@@ -152,7 +152,7 @@ class ProfileContainer extends Component {
             startingValue={this.state.rating}
             style={{paddingVertical: 5}}
             tintColor="#fff"
-          />
+          /> */}
           <Text style={styles.name}>
             {this.state.last_name + ' ' + this.state.first_name}
           </Text>
@@ -164,6 +164,13 @@ class ProfileContainer extends Component {
               </Text>
             </View>
           </View>
+          {this.state.percent_updated < 100 ? (
+            <Text style={styles.viewDes}>
+              *Hoàn thiện hồ sơ để xác thực tài khoản của bạn và tích điểm
+              thưởng
+            </Text>
+          ) : null}
+
           <View style={{backgroundColor: '#d8d8d8', height: 5}} />
           <TouchableOpacity
             style={styles.boxItem}
