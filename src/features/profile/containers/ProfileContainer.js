@@ -22,7 +22,7 @@ import {
   SCREEN_CREATE_ACCOUNT,
   SCREEN_INFO,
 } from '../../../api/screen';
-import {dispatchScreen, setStoreData} from '../../../utils/utils';
+import {dispatchScreen, setStoreData, showAlert} from '../../../utils/utils';
 import {ACCESS_TOKEN} from '../../../utils/constants';
 import {doLogout} from '../../user/actions/index';
 import * as types from '../../../api/types';
