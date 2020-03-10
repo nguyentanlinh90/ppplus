@@ -299,19 +299,5 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
-  selectLocationViewNumberApply: {
-    width: 150,
-    height: 20,
-    backgroundColor: '#d8d8d8',
-    borderRadius: 8,
-    marginEnd: 10,
-  },
-  selectLocationTextNumberApply:{
-    height: '100%',
-    color: '#fbfbfb',
-    fontSize: 12,
-    alignSelf: 'center',
-    position: 'absolute',
-    textAlignVertical: 'center',
-  }
+
 });

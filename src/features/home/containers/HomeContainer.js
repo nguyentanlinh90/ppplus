@@ -24,7 +24,7 @@ import {SCREEN_CREATE_ACCOUNT, SCREEN_SEARCH} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {getJobs} from '../actions/index';
+import {getJobs, getJobDetail} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 import {isEmptyObject} from '../../../utils/utils';
 
@@ -33,6 +33,8 @@ var token = '';
 var province_list = [];
 var district_list = [];
 var gender_list = [];
+var jobs_hot_page = 1;
+var jobs_new_page = 1;
 
 class HomeContainer extends Component {
   constructor(props) {
@@ -105,16 +107,18 @@ class HomeContainer extends Component {
 
   _onRefresh = () => {
     this.setState({refreshing: true});
-    this._fetchData();
+    jobs_new_page = 1;
+    jobs_hot_page = 1;
+    this._fetchData(1);
   };
-  _fetchData = () => {
+  _fetchData = params => {
     const {getJobs} = this.props;
-    getJobs('', token, false);
+    getJobs(token, params);
   };
 
   _getJobDetail = id => {
-    const {getJobs} = this.props;
-    getJobs('/' + id, token, true);
+    const {getJobDetail} = this.props;
+    getJobDetail(token, id);
   };
 
   _openFilter = () => {
@@ -156,6 +160,18 @@ class HomeContainer extends Component {
       </View>
     );
   };
+
+  _handleLoadMore = isJobHot => {
+    var params = '';
+    if (isJobHot) {
+      jobs_hot_page = jobs_hot_page + 1;
+      params = jobs_hot_page + '&type=job_hot';
+    } else {
+      jobs_new_page = jobs_new_page + 1;
+      params = jobs_new_page + '&type=job_new';
+    }
+    this._fetchData(params);
+  };
   _renderContent = () => {
     return (
       <View>
@@ -186,6 +202,9 @@ class HomeContainer extends Component {
               );
             }}
             keyExtractor={(item, index) => index}
+            onEndReached={() => {
+              this._handleLoadMore(true);
+            }}
           />
         </View>
         <View style={[styles.groupContent, {marginTop: 10}]}>
@@ -232,6 +251,9 @@ class HomeContainer extends Component {
               );
             }}
             keyExtractor={(item, index) => index}
+            onEndReached={() => {
+              this._handleLoadMore(false);
+            }}
           />
         </View>
       </View>
@@ -242,19 +264,40 @@ class HomeContainer extends Component {
   };
 
   componentDidMount() {
-    this._fetchData();
+    this._fetchData(1);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.GET_JOBS_SUCCESS) {
-      var job_hot_list = nextProps.data.job_hot_list;
-      var job_new_list = nextProps.data.job_new_list;
       this.setState({
         isLoading: false,
         refreshing: false,
-        jobs_hot: job_hot_list.length != 0 ? job_hot_list.data : [],
-        jobs_new: job_new_list.length != 0 ? job_new_list.data : [],
       });
+
+      //jobs hot
+      var jobsHot = nextProps.data.job_hot_list;
+      if (jobsHot.length > 0) {
+        var arr = this.state.jobs_hot;
+        for (var i = 0; i < jobsHot.length; i++) {
+          arr.push(jobsHot[i]);
+        }
+        this.setState({
+          jobs_hot: arr != 0 ? arr : [],
+        });
+      }
+
+      //jobs new
+      var jobsNew = nextProps.data.job_new_list;
+      if (jobsNew.length > 0) {
+        var arr = this.state.jobs_new;
+        for (var i = 0; i < jobsNew.length; i++) {
+          arr.push(jobsNew[i]);
+        }
+        this.setState({
+          jobs_new: arr != 0 ? arr : [],
+        });
+      }
+
       if (province_list.length == 0) {
         province_list = nextProps.data.province_list;
       }
@@ -383,4 +426,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   changeMsgCode,
   getJobs,
+  getJobDetail,
 })(HomeContainer);

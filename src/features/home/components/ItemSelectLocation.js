@@ -129,22 +129,20 @@ export default class ItemSelectLocation extends Component {
                           district_list,
                         )}
                       </Text>
-                      <View style={styles.selectLocationViewNumberApply}>
-                        <View
-                          style={{
-                            width:
-                              (rowData.number_accepted_employees * 150) /
-                              rowData.number_employees,
-                            height: 20,
-                            backgroundColor: '#fa6400',
-                            borderRadius: 8,
-                          }}
-                        />
-                        <Text style={styles.selectLocationTextNumberApply}>
-                          Đã ứng tuyển {rowData.number_accepted_employees}/
-                          {rowData.number_employees}
-                        </Text>
-                      </View>
+                      <Text
+                        style={{
+                          color: checkIdInIds(
+                            rowData.district_id,
+                            working_districts,
+                          )
+                            ? '#25A174'
+                            : '#FF0000',
+                          fontSize: 12,
+                          marginEnd: 10,
+                        }}>
+                        Cần tuyển: {rowData.number_employees} - Đã ứng tuyển{' '}
+                        {rowData.number_accepted_employees}
+                      </Text>
 
                       <CheckBox
                         disabled={true}

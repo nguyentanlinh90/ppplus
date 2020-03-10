@@ -30,7 +30,11 @@ export const version = {
     },
     get_jobs: {
       version: 1,
-      path: '/api/job',
+      path: '/api/job?page=',
+    },
+    get_job_detail: {
+      version: 1,
+      path: '/api/job/',
     },
   },
 };

@@ -694,7 +694,6 @@ export class FillProfileContainer extends Component {
       type: 'full_detail',
     };
 
-    console.log('linhnt', params);
     if (token != '') {
       doUpdateUserInfo(params, token);
     }

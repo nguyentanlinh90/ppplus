@@ -101,23 +101,27 @@ export default class JobDetailContainer extends Component {
             <Text style={{fontSize: 16, color: '#1c1c1c', marginBottom: 10}}>
               Chọn địa điểm và thời gian làm việc mong muốn
             </Text>
-            <FlatList
-              style={{}}
-              data={item.job_detail_lists}
-              renderItem={({item: rowData, index}) => {
-                return (
-                  <ItemSelectLocation
-                    province_list={item.province_list}
-                    district_list={item.district_list}
-                    index={index}
-                    province_id={rowData.province_id}
-                    working_district_list={rowData.working_district_list}
-                    working_time_list={Object.values(rowData.working_time_list)}
-                  />
-                );
-              }}
-              keyExtractor={(item, index) => index}
-            />
+            <View>
+              <FlatList
+                style={{}}
+                data={item.job_detail_lists}
+                renderItem={({item: rowData, index}) => {
+                  return (
+                    <ItemSelectLocation
+                      province_list={item.province_list}
+                      district_list={item.district_list}
+                      index={index}
+                      province_id={rowData.province_id}
+                      working_district_list={rowData.working_district_list}
+                      working_time_list={Object.values(
+                        rowData.working_time_list,
+                      )}
+                    />
+                  );
+                }}
+                keyExtractor={(item, index) => index}
+              />
+            </View>
           </View>
           <View style={styles.jobDetailViewLine} />
 
