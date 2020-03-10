@@ -187,13 +187,22 @@ class ProfileContainer extends Component {
             />
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.boxItemTitle}>Cập nhật hồ sơ</Text>
-              <Text style={{color: '#757575', fontSize: 12}}>
-                {' (Đã hoàn thiện'}
-              </Text>
-              <Text style={{color: '#f0532d', fontSize: 12}}>
-                {' ' + this.state.percent_updated}%
-              </Text>
-              <Text style={{color: '#757575', fontSize: 12}}>{')'}</Text>
+              {this.state.percent_updated < 100 ? (
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={{color: '#757575', fontSize: 12}}>
+                    {' (Đã hoàn thiện'}
+                  </Text>
+                  <Text style={{color: '#f0532d', fontSize: 12}}>
+                    {' ' + this.state.percent_updated}%
+                  </Text>
+                  <Text style={{color: '#757575', fontSize: 12}}>{')'}</Text>
+                </View>
+              ) : (
+                <Text style={{color: '#25A174', fontSize: 12}}>
+                  {' '}
+                  (Đã hoàn thiện hồ sơ)
+                </Text>
+              )}
             </View>
           </TouchableOpacity>
           <View style={styles.boxItemIndicator} />
