@@ -50,7 +50,7 @@ export const setStoreData = async (key, value) => {
 export const boxSelectStyle = function(isRed) {
   return {
     flex: 1,
-    borderColor: isRed ? '#F0532D' : '#d8d8d8',
+    borderColor: isRed ? '#25A174' : '#d8d8d8',
     borderWidth: 1,
     borderRadius: 6,
     flexDirection: 'row',
@@ -74,7 +74,7 @@ export const txtInputStyle = function(text) {
   return {
     flex: 1,
     height: 44,
-    borderColor: text ? '#F0532D' : '#D8D8D8',
+    borderColor: text ? '#25A174' : '#D8D8D8',
     borderWidth: 1,
     borderRadius: 6,
     paddingStart: 10,

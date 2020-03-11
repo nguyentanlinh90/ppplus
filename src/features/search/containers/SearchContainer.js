@@ -1,96 +1,121 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
   View,
-  SafeAreaView,
-  ScrollView,
   Image,
-  Text,
   TouchableOpacity,
   TextInput,
-  Keyboard,
   TouchableWithoutFeedback,
+  Keyboard,
+  AsyncStorage,
+  ScrollView,
 } from 'react-native';
+import SearchResult from '../components/SearchResult';
+import SearchSuggest from '../components/SearchSuggest';
 import styles from '../styles/styles';
-import SpinnerComponent from '../../../components/Spinner';
-
-class MessageContainer extends Component {
+import {SEARCH_SUGGEST_LIST} from '../../../utils/constants';
+import {array} from 'prop-types';
+var searchMoreList = [
+  'jkhdkajhdakjs',
+  'kạhfkjhfkjsdf',
+  'fdskjhsdjkfsdjkhfsjkd',
+  'jkhdkajhdakjs',
+  'kạhfkjhfkjsdf',
+  'fdskjhsdjkfsdjkhfsjkd',
+];
+class SearchContainer extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      isShowKeyBoard: true,
       inputSearch: '',
+      suggestList: [],
     };
-    this.onChangeText = this.onChangeText.bind(this);
+    this._getSuggestList();
   }
-  onChangeText = (text, type) => {
-    if (type == 'inputSearch') {
-      this.setState({inputSearch: text});
+
+  async _getSuggestList() {
+    var suggestList = await AsyncStorage.getItem(SEARCH_SUGGEST_LIST);
+    if (suggestList && suggestList.length > 0) {
+      this.setState({suggestList: JSON.parse(suggestList)});
+    }
+  }
+  _onChangeText(text) {
+    this.setState({inputSearch: text});
+  }
+
+  _saveSearchSuggest = async (key, array) => {
+    try {
+      await AsyncStorage.setItem(key, JSON.stringify(array));
+    } catch (error) {
+      console.log('linhnt _saveSearchSuggest', error.message);
     }
   };
+
+  _onSubmitSearch = () => {
+    const {inputSearch} = this.state;
+    if (inputSearch.length > 1) {
+      const {suggestList} = this.state;
+      var temp = suggestList;
+      //save max 3 items
+      if (temp.length == 3) {
+        temp.splice(2, 1); // delete the last item
+      }
+      //add item to the top of list
+      temp.unshift(inputSearch);
+      this._saveSearchSuggest(SEARCH_SUGGEST_LIST, temp);
+      this.setState({suggestList: temp});
+    }
+  };
+
   render() {
-    const {inputSearch} = this.props;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <SafeAreaView style={{flex: 1}}>
-          <View style={{flexDirection: 'row'}}>
-            <View style={styles.boxSearch}>
-              <Image
-                resizeMode="contain"
-                style={{marginStart: 16, marginEnd: 10, width: 16}}
-                source={require('../../../assets/images/ic-search.png')}
-              />
-
-              <TextInput
-                style={{flex: 1, fontSize: 16}}
-                selectionColor="#000"
-                placeholder="Nội dung tìm kiếm"
-                onChangeText={text => this.onChangeText(text, 'inputSearch')}
-                underlineColorAndroid="transparent"
-                value={this.state.inputSearch}
-                autoFocus={this.state.isShowKeyBoard}
-              />
-
-              <TouchableOpacity
-                activeOpacity={1}
-                style={{
-                  width: 40,
-                  height: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => this.setState({inputSearch: ''})}>
-                {this.state.inputSearch.length > 0 ? (
-                  <Image
-                    style={{
-                      width: 16,
-                      height: 16,
-                    }}
-                    source={require('../../../assets/images/ic-close-1.png')}
-                  />
-                ) : null}
+        <View style={{flex: 1, backgroundColor: '#d8d8d8'}}>
+          <View style={styles.boxImgHeader}>
+            <Image
+              resizeMode="stretch"
+              source={require('../../../assets/images/bg-home-header.png')}
+              style={{width: '100%', height: '100%', position: 'absolute'}}
+            />
+            <View style={styles.viewSearch}>
+              <TouchableOpacity style={styles.viewButtonBack}>
+                <Image
+                  resizeMode="contain"
+                  source={require('../../../assets/images/ic-back-white.png')}
+                  style={{width: 24, height: 24}}
+                />
+              </TouchableOpacity>
+              <View style={styles.viewInput}>
+                <TextInput
+                  autoFocus={true}
+                  selectionColor={'#1c1c1c'}
+                  style={{color: '#1c1c1c', fontSize: 16}}
+                  returnKeyType="search"
+                  onChangeText={text => this._onChangeText(text)}
+                  onSubmitEditing={event => this._onSubmitSearch()}
+                />
+              </View>
+              <TouchableOpacity style={styles.viewButtonFilter}>
+                <Image
+                  resizeMode="contain"
+                  source={require('../../../assets/images/ic-filter.png')}
+                  style={{width: 24, height: 24}}
+                />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => {
-                this.props.navigation.goBack();
-              }}>
-              <Text style={{color: '#4682B4', fontSize: 16, padding: 16}}>
-                Huỷ
-              </Text>
-            </TouchableOpacity>
           </View>
-          <View
-            style={{
-              height: 0.7,
-              backgroundColor: '#d8d8d8',
-              marginBottom: 16,
-              marginTop: 10,
-            }}
-          />
-          <View style={{flex: 1, backgroundColor: '#d8d8d8'}}></View>
-        </SafeAreaView>
+          <ScrollView>
+            {this.state.inputSearch.length > 1 ? (
+              <SearchResult />
+            ) : (
+              <SearchSuggest
+                suggestList={this.state.suggestList}
+                searchMoreList={searchMoreList}
+              />
+            )}
+          </ScrollView>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
@@ -98,7 +123,9 @@ class MessageContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    state: state,
+    msg_code: state.home.msg_code,
+    message: state.home.message,
+    data: state.home.data,
   };
 }
-export default connect(mapStateToProps, {})(MessageContainer);
+export default connect(mapStateToProps, {})(SearchContainer);

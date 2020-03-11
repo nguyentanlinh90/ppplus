@@ -7,6 +7,7 @@ export const txt_major_select = 'Chọn nhóm ngành';
 export const txt_day_select = 'Ngày trong tuần';
 export const txt_turn_select = 'Ca làm việc trong ngày';
 export const ACCESS_TOKEN = 'ACCESS_TOKEN';
+export const SEARCH_SUGGEST_LIST = 'SEARCH_SUGGEST_LIST';
 export const IS_UPDATE_BASIC = 'IS_UPDATE_BASIC';
 export const V_1_0_0 = '1.0.0';
 export const VALUE_ONE = '1';
