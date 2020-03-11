@@ -12,18 +12,18 @@ import {
 import {Rating} from 'react-native-ratings';
 import CheckBox from 'react-native-check-box';
 import moment from 'moment';
-import styles from '../styles/styles';
-import JobFollowLocationItem from '../components/JobFollowLocationItem';
-import BookmarkChecked from '../../../components/BookmarkChecked';
-import BookmarkUnChecked from '../../../components/BookmarkUnChecked';
-import LocationPicker from '../components/LocationPicker';
-import BgButton from '../../../components/BgButton';
-import JobInfo from '../components/JobInfo';
-import JobRequest from '../components/JobRequest';
-import ItemSelectLocation from '../components/ItemSelectLocation';
-import {setGender, handleCheck} from '../../../utils/utils';
+import styles from '../features/home/styles/styles';
+import JobFollowLocationItem from '../features/home/components/JobFollowLocationItem';
+import BookmarkChecked from './BookmarkChecked';
+import BookmarkUnChecked from './BookmarkUnChecked';
+import LocationPicker from '../features/home/components/LocationPicker';
+import BgButton from './BgButton';
+import JobInfo from '../features/home/components/JobInfo';
+import JobRequest from '../features/home/components/JobRequest';
+import ItemSelectLocation from '../features/home/components/ItemSelectLocation';
+import {setGender, handleCheck} from '../utils/utils';
 
-export default class JobDetailContainer extends Component {
+export default class JobDetailContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,11 +40,20 @@ export default class JobDetailContainer extends Component {
         <View style={styles.jobDetailIndicator} />
         <View>
           <View style={[styles.jobDetailTop]}>
-            <Image
-              resizeMode="cover"
-              source={{uri: item.job_company.icon}}
-              style={styles.jobDetailLogo}
-            />
+            {item.job_company.icon == '' ? (
+              <Image
+                resizeMode="contain"
+                source={require('../assets/images/broken-image.png')}
+                style={styles.jobDetailLogo}
+              />
+            ) : (
+              <Image
+                resizeMode="contain"
+                source={{uri: item.job_company.icon}}
+                style={styles.jobDetailLogo}
+              />
+            )}
+
             <View style={styles.jobDetailTopInfo}>
               <View style={{flexDirection: 'row', marginBottom: 5}}>
                 <Text style={{flex: 1, fontSize: 18, fontWeight: 'bold'}}>

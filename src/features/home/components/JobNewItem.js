@@ -42,11 +42,20 @@ export default class JobHotItem extends Component {
         elevation={1}
         opacity={0.4}>
         <View style={{flexDirection: 'row'}}>
-          <Image
-            resizeMode="cover"
-            source={{uri: item.job_company.icon}}
-            style={{width: 80, height: 80, borderRadius: 6, marginEnd: 12}}
-          />
+          {item.job_company.icon == '' ? (
+            <Image
+              resizeMode="contain"
+              source={require('../../../assets/images/broken-image.png')}
+              style={styles.jobNewItemIcon}
+            />
+          ) : (
+            <Image
+              resizeMode="contain"
+              source={{uri: item.job_company.icon}}
+              style={styles.jobNewItemIcon}
+            />
+          )}
+
           <View style={styles.newItemViewRight}>
             <Text numberOfLines={1} style={styles.newItemCompanyName}>
               {item.job_company.name}

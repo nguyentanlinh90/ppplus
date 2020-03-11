@@ -46,10 +46,20 @@ export default class JobHotItem extends Component {
         elevation={1.5}
         opacity={0.4}>
         <View style={{flexDirection: 'row'}}>
-          <Image
-            source={{uri: item.job_company.icon}}
-            style={styles.hotItemLogo}
-          />
+          {item.job_company.icon == '' ? (
+            <Image
+              resizeMode="contain"
+              source={require('../../../assets/images/broken-image.png')}
+              style={styles.hotItemLogo}
+            />
+          ) : (
+            <Image
+              resizeMode="contain"
+              source={{uri: item.job_company.icon}}
+              style={styles.hotItemLogo}
+            />
+          )}
+
           <View style={styles.hotItemTopRight}>
             <Text numberOfLines={1} style={styles.hotItemCompanyName}>
               {item.job_company.name}

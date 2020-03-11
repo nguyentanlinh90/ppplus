@@ -9,13 +9,38 @@ import {
   Keyboard,
   AsyncStorage,
   ScrollView,
+  Dimensions,
 } from 'react-native';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import SpinnerComponent from '../../../components/Spinner';
 import SearchResult from '../components/SearchResult';
 import SearchSuggest from '../components/SearchSuggest';
+import JobDetail from '../../../components/JobDetail';
 import styles from '../styles/styles';
 import {SEARCH_SUGGEST_LIST} from '../../../utils/constants';
-import {array} from 'prop-types';
+import {ACCESS_TOKEN} from '../../../utils/constants';
+import {searchJobs, searchJobDetail} from '../actions/index';
+import {changeMsgCode} from '../../../api/helpers';
+import * as types from '../../../api/types';
+import {showAlert} from '../../../utils/utils';
+const screenHeight = Math.round(Dimensions.get('window').height);
+
+var token = '';
+var page = 1;
+
 var searchMoreList = [
+  'jkhdkajhdakjs',
+  'kạhfkjhfkjsdf',
+  'fdskjhsdjkfsdjkhfsjkd',
+  'jkhdkajhdakjs',
+  'kạhfkjhfkjsdf',
+  'fdskjhsdjkfsdjkhfsjkd',
+  'jkhdkajhdakjs',
+  'kạhfkjhfkjsdf',
+  'fdskjhsdjkfsdjkhfsjkd',
+  'jkhdkajhdakjs',
+  'kạhfkjhfkjsdf',
+  'fdskjhsdjkfsdjkhfsjkd',
   'jkhdkajhdakjs',
   'kạhfkjhfkjsdf',
   'fdskjhsdjkfsdjkhfsjkd',
@@ -28,10 +53,22 @@ class SearchContainer extends Component {
     super(props);
 
     this.state = {
+      isLoading: false,
+      isShowSearchSuggest: true,
       inputSearch: '',
       suggestList: [],
+      data: {},
+      jobDetail: {},
     };
+    this._getToken();
     this._getSuggestList();
+  }
+
+  async _getToken() {
+    token = await AsyncStorage.getItem(ACCESS_TOKEN);
+  }
+  _onChangeText(text) {
+    this.setState({inputSearch: text, isShowSearchSuggest: true});
   }
 
   async _getSuggestList() {
@@ -39,9 +76,6 @@ class SearchContainer extends Component {
     if (suggestList && suggestList.length > 0) {
       this.setState({suggestList: JSON.parse(suggestList)});
     }
-  }
-  _onChangeText(text) {
-    this.setState({inputSearch: text});
   }
 
   _saveSearchSuggest = async (key, array) => {
@@ -65,13 +99,87 @@ class SearchContainer extends Component {
       temp.unshift(inputSearch);
       this._saveSearchSuggest(SEARCH_SUGGEST_LIST, temp);
       this.setState({suggestList: temp});
+
+      this._startSearch(inputSearch);
     }
   };
 
+  _startSearch = inputSearch => {
+    //start search
+    this.setState({isLoading: true});
+    const {searchJobs} = this.props;
+    var params = page + '&key_words=' + inputSearch;
+    if (token != '') {
+      searchJobs(token, params);
+    }
+  };
+
+  _onSearch = key_words => {
+    this.setState({inputSearch: key_words});
+    this._startSearch(key_words);
+  };
+
+  _searchJobDetail = id => {
+    const {searchJobDetail} = this.props;
+    this.setState({isLoading: true});
+    searchJobDetail(token, id);
+  };
+
+  _closeRBSheet = () => {
+    this.RBSheet.close();
+  };
+  _openRBSheet = () => {
+    this.RBSheet.open();
+  };
+  _renderRBSheet() {
+    const {jobDetail} = this.state;
+    return (
+      <RBSheet
+        height={screenHeight}
+        ref={ref => {
+          this.RBSheet = ref;
+        }}
+        closeOnDragDown={false}
+        closeOnPressBack={true}
+        customStyles={{
+          container: {},
+          wrapper: {},
+        }}>
+        <JobDetail data={jobDetail} closeRBSheet={this._closeRBSheet} />
+      </RBSheet>
+    );
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.setState({isLoading: false});
+
+    if (nextProps.msg_code == types.SEARCH_JOBS_SUCCESS) {
+      this.setState({
+        isShowSearchSuggest: false,
+        data: nextProps.data,
+      });
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.SEARCH_JOBS_FAIL) {
+      showAlert(nextProps.message);
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.SEARCH_JOBS_DETAIL_SUCCESS) {
+      this.setState({
+        isLoading: false,
+        jobDetail: nextProps.data,
+      });
+      this._openRBSheet()
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.SEARCH_JOBS_DETAIL_FAIL) {
+      showAlert(nextProps.message);
+      nextProps.changeMsgCode('');
+    }
+  }
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={{flex: 1, backgroundColor: '#d8d8d8'}}>
+          <SpinnerComponent visible={this.state.isLoading} />
+          {this._renderRBSheet()}
           <View style={styles.boxImgHeader}>
             <Image
               resizeMode="stretch"
@@ -88,10 +196,10 @@ class SearchContainer extends Component {
               </TouchableOpacity>
               <View style={styles.viewInput}>
                 <TextInput
-                  autoFocus={true}
                   selectionColor={'#1c1c1c'}
                   style={{color: '#1c1c1c', fontSize: 16}}
                   returnKeyType="search"
+                  value={this.state.inputSearch}
                   onChangeText={text => this._onChangeText(text)}
                   onSubmitEditing={event => this._onSubmitSearch()}
                 />
@@ -106,12 +214,17 @@ class SearchContainer extends Component {
             </View>
           </View>
           <ScrollView>
-            {this.state.inputSearch.length > 1 ? (
-              <SearchResult />
-            ) : (
+            {this.state.isShowSearchSuggest ? (
               <SearchSuggest
                 suggestList={this.state.suggestList}
                 searchMoreList={searchMoreList}
+                onSearch={this._onSearch}
+              />
+            ) : (
+              <SearchResult
+                job_data={this.state.data.job_data}
+                province_list={this.state.data.province_list}
+                getJobDetail={this._searchJobDetail}
               />
             )}
           </ScrollView>
@@ -123,9 +236,13 @@ class SearchContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    msg_code: state.home.msg_code,
-    message: state.home.message,
-    data: state.home.data,
+    msg_code: state.search.msg_code,
+    message: state.search.message,
+    data: state.search.data,
   };
 }
-export default connect(mapStateToProps, {})(SearchContainer);
+export default connect(mapStateToProps, {
+  changeMsgCode,
+  searchJobs,
+  searchJobDetail,
+})(SearchContainer);

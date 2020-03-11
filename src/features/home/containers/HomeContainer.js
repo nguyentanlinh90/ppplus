@@ -19,7 +19,7 @@ import styles from '../../../features/home/styles/styles';
 import SpinnerComponent from '../../../components/Spinner';
 import JobHotItem from '../components/JobHotItem';
 import JobNewItem from '../components/JobNewItem';
-import JobDetailContainer from './JobDetailContainer';
+import JobDetail from '../../../components/JobDetail';
 import {SCREEN_CREATE_ACCOUNT, SCREEN_SEARCH} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -53,7 +53,7 @@ class HomeContainer extends Component {
   }
 
   _closeRBSheet = () => {
-    this.jobDetail.close();
+    this.RBSheet.close();
   };
   _renderRBSheet() {
     const {jobDetail} = this.state;
@@ -61,7 +61,7 @@ class HomeContainer extends Component {
       <RBSheet
         height={screenHeight}
         ref={ref => {
-          this.jobDetail = ref;
+          this.RBSheet = ref;
         }}
         closeOnDragDown={false}
         closeOnPressBack={true}
@@ -69,38 +69,7 @@ class HomeContainer extends Component {
           container: {},
           wrapper: {},
         }}>
-        <View style={{paddingBottom: Platform.OS === 'ios' ? 110 : 100}}>
-          <View
-            style={{
-              height: Platform.OS === 'ios' ? getStatusBarHeight() + 100 : 100,
-              backgroundColor: '#098',
-            }}>
-            <Image
-              resizeMode="stretch"
-              source={{
-                uri: isEmptyObject(jobDetail)
-                  ? ''
-                  : jobDetail.job_company.banner,
-              }}
-              style={{position: 'absolute', width: '100%', height: '100%'}}
-            />
-            <TouchableOpacity
-              style={styles.jobDetailBoxButtonBack}
-              onPress={() => {
-                this._closeRBSheet();
-              }}>
-              <Image
-                resizeMode="contain"
-                source={require('../../../assets/images/ic-back-white.png')}
-                style={{width: 30, height: 30}}
-              />
-            </TouchableOpacity>
-          </View>
-          <JobDetailContainer
-            item={this.state.jobDetail}
-            submit={this._closeRBSheet}
-          />
-        </View>
+        <JobDetail data={jobDetail} closeRBSheet={this._closeRBSheet} />
       </RBSheet>
     );
   }
@@ -118,6 +87,7 @@ class HomeContainer extends Component {
 
   _getJobDetail = id => {
     const {getJobDetail} = this.props;
+    this.setState({isLoading: true});
     getJobDetail(token, id);
   };
 
@@ -190,7 +160,6 @@ class HomeContainer extends Component {
             renderItem={({item: rowData}) => {
               return (
                 <TouchableOpacity
-                  activeOpacity={0.5}
                   onPress={() => this._getJobDetail(rowData.id)}>
                   <JobHotItem
                     province_list={province_list}
@@ -215,7 +184,6 @@ class HomeContainer extends Component {
             renderItem={({item: rowData}) => {
               return (
                 <TouchableOpacity
-                  activeOpacity={0.5}
                   onPress={() => this._getJobDetail(rowData.id)}>
                   <JobNewItem province_list={province_list} item={rowData} />
                 </TouchableOpacity>
@@ -240,7 +208,7 @@ class HomeContainer extends Component {
               return (
                 <Image
                   resizeMode="stretch"
-                  source={{uri: rowData.job_company.icon}}
+                  source={{uri: 'rowData.job_company.icon'}}
                   style={{
                     width: 94,
                     height: 59,
@@ -322,7 +290,7 @@ class HomeContainer extends Component {
         refreshing: false,
         jobDetail: nextProps.data,
       });
-      this.jobDetail.open();
+      this.RBSheet.open();
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_FAIL) {
       this.setState({
@@ -337,9 +305,9 @@ class HomeContainer extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <SpinnerComponent visible={this.state.isLoading} />
         {this._openFilter()}
         {this._renderRBSheet()}
-        <SpinnerComponent visible={this.state.isLoading} />
         <Image
           source={require('../../../assets/images/bg-home-header.png')}
           style={styles.boxImgHeader}

@@ -20,7 +20,7 @@ import {
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import SpinnerComponent from '../../../components/Spinner';
 import styles from '../styles/styles';
 import FormImageProfile from '../component/FormImageProfile';
 import FormBasicInfo from '../component/FormBasicInfo';
@@ -757,12 +757,8 @@ export class FillProfileContainer extends Component {
               style={styles.container}
               scrollEnabled={this.state.enableScrollViewScroll}
               ref={myScroll => (this._myScroll = myScroll)}>
-              <Spinner
-                visible={this.state.isLoading}
-                color={'white'}
-                size={'large'}
-                textStyle={{color: '#fff'}}
-              />
+              <SpinnerComponent visible={this.state.isLoading} />
+
               {this._renderBirthdayPicker()}
               <View style={styles.viewTop}>
                 <View style={{flex: 1}}>

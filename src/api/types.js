@@ -30,3 +30,7 @@ export const GET_USER_BASIC_INFO_FAIL = 'GET_USER_BASIC_INFO_FAIL';
 export const TYPE_USER_FORGOT_PASSWORD = 'forgot_password';
 export const TYPE_USER_BASIC_DETAIL = 'basic_detail';
 export const TYPE_USER_FULL_DETAIL = 'full_detail';
+export const SEARCH_JOBS_SUCCESS = 'SEARCH_JOBS_SUCCESS';
+export const SEARCH_JOBS_FAIL = 'SEARCH_JOBS_FAIL';
+export const SEARCH_JOBS_DETAIL_SUCCESS = 'SEARCH_JOBS_DETAIL_SUCCESS';
+export const SEARCH_JOBS_DETAIL_FAIL = 'SEARCH_JOBS_DETAIL_FAIL';

@@ -214,7 +214,7 @@ export default StyleSheet.create({
   hotItemLogo: {
     width: 44,
     height: 44,
-    borderRadius: 6,
+    borderRadius: 6
   },
   hotItemCompanyName: {
     flex: 1,
@@ -299,5 +299,10 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
-
+  jobNewItemIcon:{
+    width: 80,
+    height: 80,
+    borderRadius: 6,
+    marginEnd: 12,
+  }
 });

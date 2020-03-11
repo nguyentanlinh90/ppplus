@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {Rating} from 'react-native-ratings';
 import ProgressCircle from 'react-native-progress-circle';
-import Spinner from 'react-native-loading-spinner-overlay';
+import SpinnerComponent from '../../../components/Spinner';
 import rootStyles from '../../../styles/styles';
 import styles from '../styles/styles';
 import {
@@ -121,13 +121,7 @@ class ProfileContainer extends Component {
     return (
       <SafeAreaView style={{flex: 1}}>
         <ScrollView>
-          <Spinner
-            visible={this.state.isLoading}
-            color={'white'}
-            size={'large'}
-            textStyle={{color: '#fff'}}
-          />
-
+        <SpinnerComponent visible={this.state.isLoading} />
           <View style={styles.viewCircleAvatar}>
             <ProgressCircle
               percent={this.state.percent_updated}

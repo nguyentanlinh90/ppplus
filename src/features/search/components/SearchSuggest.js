@@ -8,7 +8,7 @@ export default class SearchSuggest extends Component {
   }
 
   render() {
-    const {suggestList, searchMoreList} = this.props;
+    const {suggestList, searchMoreList, onSearch} = this.props;
     return (
       <View style={{backgroundColor: '#fff', margin: 6}}>
         {suggestList.length > 0 ? (
@@ -26,7 +26,9 @@ export default class SearchSuggest extends Component {
                 return (
                   <TouchableOpacity
                     style={{height: 40, justifyContent: 'center'}}
-                    onPress={() => {}}>
+                    onPress={() => {
+                      onSearch(rowData);
+                    }}>
                     <Text style={{color: '#1c1c1c', fontSize: 16}}>
                       {rowData}
                     </Text>
