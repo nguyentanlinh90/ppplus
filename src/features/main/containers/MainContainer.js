@@ -16,18 +16,20 @@ import {dispatchScreen} from '../../../utils/utils';
 
 import styles from '../styles/styles';
 import ScheduleContainer from '../../schedule/containers/ScheduleContainer';
-var token = '';
+var token1 = ''
 class MainContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      token: this.props.navigation.state.params[0],
+      user: this.props.navigation.state.params[1],
       isConnecting: false,
       selectedTab: 'home',
       isLoading: false,
       messages: [],
       showJobAlert: false, //=true for phase 2
     };
-    token = this.props.navigation.state.params;
+
     this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
   }
 
@@ -88,14 +90,6 @@ class MainContainer extends Component {
   _gotoRetroScreen = () => {
     dispatchScreen(this.props, SCREEN_RETRO, {});
   };
-  // componentDidMount() {
-  //   this._getUserInfo();
-  // }
-
-  // _getUserInfo = () => {
-  //   const {getUserInfo} = this.props;
-  //   getUserInfo('basic_detail', token);
-  // };
 
   render() {
     return (
@@ -138,7 +132,11 @@ class MainContainer extends Component {
             onPress={() => {
               this._openTab('home');
             }}>
-            <Home props={this.props} token={token} />
+            <Home
+              props={this.props}
+              token={this.state.token}
+              user={this.state.user}
+            />
           </TabNavigator.Item>
 
           <TabNavigator.Item
@@ -245,7 +243,8 @@ class MainContainer extends Component {
             onPress={() => this._openTab('profile')}>
             <Profile
               props={this.props}
-              token={token}
+              token={this.state.token}
+              user={this.state.user}
               gotoRetroScreen={this._gotoRetroScreen}
             />
           </TabNavigator.Item>

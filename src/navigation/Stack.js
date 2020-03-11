@@ -8,7 +8,6 @@ import InputOTP from '../features/user/containers/InputOTPContainer';
 import Login from '../features/user/containers/LoginContainer';
 import UpdatePass from '../features/user/containers/UpdatePassContainer';
 import Info from '../features/info/containers/InfoContainer';
-import ConfirmInfo from '../features/info/containers/ConfirmInfoContainer';
 import Main from '../features/main/containers/MainContainer';
 import Search from '../features/search/containers/SearchContainer';
 import FillProfile from '../features/profile/containers/FillProfileContainer';
@@ -56,12 +55,6 @@ const Stack = createStackNavigator(
     },
     Info: {
       screen: Info,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    ConfirmInfo: {
-      screen: ConfirmInfo,
       navigationOptions: {
         header: null,
       },

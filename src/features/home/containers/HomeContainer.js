@@ -30,6 +30,7 @@ import {isEmptyObject} from '../../../utils/utils';
 
 const dimensions = Dimensions.get('window');
 var token = '';
+var user = {};
 var province_list = [];
 var district_list = [];
 var gender_list = [];
@@ -49,7 +50,8 @@ class HomeContainer extends Component {
       jobs_hot: [],
       jobs_new: [],
     };
-    token = this.props.token.token;
+    token = this.props.token;
+    user = this.props.user;
   }
 
   _closeRBSheet = () => {
@@ -317,7 +319,9 @@ class HomeContainer extends Component {
           <View style={styles.boxHeader}>
             <View style={styles.viewUser}>
               <Text style={styles.txtHello}>Xin chào, </Text>
-              <Text style={[styles.txtHello, styles.txtUserName]}>Linh</Text>
+              <Text style={[styles.txtHello, styles.txtUserName]}>
+                {user.last_name + ' ' + user.first_name}{' '}
+              </Text>
             </View>
             <View style={styles.boxNotification}></View>
           </View>

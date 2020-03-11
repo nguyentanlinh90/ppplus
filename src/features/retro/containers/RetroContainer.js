@@ -12,7 +12,7 @@ import {
 import styles from '../styles/styles';
 import Swiper from 'react-native-web-swiper';
 import BgButton from '../../../components/BgButton';
-import {SCREEN_LOGIN, SCREEN_MAIN} from '../../../api/screen';
+import {SCREEN_LOGIN} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
 import {setStoreData} from '../../../utils/utils';
 import {KEY_CHECK_LAST_RETRO, VALUE_ONE} from '../../../utils/constants';

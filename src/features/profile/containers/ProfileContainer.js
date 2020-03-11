@@ -28,30 +28,16 @@ import {doLogout} from '../../user/actions/index';
 import * as types from '../../../api/types';
 import {isEmpty} from '../../../utils/utils';
 import {changeMsgCode} from '../../../api/helpers';
-import {getUserInfo} from '../../../features/user/actions';
 var token = '';
 class ProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
-      avatar: '',
-      percent_updated: 0,
-      rating: 0,
-      last_name: '',
-      first_name: '',
-      point_rewards: 0,
+      user: this.props.user,
+      isLoading: false,
     };
-    token = this.props.token.token;
+    token = this.props.token;
   }
-
-  refresh = (avatar, last_name, first_name) => {
-    this.setState({
-      avatar: avatar,
-      last_name: last_name,
-      first_name: first_name,
-    });
-  };
 
   _showAlert = () => {
     Alert.alert('Thông báo', 'Chức năng chưa hoàn thiện');
@@ -79,34 +65,17 @@ class ProfileContainer extends Component {
     doLogout(token);
   };
 
-  _setUser = data => {
-    this.setState({
-      avatar: data.avatar,
-      percent_updated: data.percent_updated,
-      rating: data.rating,
-      last_name: data.last_name,
-      first_name: data.first_name,
-      point_rewards: data.point_rewards,
-    });
+  _refresh = (avatar, last_name, first_name) => {
+    const {user} = this.state;
+    var temp = user;
+    temp.avatar = avatar;
+    temp.last_name = last_name;
+    temp.first_name = first_name;
+    this.setState({user: temp});
   };
 
-  _getUserInfo = () => {
-    const {getUserInfo} = this.props;
-    getUserInfo('basic_detail', token);
-  };
-  componentDidMount() {
-    this._getUserInfo();
-  }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == types.GET_USER_BASIC_INFO_SUCCESS) {
-      this.setState({isLoading: false});
-      this._setUser(nextProps.data);
-      nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == types.GET_USER_BASIC_INFO_FAIL) {
-      showAlert(nextProps.message);
-      this.setState({isLoading: false});
-      nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == types.LOGOUT_SUCCESS) {
+    if (nextProps.msg_code == types.LOGOUT_SUCCESS) {
       nextProps.changeMsgCode('');
       setStoreData(ACCESS_TOKEN, '');
       this.props.gotoRetroScreen();
@@ -117,24 +86,22 @@ class ProfileContainer extends Component {
   }
 
   render() {
+    const {user} = this.state;
     const {props} = this.props;
     return (
       <SafeAreaView style={{flex: 1}}>
         <ScrollView>
-        <SpinnerComponent visible={this.state.isLoading} />
+          <SpinnerComponent visible={this.state.isLoading} />
           <View style={styles.viewCircleAvatar}>
             <ProgressCircle
-              percent={this.state.percent_updated}
+              percent={user.percent_updated}
               radius={58}
               borderWidth={3}
               color="#F0532D"
               shadowColor="#d8d8d8"
               bgColor="#fff"
             />
-            <Image
-              source={{uri: this.state.avatar}}
-              style={styles.circleAvatar}
-            />
+            <Image source={{uri: user.avatar}} style={styles.circleAvatar} />
           </View>
           {/* <Rating
             readonly={true}
@@ -148,17 +115,17 @@ class ProfileContainer extends Component {
             tintColor="#fff"
           /> */}
           <Text style={styles.name}>
-            {this.state.last_name + ' ' + this.state.first_name}
+            {user.last_name + ' ' + user.first_name}
           </Text>
           <View style={styles.viewReward}>
             <View style={styles.boxReward}>
               <Text style={styles.boxRewardTextReward}>Điểm thưởng </Text>
               <Text style={styles.boxRewardTextPoint}>
-                {this.state.point_rewards}
+                {user.point_rewards}
               </Text>
             </View>
           </View>
-          {this.state.percent_updated < 100 ? (
+          {user.percent_updated < 100 ? (
             <Text style={styles.viewDes}>
               *Hoàn thiện hồ sơ để xác thực tài khoản của bạn và tích điểm
               thưởng
@@ -171,7 +138,7 @@ class ProfileContainer extends Component {
             onPress={() => {
               props.navigation.navigate(SCREEN_FILL_PROFILE, {
                 onGoBack: (avatar, last_name, first_name) =>
-                  this.refresh(avatar, last_name, first_name),
+                  this._refresh(avatar, last_name, first_name),
               });
             }}>
             <Image
@@ -181,13 +148,13 @@ class ProfileContainer extends Component {
             />
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.boxItemTitle}>Cập nhật hồ sơ</Text>
-              {this.state.percent_updated < 100 ? (
+              {user.percent_updated < 100 ? (
                 <View style={{flexDirection: 'row'}}>
                   <Text style={{color: '#757575', fontSize: 12}}>
                     {' (Đã hoàn thiện '}
                   </Text>
                   <Text style={{color: '#f0532d', fontSize: 12}}>
-                    {this.state.percent_updated + '%'}
+                    {user.percent_updated + '%'}
                   </Text>
                   <Text style={{color: '#757575', fontSize: 12}}>{')'}</Text>
                 </View>
@@ -320,7 +287,6 @@ function mapStateToProps(state) {
   };
 }
 export default connect(mapStateToProps, {
-  getUserInfo,
   doLogout,
   changeMsgCode,
 })(ProfileContainer);
