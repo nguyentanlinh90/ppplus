@@ -693,7 +693,6 @@ export class FillProfileContainer extends Component {
       judicial_record_image: judicial_record_image_data,
       type: 'full_detail',
     };
-    console.log('linhnt param', params)
 
     if (token != '') {
       doUpdateUserInfo(params, token);

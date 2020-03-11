@@ -167,7 +167,7 @@ class SearchContainer extends Component {
         isLoading: false,
         jobDetail: nextProps.data,
       });
-      this._openRBSheet()
+      this._openRBSheet();
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.SEARCH_JOBS_DETAIL_FAIL) {
       showAlert(nextProps.message);
@@ -187,7 +187,9 @@ class SearchContainer extends Component {
               style={{width: '100%', height: '100%', position: 'absolute'}}
             />
             <View style={styles.viewSearch}>
-              <TouchableOpacity style={styles.viewButtonBack}>
+              <TouchableOpacity
+                style={styles.viewButtonBack}
+                onPress={() => this.props.navigation.goBack()}>
                 <Image
                   resizeMode="contain"
                   source={require('../../../assets/images/ic-back-white.png')}

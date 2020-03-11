@@ -32,6 +32,7 @@ class SplashContainer extends Component {
     if (token && token != '' && is_update_basic == 1) {
       this.setState({isLogin: true});
     }
+
     if (this.state.isLogin) {
       this._getUserInfo();
     } else {

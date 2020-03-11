@@ -126,13 +126,12 @@ export const doLogout = token => async dispatch => {
 
 export const doUpdateUserInfo = (params, access_token) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'user_info_update');
-
   const {json} = await callPostApi(path, params, access_token);
-
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
   ) {
+    await dispatch(fetchDataSuccess(types.UPDATE_USER_INFO_SUCCESS, json.data));
     await dispatch(
       fetchDataSuccess(types.CHANGE_MSG_CODE, types.UPDATE_USER_INFO_SUCCESS),
     );

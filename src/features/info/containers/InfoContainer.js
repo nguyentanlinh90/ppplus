@@ -304,6 +304,8 @@ function mapStateToProps(state) {
   return {
     msg_code: state.user.msg_code,
     message: state.user.message,
+    data: state.user.data,
+
   };
 }
 
