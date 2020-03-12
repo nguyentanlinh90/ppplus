@@ -11,3 +11,5 @@ export const SCREEN_PROGRAM = 'Program';
 export const SCREEN_SEARCH = 'Search';
 export const SCREEN_START_JOB = 'StartJob';
 export const SCREEN_PRODUCT = 'Product';
+export const SCREEN_JOB_DETAIL = 'JobDetail';
+

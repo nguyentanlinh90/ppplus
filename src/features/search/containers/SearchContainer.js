@@ -15,7 +15,6 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import SpinnerComponent from '../../../components/Spinner';
 import SearchResult from '../components/SearchResult';
 import SearchSuggest from '../components/SearchSuggest';
-import JobDetail from '../../../components/JobDetail';
 import styles from '../styles/styles';
 import {SEARCH_SUGGEST_LIST} from '../../../utils/constants';
 import {ACCESS_TOKEN} from '../../../utils/constants';
@@ -23,6 +22,8 @@ import {searchJobs, searchJobDetail} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 import * as types from '../../../api/types';
 import {showAlert} from '../../../utils/utils';
+import {SCREEN_JOB_DETAIL} from '../../../api/screen';
+
 const screenHeight = Math.round(Dimensions.get('window').height);
 
 var token = '';
@@ -124,31 +125,9 @@ class SearchContainer extends Component {
     this.setState({isLoading: true});
     searchJobDetail(token, id);
   };
-
-  _closeRBSheet = () => {
-    this.RBSheet.close();
+  _gotoJobDetail = data => {
+    this.props.props.navigation.navigate(SCREEN_JOB_DETAIL, [data, token]);
   };
-  _openRBSheet = () => {
-    this.RBSheet.open();
-  };
-  _renderRBSheet() {
-    const {jobDetail} = this.state;
-    return (
-      <RBSheet
-        height={screenHeight}
-        ref={ref => {
-          this.RBSheet = ref;
-        }}
-        closeOnDragDown={false}
-        closeOnPressBack={true}
-        customStyles={{
-          container: {},
-          wrapper: {},
-        }}>
-        <JobDetail data={jobDetail} closeRBSheet={this._closeRBSheet} token={token}/>
-      </RBSheet>
-    );
-  }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({isLoading: false});
@@ -163,11 +142,18 @@ class SearchContainer extends Component {
       showAlert(nextProps.message);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.SEARCH_JOBS_DETAIL_SUCCESS) {
-      this.setState({
-        isLoading: false,
-        jobDetail: nextProps.data,
-      });
-      this._openRBSheet();
+      //setState method doesn't mutate the state immediately
+      this.setState(
+        {
+          isLoading: false,
+          jobDetail: nextProps.data,
+        },
+        function() {
+          // //so we must waiting setState done
+          this._gotoJobDetail(this.state.jobDetail);
+        },
+      );
+      nextProps.changeMsgCode('');
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.SEARCH_JOBS_DETAIL_FAIL) {
       showAlert(nextProps.message);
@@ -179,7 +165,6 @@ class SearchContainer extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={{flex: 1, backgroundColor: '#d8d8d8'}}>
           <SpinnerComponent visible={this.state.isLoading} />
-          {this._renderRBSheet()}
           <View style={styles.boxImgHeader}>
             <Image
               resizeMode="stretch"

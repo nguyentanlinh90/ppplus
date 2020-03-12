@@ -32,7 +32,14 @@ export default class JobDetailContent extends Component {
   }
 
   render() {
-    const {item, submit, handleSelectDistrict} = this.props;
+    const {
+      item,
+      is_applied,
+      getWorkingDistrictIds,
+      getWorkingTimeIds,
+      checkValid,
+      handleApplyJob,
+    } = this.props;
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -104,45 +111,60 @@ export default class JobDetailContent extends Component {
           />
           <View style={styles.jobDetailViewLine} />
           <JobInfo description={item.description} />
-          <View style={styles.jobDetailViewLine} />
-          <View style={{padding: 16}}>
-            <Text style={styles.txtJobDetailTitle}>ĐỊA ĐIỂM LÀM VIỆC</Text>
-            <Text style={{fontSize: 16, color: '#1c1c1c', marginBottom: 10}}>
-              Chọn địa điểm và thời gian làm việc mong muốn
-            </Text>
+          {is_applied ? null : (
             <View>
-              <FlatList
-                style={{}}
-                data={item.job_detail_lists}
-                renderItem={({item: rowData, index}) => {
-                  return (
-                    <ItemSelectLocation
-                      province_list={item.province_list}
-                      district_list={item.district_list}
-                      index={index}
-                      province_id={rowData.province_id}
-                      working_district_list={rowData.working_district_list}
-                      working_time_list={Object.values(
-                        rowData.working_time_list,
-                      )}
-                    />
-                  );
-                }}
-                keyExtractor={(item, index) => index}
-              />
+              <View style={styles.jobDetailViewLine} />
+              <View style={{padding: 16}}>
+                <Text style={styles.txtJobDetailTitle}>ĐỊA ĐIỂM LÀM VIỆC</Text>
+                <Text
+                  style={{fontSize: 16, color: '#1c1c1c', marginBottom: 10}}>
+                  Chọn địa điểm và thời gian làm việc mong muốn
+                </Text>
+                <View>
+                  <FlatList
+                    style={{}}
+                    data={item.job_detail_lists}
+                    renderItem={({item: rowData, index}) => {
+                      return (
+                        <ItemSelectLocation
+                          province_list={item.province_list}
+                          district_list={item.district_list}
+                          index={index}
+                          province_id={rowData.province_id}
+                          working_district_list={rowData.working_district_list}
+                          working_time_list={rowData.working_time_list}
+                          //
+                          getWorkingDistrictIds={getWorkingDistrictIds}
+                          getWorkingTimeIds={getWorkingTimeIds}
+                          checkValid={checkValid}
+                        />
+                      );
+                    }}
+                    keyExtractor={(item, index) => index}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
+          )}
           <View style={styles.jobDetailViewLine} />
-
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => submit()}
-            style={styles.jobDetailBoxSubmit}>
-            <BgButton />
-            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-              Ứng Tuyển Ngay
-            </Text>
-          </TouchableOpacity>
+          {is_applied ? (
+            <View
+              onPress={() => submit()}
+              style={[styles.jobDetailBoxSubmit, {backgroundColor: '#C7C7C7'}]}>
+              <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                Ứng Tuyển Ngay
+              </Text>
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={() => handleApplyJob()}
+              style={styles.jobDetailBoxSubmit}>
+              <BgButton />
+              <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                Ứng Tuyển Ngay
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     );

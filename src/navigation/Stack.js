@@ -14,6 +14,7 @@ import FillProfile from '../features/profile/containers/FillProfileContainer';
 import Program from '../features/program/containers/ProgramContainer';
 import StartJob from '../features/activity/containers/StartJobContainer';
 import Product from '../features/product/containers/ProductContainer';
+import JobDetail from '../features/jobDetail/containers/JobDetailContainer';
 
 const Stack = createStackNavigator(
   {
@@ -91,6 +92,12 @@ const Stack = createStackNavigator(
     },
     Product: {
       screen: Product,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    JobDetail: {
+      screen: JobDetail,
       navigationOptions: {
         header: null,
       },

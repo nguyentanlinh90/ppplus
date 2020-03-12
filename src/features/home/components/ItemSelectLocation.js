@@ -42,22 +42,29 @@ export default class ItemSelectLocation extends Component {
   };
 
   _handleSelectDistrict = districtSelect => {
+    //district for select
     const {working_districts} = this.state;
-
     if (handleCheck(districtSelect, working_districts)) {
       var array = [...working_districts];
       var index = array.indexOf(districtSelect);
       if (index !== -1) {
         array.splice(index, 1);
-        this.setState({working_districts: array});
+        this.setState({working_districts: array}, function() {
+          this._checkValid();
+        });
       }
     } else {
       working_districts.push(districtSelect);
-      this.setState({working_districts: working_districts});
+      this.setState({working_districts: working_districts}, function() {
+        this._checkValid();
+      });
     }
+    //district for apply job
+    this.props.getWorkingDistrictIds(districtSelect);
   };
 
-  _handleSelectTime = timeSelect => {
+  _handleSelectTime = (timeSelect, working_time_list) => {
+    //district for select
     const {working_times} = this.state;
 
     if (handleCheck(timeSelect, working_times)) {
@@ -65,11 +72,31 @@ export default class ItemSelectLocation extends Component {
       var index = array.indexOf(timeSelect);
       if (index !== -1) {
         array.splice(index, 1);
-        this.setState({working_times: array});
+        this.setState({working_times: array}, function() {
+          this._checkValid();
+        });
       }
     } else {
       working_times.push(timeSelect);
-      this.setState({working_times: working_times});
+      this.setState({working_times: working_times}, function() {
+        this._checkValid();
+      });
+    }
+    //time for apply job
+    this.props.getWorkingTimeIds(timeSelect, working_time_list);
+  };
+
+  _checkValid = () => {
+    const {working_districts, working_times} = this.state;
+    var provinceSelect =
+      working_districts.length > 0 && working_times.length > 0;
+    var provinceUnSelect =
+      working_districts.length == 0 && working_times.length == 0;
+
+    if (provinceSelect || provinceUnSelect) {
+      this.props.checkValid(true, provinceSelect, this.props.province_id);
+    } else {
+      this.props.checkValid(false, provinceSelect, this.props.province_id);
     }
   };
 
@@ -182,12 +209,12 @@ export default class ItemSelectLocation extends Component {
         {this.state.isShowTime ? (
           <FlatList
             style={styles.viewSelect}
-            data={working_time_list}
+            data={Object.values(working_time_list)}
             renderItem={({item: rowData}) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    this._handleSelectTime(rowData);
+                    this._handleSelectTime(rowData, working_time_list);
                   }}>
                   <View style={styles.infoBoxSelect}>
                     <Text style={styles.txtViewSelect}>{rowData}</Text>
