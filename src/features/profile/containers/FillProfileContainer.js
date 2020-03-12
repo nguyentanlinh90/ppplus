@@ -695,6 +695,7 @@ export class FillProfileContainer extends Component {
     };
 
     if (token != '') {
+      this.setState({isLoading: true});
       doUpdateUserInfo(params, token);
     }
   };
@@ -722,7 +723,10 @@ export class FillProfileContainer extends Component {
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       showAlert('Cập nhật thông tin thành công');
-      this.setState({isLoading: false});
+      this.setState({
+        isLoading: false,
+        percent_updated: nextProps.data.percent_updated,
+      });
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       showAlert('Cập nhật thông tin thất bại');
@@ -733,6 +737,7 @@ export class FillProfileContainer extends Component {
 
   _goBack = navigation => {
     navigation.state.params.onGoBack(
+      this.state.percent_updated,
       this.state.avatar,
       this.state.last_name,
       this.state.first_name,

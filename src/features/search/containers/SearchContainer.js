@@ -145,7 +145,7 @@ class SearchContainer extends Component {
           container: {},
           wrapper: {},
         }}>
-        <JobDetail data={jobDetail} closeRBSheet={this._closeRBSheet} />
+        <JobDetail data={jobDetail} closeRBSheet={this._closeRBSheet} token={token}/>
       </RBSheet>
     );
   }

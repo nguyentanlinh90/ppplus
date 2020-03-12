@@ -17,13 +17,15 @@ export const getJobs = (token, params ) => async dispatch => {
   } else {
     await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
     await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_JOBS_DETAIL_FAIL),
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_JOBS_FAIL),
     );
   }
 };
 
 export const getJobDetail = (token, id) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'get_job_detail') + id;
+  console.log('linhnt path', path);
+
   const {json} = await callGetApi(path, token);
   if (
     typeof json !== types.UNDEFINED &&

@@ -65,9 +65,10 @@ class ProfileContainer extends Component {
     doLogout(token);
   };
 
-  _refresh = (avatar, last_name, first_name) => {
+  _refresh = (percent_updated, avatar, last_name, first_name) => {
     const {user} = this.state;
     var temp = user;
+    user.percent_updated = percent_updated;
     temp.avatar = avatar;
     temp.last_name = last_name;
     temp.first_name = first_name;
@@ -137,8 +138,8 @@ class ProfileContainer extends Component {
             style={styles.boxItem}
             onPress={() => {
               props.navigation.navigate(SCREEN_FILL_PROFILE, {
-                onGoBack: (avatar, last_name, first_name) =>
-                  this._refresh(avatar, last_name, first_name),
+                onGoBack: (percent_updated, avatar, last_name, first_name) =>
+                  this._refresh(percent_updated, avatar, last_name, first_name),
               });
             }}>
             <Image

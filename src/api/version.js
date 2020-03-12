@@ -36,5 +36,9 @@ export const version = {
       version: 1,
       path: '/api/job/',
     },
+    apply_job: {
+      version: 1,
+      path: '/api/job/apply',
+    },
   },
 };

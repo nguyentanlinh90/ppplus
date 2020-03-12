@@ -20,6 +20,7 @@ import SpinnerComponent from '../../../components/Spinner';
 import JobHotItem from '../components/JobHotItem';
 import JobNewItem from '../components/JobNewItem';
 import JobDetail from '../../../components/JobDetail';
+import JobDetailContent from '../../../components/JobDetailContent';
 import {SCREEN_CREATE_ACCOUNT, SCREEN_SEARCH} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -57,7 +58,13 @@ class HomeContainer extends Component {
   _closeRBSheet = () => {
     this.RBSheet.close();
   };
+
+  _openRBSheet = () => {
+    this.RBSheet.open();
+  };
+
   _renderRBSheet() {
+    console.log('linhnt _renderRBSheet');
     const {jobDetail} = this.state;
     return (
       <RBSheet
@@ -71,7 +78,38 @@ class HomeContainer extends Component {
           container: {},
           wrapper: {},
         }}>
-        <JobDetail data={jobDetail} closeRBSheet={this._closeRBSheet} />
+        {isEmptyObject(jobDetail) ? null : (
+          <View style={{paddingBottom: Platform.OS === 'ios' ? 110 : 100}}>
+            <View style={styles.jobDetailViewHeader}>
+              {jobDetail.job_company.banner == '' ? (
+                <Image
+                  resizeMode="stretch"
+                  source={require('../../../assets/images/bg-home-header.png')}
+                  style={{position: 'absolute', width: '100%', height: '100%'}}
+                />
+              ) : (
+                <Image
+                  resizeMode="contain"
+                  source={{uri: jobDetail.job_company.banner}}
+                  style={{position: 'absolute', width: '100%', height: '100%'}}
+                />
+              )}
+
+              <TouchableOpacity
+                style={styles.jobDetailBoxButtonBack}
+                onPress={() => {
+                  this._closeRBSheet();
+                }}>
+                <Image
+                  resizeMode="contain"
+                  source={require('../../../assets/images/ic-back-white.png')}
+                  style={{width: 30, height: 30}}
+                />
+              </TouchableOpacity>
+            </View>
+            <JobDetailContent item={jobDetail} submit={this._closeRBSheet} />
+          </View>
+        )}
       </RBSheet>
     );
   }
@@ -287,11 +325,21 @@ class HomeContainer extends Component {
       });
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_SUCCESS) {
-      this.setState({
-        isLoading: false,
-        refreshing: false,
-        jobDetail: nextProps.data,
-      });
+      //setState method doesn't mutate the state immediately
+      this.setState(
+        {
+          isLoading: false,
+          refreshing: false,
+          jobDetail: nextProps.data,
+        },
+        // ,
+        // function() {
+        //   //so we must waiting setState done
+        //   console.log('linhnt jobDetail', this.state.jobDetail.name);
+        //   // nextProps.changeMsgCode('');
+        //   this._openRBSheet();
+        // },
+      );
       this.RBSheet.open();
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_FAIL) {
@@ -310,6 +358,7 @@ class HomeContainer extends Component {
         <SpinnerComponent visible={this.state.isLoading} />
         {this._openFilter()}
         {this._renderRBSheet()}
+
         <Image
           source={require('../../../assets/images/bg-home-header.png')}
           style={styles.boxImgHeader}
