@@ -126,7 +126,7 @@ class SearchContainer extends Component {
     searchJobDetail(token, id);
   };
   _gotoJobDetail = data => {
-    this.props.props.navigation.navigate(SCREEN_JOB_DETAIL, [data, token]);
+    this.props.navigation.navigate(SCREEN_JOB_DETAIL, [data, token]);
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -209,8 +209,7 @@ class SearchContainer extends Component {
               />
             ) : (
               <SearchResult
-                job_data={this.state.data.job_data}
-                province_list={this.state.data.province_list}
+                data={this.state.data}
                 getJobDetail={this._searchJobDetail}
               />
             )}

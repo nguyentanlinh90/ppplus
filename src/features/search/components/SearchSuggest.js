@@ -35,7 +35,7 @@ export default class SearchSuggest extends Component {
                   </TouchableOpacity>
                 );
               }}
-              keyExtractor={(item, index) => index}
+              listKey={(item, index) => 'D' + index.toString()}
             />
             <View style={{backgroundColor: '#d8d8d8', height: 6}} />
           </View>
@@ -63,7 +63,7 @@ export default class SearchSuggest extends Component {
                   </TouchableOpacity>
                 );
               }}
-              keyExtractor={(item, index) => index}
+              listKey={(item, index) => 'D' + index.toString()}
             />
           </View>
         ) : null}

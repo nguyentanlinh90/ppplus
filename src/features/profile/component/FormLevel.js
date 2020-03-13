@@ -98,7 +98,7 @@ export default class FormLevel extends Component {
                       </TouchableOpacity>
                     );
                   }}
-                  keyExtractor={(item, index) => index}
+                  listKey={(item, index) => 'D' + index.toString()}
                 />
               </View>
             ) : null}

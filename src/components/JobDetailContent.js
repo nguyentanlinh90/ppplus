@@ -140,7 +140,7 @@ export default class JobDetailContent extends Component {
                         />
                       );
                     }}
-                    keyExtractor={(item, index) => index}
+                    listKey={(item, index) => 'D' + index.toString()}
                   />
                 </View>
               </View>

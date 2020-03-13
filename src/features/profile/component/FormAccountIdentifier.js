@@ -154,7 +154,7 @@ export default class FormAccountIdentifier extends Component {
                           </TouchableOpacity>
                         );
                       }}
-                      keyExtractor={(item, index) => index}
+                      listKey={(item, index) => 'D' + index.toString()}
                     />
                   </View>
                 ) : null}
@@ -213,7 +213,7 @@ export default class FormAccountIdentifier extends Component {
                           </TouchableOpacity>
                         );
                       }}
-                      keyExtractor={(item, index) => index}
+                      listKey={(item, index) => 'D' + index.toString()}
                     />
                   </View>
                 ) : null}
@@ -276,7 +276,7 @@ export default class FormAccountIdentifier extends Component {
                       </TouchableOpacity>
                     );
                   }}
-                  keyExtractor={(item, index) => index}
+                  listKey={(item, index) => 'D' + index.toString()}
                 />
               </View>
             ) : null}
@@ -384,7 +384,7 @@ export default class FormAccountIdentifier extends Component {
                   />
                 );
               }}
-              keyExtractor={(item, index) => index}
+              listKey={(item, index) => 'D' + index.toString()}
             />
             {degree_info.length < 5 ? (
               <TouchableOpacity onPress={() => handleAddDegreeRelativeItem()}>

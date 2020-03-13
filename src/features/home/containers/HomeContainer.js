@@ -44,7 +44,6 @@ class HomeContainer extends Component {
     super(props);
 
     this.state = {
-      isLoading: true,
       refreshing: false,
       isOpenFilter: false,
       inputSearch: '',
@@ -55,7 +54,9 @@ class HomeContainer extends Component {
     token = this.props.token;
     user = this.props.user;
   }
-
+  _showLoading = isShow => {
+    this.props.setLoading(isShow);
+  };
   _onRefresh = () => {
     this.setState({refreshing: true});
     jobs_new_page = 1;
@@ -69,7 +70,7 @@ class HomeContainer extends Component {
 
   _getJobDetail = id => {
     const {getJobDetail} = this.props;
-    this.setState({isLoading: true});
+    this._showLoading(true);
     getJobDetail(token, id);
   };
 
@@ -102,14 +103,6 @@ class HomeContainer extends Component {
           </TouchableOpacity>
         </View>
       </Modal>
-    );
-  };
-
-  _renderNoData = () => {
-    return (
-      <View style={{alignItems: 'center'}}>
-        <Text style={{fontSize: 22, marginTop: 200}}>Không có dữ liệu</Text>
-      </View>
     );
   };
 
@@ -152,7 +145,7 @@ class HomeContainer extends Component {
                 </TouchableOpacity>
               );
             }}
-            keyExtractor={(item, index) => index}
+            listKey={(item, index) => 'D' + index.toString()}
             onEndReached={() => {
               this._handleLoadMore(true);
             }}
@@ -171,7 +164,7 @@ class HomeContainer extends Component {
                 </TouchableOpacity>
               );
             }}
-            keyExtractor={(item, index) => index}
+            listKey={(item, index) => 'D' + index.toString()}
           />
         </View>
         <View
@@ -200,7 +193,7 @@ class HomeContainer extends Component {
                 />
               );
             }}
-            keyExtractor={(item, index) => index}
+            listKey={(item, index) => 'D' + index.toString()}
             onEndReached={() => {
               this._handleLoadMore(false);
             }}
@@ -214,6 +207,7 @@ class HomeContainer extends Component {
   };
 
   componentDidMount() {
+    this._showLoading(true);
     this._fetchData(1);
   }
 
@@ -223,8 +217,8 @@ class HomeContainer extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.GET_JOBS_SUCCESS) {
+      this._showLoading(false);
       this.setState({
-        isLoading: false,
         refreshing: false,
       });
 
@@ -263,8 +257,8 @@ class HomeContainer extends Component {
       }
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_FAIL) {
+      this._showLoading(false);
       this.setState({
-        isLoading: false,
         refreshing: false,
         jobs_hot: [],
         jobs_new: [],
@@ -272,21 +266,21 @@ class HomeContainer extends Component {
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_SUCCESS) {
       //setState method doesn't mutate the state immediately
+      this._showLoading(false);
       this.setState(
         {
-          isLoading: false,
           refreshing: false,
           jobDetail: nextProps.data,
         },
         function() {
           // //so we must waiting setState done
           this._gotoJobDetail(this.state.jobDetail);
-        }
+        },
       );
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_FAIL) {
+      this._showLoading(false);
       this.setState({
-        isLoading: false,
         refreshing: false,
         jobDetail: {},
       });
@@ -298,7 +292,6 @@ class HomeContainer extends Component {
     const {jobDetail} = this.state;
     return (
       <View style={styles.container}>
-        <SpinnerComponent visible={this.state.isLoading} />
         {this._openFilter()}
         <Image
           source={require('../../../assets/images/bg-home-header.png')}
@@ -367,11 +360,9 @@ class HomeContainer extends Component {
               onRefresh={this._onRefresh.bind(this)}
             />
           }>
-          {!this.state.isLoading
-            ? this.state.jobs_new.length != 0 && this.state.jobs_hot.length != 0
-              ? this._renderContent()
-              : this._renderNoData()
-            : null}
+          {this.state.jobs_new.length == 0 && this.state.jobs_hot.length == 0
+            ? null
+            : this._renderContent()}
         </ScrollView>
       </View>
     );

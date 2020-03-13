@@ -34,7 +34,6 @@ class ProfileContainer extends Component {
     super(props);
     this.state = {
       user: this.props.user,
-      isLoading: false,
     };
     token = this.props.token;
   }
@@ -92,7 +91,6 @@ class ProfileContainer extends Component {
     return (
       <SafeAreaView style={{flex: 1}}>
         <ScrollView>
-          <SpinnerComponent visible={this.state.isLoading} />
           <View style={styles.viewCircleAvatar}>
             <ProgressCircle
               percent={user.percent_updated}

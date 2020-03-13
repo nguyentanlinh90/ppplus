@@ -154,7 +154,7 @@ export default class FormBasicInfo extends Component {
                         </TouchableOpacity>
                       );
                     }}
-                    keyExtractor={(item, index) => index}
+                    listKey={(item, index) => 'D' + index.toString()}
                   />
                 ) : null}
               </View>
@@ -236,7 +236,7 @@ export default class FormBasicInfo extends Component {
                       </TouchableOpacity>
                     );
                   }}
-                  keyExtractor={(item, index) => index}
+                  listKey={(item, index) => 'D' + index.toString()}
                 />
               </View>
             ) : null}
@@ -294,7 +294,7 @@ export default class FormBasicInfo extends Component {
                         </TouchableOpacity>
                       );
                     }}
-                    keyExtractor={(item, index) => index}
+                    listKey={(item, index) => 'D' + index.toString()}
                   />
                 </View>
               ) : null}

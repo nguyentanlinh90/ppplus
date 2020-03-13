@@ -6,10 +6,10 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-  Alert,
 } from 'react-native';
 import JobDetailContent from '../../../components/JobDetailContent';
 import SpinnerComponent from '../../../components/Spinner';
+import PopupApplyJobSuccess from '../components/PopupApplyJobSuccess';
 const screenHeight = Math.round(Dimensions.get('window').height);
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import styles from '../styles/styles';
@@ -29,6 +29,7 @@ class JobDetailContainer extends Component {
       working_times: [],
       isValidToApply: false,
       is_applied: false,
+      showPopupApplyJobSuccess: false,
     };
     data = this.props.navigation.state.params[0];
     token = this.props.navigation.state.params[1];
@@ -139,22 +140,14 @@ class JobDetailContainer extends Component {
     applyJob(token, params);
   };
 
+  _closePopupApplyJobSuccess = () => {
+    this.setState({showPopupApplyJobSuccess: false});
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.APPLY_JOBS_SUCCESS) {
       this.setState({isLoading: false});
-      Alert.alert(
-        'Thông báo',
-        'MBạn đã ứng tuyển thành công',
-        [
-          {
-            text: 'Đóng',
-            onPress: () => {
-              this.setState({is_applied: true});
-            },
-          },
-        ],
-        {cancelable: false},
-      );
+      this.setState({is_applied: true, showPopupApplyJobSuccess: true});
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.APPLY_JOBS_FAIL) {
       showAlert(nextProps.message);
@@ -167,6 +160,11 @@ class JobDetailContainer extends Component {
     return (
       <View style={{paddingBottom: Platform.OS === 'ios' ? 110 : 100}}>
         <SpinnerComponent visible={this.state.isLoading} />
+        <PopupApplyJobSuccess
+          visible={this.state.showPopupApplyJobSuccess}
+          joinTraining={this._closePopupApplyJobSuccess} //todo load webview
+          close={this._closePopupApplyJobSuccess}
+        />
 
         <View style={styles.jobDetailViewHeader}>
           {data.job_company.banner == '' ? (

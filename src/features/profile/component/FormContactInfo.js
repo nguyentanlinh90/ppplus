@@ -139,7 +139,7 @@ export default class FormContactInfo extends Component {
                           </TouchableOpacity>
                         );
                       }}
-                      keyExtractor={(item, index) => index}
+                      listKey={(item, index) => 'D' + index.toString()}
                     />
                   </View>
                 ) : null}
@@ -200,7 +200,7 @@ export default class FormContactInfo extends Component {
                           </TouchableOpacity>
                         );
                       }}
-                      keyExtractor={(item, index) => index}
+                      listKey={(item, index) => 'D' + index.toString()}
                     />
                   </View>
                 ) : null}
@@ -240,7 +240,7 @@ export default class FormContactInfo extends Component {
                   />
                 );
               }}
-              keyExtractor={(item, index) => index}
+              listKey={(item, index) => 'D' + index.toString()}
             />
             {user_relative_info.length < 2 ? (
               <TouchableOpacity onPress={() => handleAddInfoRelativeItem()}>

@@ -185,7 +185,7 @@ export default class ItemSelectLocation extends Component {
                   </TouchableOpacity>
                 );
               }}
-              keyExtractor={(item, index) => index}
+              listKey={(item, index) => 'D' + index.toString()}
             />
           ) : null}
         </View>
@@ -229,7 +229,7 @@ export default class ItemSelectLocation extends Component {
                 </TouchableOpacity>
               );
             }}
-            keyExtractor={(item, index) => index}
+            listKey={(item, index) => 'D' + index.toString()}
           />
         ) : null}
       </View>

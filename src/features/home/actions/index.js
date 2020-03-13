@@ -24,8 +24,6 @@ export const getJobs = (token, params ) => async dispatch => {
 
 export const getJobDetail = (token, id) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'get_job_detail') + id;
-  console.log('linhnt path', path);
-
   const {json} = await callGetApi(path, token);
   if (
     typeof json !== types.UNDEFINED &&

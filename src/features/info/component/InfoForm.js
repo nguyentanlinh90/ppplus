@@ -235,7 +235,7 @@ export default class InfoContainer_1 extends Component {
                       </TouchableOpacity>
                     );
                   }}
-                  keyExtractor={(item, index) => index}
+                  listKey={(item, index) => 'D' + index.toString()}
                 />
               </View>
             ) : null}
@@ -288,7 +288,7 @@ export default class InfoContainer_1 extends Component {
                       </TouchableOpacity>
                     );
                   }}
-                  keyExtractor={(item, index) => index}
+                  listKey={(item, index) => 'D' + index.toString()}
                 />
               </View>
             ) : null}
@@ -342,7 +342,7 @@ export default class InfoContainer_1 extends Component {
                         </TouchableOpacity>
                       );
                     }}
-                    keyExtractor={(item, index) => index}
+                    listKey={(item, index) => 'D' + index.toString()}
                   />
                 </View>
               ) : null}
@@ -394,7 +394,7 @@ export default class InfoContainer_1 extends Component {
                       </TouchableOpacity>
                     );
                   }}
-                  keyExtractor={(item, index) => index}
+                  listKey={(item, index) => 'D' + index.toString()}
                 />
               </View>
             ) : null}

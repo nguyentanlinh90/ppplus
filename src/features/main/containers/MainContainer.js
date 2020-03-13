@@ -16,7 +16,7 @@ import {dispatchScreen} from '../../../utils/utils';
 
 import styles from '../styles/styles';
 import ScheduleContainer from '../../schedule/containers/ScheduleContainer';
-var token1 = ''
+var token1 = '';
 class MainContainer extends Component {
   constructor(props) {
     super(props);
@@ -91,11 +91,15 @@ class MainContainer extends Component {
     dispatchScreen(this.props, SCREEN_RETRO, {});
   };
 
+  _setLoading = isLoading => {
+    this.setState({isLoading: isLoading});
+  };
+
   render() {
     return (
       <View style={{flex: 1}}>
         <SpinnerComponent visible={this.state.isLoading} />
-        <AlertJob
+        {/* <AlertJob
           visible={this.state.showJobAlert}
           name="Linh"
           timeStart="13:00"
@@ -104,7 +108,7 @@ class MainContainer extends Component {
           jobAddress="12 Nguyễn Thị Minh Khai, P. Đa Kao, Q. 1, Tp. Hồ Chí Minh."
           closeAlertJob={this._closeAlertJob}
           openStartJob={this._openStartJob}
-        />
+        /> */}
 
         <TabNavigator
           style={styles.container}
@@ -136,10 +140,11 @@ class MainContainer extends Component {
               props={this.props}
               token={this.state.token}
               user={this.state.user}
+              setLoading={this._setLoading}
             />
           </TabNavigator.Item>
 
-          <TabNavigator.Item
+          {/* <TabNavigator.Item
             selected={this.state.selectedTab === 'message'}
             renderIcon={() => (
               <Image
@@ -164,7 +169,7 @@ class MainContainer extends Component {
               this._loadData('message');
             }}>
             <Message messages={this.state.messages} props={this.props} />
-          </TabNavigator.Item>
+          </TabNavigator.Item> */}
 
           <TabNavigator.Item
             selected={this.state.selectedTab === 'notification'}
@@ -246,10 +251,10 @@ class MainContainer extends Component {
               token={this.state.token}
               user={this.state.user}
               gotoRetroScreen={this._gotoRetroScreen}
+              
             />
           </TabNavigator.Item>
         </TabNavigator>
-        <DropdownAlert ref={ref => (this.dropdown = ref)} />
       </View>
     );
   }

@@ -6,12 +6,11 @@ export default class SearchResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobDetail: {},
     };
   }
 
   render() {
-    const {job_data, province_list, getJobDetail} = this.props;
+    const {data, getJobDetail} = this.props;
     return (
       <View style={{flex: 1, backgroundColor: '#fff', marginTop: 6}}>
         <Text
@@ -22,22 +21,22 @@ export default class SearchResult extends Component {
             marginStart: 10,
             marginTop: 10,
           }}>
-          Có {job_data.length} kết quả
+          Có {data.job_data.length} kết quả
         </Text>
         <FlatList
           contentContainerStyle={{
             paddingBottom: 20,
           }}
-          data={job_data}
+          data={data.job_data}
           renderItem={({item: rowData}) => {
             return (
               <TouchableOpacity
                 onPress={() => {getJobDetail(rowData.id)}}>
-                <JobNewItem item={rowData} province_list={province_list} />
+                <JobNewItem item={rowData} province_list={data.province_list} />
               </TouchableOpacity>
             );
           }}
-          keyExtractor={(item, index) => index}
+          listKey={(item, index) => 'D' + index.toString()}
         />
       </View>
     );
