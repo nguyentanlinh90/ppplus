@@ -46,13 +46,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
   },
-
-  boxLogin: {
-    paddingLeft: 16,
-    paddingRight: 16,
-    height: '100%',
-    justifyContent: 'center',
-  },
+  
   inputLogin: {
     height: 48,
     flex: 1,

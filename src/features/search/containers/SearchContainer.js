@@ -30,24 +30,11 @@ var token = '';
 var page = 1;
 
 var searchMoreList = [
-  'jkhdkajhdakjs',
-  'kạhfkjhfkjsdf',
-  'fdskjhsdjkfsdjkhfsjkd',
-  'jkhdkajhdakjs',
-  'kạhfkjhfkjsdf',
-  'fdskjhsdjkfsdjkhfsjkd',
-  'jkhdkajhdakjs',
-  'kạhfkjhfkjsdf',
-  'fdskjhsdjkfsdjkhfsjkd',
-  'jkhdkajhdakjs',
-  'kạhfkjhfkjsdf',
-  'fdskjhsdjkfsdjkhfsjkd',
-  'jkhdkajhdakjs',
-  'kạhfkjhfkjsdf',
-  'fdskjhsdjkfsdjkhfsjkd',
-  'jkhdkajhdakjs',
-  'kạhfkjhfkjsdf',
-  'fdskjhsdjkfsdjkhfsjkd',
+  'Key test 1',
+  'Key test 2',
+  'Key test 3',
+  'Key test 4',
+  'Key test 5',
 ];
 class SearchContainer extends Component {
   constructor(props) {
@@ -83,7 +70,6 @@ class SearchContainer extends Component {
     try {
       await AsyncStorage.setItem(key, JSON.stringify(array));
     } catch (error) {
-      console.log('linhnt _saveSearchSuggest', error.message);
     }
   };
 

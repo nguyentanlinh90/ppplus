@@ -79,8 +79,6 @@ class JobDetailContainer extends Component {
   };
 
   _getWorkingTimeIds = (timeSelectValue, working_time_list) => {
-    // console.log('linhnt working_district_list', working_district_list);
-
     var timeSelect = '';
     //will find time id (key - range_139_1) from time value (value - 04:00-05:00)
     var values = Object.values(working_time_list);

@@ -28,7 +28,7 @@ export default class CreateAccountForm extends Component {
       isAgree,
     } = this.props;
     return (
-      <View>
+      <View style={{padding: 16}}>
         <Text style={styles.txtCreateAccount}>Tạo tài khoản</Text>
         <Text style={styles.txtTitleField}>Số điện thoại</Text>
         <View style={styles.groupInput}>

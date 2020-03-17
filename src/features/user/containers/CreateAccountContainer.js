@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  ScrollView
 } from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
 import CreateAccountForm from '../components/CreateAccountForm';
@@ -21,7 +22,7 @@ import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_INPUT_OTP} from '../../../api/screen';
 import {showAlert, convertPhone, dispatchScreen} from '../../../utils/utils';
 import * as types from '../../../api/types';
-import {REGEX} from '../../../utils/constants'
+import {REGEX} from '../../../utils/constants';
 
 export class CreateAccountContainer extends Component {
   constructor(props) {
@@ -166,34 +167,32 @@ export class CreateAccountContainer extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <SafeAreaView>
+        <ScrollView>
           <Spinner
             visible={this.state.isLoading}
             color={'white'}
             size={'large'}
             textStyle={{color: '#fff'}}
           />
-          <View style={styles.boxLogin}>
-            <KeyboardAvoidingView behavior="padding" enabled>
-              <CreateAccountForm
-                handleCreateAccount={this.handleCreateAccount}
-                navigation={this.props.navigation}
-                onChangeText={this.onChangeText}
-                phone={this.state.phone}
-                reference_code={this.state.reference_code}
-                password={this.state.password}
-                password_confirm={this.state.password_confirm}
-                setAgree={this._setAgree}
-                isAgree={this.state.isAgree}
-              />
-            </KeyboardAvoidingView>
-          </View>
+          <KeyboardAvoidingView behavior="padding" enabled>
+            <CreateAccountForm
+              handleCreateAccount={this.handleCreateAccount}
+              navigation={this.props.navigation}
+              onChangeText={this.onChangeText}
+              phone={this.state.phone}
+              reference_code={this.state.reference_code}
+              password={this.state.password}
+              password_confirm={this.state.password_confirm}
+              setAgree={this._setAgree}
+              isAgree={this.state.isAgree}
+            />
+          </KeyboardAvoidingView>
           <DropdownAlert
             ref={ref => (this.dropdown = ref)}
             defaultContainer={styles.defaultContainerAlert}
             defaultTextContainer={styles.defaultTextAlert}
           />
-        </SafeAreaView>
+        </ScrollView>
       </TouchableWithoutFeedback>
     );
   }
