@@ -27,16 +27,16 @@ export const convertPhone = text => {
       newText = newText + text[i];
     }
   }
+  if (newText.length > 10) {
+    newText = newText.substring(0, 10);
+  }
   return newText;
 };
 
 export const showAlert = massage => {
-  Alert.alert(
-    'Thông báo',
-    massage,
-    [{text: 'Đồng Ý', onPress: () => {}}],
-    {cancelable: false},
-  );
+  Alert.alert('Thông báo', massage, [{text: 'Đồng Ý', onPress: () => {}}], {
+    cancelable: false,
+  });
 };
 
 export const setStoreData = async (key, value) => {
