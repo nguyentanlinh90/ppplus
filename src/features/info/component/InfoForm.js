@@ -243,6 +243,7 @@ export default class InfoContainer_1 extends Component {
                             {rowData.name}
                           </Text>
                           <CheckBox
+                            disabled={true}
                             isChecked={
                               handleCheck(rowData.id, provinceIDs)
                                 ? true

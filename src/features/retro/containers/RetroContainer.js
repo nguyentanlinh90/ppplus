@@ -56,11 +56,13 @@ class RetroContainer extends Component {
   }
 
   _openLoginScreen = () => {
-    dispatchScreen(this.props, SCREEN_LOGIN, {});
+    this.props.navigation.navigate(SCREEN_LOGIN)
+    // dispatchScreen(this.props, SCREEN_LOGIN, {});
   };
 
   _openCreateAccountScreen = () => {
-    dispatchScreen(this.props, SCREEN_CREATE_ACCOUNT, {});
+    this.props.navigation.navigate(SCREEN_CREATE_ACCOUNT)
+    // dispatchScreen(this.props, SCREEN_CREATE_ACCOUNT, {});
   };
 
   render() {

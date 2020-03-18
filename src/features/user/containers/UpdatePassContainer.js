@@ -107,7 +107,21 @@ export class UpdatePassContainer extends Component {
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      dispatchScreen(this.props, SCREEN_LOGIN, {});
+      Alert.alert(
+        'Thông báo',
+        'Bạn đã đổi mật khẩu thành công.',
+        [
+          {
+            text: 'Đăng nhập',
+            onPress: () => {
+              dispatchScreen(this.props, SCREEN_LOGIN, {});
+            },
+          },
+        ],
+        {
+          cancelable: false,
+        },
+      );
     }
   }
 
