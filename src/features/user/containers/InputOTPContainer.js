@@ -17,13 +17,18 @@ import {dispatchScreen} from '../../../utils/utils';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {FORGOT_PASSWORD} from '../../../utils/constants';
-import {SCREEN_LOGIN, SCREEN_UPDATE_PASS} from '../../../api/screen';
+import {
+  SCREEN_LOGIN,
+  SCREEN_UPDATE_PASS,
+  SCREEN_RETRO,
+} from '../../../api/screen';
 import {showAlert} from '../../../utils/utils';
 import {setStoreData} from '../../../utils/utils';
 import {doProcessOTP, doSendOTP} from '../actions/index';
 import * as types from '../../../api/types';
 
-var timeResend = 0;
+let timeResend = 0;
+let countInputWrong = 0;
 export class InputOTPContainer extends Component {
   constructor(props) {
     super(props);
@@ -113,6 +118,26 @@ export class InputOTPContainer extends Component {
       this.setState({isLoading: false});
       showAlert(nextProps.message);
       nextProps.changeMsgCode('');
+      countInputWrong = countInputWrong + 1;
+      if (countInputWrong == 5) {
+        Alert.alert(
+          'Thông báo',
+          nextProps.message,
+          [
+            {
+              text: 'Đồng Ý',
+              onPress: () => {
+                dispatchScreen(this.props, SCREEN_RETRO, {});
+              },
+            },
+          ],
+          {
+            cancelable: false,
+          },
+        );
+      } else {
+        showAlert(nextProps.message);
+      }
     } else if (nextProps.msg_code == types.PROCESS_OTP_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
