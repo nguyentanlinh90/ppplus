@@ -205,3 +205,7 @@ export const isEmptyObject = obj => {
   }
   return true;
 };
+
+export const sortNumber = (a, b) => {
+  return a - b;
+};

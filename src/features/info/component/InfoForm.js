@@ -16,7 +16,7 @@ import CBUnChecked from '../../../components/CBUnChecked';
 import RadioChecked from '../../../components/RadioChecked';
 import RadioUnChecked from '../../../components/RadioUnChecked';
 import ArrowUpDown from '../../../components/ArrowUpDown';
-import {handleCheck} from '../../../utils/utils';
+import {handleCheck, sortNumber} from '../../../utils/utils';
 import {
   text_select,
   txt_address_select,
@@ -38,7 +38,6 @@ export default class InfoContainer_1 extends Component {
     };
   }
 
-  varIndustryGroup = [];
   _boxSelectStyle = function(color) {
     return {
       width: '100%',
@@ -57,9 +56,31 @@ export default class InfoContainer_1 extends Component {
     if (ids.length == 0) {
       names = text_default;
     } else {
+      ids.sort(sortNumber);
       for (let i = 0; i < ids.length; i++) {
         for (let j = 0; j < list.length; j++) {
           if (ids[i] == list[j].id) {
+            if (names == '') {
+              names = list[j].name;
+            } else {
+              names = names + '; ' + list[j].name;
+            }
+          }
+        }
+      }
+    }
+    return names;
+  };
+
+  _getListDayName = (text_default, ids, list) => {
+    let names = '';
+    if (ids.length == 0) {
+      names = text_default;
+    } else {
+      ids.sort(sortNumber);
+      for (let i = 0; i < ids.length; i++) {
+        for (let j = 0; j < list.length; j++) {
+          if (ids[i] == list[j].id && ids[i] != 0) {
             if (names == '') {
               names = list[j].name;
             } else {
@@ -304,7 +325,7 @@ export default class InfoContainer_1 extends Component {
                     this.state.isShowDay ? '#F0532D' : '#d8d8d8',
                   )}>
                   <Text style={styles.txtSelect}>
-                    {this._getListName(txt_day_select, dayIDs, listDay)}
+                    {this._getListDayName(txt_day_select, dayIDs, listDay)}
                   </Text>
                   {<ArrowUpDown />}
                 </View>

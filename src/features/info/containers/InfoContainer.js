@@ -82,6 +82,98 @@ class InfoContainer extends Component {
     }
   };
 
+  _handleSelectProvince = provinceIdSelect => {
+    const {provinceIDs} = this.state;
+    if (handleCheck(provinceIdSelect, provinceIDs)) {
+      var array = [...provinceIDs];
+      var index = array.indexOf(provinceIdSelect);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({provinceIDs: array});
+      }
+    } else {
+      provinceIDs.push(provinceIdSelect);
+      this.setState({provinceIDs: provinceIDs});
+    }
+  };
+
+  _handleSelectMajor = majorIdSelect => {
+    const {majorIDs} = this.state;
+    if (handleCheck(majorIdSelect, majorIDs)) {
+      var array = [...majorIDs];
+      var index = array.indexOf(majorIdSelect);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({majorIDs: array});
+      }
+    } else {
+      majorIDs.push(majorIdSelect);
+      this.setState({majorIDs: majorIDs});
+    }
+  };
+
+  _handleSelectDay = dayIdSelect => {
+    const {dayIDs} = this.state;
+    if (handleCheck(dayIdSelect, dayIDs)) {
+      if (dayIdSelect == 0) {
+        this.setState({dayIDs: []});
+      } else {
+        let array = [...dayIDs];
+        let index = array.indexOf(dayIdSelect);
+        if (index !== -1) {
+          array.splice(index, 1);
+          //remove full day
+          if (handleCheck(0, array)) {
+            let temp = [...array];
+            let _index = temp.indexOf(0);
+            if (_index !== -1) {
+              let temp = [...array];
+              temp.splice(_index, 1);
+              this.setState({dayIDs: temp});
+            }
+          } else {
+            this.setState({dayIDs: array});
+          }
+        }
+      }
+    } else {
+      if (dayIdSelect == 0) {
+        let array = [];
+        for (let i = 0; i < dayList.length; i++) {
+          array.push(dayList[i].id);
+        }
+        this.setState({dayIDs: array});
+      } else {
+        dayIDs.push(dayIdSelect);
+        //if click monday -> sunday
+        if (dayIDs.length == 7) {
+          let array = [];
+          for (let i = 0; i < dayList.length; i++) {
+            array.push(dayList[i].id);
+          }
+          this.setState({dayIDs: array});
+        } else {
+          this.setState({dayIDs: dayIDs});
+        }
+      }
+    }
+  };
+
+  _handleSelectTurn = turnIdSelect => {
+    const {turnIDs} = this.state;
+    if (handleCheck(turnIdSelect, turnIDs)) {
+      var array = [...turnIDs];
+      var index = array.indexOf(turnIdSelect);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({turnIDs: array});
+      }
+    } else {
+      turnIDs.push(turnIdSelect);
+      this.setState({turnIDs: turnIDs});
+    }
+  };
+
   _handleUpdateBasicInfo = () => {
     const {doUpdateUserInfo} = this.props;
     const {
@@ -136,80 +228,6 @@ class InfoContainer extends Component {
 
     if (token != '') {
       doUpdateUserInfo(params, token);
-    }
-  };
-
-  _handleSelectProvince = provinceIdSelect => {
-    const {provinceIDs} = this.state;
-    if (handleCheck(provinceIdSelect, provinceIDs)) {
-      var array = [...provinceIDs];
-      var index = array.indexOf(provinceIdSelect);
-      if (index !== -1) {
-        array.splice(index, 1);
-        this.setState({provinceIDs: array});
-      }
-    } else {
-      provinceIDs.push(provinceIdSelect);
-      this.setState({provinceIDs: provinceIDs});
-    }
-  };
-
-  _handleSelectMajor = majorIdSelect => {
-    const {majorIDs} = this.state;
-    if (handleCheck(majorIdSelect, majorIDs)) {
-      var array = [...majorIDs];
-      var index = array.indexOf(majorIdSelect);
-      if (index !== -1) {
-        array.splice(index, 1);
-        this.setState({majorIDs: array});
-      }
-    } else {
-      majorIDs.push(majorIdSelect);
-      this.setState({majorIDs: majorIDs});
-    }
-  };
-
-  _handleSelectDay = dayIdSelect => {
-    const {dayIDs} = this.state;
-    if (handleCheck(dayIdSelect, dayIDs)) {
-      var array = [...dayIDs];
-      var index = array.indexOf(dayIdSelect);
-      if (index !== -1) {
-        array.splice(index, 1);
-        this.setState({dayIDs: array});
-      }
-    } else {
-      if (dayIdSelect == 0) {
-        this.setState({dayIDs: [dayIdSelect]});
-      } else {
-        //check if user checked full week
-        var isFullWeek = false;
-        for (var i = 0; i < dayIDs.length; i++) {
-          if (dayIDs[i] == 0) {
-            isFullWeek = true;
-            break;
-          }
-        }
-        if (!isFullWeek) {
-          dayIDs.push(dayIdSelect);
-          this.setState({dayIDs: dayIDs});
-        }
-      }
-    }
-  };
-
-  _handleSelectTurn = turnIdSelect => {
-    const {turnIDs} = this.state;
-    if (handleCheck(turnIdSelect, turnIDs)) {
-      var array = [...turnIDs];
-      var index = array.indexOf(turnIdSelect);
-      if (index !== -1) {
-        array.splice(index, 1);
-        this.setState({turnIDs: array});
-      }
-    } else {
-      turnIDs.push(turnIdSelect);
-      this.setState({turnIDs: turnIDs});
     }
   };
 
@@ -305,7 +323,6 @@ function mapStateToProps(state) {
     msg_code: state.user.msg_code,
     message: state.user.message,
     data: state.user.data,
-
   };
 }
 
