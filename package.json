@@ -41,6 +41,7 @@
     "react-native-modal-datetime-picker": "^7.6.1",
     "react-native-progress-circle": "^2.1.0",
     "react-native-raw-bottom-sheet": "^2.0.6",
+    "react-native-screens": "^2.4.0",
     "react-native-scrollable-tab-view-forked": "^1.0.9",
     "react-native-shadow-cards": "^1.0.2",
     "react-native-simple-dialogs": "^1.2.1",
