@@ -1,22 +1,21 @@
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   View,
   Text,
-  ScrollView,
   Image,
   TouchableOpacity,
   AsyncStorage,
+  ScrollView
 } from 'react-native';
 import styles from '../styles/styles';
 import Swiper from 'react-native-web-swiper';
 import BgButton from '../../../components/BgButton';
-import {SCREEN_LOGIN} from '../../../api/screen';
-import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
-import {setStoreData} from '../../../utils/utils';
-import {KEY_CHECK_LAST_RETRO, VALUE_ONE} from '../../../utils/constants';
-import {dispatchScreen} from '../../../utils/utils';
+import { SCREEN_LOGIN } from '../../../api/screen';
+import { SCREEN_CREATE_ACCOUNT } from '../../../api/screen';
+import { setStoreData } from '../../../utils/utils';
+import { KEY_CHECK_LAST_RETRO, VALUE_ONE } from '../../../utils/constants';
 
 class RetroContainer extends Component {
   constructor(props) {
@@ -30,7 +29,7 @@ class RetroContainer extends Component {
   async checkLastPage() {
     var lastPage = await AsyncStorage.getItem(KEY_CHECK_LAST_RETRO);
     if (lastPage && lastPage == VALUE_ONE) {
-      this.setState({fromPage: 2});
+      this.setState({ fromPage: 2 });
       this.swipe.goTo(2);
     }
   }
@@ -67,17 +66,18 @@ class RetroContainer extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
         <Swiper
+          containerStyle={{ flex: 1.5 }}
           ref={ref => {
             this.swipe = ref;
           }}
           controlsProps={{
             prevPos: false,
             nextPos: false,
-            dotActiveStyle: {backgroundColor: '#F0532D'},
+            dotActiveStyle: { backgroundColor: '#F0532D' },
             dotsTouchable: true,
-            dotProps: {badgeStyle: {backgroundColor: '#F6C8A1'}},
+            dotProps: { badgeStyle: { backgroundColor: '#F6C8A1' } },
           }}
           from={this.state.fromPage}
           onIndexChanged={index => {
@@ -110,11 +110,13 @@ class RetroContainer extends Component {
             />
           </View>
         </Swiper>
-        <View style={styles.boxContent}>
+        <View style={[styles.boxContent, { flex: 1 }]}>
           <Text style={styles.txtTitleContent}>{this._getTitle()}</Text>
-          <Text style={styles.txtContent}>{this._getContent()}</Text>
+          <ScrollView style={{ flex: 1 }}>
+            <Text style={styles.txtContent}>{this._getContent()}</Text>
+          </ScrollView>
           {this.state.fromPage == 2 ? (
-            <View style={{height: 128, justifyContent: 'center'}}>
+            <View style={{ height: 128, justifyContent: 'center' }}>
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => this._openLoginScreen()}
@@ -125,15 +127,15 @@ class RetroContainer extends Component {
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => this._openCreateAccountScreen()}
-                style={[styles.buttonLogin, {marginTop: 10}]}>
+                style={[styles.buttonLogin, { marginTop: 10 }]}>
                 <Text style={[styles.txtLogin, styles.txtCreateAccount]}>
                   Tạo tài khoản
                 </Text>
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={{height: 128}} />
-          )}
+              <View style={{ height: 128 }} />
+            )}
         </View>
       </SafeAreaView>
     );

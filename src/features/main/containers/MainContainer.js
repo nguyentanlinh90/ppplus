@@ -1,22 +1,18 @@
-import React, {Component, Fragment} from 'react';
-import {connect} from 'react-redux';
-import {View, StyleSheet, Text, Image, SafeAreaView} from 'react-native';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { View, Image, BackHandler } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
-import DropdownAlert from 'react-native-dropdownalert';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from '../../home/containers/HomeContainer';
-import Message from '../../message/containers/MessageContainer';
 import Notification from '../../notification/containers/NotificationContainer';
-import Schedule from '../../schedule/containers/ScheduleContainer';
 import Profile from '../../profile/containers/ProfileContainer';
 import SpinnerComponent from '../../../components/Spinner';
 import AlertJob from '../../activity/components/AlertJob';
-import {SCREEN_START_JOB, SCREEN_RETRO} from '../../../api/screen';
-import {dispatchScreen} from '../../../utils/utils';
+import { SCREEN_START_JOB, SCREEN_RETRO } from '../../../api/screen';
+import { dispatchScreen } from '../../../utils/utils';
 
 import styles from '../styles/styles';
 import ScheduleContainer from '../../schedule/containers/ScheduleContainer';
-var token1 = '';
 class MainContainer extends Component {
   constructor(props) {
     super(props);
@@ -31,13 +27,28 @@ class MainContainer extends Component {
     };
 
     this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
+
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
+
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  handleBackButtonClick() {
+    if (this.state.selectedTab == 'home') {
+      return false;
+    } else {
+      this._openTab('home');
+    }
+    return true;
   }
 
   _hideLoading = () => {
-    this.setState({isLoading: false});
+    this.setState({ isLoading: false });
   };
   _showLoading = () => {
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
   };
 
   _loadData = tab => {
@@ -45,14 +56,14 @@ class MainContainer extends Component {
     setTimeout(() => {
       this._hideLoading();
       if (tab == 'message') {
-        this.setState({messages: []});
+        this.setState({ messages: [] });
       }
     }, 1000);
   };
 
   _openTab = tabName => {
     if (this.state.selectedTab != tabName)
-      this.setState({selectedTab: tabName});
+      this.setState({ selectedTab: tabName });
   };
 
   componentDidMount() {
@@ -66,16 +77,17 @@ class MainContainer extends Component {
       'connectionChange',
       this._handleConnectivityChange,
     );
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
   _handleConnectivityChange = () => {
     NetInfo.isConnected.fetch().done(isConnected => {
-      this.setState({isConnecting: isConnected});
+      this.setState({ isConnecting: isConnected });
     });
   };
 
   _closeAlertJob = () => {
-    this.setState({showJobAlert: false});
+    this.setState({ showJobAlert: false });
   };
 
   _openStartJob = () => {
@@ -92,12 +104,12 @@ class MainContainer extends Component {
   };
 
   _setLoading = isLoading => {
-    this.setState({isLoading: isLoading});
+    this.setState({ isLoading: isLoading });
   };
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <SpinnerComponent visible={this.state.isLoading} />
         {/* <AlertJob
           visible={this.state.showJobAlert}
@@ -251,7 +263,7 @@ class MainContainer extends Component {
               token={this.state.token}
               user={this.state.user}
               gotoRetroScreen={this._gotoRetroScreen}
-              
+
             />
           </TabNavigator.Item>
         </TabNavigator>
