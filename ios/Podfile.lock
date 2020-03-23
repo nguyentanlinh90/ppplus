@@ -184,7 +184,7 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-image-picker (2.2.1):
+  - react-native-image-picker (2.3.1):
     - React
   - react-native-netinfo (4.7.0):
     - React
@@ -223,7 +223,9 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
-  - RNGestureHandler (1.5.6):
+  - RNGestureHandler (1.6.1):
+    - React
+  - RNScreens (2.4.0):
     - React
   - Yoga (1.14.0)
 
@@ -259,6 +261,7 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -322,6 +325,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNScreens:
+    :path: "../node_modules/react-native-screens"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -342,7 +347,7 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-image-picker: 23b053a5ac85fec5d95a6a2e3487c306682c12eb
+  react-native-image-picker: 6a850c41f57f0848d918c2a77aedd7aa272ffa30
   react-native-netinfo: ddaca8bbb9e6e914b1a23787ccb879bc642931c9
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
@@ -354,9 +359,10 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  RNGestureHandler: 911d3b110a7a233a34c4f800e7188a84b75319c6
+  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
+  RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
 PODFILE CHECKSUM: a947af4e07c1d36c293d72530bef9a9ce1d6a863
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1
