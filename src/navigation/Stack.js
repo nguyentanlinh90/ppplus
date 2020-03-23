@@ -6,17 +6,15 @@ import Retro from '../features/retro/containers/RetroContainer';
 import CreateAccount from '../features/user/containers/CreateAccountContainer';
 import InputOTP from '../features/user/containers/InputOTPContainer';
 import Login from '../features/user/containers/LoginContainer';
+import UpdatePass from '../features/user/containers/UpdatePassContainer';
 import Info from '../features/info/containers/InfoContainer';
-import ConfirmInfo from '../features/info/containers/ConfirmInfoContainer';
 import Main from '../features/main/containers/MainContainer';
-import Home from '../features/home/containers/HomeContainer';
 import Search from '../features/search/containers/SearchContainer';
-import Message from '../features/message/containers/MessageContainer';
-import Notification from '../features/notification/containers/NotificationContainer';
-import Profile from '../features/profile/containers/ProfileContainer';
 import FillProfile from '../features/profile/containers/FillProfileContainer';
+import Program from '../features/program/containers/ProgramContainer';
 import StartJob from '../features/activity/containers/StartJobContainer';
 import Product from '../features/product/containers/ProductContainer';
+import JobDetail from '../features/jobDetail/containers/JobDetailContainer';
 
 const Stack = createStackNavigator(
   {
@@ -50,14 +48,14 @@ const Stack = createStackNavigator(
         header: null,
       },
     },
-    Info: {
-      screen: Info,
+    UpdatePass: {
+      screen: UpdatePass,
       navigationOptions: {
         header: null,
       },
     },
-    ConfirmInfo: {
-      screen: ConfirmInfo,
+    Info: {
+      screen: Info,
       navigationOptions: {
         header: null,
       },
@@ -68,39 +66,20 @@ const Stack = createStackNavigator(
         header: null,
       },
     },
-
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        header: null,
-      },
-    },
     Search: {
       screen: Search,
       navigationOptions: {
         header: null,
       },
     },
-    Message: {
-      screen: Message,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Notification: {
-      screen: Notification,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Profile: {
-      screen: Profile,
-      navigationOptions: {
-        header: null,
-      },
-    },
     FillProfile: {
       screen: FillProfile,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Program: {
+      screen: Program,
       navigationOptions: {
         header: null,
       },
@@ -113,6 +92,12 @@ const Stack = createStackNavigator(
     },
     Product: {
       screen: Product,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    JobDetail: {
+      screen: JobDetail,
       navigationOptions: {
         header: null,
       },

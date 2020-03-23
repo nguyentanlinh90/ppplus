@@ -7,73 +7,71 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 import styles from '../styles/styles';
 import Swiper from 'react-native-web-swiper';
 import BgButton from '../../../components/BgButton';
-
 import {SCREEN_LOGIN} from '../../../api/screen';
 import {SCREEN_CREATE_ACCOUNT} from '../../../api/screen';
+import {setStoreData} from '../../../utils/utils';
+import {KEY_CHECK_LAST_RETRO, VALUE_ONE} from '../../../utils/constants';
+import {dispatchScreen} from '../../../utils/utils';
 
 class RetroContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 0,
+      fromPage: 0,
     };
+    this.checkLastPage();
   }
+
+  async checkLastPage() {
+    var lastPage = await AsyncStorage.getItem(KEY_CHECK_LAST_RETRO);
+    if (lastPage && lastPage == VALUE_ONE) {
+      this.setState({fromPage: 2});
+      this.swipe.goTo(2);
+    }
+  }
+
   _getTitle() {
-    if (this.state.currentPage == 1) {
-      return 'Retro occupy org';
-    } else if (this.state.currentPage == 2) {
-      return 'Tousled food truck';
+    if (this.state.fromPage == 0) {
+      return 'Linh động & thu nhập cao';
+    } else if (this.state.fromPage == 1) {
+      return 'Tuyển dụng và đào tạo trực tuyến';
     } else {
-      return 'Portland ugh';
+      return 'Đánh giá năng lực & thăng hạng';
     }
   }
 
   _getContent() {
-    if (this.state.currentPage == 1) {
-      return 'Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap. Hashtag.';
-    } else if (this.state.currentPage == 2) {
-      return 'Synth polaroid bitters chillwave pickled. Vegan disrupt tousled, Portland keffiyeh aesthetic food.';
+    if (this.state.fromPage == 0) {
+      return 'Linh động tối đa trong việc lựa chọn thời gian và địa điểm làm việc phù hợp. Thu nhập hấp dẫn theo giờ';
+    } else if (this.state.fromPage == 1) {
+      return 'Công việc phù hợp nhất được tự động gợi ý từ hệ thống. Chủ động thời gian trong việc đào tạo và thực hành';
     } else {
-      return 'Kogi Cosby sweater ethical squid irony disrupt, organic tote bag gluten-free XOXO wolf typewriter.';
+      return 'Đánh giá hiệu suất qua mỗi chương trình để thăng hạng. Phần thưởng và chế độ phúc lợi hấp dẫn';
     }
   }
 
   _openLoginScreen = () => {
-    this.props.navigation.dispatch({
-      key: SCREEN_LOGIN,
-      type: 'ReplaceCurrentScreen',
-      routeName: SCREEN_LOGIN,
-      params: {},
-    });
+    this.props.navigation.navigate(SCREEN_LOGIN)
+    // dispatchScreen(this.props, SCREEN_LOGIN, {});
   };
 
   _openCreateAccountScreen = () => {
-    this.props.navigation.dispatch({
-      key: SCREEN_CREATE_ACCOUNT,
-      type: 'ReplaceCurrentScreen',
-      routeName: SCREEN_CREATE_ACCOUNT,
-      params: {},
-    });
+    this.props.navigation.navigate(SCREEN_CREATE_ACCOUNT)
+    // dispatchScreen(this.props, SCREEN_CREATE_ACCOUNT, {});
   };
+
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-        {this.state.currentPage != 2 ? (
-          <TouchableOpacity
-            style={styles.viewIgnore}
-            activeOpacity={0.7}
-            onPress={() => this.setState({currentPage: 2})}>
-            <Text style={styles.txtIgnore}></Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.viewIgnore} />
-        )}
-
         <Swiper
+          ref={ref => {
+            this.swipe = ref;
+          }}
           controlsProps={{
             prevPos: false,
             nextPos: false,
@@ -81,35 +79,41 @@ class RetroContainer extends Component {
             dotsTouchable: true,
             dotProps: {badgeStyle: {backgroundColor: '#F6C8A1'}},
           }}
-          currentPage={this.state.currentPage}
+          from={this.state.fromPage}
           onIndexChanged={index => {
+            if (index == 2) {
+              setStoreData(KEY_CHECK_LAST_RETRO, VALUE_ONE);
+            }
             this.setState({
-              currentPage: index,
+              fromPage: index,
             });
           }}>
           <View style={styles.viewPage}>
             <Image
-              resizeMode="contain"
+              resizeMode="center"
               source={require('../../../assets/images/retro-1.png')}
+              style={styles.imagePage}
             />
           </View>
           <View style={styles.viewPage}>
             <Image
-              resizeMode="contain"
+              resizeMode="center"
               source={require('../../../assets/images/retro-2.png')}
+              style={styles.imagePage}
             />
           </View>
           <View style={styles.viewPage}>
             <Image
-              resizeMode="contain"
+              resizeMode="center"
               source={require('../../../assets/images/retro-3.png')}
+              style={styles.imagePage}
             />
           </View>
         </Swiper>
         <View style={styles.boxContent}>
           <Text style={styles.txtTitleContent}>{this._getTitle()}</Text>
           <Text style={styles.txtContent}>{this._getContent()}</Text>
-          {this.state.currentPage == 2 ? (
+          {this.state.fromPage == 2 ? (
             <View style={{height: 128, justifyContent: 'center'}}>
               <TouchableOpacity
                 activeOpacity={0.7}
@@ -122,13 +126,13 @@ class RetroContainer extends Component {
                 activeOpacity={0.7}
                 onPress={() => this._openCreateAccountScreen()}
                 style={[styles.buttonLogin, {marginTop: 10}]}>
-                <BgButton />
-
-                <Text style={styles.txtLogin}>Tạo tài khoản</Text>
+                <Text style={[styles.txtLogin, styles.txtCreateAccount]}>
+                  Tạo tài khoản
+                </Text>
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={{height: 128}}></View>
+            <View style={{height: 128}} />
           )}
         </View>
       </SafeAreaView>

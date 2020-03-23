@@ -45,9 +45,8 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
   },
   txtInfoJob: {
-    flex: 1,
     fontSize: 14,
-    color: '#757575',
+    color: '#ABABAB',
   },
   imgInfoJob: {
     width: 18,
@@ -107,9 +106,7 @@ export default StyleSheet.create({
     color: '#d8d8d8',
     fontSize: 16,
     fontWeight: 'bold',
-    marginLeft: 16,
-    marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 10,
   },
   jobDetailIconBoxSelect: {
     height: 50,
@@ -127,6 +124,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 80,
+    borderRadius:8
   },
   jobDetailButtonSelectAddress: {
     textAlign: 'center',
@@ -137,18 +135,28 @@ export default StyleSheet.create({
     paddingEnd: 25,
     paddingStart: 25,
   },
+  boxHeader: {flexDirection: 'row', height: 45},
   viewUser: {
+    flex: 1,
     flexDirection: 'row',
     marginStart: 10,
     height: 35,
     alignItems: 'center',
     alignSelf: 'flex-start',
   },
+  txtHello: {fontSize: 16, color: '#fff'},
+  txtUserName: {fontWeight: 'bold'},
+  boxNotification: {
+    width: 40,
+    height: 40,
+    borderRadius: 40 / 2,
+    backgroundColor: '#fff',
+    marginEnd: 10,
+    opacity: 0.0,
+  },
   jobDetailViewLine: {
-    height: 5,
+    height: 10,
     backgroundColor: '#d8d8d8',
-    marginTop: 16,
-    marginBottom: 16,
   },
   jobDetailBoxRequest: {
     flexDirection: 'row',
@@ -183,8 +191,119 @@ export default StyleSheet.create({
     alignSelf: 'center',
   },
   boxImgHeader: {
-    height: Platform.OS === 'ios' ? getStatusBarHeight() + 57 : 57,
+    height: Platform.OS === 'ios' ? getStatusBarHeight() + 67 : 67,
     width: '100%',
     position: 'absolute',
   },
+  jobDetailGroup: {padding: 16},
+  txtJobDetailTitle: {
+    color: '#d8d8d8',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  txtJobDetailContent: {color: '#1c1c1c', fontSize: 16, lineHeight: 25},
+  viewJobDetailItem: {padding: 16},
+  hotItemTopRight: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginStart: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  hotItemLogo: {
+    width: 44,
+    height: 44,
+    borderRadius: 6
+  },
+  hotItemCompanyName: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1c1c1c',
+    paddingEnd: 5,
+  },
+  itemViewTrending: {
+    borderRadius: 30,
+    fontSize: 12,
+  },
+  itemTextTrending: {
+    paddingStart: 10,
+    paddingBottom: 2,
+    paddingEnd: 10,
+    paddingTop: 2,
+    fontSize: 12,
+  },
+  hotItemTextDescription: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 5,
+    marginBottom: 5,
+    color: '#1c1c1c',
+  },
+  hotItemBoxContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  newItemViewRight: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginBottom: 5,
+    marginTop: 5,
+  },
+  newItemCompanyName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#060606',
+  },
+  newItemViewAddress: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  txtSelectStyle: {
+    flex: 1,
+    fontSize: 16,
+    color: '#2B2B2B',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  viewSelect: {
+    borderWidth: 1,
+    borderColor: '#F0532D',
+    borderRadius: 6,
+  },
+  infoBoxSelect: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingEnd: 10,
+  },
+  txtViewSelect: {
+    height: 44,
+    color: '#000',
+    fontSize: 16,
+    paddingStart: 10,
+    flex: 1,
+    paddingTop: 14,
+  },
+  lineSelect: {
+    height: 0.5,
+    backgroundColor: '#d8d8d8',
+    marginStart: 10,
+    marginEnd: 10,
+  },
+  selectLocationTextChoice: {
+    color: '#1c1c1c',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  jobNewItemIcon:{
+    width: 80,
+    height: 80,
+    borderRadius: 6,
+    marginEnd: 12,
+  }
 });

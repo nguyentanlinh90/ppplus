@@ -23,7 +23,11 @@ class ProductContainer extends Component {
               activeOpacity={0.8}
               onPress={() => this.props.navigation.goBack()}
               style={styles.buttonBack}>
-              <Image source={require('../../../assets/images/ic-back-1.png')} />
+              <Image
+                resizeMode="contain"
+                source={require('../../../assets/images/ic-back-black.png')}
+                style={{width: 24, height: 24}}
+              />
             </TouchableOpacity>
 
             <Text style={styles.txtHeader}>Nhập sản phẩm</Text>
@@ -41,7 +45,7 @@ class ProductContainer extends Component {
               <ScanCode />
             </View>
             <View key={'2'} tabLabel={'Nhập mã'} style={{flex: 1}}>
-              <InputCode/>
+              <InputCode />
             </View>
             <View key={'3'} tabLabel={'Danh mục'} style={{flex: 1}}>
               <Category />

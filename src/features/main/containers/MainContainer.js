@@ -7,30 +7,31 @@ import TabNavigator from 'react-native-tab-navigator';
 import Home from '../../home/containers/HomeContainer';
 import Message from '../../message/containers/MessageContainer';
 import Notification from '../../notification/containers/NotificationContainer';
+import Schedule from '../../schedule/containers/ScheduleContainer';
 import Profile from '../../profile/containers/ProfileContainer';
 import SpinnerComponent from '../../../components/Spinner';
 import AlertJob from '../../activity/components/AlertJob';
-import {SCREEN_START_JOB} from '../../../api/screen';
-import styles from '../styles/styles';
+import {SCREEN_START_JOB, SCREEN_RETRO} from '../../../api/screen';
+import {dispatchScreen} from '../../../utils/utils';
 
+import styles from '../styles/styles';
+import ScheduleContainer from '../../schedule/containers/ScheduleContainer';
+var token1 = '';
 class MainContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      token: this.props.navigation.state.params[0],
+      user: this.props.navigation.state.params[1],
       isConnecting: false,
       selectedTab: 'home',
       isLoading: false,
       messages: [],
       showJobAlert: false, //=true for phase 2
     };
+
     this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
   }
-
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
-  _reloadTab = tab => {};
 
   _hideLoading = () => {
     this.setState({isLoading: false});
@@ -85,11 +86,20 @@ class MainContainer extends Component {
       timeEnd: '17:00',
     });
   };
+
+  _gotoRetroScreen = () => {
+    dispatchScreen(this.props, SCREEN_RETRO, {});
+  };
+
+  _setLoading = isLoading => {
+    this.setState({isLoading: isLoading});
+  };
+
   render() {
     return (
       <View style={{flex: 1}}>
         <SpinnerComponent visible={this.state.isLoading} />
-        <AlertJob
+        {/* <AlertJob
           visible={this.state.showJobAlert}
           name="Linh"
           timeStart="13:00"
@@ -98,7 +108,7 @@ class MainContainer extends Component {
           jobAddress="12 Nguyễn Thị Minh Khai, P. Đa Kao, Q. 1, Tp. Hồ Chí Minh."
           closeAlertJob={this._closeAlertJob}
           openStartJob={this._openStartJob}
-        />
+        /> */}
 
         <TabNavigator
           style={styles.container}
@@ -126,10 +136,15 @@ class MainContainer extends Component {
             onPress={() => {
               this._openTab('home');
             }}>
-            <Home props={this.props} />
+            <Home
+              props={this.props}
+              token={this.state.token}
+              user={this.state.user}
+              setLoading={this._setLoading}
+            />
           </TabNavigator.Item>
 
-          <TabNavigator.Item
+          {/* <TabNavigator.Item
             selected={this.state.selectedTab === 'message'}
             renderIcon={() => (
               <Image
@@ -154,7 +169,7 @@ class MainContainer extends Component {
               this._loadData('message');
             }}>
             <Message messages={this.state.messages} props={this.props} />
-          </TabNavigator.Item>
+          </TabNavigator.Item> */}
 
           <TabNavigator.Item
             selected={this.state.selectedTab === 'notification'}
@@ -182,7 +197,35 @@ class MainContainer extends Component {
             }}>
             <Notification props={this.props} />
           </TabNavigator.Item>
-
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'schedule'}
+            renderIcon={() => (
+              <Image
+                resizeMode="contain"
+                source={require('../../../assets/images/ic-schedule-unselect.png')}
+                style={styles.imgNav}
+              />
+            )}
+            renderSelectedIcon={() => (
+              <View style={styles.viewSelect}>
+                <Image
+                  resizeMode="contain"
+                  source={require('../../../assets/images/ic-schedule-select.png')}
+                  style={styles.imgNav}
+                />
+                <View style={styles.circleMenu} />
+              </View>
+            )}
+            onPress={() => {
+              this._openTab('schedule');
+              return;
+              this._loadData('schedule');
+            }}>
+            <ScheduleContainer
+              messages={this.state.messages}
+              props={this.props}
+            />
+          </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'profile'}
             renderIcon={() => (
@@ -203,10 +246,15 @@ class MainContainer extends Component {
               </View>
             )}
             onPress={() => this._openTab('profile')}>
-            <Profile props={this.props} />
+            <Profile
+              props={this.props}
+              token={this.state.token}
+              user={this.state.user}
+              gotoRetroScreen={this._gotoRetroScreen}
+              
+            />
           </TabNavigator.Item>
         </TabNavigator>
-        <DropdownAlert ref={ref => (this.dropdown = ref)} />
       </View>
     );
   }

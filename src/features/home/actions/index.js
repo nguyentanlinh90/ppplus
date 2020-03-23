@@ -1,26 +1,43 @@
 import * as types from '../../../api/types';
-import {
-  fetchDataSuccess,
-  getApiPath,
-  getUrl,
-  storeData,
-} from '../../../api/helpers';
-import {callGetApi, callPostApi} from '../../../api/api';
+import {fetchDataSuccess, getApiPath} from '../../../api/helpers';
+import {callGetApi} from '../../../api/api';
+import {V_1_0_0} from '../../../utils/constants';
 
-export const changeMsgCode = code => async dispatch => {
-  await dispatch(fetchDataSuccess(types.CHANGE_MSG_CODE, code));
-};
-
-export const getJobs = () => async dispatch => {
-  const path = 'jobs';
-  const params = '';
-  const {json} = await callGetApi(getUrl(path), params);
-  if (typeof json !== 'undefined') {
-    await dispatch(fetchDataSuccess(types.FETCH_JOB_SUCCESS, json.data));
+export const getJobs = (token, params ) => async dispatch => {
+  const path = getApiPath(V_1_0_0, 'get_jobs') + params;
+  const {json} = await callGetApi(path, token);
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
+    await dispatch(fetchDataSuccess(types.GET_JOBS_SUCCESS, json.data));
     await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, 'fetch_job_success'),
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_JOBS_SUCCESS),
     );
   } else {
-    await dispatch(fetchDataSuccess(types.CHANGE_MSG_CODE, 'fetch_job_error'));
+    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_JOBS_FAIL),
+    );
+  }
+};
+
+export const getJobDetail = (token, id) => async dispatch => {
+  const path = getApiPath(V_1_0_0, 'get_job_detail') + id;
+  const {json} = await callGetApi(path, token);
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
+    await dispatch(fetchDataSuccess(types.GET_JOBS_DETAIL_SUCCESS, json.data));
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_JOBS_DETAIL_SUCCESS),
+    );
+  } else {
+    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
+
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_JOBS_DETAIL_FAIL),
+    );
   }
 };

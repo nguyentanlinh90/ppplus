@@ -63,7 +63,6 @@ class StartJobContainer extends Component {
     });
   };
   _openOptionsEdit = () => {
-    console.log('linhnt open');
     this.optionsEdit.show();
   };
 
@@ -121,7 +120,11 @@ class StartJobContainer extends Component {
               activeOpacity={0.8}
               onPress={() => this.props.navigation.goBack()}
               style={styles.buttonBack}>
-              <Image source={require('../../../assets/images/ic-back-1.png')} />
+              <Image
+                resizeMode="contain"
+                source={require('../../../assets/images/ic-back-black.png')}
+                style={{width: 24, height: 24}}
+              />
             </TouchableOpacity>
 
             <Text style={{color: '#1c1c1c', fontSize: 18, fontWeight: 'bold'}}>
@@ -222,7 +225,9 @@ class StartJobContainer extends Component {
                   <BgButton />
                   <View style={{flexDirection: 'row'}}>
                     <Image
+                      resizeMode='contain'
                       source={require('../../../assets/images/ic-camera-white.png')}
+                      style={{width: 24, height: 24}}
                     />
                     <Text style={styles.txtTakePicture}>Chụp ảnh</Text>
                   </View>

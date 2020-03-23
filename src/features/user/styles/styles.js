@@ -6,12 +6,20 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
+  buttonDisableText: {
+    color: '#2B2B2B',
+  },
 
   buttonContinue: {
     width: '100%',
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  buttonDisableContinue: {
+    borderRadius: 6,
+    backgroundColor: '#D8D8D8',
   },
 
   txtCreateAccount: {
@@ -21,7 +29,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 29,
   },
-  txtNumberPhone: {
+  txtTitleField: {
     paddingBottom: 5,
     fontSize: 16,
     color: '#757575',
@@ -38,13 +46,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
   },
-
-  boxLogin: {
-    paddingLeft: 16,
-    paddingRight: 16,
-    height: '100%',
-    justifyContent: 'center',
-  },
+  
   inputLogin: {
     height: 48,
     flex: 1,
@@ -134,6 +136,23 @@ export default StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:20
+    marginTop: 20,
+  },
+  defaultContainerAlert: {
+    paddingTop: 20,
+    paddingStart: 20,
+    paddingEnd: 20,
+  },
+  defaultTextAlert: {
+    ...Platform.select({
+      ios: {
+        margin: 30,
+      },
+      android: {
+        marginStart: 20,
+        marginEnd: 20,
+        marginBottom: 20,
+      },
+    }),
   },
 });

@@ -82,7 +82,7 @@ export default class AlertJob extends Component {
           </View>
           <View style={{marginTop: 8, flexDirection: 'row'}}>
             <Image
-              source={require('../../../assets/images/ic-alert-location.png')}
+              source={require('../../../assets/images/ic-location.png')}
             />
             <Text
               style={{

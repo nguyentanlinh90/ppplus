@@ -1,13 +1,6 @@
 import {StyleSheet, Platform} from 'react-native';
 
 export default StyleSheet.create({
-  viewIgnore: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    width: 100,
-    alignSelf: 'flex-end',
-  },
   txtIgnore: {
     fontSize: 16,
     color: '#2b2b2b',
@@ -17,13 +10,13 @@ export default StyleSheet.create({
   txtTitleContent: {
     textAlign: 'center',
     margin: 10,
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
   },
 
   txtContent: {
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 16,
     paddingStart: 20,
     paddingBottom: 20,
     paddingEnd: 20,
@@ -64,9 +57,18 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
+  txtCreateAccount: {
+    color: '#F0532D',
+  },
   viewPage: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginStart: 20,
+    marginEnd: 20,
+  },
+  imagePage: {
+    width: '100%',
+    height: '100%',
   },
 });

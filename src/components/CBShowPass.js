@@ -4,8 +4,10 @@ import {Image} from 'react-native';
 export default class CBShowPass extends Component {
   render() {
     return (
-        <Image
-        source={require('../assets/images/ic-show-pass.png')}
+      <Image
+        resizeMode="contain"
+        source={require('../assets/images/ic-pass-show.png')}
+        style={{width: 24, height: 24}}
       />
     );
   }

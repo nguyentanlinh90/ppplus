@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import styles from '../styles/styles';
-import ArrowInBox from '../../../components/ArrowInBox';
+import ArrowUpDown from '../../../components/ArrowUpDown';
 import TagsView from '../components/TagsView';
 import BgButton from '../../../components/BgButton';
 
@@ -67,7 +67,7 @@ export default class LocationPicker extends Component {
                 }}>
                 {this.state.district + ', ' + this.state.city}
               </Text>
-              <ArrowInBox />
+              <ArrowUpDown />
             </View>
             <TagsView
               isCity={true}

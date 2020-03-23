@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import BgButton from '../../../components/BgButton';
@@ -15,48 +15,29 @@ import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
 import RadioChecked from '../../../components/RadioChecked';
 import RadioUnChecked from '../../../components/RadioUnChecked';
-import ArrowInBox from '../../../components/ArrowInBox';
-import {jewelStyle} from '../../../utils/constants';
-const listCity = require('../../../assets/json/city.json');
-
-const listIndustry = [
-  {
-    id: '1',
-    name: 'Bia, rượu, thuốc lá',
-  },
-  {
-    id: '2',
-    name: 'Sữa',
-  },
-  {
-    id: '3',
-    name: 'Chăm sóc cá nhân',
-  },
-  {
-    id: '4',
-    name: 'Điện tử tiêu dùng',
-  },
-  {
-    id: '5',
-    name: 'Thức uống giải khát',
-  },
-  {
-    id: '6',
-    name: 'Thực phẩm đóng gói',
-  },
-];
+import ArrowUpDown from '../../../components/ArrowUpDown';
+import {handleCheck, sortNumber} from '../../../utils/utils';
+import {
+  text_select,
+  txt_address_select,
+  txt_major_select,
+  txt_day_select,
+  txt_turn_select,
+} from '../../../utils/constants';
 
 export default class InfoContainer_1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isShowYOB: false,
-      isShowCity: false,
-      isShowIndustry: false,
+      enableScrollViewScroll: true,
+
+      isShowProvince: false,
+      isShowMajor: false,
+      isShowDay: false,
+      isShowTurn: false,
     };
   }
 
-  varIndustryGroup = [];
   _boxSelectStyle = function(color) {
     return {
       width: '100%',
@@ -70,6 +51,62 @@ export default class InfoContainer_1 extends Component {
     };
   };
 
+  _getListName = (text_default, ids, list) => {
+    var names = '';
+    if (ids.length == 0) {
+      names = text_default;
+    } else {
+      ids.sort(sortNumber);
+      for (let i = 0; i < ids.length; i++) {
+        for (let j = 0; j < list.length; j++) {
+          if (ids[i] == list[j].id) {
+            if (names == '') {
+              names = list[j].name;
+            } else {
+              names = names + '; ' + list[j].name;
+            }
+          }
+        }
+      }
+    }
+    return names;
+  };
+
+  _getListDayName = (text_default, ids, list) => {
+    let names = '';
+    if (ids.length == 0) {
+      names = text_default;
+    } else {
+      ids.sort(sortNumber);
+      for (let i = 0; i < ids.length; i++) {
+        for (let j = 0; j < list.length; j++) {
+          if (ids[i] == list[j].id && ids[i] != 0) {
+            if (names == '') {
+              names = list[j].name;
+            } else {
+              names = names + '; ' + list[j].name;
+            }
+          }
+        }
+      }
+    }
+    return names;
+  };
+
+  _setStateScrollView = isEnable => {
+    this.setState({enableScrollViewScroll: isEnable});
+  };
+
+  _setStateFlatList = myScroll => {
+    this._setStateScrollView(false);
+    if (
+      myScroll.contentOffset === 0 &&
+      this.state.enableScrollViewScroll === false
+    ) {
+      this._setStateScrollView(true);
+    }
+  };
+
   render() {
     const {
       onChangeText,
@@ -78,230 +115,322 @@ export default class InfoContainer_1 extends Component {
       genderMale,
       genderFeMale,
       handleGenderSelect,
-      selectYearOfBirth,
-      yearOfBirth,
-      selectCity,
-      city,
-      selectIndustry,
-      industry,
-      setJobDuration,
-      jobLongTerm,
-      jobShortTerm,
-      openHomeScreen,
+      showDateTimePicker,
+      birthday,
+      listProvince,
+      handleSelectProvince,
+      provinceIDs,
+      listMajor,
+      handleSelectMajor,
+      majorIDs,
+      listDay,
+      handleSelectDay,
+      dayIDs,
+      listTurn,
+      handleSelectTurn,
+      turnIDs,
+      handleUpdateBasicInfo,
     } = this.props;
 
-    var listYear = [];
-    var year = new Date().getFullYear();
-    for (var i = 1900; i < year; i++) {
-      listYear.push(i);
-    }
-
     return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>
-          Hãy cho chúng tôi biết thêm về bạn, PP+ sẽ cung cấp công việc phù hợp
-          với bạn!
-        </Text>
-        <View style={styles.viewFill}>
-          <Text style={styles.titleContent}>1. Họ và tên</Text>
-          <View style={styles.flexRow}>
-            <View style={[styles.boxInput, {marginEnd: 10}]}>
-              <TextInput
-                numberOfLines={1}
-                style={styles.txtInput}
-                returnKeyType="go"
-                value={lastName}
-                name="lastName"
-                placeholder="Nhập họ và tên đệm"
-                onChangeText={text => onChangeText(text, 'lastName')}
-              />
+      <View
+        onStartShouldSetResponderCapture={() => {
+          this._setStateScrollView(true);
+        }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={this.state.enableScrollViewScroll}
+          ref={myScroll => (this._myScroll = myScroll)}>
+          <Text style={styles.title}>
+            Hãy cho chúng tôi biết thêm về bạn, PP+ sẽ cung cấp công việc phù
+            hợp với bạn!
+          </Text>
+          <View style={styles.viewFill}>
+            <Text style={styles.titleContent}>1. Họ và tên</Text>
+            <View style={styles.flexRow}>
+              <View style={[styles.boxInput, {marginEnd: 10}]}>
+                <TextInput
+                  maxLength={100}
+                  numberOfLines={1}
+                  style={styles.txtInput}
+                  returnKeyType="done"
+                  value={lastName}
+                  name="lastName"
+                  placeholder="Nhập họ và tên đệm"
+                  onChangeText={text => onChangeText(text, 'lastName')}
+                />
+              </View>
+              <View style={styles.boxInput}>
+                <TextInput
+                  maxLength={100}
+                  numberOfLines={1}
+                  style={styles.txtInput}
+                  returnKeyType="done"
+                  value={firstName}
+                  name="firstName"
+                  placeholder="Nhập tên"
+                  onChangeText={text => onChangeText(text, 'firstName')}
+                />
+              </View>
             </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                numberOfLines={1}
-                style={styles.txtInput}
-                returnKeyType="go"
-                value={firstName}
-                name="firstName"
-                placeholder="Nhập tên"
-                onChangeText={text => onChangeText(text, 'firstName')}
-              />
+            <Text style={styles.titleContent}>2. Giới tính</Text>
+            <View style={styles.flexRow}>
+              <View style={styles.containerCheckBox}>
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => handleGenderSelect(true, !genderMale)}
+                  isChecked={genderMale}
+                  rightText={'Nam'}
+                  checkedImage={<RadioChecked />}
+                  unCheckedImage={<RadioUnChecked />}
+                />
+              </View>
+              <View style={styles.containerCheckBox}>
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => handleGenderSelect(false, !genderFeMale)}
+                  isChecked={genderFeMale}
+                  rightText={'Nữ'}
+                  checkedImage={<RadioChecked />}
+                  unCheckedImage={<RadioUnChecked />}
+                />
+              </View>
             </View>
+            <Text style={styles.titleContent}>3. Ngày tháng năm sinh</Text>
+            <TouchableOpacity
+              onPress={() => showDateTimePicker()}
+              style={styles.boxInfoItem}>
+              <Text style={styles.txtSelect}>{birthday}</Text>
+              {<ArrowUpDown />}
+            </TouchableOpacity>
+
+            <Text style={styles.titleContent}>4. Địa điểm làm việc</Text>
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({isShowProvince: !this.state.isShowProvince})
+              }>
+              <View
+                style={this._boxSelectStyle(
+                  this.state.isShowProvince ? '#F0532D' : '#d8d8d8',
+                )}>
+                <Text style={styles.txtSelect}>
+                  {this._getListName(
+                    txt_address_select,
+                    provinceIDs,
+                    listProvince,
+                  )}
+                </Text>
+                {<ArrowUpDown />}
+              </View>
+            </TouchableOpacity>
+            {this.state.isShowProvince ? (
+              <View
+                onStartShouldSetResponderCapture={() => {
+                  this._setStateFlatList(this._myScroll);
+                }}>
+                <FlatList
+                  visibility={this.state.isShowProvince}
+                  style={styles.viewSelect}
+                  data={listProvince}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleSelectProvince(rowData.id);
+                        }}>
+                        <View style={styles.infoBoxSelect}>
+                          <Text style={styles.txtViewSelect}>
+                            {rowData.name}
+                          </Text>
+                          <CheckBox
+                            disabled={true}
+                            isChecked={
+                              handleCheck(rowData.id, provinceIDs)
+                                ? true
+                                : false
+                            }
+                            checkedImage={<CBChecked />}
+                            unCheckedImage={<CBUnChecked />}
+                          />
+                        </View>
+                        <View style={styles.lineSelect} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  listKey={(item, index) => 'D' + index.toString()}
+                />
+              </View>
+            ) : null}
+
+            <Text style={styles.titleContent}>5. Nhóm ngành</Text>
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({isShowMajor: !this.state.isShowMajor})
+              }>
+              <View
+                style={this._boxSelectStyle(
+                  this.state.isShowMajor ? '#F0532D' : '#d8d8d8',
+                )}>
+                <Text style={styles.txtSelect}>
+                  {this._getListName(txt_major_select, majorIDs, listMajor)}
+                </Text>
+                {<ArrowUpDown />}
+              </View>
+            </TouchableOpacity>
+            {this.state.isShowMajor ? (
+              <View
+                onStartShouldSetResponderCapture={() => {
+                  this._setStateFlatList(this._myScroll);
+                }}>
+                <FlatList
+                  visibility={this.state.isShowMajor}
+                  style={styles.viewSelect}
+                  data={listMajor}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleSelectMajor(rowData.id);
+                        }}>
+                        <View style={styles.infoBoxSelect}>
+                          <Text style={styles.txtViewSelect}>
+                            {rowData.name}
+                          </Text>
+
+                          <CheckBox
+                            disabled={true}
+                            isChecked={
+                              handleCheck(rowData.id, majorIDs) ? true : false
+                            }
+                            checkedImage={<CBChecked />}
+                            unCheckedImage={<CBUnChecked />}
+                          />
+                        </View>
+                        <View style={styles.lineSelect} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  listKey={(item, index) => 'D' + index.toString()}
+                />
+              </View>
+            ) : null}
+
+            <Text style={styles.titleContent}>6. Thời lượng công việc</Text>
+            <View style={{marginBottom: 10}}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.setState({isShowDay: !this.state.isShowDay})
+                }>
+                <View
+                  style={this._boxSelectStyle(
+                    this.state.isShowDay ? '#F0532D' : '#d8d8d8',
+                  )}>
+                  <Text style={styles.txtSelect}>
+                    {this._getListDayName(txt_day_select, dayIDs, listDay)}
+                  </Text>
+                  {<ArrowUpDown />}
+                </View>
+              </TouchableOpacity>
+              {this.state.isShowDay ? (
+                <View
+                  onStartShouldSetResponderCapture={() => {
+                    this._setStateFlatList(this._myScroll);
+                  }}>
+                  <FlatList
+                    visibility={this.state.isShowDay}
+                    style={styles.viewSelect}
+                    data={listDay}
+                    renderItem={({item: rowData}) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            handleSelectDay(rowData.id);
+                          }}>
+                          <View style={styles.infoBoxSelect}>
+                            <Text style={styles.txtViewSelect}>
+                              {rowData.name}
+                            </Text>
+
+                            <CheckBox
+                              disabled={true}
+                              isChecked={
+                                handleCheck(rowData.id, dayIDs) ? true : false
+                              }
+                              checkedImage={<CBChecked />}
+                              unCheckedImage={<CBUnChecked />}
+                            />
+                          </View>
+                          <View style={styles.lineSelect} />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    listKey={(item, index) => 'D' + index.toString()}
+                  />
+                </View>
+              ) : null}
+            </View>
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({isShowTurn: !this.state.isShowTurn})
+              }>
+              <View
+                style={this._boxSelectStyle(
+                  this.state.isShowTurn ? '#F0532D' : '#d8d8d8',
+                )}>
+                <Text style={styles.txtSelect}>
+                  {this._getListName(txt_turn_select, turnIDs, listTurn)}
+                </Text>
+                {<ArrowUpDown />}
+              </View>
+            </TouchableOpacity>
+            {this.state.isShowTurn ? (
+              <View
+                onStartShouldSetResponderCapture={() => {
+                  this._setStateFlatList(this._myScroll);
+                }}>
+                <FlatList
+                  visibility={this.state.isShowTurn}
+                  style={styles.viewSelect}
+                  data={listTurn}
+                  renderItem={({item: rowData}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleSelectTurn(rowData.id);
+                        }}>
+                        <View style={styles.infoBoxSelect}>
+                          <Text style={styles.txtViewSelect}>
+                            {rowData.name}
+                          </Text>
+
+                          <CheckBox
+                            disabled={true}
+                            isChecked={
+                              handleCheck(rowData.id, turnIDs) ? true : false
+                            }
+                            checkedImage={<CBChecked />}
+                            unCheckedImage={<CBUnChecked />}
+                          />
+                        </View>
+                        <View style={styles.lineSelect} />
+                      </TouchableOpacity>
+                    );
+                  }}
+                  listKey={(item, index) => 'D' + index.toString()}
+                />
+              </View>
+            ) : null}
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => handleUpdateBasicInfo()}
+              style={styles.buttonContinue}>
+              <BgButton />
+
+              <Text style={styles.txtDone}>Hoàn Thành</Text>
+            </TouchableOpacity>
           </View>
-          <Text style={styles.titleContent}>2. Giới tính</Text>
-          <View style={styles.flexRow}>
-            <View style={styles.containerCheckBox}>
-              <CheckBox
-                style={styles.checkbox}
-                onClick={() => handleGenderSelect(true, !genderMale)}
-                isChecked={genderMale}
-                rightText={'Nam'}
-                checkedImage={<RadioChecked />}
-                unCheckedImage={<RadioUnChecked />}
-              />
-            </View>
-            <View style={styles.containerCheckBox}>
-              <CheckBox
-                style={styles.checkbox}
-                onClick={() => handleGenderSelect(false, !genderFeMale)}
-                isChecked={genderFeMale}
-                rightText={'Nữ'}
-                checkedImage={<RadioChecked />}
-                unCheckedImage={<RadioUnChecked />}
-              />
-            </View>
-          </View>
-          <Text style={styles.titleContent}>3. Năm sinh</Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => this.setState({isShowYOB: !this.state.isShowYOB})}>
-            <View
-              style={this._boxSelectStyle(
-                this.state.isShowYOB ? '#F0532D' : '#d8d8d8',
-              )}>
-              <Text style={styles.txtSelect}>{yearOfBirth}</Text>
-              {<ArrowInBox />}
-            </View>
-          </TouchableOpacity>
-          {this.state.isShowYOB ? (
-            <FlatList
-              visibility={this.state.isShowYOB}
-              style={styles.viewSelect}
-              data={listYear}
-              renderItem={({item: rowData}) => {
-                return (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      selectYearOfBirth(rowData);
-                      this.setState({isShowYOB: false});
-                    }}>
-                    <Text style={styles.txtViewSelect}>{rowData}</Text>
-
-                    <View style={styles.lineSelect} />
-                  </TouchableOpacity>
-                );
-              }}
-              keyExtractor={(item, index) => index}
-            />
-          ) : null}
-          <Text style={styles.titleContent}>4. Địa điểm làm việc</Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => this.setState({isShowCity: !this.state.isShowCity})}>
-            <View
-              style={this._boxSelectStyle(
-                this.state.isShowCity ? '#F0532D' : '#d8d8d8',
-              )}>
-              <Text style={styles.txtSelect}>{city}</Text>
-              {<ArrowInBox />}
-            </View>
-          </TouchableOpacity>
-          {this.state.isShowCity ? (
-            <FlatList
-              visibility={this.state.isShowCity}
-              style={styles.viewSelect}
-              data={listCity}
-              renderItem={({item: rowData}) => {
-                return (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      selectCity(rowData.city);
-                    }}>
-                    <View style={styles.infoBoxSelect}>
-                      <Text style={styles.txtViewSelect}>{rowData.city}</Text>
-                      <CheckBox
-                        isChecked={city.includes(rowData.city) ? true : false}
-                        checkedImage={<CBChecked />}
-                        unCheckedImage={<CBUnChecked />}
-                      />
-                    </View>
-                    <View style={styles.lineSelect} />
-                  </TouchableOpacity>
-                );
-              }}
-              keyExtractor={(item, index) => index}
-            />
-          ) : null}
-
-          <Text style={styles.titleContent}>5. Nhóm ngành</Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() =>
-              this.setState({isShowIndustry: !this.state.isShowIndustry})
-            }>
-            <View
-              style={this._boxSelectStyle(
-                this.state.isShowIndustry ? '#F0532D' : '#d8d8d8',
-              )}>
-              <Text style={styles.txtSelect}>{industry}</Text>
-              {<ArrowInBox />}
-            </View>
-          </TouchableOpacity>
-          {this.state.isShowIndustry ? (
-            <FlatList
-              visibility={this.state.isShowIndustry}
-              style={styles.viewSelect}
-              data={listIndustry}
-              renderItem={({item: rowData}) => {
-                return (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      selectIndustry(rowData.name);
-                    }}>
-                    <View style={styles.infoBoxSelect}>
-                      <Text style={styles.txtViewSelect}>{rowData.name}</Text>
-                      <CheckBox
-                        isChecked={
-                          industry.includes(rowData.name) ? true : false
-                        }
-                        checkedImage={<CBChecked />}
-                        unCheckedImage={<CBUnChecked />}
-                      />
-                    </View>
-                    <View style={styles.lineSelect} />
-                  </TouchableOpacity>
-                );
-              }}
-              keyExtractor={(item, index) => index}
-            />
-          ) : null}
-
-          <Text style={styles.titleContent}>6. Thời lượng công việc</Text>
-          <View style={{flexDirection: 'row'}}>
-            <View style={styles.containerCheckBox}>
-              <CheckBox
-                style={styles.checkbox}
-                onClick={() => setJobDuration(true)}
-                isChecked={jobLongTerm}
-                rightText={'Dài hạn'}
-                checkedImage={<CBChecked />}
-                unCheckedImage={<CBUnChecked />}
-              />
-            </View>
-            <View style={styles.containerCheckBox}>
-              <CheckBox
-                style={styles.checkbox}
-                onClick={() => setJobDuration(false)}
-                isChecked={jobShortTerm}
-                rightText={'Ngắn hạn'}
-                checkedImage={<CBChecked />}
-                unCheckedImage={<CBUnChecked />}
-              />
-            </View>
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => openHomeScreen()}
-            style={styles.buttonContinue}>
-          <BgButton />
-
-          <Text style={styles.txtDone}>Hoàn Thành</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }

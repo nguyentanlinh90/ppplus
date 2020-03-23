@@ -6,32 +6,56 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Image,
-  AsyncStorage,
+  Alert,
 } from 'react-native';
 import InputOTPForm from '../components/InputOTPForm';
 import {doInputOTP} from '../actions/index';
-import DropdownAlert from 'react-native-dropdownalert';
 import styles from '../styles/styles';
 import rootStyles from '../../../styles/styles';
-import {changeMsgCode} from '../../home/actions/index';
+import {changeMsgCode} from '../../../api/helpers';
+import {dispatchScreen} from '../../../utils/utils';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
 import {FORGOT_PASSWORD} from '../../../utils/constants';
-import {SCREEN_INFO, SCREEN_MAIN} from '../../../api/screen';
+import {
+  SCREEN_LOGIN,
+  SCREEN_UPDATE_PASS,
+  SCREEN_RETRO,
+} from '../../../api/screen';
+import {showAlert} from '../../../utils/utils';
+import {setStoreData} from '../../../utils/utils';
+import {doProcessOTP, doSendOTP} from '../actions/index';
+import * as types from '../../../api/types';
 
+let timeResend = 0;
+let countInputWrong = 0;
 export class InputOTPContainer extends Component {
   constructor(props) {
     super(props);
 
+    timeResend = this.props.navigation.state.params[1];
     this.state = {
+      phone: this.props.navigation.state.params[0],
+      isRegister: this.props.navigation.state.params[2],
+      timeResend: timeResend,
       otpCode: '',
-      timerSendAgain: 5,
       isLoading: false,
       isConnecting: false,
     };
-    this.handleInputOTP = this.handleInputOTP.bind(this);
+    this._handleProcessOTP = this._handleProcessOTP.bind(this);
+    this._handleResendOTP = this._handleResendOTP.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
   }
+
+  _startInterval = () => {
+    this.interval = setInterval(() => {
+      if (this.state.timeResend !== 0) {
+        this.setState(prevState => ({
+          timeResend: prevState.timeResend - 1,
+        }));
+      }
+    }, 1000);
+  };
 
   componentDidMount() {
     NetInfo.isConnected.addEventListener(
@@ -39,16 +63,10 @@ export class InputOTPContainer extends Component {
       this._handleConnectivityChange,
     );
 
-    this.interval = setInterval(
-      () =>
-        this.setState(prevState => ({
-          timerSendAgain: prevState.timerSendAgain - 1,
-        })),
-      1000,
-    );
+    this._startInterval();
   }
   componentDidUpdate() {
-    if (this.state.timerSendAgain === 0) {
+    if (this.state.timeResend === 0) {
       clearInterval(this.interval);
     }
   }
@@ -65,11 +83,7 @@ export class InputOTPContainer extends Component {
       if (isConnected == true) {
         this.setState({isConnecting: true});
       } else {
-        this.dropdown.alertWithType(
-          'error',
-          'Lỗi',
-          'Vui lòng kiểm tra kết nối mạng ',
-        );
+        showAlert('Vui lòng kiểm tra kết nối mạng.');
         this.setState({isConnecting: false});
       }
     });
@@ -81,56 +95,70 @@ export class InputOTPContainer extends Component {
     }
   };
 
-  handleInputOTP = () => {
-    const {doInputOTP} = this.props;
+  _handleResendOTP = () => {
+    const {doSendOTP} = this.props;
+    doSendOTP(this.state.phone);
+  };
+  _handleProcessOTP = () => {
+    const {doProcessOTP} = this.props;
     const {otpCode} = this.state;
 
     if (otpCode != '' && otpCode.length > 5) {
       if (this.state.isConnecting) {
         this.setState({isLoading: true});
-        // doInputOTP(otpCode);
-
-        if (this.props.navigation.state.params.typeScreen == FORGOT_PASSWORD) {
-          this.props.navigation.dispatch({
-            key: SCREEN_MAIN,
-            type: 'ReplaceCurrentScreen',
-            routeName: SCREEN_MAIN,
-            params: {},
-          });
-        } else {
-          AsyncStorage.setItem('login', '1');
-          this.props.navigation.dispatch({
-            key: SCREEN_INFO,
-            type: 'ReplaceCurrentScreen',
-            routeName: SCREEN_INFO,
-            params: {},
-          });
-        }
+        doProcessOTP(this.state.phone, otpCode);
       } else {
-        this.dropdown.alertWithType(
-          'error',
-          'Lỗi',
-          'Vui lòng kiểm tra kết nối mạng ',
-        );
+        showAlert('Vui lòng kiểm tra kết nối mạng.');
       }
-    } else {
-      this.dropdown.alertWithType(
-        'error',
-        'Lỗi',
-        'Vui lòng nhập 6 ký tự mã OTP',
-      );
     }
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == 'input_otp_error') {
+    if (nextProps.msg_code == types.PROCESS_OTP_FAIL) {
       this.setState({isLoading: false});
-      this.dropdown.alertWithType('error', 'Lỗi', 'Mã OTP không đúng');
+      showAlert(nextProps.message);
       nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == 'input_otp_success') {
+      countInputWrong = countInputWrong + 1;
+      if (countInputWrong == 5) {
+        Alert.alert(
+          'Thông báo',
+          nextProps.message,
+          [
+            {
+              text: 'Đồng Ý',
+              onPress: () => {
+                dispatchScreen(this.props, SCREEN_RETRO, {});
+              },
+            },
+          ],
+          {
+            cancelable: false,
+          },
+        );
+      } else {
+        showAlert(nextProps.message);
+      }
+    } else if (nextProps.msg_code == types.PROCESS_OTP_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      // this.props.navigation.navigate(SCREEN_LOGIN);
+      if (this.state.isRegister) {
+        dispatchScreen(this.props, SCREEN_LOGIN, {});
+      } else {
+        dispatchScreen(this.props, SCREEN_UPDATE_PASS, [
+          this.state.phone,
+          nextProps.data.access_token,
+        ]);
+      }
+    } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
+      showAlert('Mã OTP đã được gửi đến số điện thoại ' + this.state.phone);
+      nextProps.changeMsgCode('');
+      this.setState({timeResend: timeResend});
+      this._startInterval();
+    } else if (nextProps.msg_code == types.SEND_OTP_FAIL) {
+      showAlert(nextProps.message);
+      nextProps.changeMsgCode('');
+      this.setState({timeResend: timeResend});
+      this._startInterval();
     }
   }
 
@@ -139,25 +167,19 @@ export class InputOTPContainer extends Component {
       <View>
         <View style={{marginTop: 200}}>
           <InputOTPForm
-            handleInputOTP={this.handleInputOTP}
+            handleProcessOTP={this._handleProcessOTP}
+            handleResendOTP={this._handleResendOTP}
             navigation={this.props.navigation}
             onChangeText={this.onChangeText}
             otpCode={this.state.otpCode}
-            timeSendAgain={this.state.timerSendAgain}
+            timeResend={this.state.timeResend}
           />
         </View>
         <Spinner
           visible={this.state.isLoading}
-          textContent={'Loading...'}
-          color={'#fff'}
+          color={'white'}
           size={'large'}
           textStyle={{color: '#fff'}}
-          animation={'fade'}
-        />
-        <DropdownAlert
-          ref={ref => (this.dropdown = ref)}
-          defaultContainer={rootStyles.defaultContainerDropdown}
-          defaultTextContainer={rootStyles.defaultTextContainerDropdown}
         />
       </View>
     );
@@ -166,12 +188,14 @@ export class InputOTPContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    state: state,
-    msg_code: state.home.msg_code,
+    msg_code: state.user.msg_code,
+    message: state.user.message,
+    data: state.user.data,
   };
 }
 
 export default connect(mapStateToProps, {
-  doInputOTP,
+  doProcessOTP,
+  doSendOTP,
   changeMsgCode,
 })(InputOTPContainer);

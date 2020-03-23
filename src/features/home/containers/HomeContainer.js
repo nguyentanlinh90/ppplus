@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
   View,
@@ -10,312 +10,73 @@ import {
   SafeAreaView,
   Dimensions,
   RefreshControl,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {Card} from 'react-native-shadow-cards';
-import RBSheet from 'react-native-raw-bottom-sheet';
 import styles from '../../../features/home/styles/styles';
 import SpinnerComponent from '../../../components/Spinner';
 import JobHotItem from '../components/JobHotItem';
 import JobNewItem from '../components/JobNewItem';
-import JobDetail from '../components/JobDetail';
-import {SCREEN_CREATE_ACCOUNT, SCREEN_SEARCH} from '../../../api/screen';
+import {
+  SCREEN_CREATE_ACCOUNT,
+  SCREEN_SEARCH,
+  SCREEN_JOB_DETAIL,
+} from '../../../api/screen';
 import * as types from '../../../api/types';
 const screenHeight = Math.round(Dimensions.get('window').height);
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {changeMsgCode, getJobs} from '../actions/index';
-const dimensions = Dimensions.get('window');
+import {getJobs, getJobDetail} from '../actions/index';
+import {changeMsgCode} from '../../../api/helpers';
+import {isEmptyObject} from '../../../utils/utils';
 
-const data = [
-  {
-    id: 9,
-    logoUrl: 'http://via.placeholder.com/44x44',
-    merchantName: 'OPPO',
-    rating: 4,
-    trending: '1',
-    jobTitle: 'PB/PG ra mắt thương hiệu Oppo',
-    ageMin: '18',
-    ageMax: '25',
-    sex: 'Nam/Nữ',
-    location: 'Quận 1, TP. Hồ Chí Minh',
-    timeStart: '2.9.2019',
-    timeEnd: '10.10.2019',
-    position: 'Nhân viên',
-    amount: 50,
-    listJob: [
-      {
-        nameStore: 'CH1 - Vincom',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Bitexco',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Landmark 81',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-    ],
-  },
-  {
-    id: 2,
-    logoUrl: 'http://via.placeholder.com/44x44',
-    merchantName: 'OPPO',
-    rating: 4,
-    trending: '2',
-    jobTitle: 'PB/PG ra mắt thương hiệu Oppo',
-    ageMin: '18',
-    ageMax: '25',
-    sex: 'Nam/Nữ',
-    location: 'Bình Thạnh, TP. Hồ Chí Minh',
-    timeStart: '2.9.2019',
-    timeEnd: '10.10.2019',
-    position: 'Nhân viên',
-    amount: 50,
-    listJob: [
-      {
-        nameStore: 'CH1 - Vincom',
-        address: '111 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Bitexco',
-        address: '222 Phan Văn Trị',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Landmark 81',
-        address: '333 Bùi Đình Tuý',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-    ],
-  },
-  {
-    id: 11,
-    logoUrl: 'http://via.placeholder.com/44x44',
-    merchantName: 'OPPO',
-    rating: 4,
-    trending: '1',
-    jobTitle: 'PB/PG ra mắt thương hiệu Oppo',
-    ageMin: '18',
-    ageMax: '25',
-    sex: 'Nam/Nữ',
-    location: 'Bình Tân',
-    timeStart: '2.9.2019',
-    timeEnd: '10.10.2019',
-    position: 'Nhân viên',
-    amount: 50,
-  },
-  {
-    id: 4,
-    logoUrl: 'http://via.placeholder.com/44x44',
-    merchantName: 'OPPO',
-    rating: 4,
-    trending: '1',
-    jobTitle: 'PB/PG ra mắt thương hiệu Oppo',
-    ageMin: '18',
-    ageMax: '25',
-    sex: 'Nam/Nữ',
-    location: 'Tân Bình',
-    timeStart: '2.9.2019',
-    timeEnd: '10.10.2019',
-    position: 'Nhân viên',
-    amount: 50,
-    listJob: [
-      {
-        nameStore: 'CH1 - Vincom',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Bitexco',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Landmark 81',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-    ],
-  },
-  {
-    id: 19,
-    logoUrl: 'http://via.placeholder.com/44x44',
-    merchantName: 'OPPO',
-    rating: 4,
-    trending: '2',
-    jobTitle: 'PB/PG ra mắt thương hiệu Oppo',
-    ageMin: '18',
-    ageMax: '25',
-    sex: 'Nam/Nữ',
-    location: 'Gò Vấp',
-    timeStart: '2.9.2019',
-    timeEnd: '10.10.2019',
-    position: 'Nhân viên',
-    amount: 50,
-    listJob: [
-      {
-        nameStore: 'CH1 - Vincom',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Bitexco',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Landmark 81',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-    ],
-  },
-  {
-    id: 6,
-    logoUrl: 'http://via.placeholder.com/44x44',
-    merchantName: 'OPPO',
-    rating: 4,
-    trending: '2',
-    jobTitle: 'PB/PG ra mắt thương hiệu Oppo',
-    ageMin: '18',
-    ageMax: '25',
-    sex: 'Nam/Nữ',
-    location: 'Bình Chánh',
-    timeStart: '2.9.2019',
-    timeEnd: '10.10.2019',
-    position: 'Nhân viên',
-    amount: 50,
-    listJob: [
-      {
-        nameStore: 'CH1 - Vincom',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Bitexco',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-      {
-        nameStore: 'CH1 - Landmark 81',
-        address: '123 Nơ Trang Long',
-        weekDay: ['Thứ 2', 'Thứ 4', 'Thứ 6'],
-        hourDay: ['7:00 - 11:00', '15:00 - 17:00'],
-      },
-    ],
-  },
-];
+const dimensions = Dimensions.get('window');
+var token = '';
+var user = {};
+var province_list = [];
+var district_list = [];
+var gender_list = [];
+var jobs_hot_page = 1;
+var jobs_new_page = 1;
 
 class HomeContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      colorHeaderJobDetail: '',
-      isLoading: true,
       refreshing: false,
       isOpenFilter: false,
       inputSearch: '',
-      item: {},
-      jobs: [],
+      jobDetail: {},
+      jobs_hot: [],
+      jobs_new: [],
     };
-
-    // console.disableYellowBox = true;
+    token = this.props.token;
+    user = this.props.user;
   }
-
-  _randomColor = () => {
-    var colorCode =
-      'rgb(' +
-      Math.floor(Math.random() * 256) +
-      ',' +
-      Math.floor(Math.random() * 256) +
-      ',' +
-      Math.floor(Math.random() * 256) +
-      ')';
-
-    this.setState({
-      colorHeaderJobDetail: colorCode,
-    });
+  _showLoading = isShow => {
+    this.props.setLoading(isShow);
   };
-  _onClickItem(item) {
-    this._randomColor();
-    this.setState({item: item});
-    this.jobHotDetail.open();
-  }
-
-  _closeRBSheet = () => {
-    this.jobHotDetail.close();
-  };
-  _renderRBSheet() {
-    return (
-      <RBSheet
-        height={screenHeight}
-        ref={ref => {
-          this.jobHotDetail = ref;
-        }}
-        closeOnDragDown={false}
-        closeOnPressBack={true} // just android
-        customStyles={{
-          container: {},
-          wrapper: {},
-        }}>
-        <View style={{paddingBottom: Platform.OS === 'ios' ? 110 : 100}}>
-          <View
-            style={{
-              height: Platform.OS === 'ios' ? getStatusBarHeight() + 100 : 100,
-              backgroundColor: this.state.colorHeaderJobDetail,
-            }}>
-            <TouchableOpacity
-              style={styles.jobDetailBoxButtonBack}
-              onPress={() => {
-                this._closeRBSheet();
-              }}>
-              <Image source={require('../../../assets/images/ic-back.png')} />
-            </TouchableOpacity>
-          </View>
-          <JobDetail
-            item={this.state.item}
-            data={this.state.jobs}
-            submit={this._closeRBSheet}
-          />
-        </View>
-      </RBSheet>
-    );
-  }
-
   _onRefresh = () => {
     this.setState({refreshing: true});
-    this._fetchData();
+    jobs_new_page = 1;
+    jobs_hot_page = 1;
+    this._fetchData(1);
   };
-  _fetchData = () => {
+  _fetchData = params => {
     const {getJobs} = this.props;
-    getJobs();
+    getJobs(token, params);
+  };
+
+  _getJobDetail = id => {
+    const {getJobDetail} = this.props;
+    this._showLoading(true);
+    getJobDetail(token, id);
   };
 
   _openFilter = () => {
     return (
       <Modal
-        // style={{position: 'absolute'}}
         backdropOpacity={0.4}
         backdropColor="#000"
         useNativeDriver={true}
@@ -345,12 +106,16 @@ class HomeContainer extends Component {
     );
   };
 
-  _renderNoData = () => {
-    return (
-      <View style={{alignItems: 'center'}}>
-        <Text style={{fontSize: 22, marginTop: 200}}>Không có dữ liệu</Text>
-      </View>
-    );
+  _handleLoadMore = isJobHot => {
+    var params = '';
+    if (isJobHot) {
+      jobs_hot_page = jobs_hot_page + 1;
+      params = jobs_hot_page + '&type=job_hot';
+    } else {
+      jobs_new_page = jobs_new_page + 1;
+      params = jobs_new_page + '&type=job_new';
+    }
+    this._fetchData(params);
   };
   _renderContent = () => {
     return (
@@ -366,102 +131,182 @@ class HomeContainer extends Component {
             }}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
-            data={this.state.jobs}
+            data={this.state.jobs_hot}
             renderItem={({item: rowData}) => {
               return (
                 <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => this._onClickItem(rowData)}>
-                  <JobHotItem item={rowData} />
+                  onPress={() => this._getJobDetail(rowData.id)}>
+                  <JobHotItem
+                    province_list={province_list}
+                    district_list={district_list}
+                    gender_list={gender_list}
+                    item={rowData}
+                  />
                 </TouchableOpacity>
               );
             }}
-            keyExtractor={(item, index) => index}
+            listKey={(item, index) => 'D' + index.toString()}
+            onEndReached={() => {
+              this._handleLoadMore(true);
+            }}
           />
         </View>
         <View style={[styles.groupContent, {marginTop: 10}]}>
-          <Text style={styles.txtTitleGroupContent}>Công việc mới nhất</Text>
+          <Text style={styles.txtTitleGroupContent}>Việc mới cập nhật</Text>
           <FlatList
             style={{paddingStart: 16, marginTop: 10, marginEnd: 16}}
-            data={this.state.jobs}
+            data={this.state.jobs_new}
             renderItem={({item: rowData}) => {
               return (
                 <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => this._onClickItem(rowData)}>
-                  <JobNewItem item={rowData} />
+                  onPress={() => this._getJobDetail(rowData.id)}>
+                  <JobNewItem province_list={province_list} item={rowData} />
                 </TouchableOpacity>
               );
             }}
-            keyExtractor={(item, index) => index}
+            listKey={(item, index) => 'D' + index.toString()}
           />
         </View>
         <View
           style={[styles.groupContent, {marginTop: 10}, {marginBottom: 10}]}>
           <Text style={styles.txtTitleGroupContent}>Thương hiệu hàng đầu</Text>
           <FlatList
-            style={{backgroundColor: '#fff', paddingBottom: 16}}
+            style={{
+              backgroundColor: '#fff',
+              paddingBottom: 16,
+              paddingStart: 16,
+            }}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
-            data={this.state.jobs}
+            data={this.state.jobs_new}
             renderItem={({item: rowData}) => {
               return (
                 <Image
-                  resizeMode="contain"
-                  source={{uri: rowData.logoUrl}}
-                  style={{width: 94, height: 59}}
+                  resizeMode="stretch"
+                  source={{uri: 'rowData.job_company.icon'}}
+                  style={{
+                    width: 94,
+                    height: 59,
+                    backgroundColor: '#757575',
+                    marginEnd: 16,
+                  }}
                 />
               );
             }}
-            keyExtractor={(item, index) => index}
+            listKey={(item, index) => 'D' + index.toString()}
+            onEndReached={() => {
+              this._handleLoadMore(false);
+            }}
           />
         </View>
       </View>
     );
   };
-  _openSearch = props => {
-    props.navigation.navigate(SCREEN_SEARCH);
+  _openSearch = () => {
+    this.props.props.navigation.navigate(SCREEN_SEARCH);
   };
+
   componentDidMount() {
-    this._fetchData();
+    this._showLoading(true);
+    this._fetchData(1);
   }
 
+  _gotoJobDetail = data => {
+    this.props.props.navigation.navigate(SCREEN_JOB_DETAIL, [data, token]);
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == 'fetch_job_success') {
+    if (nextProps.msg_code == types.GET_JOBS_SUCCESS) {
+      this._showLoading(false);
       this.setState({
-        isLoading: false,
         refreshing: false,
-        jobs: nextProps.jobs,
+      });
+
+      //jobs hot
+      var jobsHot = nextProps.data.job_hot_list;
+      if (jobsHot.length > 0) {
+        var arr = this.state.jobs_hot;
+        for (var i = 0; i < jobsHot.length; i++) {
+          arr.push(jobsHot[i]);
+        }
+        this.setState({
+          jobs_hot: arr != 0 ? arr : [],
+        });
+      }
+
+      //jobs new
+      var jobsNew = nextProps.data.job_new_list;
+      if (jobsNew.length > 0) {
+        var arr = this.state.jobs_new;
+        for (var i = 0; i < jobsNew.length; i++) {
+          arr.push(jobsNew[i]);
+        }
+        this.setState({
+          jobs_new: arr != 0 ? arr : [],
+        });
+      }
+
+      if (province_list.length == 0) {
+        province_list = nextProps.data.province_list;
+      }
+      if (district_list.length == 0) {
+        district_list = nextProps.data.district_list;
+      }
+      if (gender_list.length == 0) {
+        gender_list = nextProps.data.gender_list;
+      }
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.GET_JOBS_FAIL) {
+      this._showLoading(false);
+      this.setState({
+        refreshing: false,
+        jobs_hot: [],
+        jobs_new: [],
       });
       nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == 'fetch_job_error') {
+    } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_SUCCESS) {
+      //setState method doesn't mutate the state immediately
+      this._showLoading(false);
+      this.setState(
+        {
+          refreshing: false,
+          jobDetail: nextProps.data,
+        },
+        function() {
+          // //so we must waiting setState done
+          this._gotoJobDetail(this.state.jobDetail);
+        },
+      );
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_FAIL) {
+      this._showLoading(false);
       this.setState({
-        isLoading: false,
         refreshing: false,
-        jobs: [],
+        jobDetail: {},
       });
       nextProps.changeMsgCode('');
     }
   }
 
   render() {
-    const {props, inputSearch, jobs} = this.props;
+    const {jobDetail} = this.state;
     return (
       <View style={styles.container}>
         {this._openFilter()}
-        {this._renderRBSheet()}
-        <SpinnerComponent visible={this.state.isLoading} />
         <Image
           source={require('../../../assets/images/bg-home-header.png')}
           style={styles.boxImgHeader}
         />
         <View
           style={{paddingTop: Platform.OS == 'ios' ? getStatusBarHeight() : 0}}>
-          <View style={styles.viewUser}>
-            <Text style={{fontSize: 16, color: '#fff'}}>Xin chào, </Text>
-            <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
-              Linh
-            </Text>
+          <View style={styles.boxHeader}>
+            <View style={styles.viewUser}>
+              <Text style={styles.txtHello}>Xin chào, </Text>
+              <Text style={[styles.txtHello, styles.txtUserName]}>
+                {user.last_name + ' ' + user.first_name}{' '}
+              </Text>
+            </View>
+            <View style={styles.boxNotification}></View>
           </View>
 
           <View style={[styles.boxSearch]}>
@@ -473,11 +318,13 @@ class HomeContainer extends Component {
               <TouchableOpacity
                 activeOpacity={1}
                 style={styles.inputSearch}
-                onPress={() => this._openSearch(props)}>
+                onPress={() => this._openSearch()}>
                 <Text style={styles.txtSearch}>Tìm kiếm</Text>
                 <View style={styles.imgBoxSearch}>
                   <Image
+                    resizeMode="contain"
                     source={require('../../../assets/images/ic-search.png')}
+                    style={{width: 20, height: 20}}
                   />
                 </View>
               </TouchableOpacity>
@@ -494,7 +341,9 @@ class HomeContainer extends Component {
                   this.setState({isOpenFilter: true});
                 }}>
                 <Image
+                  resizeMode="contain"
                   source={require('../../../assets/images/ic-filter.png')}
+                  style={{width: 20, height: 20}}
                 />
               </TouchableOpacity>
             </Card>
@@ -511,11 +360,9 @@ class HomeContainer extends Component {
               onRefresh={this._onRefresh.bind(this)}
             />
           }>
-          {!this.state.isLoading
-            ? this.state.jobs.length > 0
-              ? this._renderContent()
-              : this._renderNoData()
-            : null}
+          {this.state.jobs_new.length == 0 && this.state.jobs_hot.length == 0
+            ? null
+            : this._renderContent()}
         </ScrollView>
       </View>
     );
@@ -525,10 +372,12 @@ class HomeContainer extends Component {
 function mapStateToProps(state) {
   return {
     msg_code: state.home.msg_code,
-    jobs: state.home.jobs,
+    message: state.home.message,
+    data: state.home.data,
   };
 }
 export default connect(mapStateToProps, {
   changeMsgCode,
   getJobs,
+  getJobDetail,
 })(HomeContainer);

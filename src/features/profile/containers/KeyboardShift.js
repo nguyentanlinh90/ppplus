@@ -9,7 +9,6 @@ import {
   UIManager,
   Platform,
 } from 'react-native';
-import {Text} from 'native-base';
 
 const {State: TextInputState} = TextInput;
 

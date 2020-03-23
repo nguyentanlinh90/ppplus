@@ -7,7 +7,7 @@ import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
 import CBShowPass from '../../../components/CBShowPass';
 import CBHidePass from '../../../components/CBHidePass';
-export class CreateAccountForm extends Component {
+export default class CreateAccountForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,18 +21,19 @@ export class CreateAccountForm extends Component {
       onChangeText,
       handleCreateAccount,
       phone,
-      referral_code,
+      reference_code,
       password,
-      passwordAgain,
+      password_confirm,
       setAgree,
       isAgree,
     } = this.props;
     return (
-      <View>
+      <View style={{padding: 16}}>
         <Text style={styles.txtCreateAccount}>Tạo tài khoản</Text>
-        <Text style={styles.txtNumberPhone}>Số điện thoại</Text>
+        <Text style={styles.txtTitleField}>Số điện thoại</Text>
         <View style={styles.groupInput}>
           <TextInput
+            maxLength={10}
             style={styles.inputCreateAccount}
             autoCapitalize="none"
             autoCorrect={true}
@@ -44,24 +45,25 @@ export class CreateAccountForm extends Component {
             onChangeText={text => onChangeText(text, 'phone')}
           />
         </View>
-        <Text style={styles.txtNumberPhone}>Mã giới thiệu</Text>
+        <Text style={styles.txtTitleField}>Mã giới thiệu</Text>
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             style={styles.inputCreateAccount}
+            maxLength={10}
             autoCapitalize="none"
             autoCorrect={true}
             keyboardType="default"
             returnKeyType="next"
             placeholder="Nhập mã giới thiệu"
-            value={referral_code}
-            name="referral_code"
-            onChangeText={text => onChangeText(text, 'referral_code')}
+            value={reference_code}
+            name="reference_code"
+            onChangeText={text => onChangeText(text, 'reference_code')}
           />
         </View>
-        <Text style={styles.txtNumberPhone}>Mã mật khẩu</Text>
+        <Text style={styles.txtTitleField}>Mật khẩu</Text>
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
-            maxLength={20}
+            maxLength={50}
             style={styles.inputLogin}
             secureTextEntry={this.state.isShowPass}
             returnKeyType="go"
@@ -81,17 +83,17 @@ export class CreateAccountForm extends Component {
             />
           </View>
         </View>
-        <Text style={styles.txtNumberPhone}>Xác nhận lại mật khẩu</Text>
+        <Text style={styles.txtTitleField}>Xác nhận lại mật khẩu</Text>
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             secureTextEntry={this.state.isShowPassAgain}
-            maxLength={20}
+            maxLength={50}
             style={styles.inputLogin}
             returnKeyType="go"
-            value={passwordAgain}
-            name="passwordAgain"
+            value={password_confirm}
+            name="password_confirm"
             placeholder="Xác nhận lại mật khẩu"
-            onChangeText={text => onChangeText(text, 'passwordAgain')}
+            onChangeText={text => onChangeText(text, 'password_confirm')}
           />
           <View style={styles.boxShowPass}>
             <CheckBox
@@ -127,4 +129,3 @@ export class CreateAccountForm extends Component {
     );
   }
 }
-export default CreateAccountForm;

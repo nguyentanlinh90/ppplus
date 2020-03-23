@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import styles from '../styles/styles';
-import {Rating} from 'react-native-elements';
 import CheckBox from 'react-native-check-box';
 import CBChecked from '../../../components/CBChecked';
 import CBUnChecked from '../../../components/CBUnChecked';
-export class JobFollowLocationItem extends Component {
+export default class JobFollowLocationItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,14 +45,14 @@ export class JobFollowLocationItem extends Component {
     let hourDay = '';
     for (let i = 0; i < item.hourDay.length; i++) {
       if (i == 0) {
-        hourDay = item.hourDay[i].startTime + ' - ' + item.hourDay[i].endTime;
+        hourDay = item.hourDay[i].start_time + ' - ' + item.hourDay[i].end_time;
       } else {
         hourDay =
           hourDay +
           ' ; ' +
-          item.hourDay[i].startTime +
+          item.hourDay[i].start_time +
           ' - ' +
-          item.hourDay[i].endTime;
+          item.hourDay[i].end_time;
       }
     }
 
@@ -71,13 +70,43 @@ export class JobFollowLocationItem extends Component {
               fontSize: 16,
               fontWeight: 'bold',
             }}>
-            {item.nameStore}
+            {item.name_store}
           </Text>
-          <CheckBox
-            isChecked={this.state.isSelect}
-            checkedImage={<CBChecked />}
-            unCheckedImage={<CBUnChecked />}
-          />
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View
+              style={{
+                height: 22,
+                width: 160,
+                backgroundColor: '#d8d8d8',
+                marginEnd: 10,
+                marginStart:10,
+                borderRadius: 6,
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  borderRadius: 6,
+                  height: 22,
+                  width: (160 * 22) / 30,
+                  backgroundColor: '#F0532D',
+                }}
+              />
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 13,
+                  position: 'absolute',
+                  alignSelf: 'center',
+                }}>
+                Đã ứng tuyển 22/30
+              </Text>
+            </View>
+            <CheckBox
+              isChecked={this.state.isSelect}
+              checkedImage={<CBChecked />}
+              unCheckedImage={<CBUnChecked />}
+            />
+          </View>
         </View>
         <View style={styles.jobFollowLocationDetail}>
           <Image
@@ -96,7 +125,7 @@ export class JobFollowLocationItem extends Component {
         <View style={styles.jobFollowLocationDetail}>
           <Image
             resizeMode="contain"
-            source={require('../../../assets/images/ic-time.png')}
+            source={require('../../../assets/images/ic-time-gray.png')}
           />
           <Text style={styles.jobFollowLocationTxtDetail}>{hourDay}</Text>
         </View>
@@ -104,4 +133,3 @@ export class JobFollowLocationItem extends Component {
     );
   }
 }
-export default JobFollowLocationItem;
