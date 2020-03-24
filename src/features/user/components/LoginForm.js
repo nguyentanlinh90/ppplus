@@ -29,6 +29,7 @@ export default class LoginForm extends Component {
         <Text style={styles.txtTitleField}>Số điện thoại</Text>
         <View style={styles.groupInput}>
           <TextInput
+            maxLength={10}
             style={styles.inputLogin}
             autoCapitalize="none"
             autoCorrect={true}
@@ -43,6 +44,7 @@ export default class LoginForm extends Component {
         <Text style={styles.txtTitleField}>Mật khẩu</Text>
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
+            maxLength={50}
             style={styles.inputLogin}
             returnKeyType="go"
             value={password}
