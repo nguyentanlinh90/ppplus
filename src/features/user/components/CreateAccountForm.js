@@ -49,7 +49,7 @@ export default class CreateAccountForm extends Component {
         <View style={[styles.groupInput, {marginBottom: 14}]}>
           <TextInput
             style={styles.inputCreateAccount}
-            maxLength={10}
+            maxLength={6}
             autoCapitalize="none"
             autoCorrect={true}
             keyboardType="default"
