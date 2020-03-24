@@ -73,7 +73,7 @@ export class LoginContainer extends Component {
     const { phone } = this.state;
     const { doSendOTP } = this.props;
     if (phone == '') {
-      showAlert('Vui lòng nhập số điện thoại đã đăng ký để lấy lại mật khẩu.');
+      showAlert('Vui lòng nhập số điện thoại để gửi mã xác thực.');
       return;
     } else {
       if (!REGEX.test(phone)) {
