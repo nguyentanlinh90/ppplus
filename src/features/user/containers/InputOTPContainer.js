@@ -1,29 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {
-  View,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  StatusBar,
-  Image,
-  Alert,
-} from 'react-native';
+import {View, Alert} from 'react-native';
 import InputOTPForm from '../components/InputOTPForm';
-import {doInputOTP} from '../actions/index';
-import styles from '../styles/styles';
-import rootStyles from '../../../styles/styles';
 import {changeMsgCode} from '../../../api/helpers';
 import {dispatchScreen} from '../../../utils/utils';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
-import {FORGOT_PASSWORD} from '../../../utils/constants';
 import {
   SCREEN_LOGIN,
   SCREEN_UPDATE_PASS,
   SCREEN_RETRO,
 } from '../../../api/screen';
 import {showAlert} from '../../../utils/utils';
-import {setStoreData} from '../../../utils/utils';
 import {doProcessOTP, doSendOTP} from '../actions/index';
 import * as types from '../../../api/types';
 

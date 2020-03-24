@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import CreateAccountForm from '../components/CreateAccountForm';
 import { doCreateAccount } from '../actions/index';
-import styles from '../styles/styles';
 import { changeMsgCode } from '../../../api/helpers';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
