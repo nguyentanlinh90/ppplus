@@ -37,7 +37,8 @@ class SplashContainer extends Component {
     if (this.state.isLogin) {
       this._getUserInfo();
     } else {
-      dispatchScreen(this.props, SCREEN_RETRO, {});
+    // dispatchScreen(this.props, SCREEN_RETRO, {});
+    this.props.navigation.navigate(SCREEN_RETRO)
     }
   }
 
