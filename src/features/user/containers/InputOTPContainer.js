@@ -79,7 +79,8 @@ export class InputOTPContainer extends Component {
 
   onChangeText = (text, type) => {
     if (type == 'otpCode') {
-      this.setState({otpCode: text});
+      let cleanNumber = text.replace(/[^0-9]/g, '');// just number
+      this.setState({otpCode: cleanNumber});
     }
   };
 
