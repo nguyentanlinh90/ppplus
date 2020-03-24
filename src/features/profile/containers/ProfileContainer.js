@@ -123,7 +123,7 @@ class ProfileContainer extends Component {
             </Text>
           ) : null}
 
-          <View style={{ backgroundColor: '#d8d8d8', height: 5 }} />
+          <View style={{ backgroundColor: '#f1f1f1', height: 5 }} />
           <TouchableOpacity
             style={styles.boxItem}
             onPress={() => {

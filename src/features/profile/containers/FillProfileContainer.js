@@ -604,8 +604,21 @@ export class FillProfileContainer extends Component {
       return;
     }
 
-    if (specialCharacters.test(first_name)||specialCharacters.test(last_name)) {
+    if (
+      specialCharacters.test(first_name) ||
+      specialCharacters.test(last_name)
+    ) {
       showAlert('Tên không được chứa ký tự đặc biệt.');
+      return;
+    }
+
+    if (height > 250 || height < 100) {
+      showAlert('Chiều cao phải nằm trong khoảng 100 - 250 (cm).');
+      return;
+    }
+
+    if (weight > 200 || weight < 35) {
+      showAlert('Cân nặng phải nằm trong khoảng 35 - 200 (kg).');
       return;
     }
 
@@ -756,7 +769,7 @@ export class FillProfileContainer extends Component {
   };
 
   render() {
-    const {navigation, percent_updated, name, user} = this.props;
+    const {navigation} = this.props;
     return (
       <KeyboardShift>
         {() => (
