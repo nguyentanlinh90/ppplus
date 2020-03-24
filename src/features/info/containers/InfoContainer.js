@@ -41,7 +41,7 @@ class InfoContainer extends Component {
       birthday: txt_dob_select,
       provinceIDs: [],
       majorIDs: [],
-      dayIDs: [],
+      dayIDs: [0,1,2,3,4,5,6,7],
       turnIDs: [],
     };
 
