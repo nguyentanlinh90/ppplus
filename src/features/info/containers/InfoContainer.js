@@ -13,15 +13,11 @@ import moment from 'moment';
 import styles from '../styles/styles';
 import InfoForm from '../component/InfoForm';
 import {SCREEN_MAIN} from '../../../api/screen';
-import {
-  text_select,
-  txt_dob_select,
-  txt_address_select,
-} from '../../../utils/constants';
+import {txt_dob_select} from '../../../utils/constants';
 import {dispatchScreen} from '../../../utils/utils';
 import {showAlert} from '../../../utils/utils';
 import {doUpdateUserInfo} from '../../user/actions/index';
-import {ACCESS_TOKEN} from '../../../utils/constants';
+import {ACCESS_TOKEN, specialCharacters} from '../../../utils/constants';
 import {handleCheck, arrayToString} from '../../../utils/utils';
 import {changeMsgCode} from '../../../api/helpers';
 import * as types from '../../../api/types';
@@ -61,9 +57,17 @@ class InfoContainer extends Component {
   }
   _onChangeText = (text, type) => {
     if (type == 'lastName') {
-      this.setState({lastName: text});
+      if (specialCharacters.test(text)) {
+        this.setState({lastName: text.substring(0, text.length - 1)});
+      } else {
+        this.setState({lastName: text});
+      }
     } else if (type == 'firstName') {
-      this.setState({firstName: text});
+      if (specialCharacters.test(text)) {
+        this.setState({firstName: text.substring(0, text.length - 1)});
+      } else {
+        this.setState({firstName: text});
+      }
     }
   };
   _handleGenderSelect = (isMale, isCheck) => {
@@ -200,9 +204,8 @@ class InfoContainer extends Component {
       showAlert('Vui lòng cung cấp đầy đủ các trường thông tin ở trên');
       return;
     }
-    var specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
     if (specialCharacters.test(firstName) || specialCharacters.test(lastName)) {
-      showAlert('Tên không được chứa ký tự đặc biệt');
+      showAlert('Tên không được chứa ký tự đặc biệt.');
       return;
     }
     if (provinceIDs.length > 2) {

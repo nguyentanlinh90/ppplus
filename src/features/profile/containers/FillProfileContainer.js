@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {
   View,
   Text,
@@ -21,10 +21,11 @@ import FormContactInfo from '../component/FormContactInfo';
 import FormLevel from '../component/FormLevel';
 import FormAccountIdentifier from '../component/FormAccountIdentifier';
 import KeyboardShift from './KeyboardShift';
-import { changeMsgCode } from '../../../api/helpers';
-import { getUserInfo, doUpdateUserInfo } from '../../../features/user/actions';
+import {changeMsgCode} from '../../../api/helpers';
+import {getUserInfo, doUpdateUserInfo} from '../../../features/user/actions';
 
-import { ACCESS_TOKEN } from '../../../utils/constants';
+import {ACCESS_TOKEN, specialCharacters} from '../../../utils/constants';
+
 import * as types from '../../../api/types';
 import {
   showAlert,
@@ -103,6 +104,7 @@ export class FillProfileContainer extends Component {
       judicial_record_image_data: '',
     };
     this._getToken();
+    this._onChangeText = this._onChangeText.bind(this);
   }
 
   async _getToken() {
@@ -113,59 +115,67 @@ export class FillProfileContainer extends Component {
   }
   _onChangeText = (text, type) => {
     if (type == 'last_name') {
-      this.setState({ last_name: text });
+      if (specialCharacters.test(text)) {
+        this.setState({last_name: text.substring(0, text.length - 1)});
+      } else {
+        this.setState({last_name: text});
+      }
     } else if (type == 'first_name') {
-      this.setState({ first_name: text });
+      if (specialCharacters.test(text)) {
+        this.setState({first_name: text.substring(0, text.length - 1)});
+      } else {
+        this.setState({first_name: text});
+      }
     } else if (type == 'height') {
-      this.setState({ height: text });
+      this.setState({height: text});
     } else if (type == 'weight') {
-      this.setState({ weight: text });
+      this.setState({weight: text});
     } else if (type == 'address') {
-      const { address } = this.state;
+      const {address} = this.state;
       var temp = address;
       temp.address = text;
-      this.setState({ address: temp });
+      this.setState({address: temp});
     } else if (type == 'education_major_name') {
-      const { education } = this.state;
+      const {education} = this.state;
       var temp = education;
       temp.education_major_name = text;
       this.setState({
         education: temp,
       });
     } else if (type == 'bank_account_name') {
-      const { user_bank_info } = this.state;
+      const {user_bank_info} = this.state;
       var temp = user_bank_info;
       temp.bank_account_name = text;
-      this.setState({ user_bank_info: temp });
+      this.setState({user_bank_info: temp});
     } else if (type == 'bank_account_number') {
-      const { user_bank_info } = this.state;
+      const {user_bank_info} = this.state;
       var temp = user_bank_info;
       temp.bank_account_number = text;
-      this.setState({ user_bank_info: temp });
+      this.setState({user_bank_info: temp});
     }
   };
 
   _onChangeTextRelative = (index, text, type) => {
-    const { user_relative_info } = this.state;
+    const {user_relative_info} = this.state;
     var arr = user_relative_info;
 
     if (type == 'relative_name') {
       arr[index].relative_name = text;
-      this.setState({ user_relative_info: arr });
+      this.setState({user_relative_info: arr});
     } else if (type == 'relative_phone') {
       arr[index].relative_phone = text;
-      this.setState({ user_relative_info: arr });
+      this.setState({user_relative_info: arr});
     } else if (type == 'relative_address') {
       arr[index].relative_address = text;
-      this.setState({ user_relative_info: arr });
+      this.setState({user_relative_info: arr});
     }
   };
 
   _onChangeTextDegree = (index, text, type) => {
-    const { degree_info } = this.state;
+    const {degree_info} = this.state;
     var arr = degree_info;
     arr[index].degree_name = text;
-    this.setState({ degree_info: arr });
+    this.setState({degree_info: arr});
   };
 
   _handleOpenImage = numberOfImage => {
@@ -183,34 +193,34 @@ export class FillProfileContainer extends Component {
           var temp = this.state.sub_avatar_list;
           temp.sub_avatar_1 = response.uri;
           temp.sub_avatar_1_data = response.data;
-          this.setState({ sub_avatar_list: temp });
+          this.setState({sub_avatar_list: temp});
         } else if (numberOfImage == IMAGE_2) {
           var temp = this.state.sub_avatar_list;
           temp.sub_avatar_2 = response.uri;
           temp.sub_avatar_2_data = response.data;
-          this.setState({ sub_avatar_list: temp });
+          this.setState({sub_avatar_list: temp});
         } else if (numberOfImage == IMAGE_3) {
           var temp = this.state.sub_avatar_list;
           temp.sub_avatar_3 = response.uri;
           temp.sub_avatar_3_data = response.data;
-          this.setState({ sub_avatar_list: temp });
+          this.setState({sub_avatar_list: temp});
         } else if (numberOfImage == IMAGE_4) {
           var temp = this.state.sub_avatar_list;
           temp.sub_avatar_4 = response.uri;
           temp.sub_avatar_4_data = response.data;
-          this.setState({ sub_avatar_list: temp });
+          this.setState({sub_avatar_list: temp});
         } else if (numberOfImage == IMAGE_ID_FRONT) {
-          const { personal_info } = this.state;
+          const {personal_info} = this.state;
           var temp = personal_info;
           temp.id_image_front = response.uri;
           temp.id_image_front_data = response.data;
-          this.setState({ personal_info: temp });
+          this.setState({personal_info: temp});
         } else if (numberOfImage == IMAGE_ID_BEHIND) {
-          const { personal_info } = this.state;
+          const {personal_info} = this.state;
           var temp = personal_info;
           temp.id_image_behind = response.uri;
           temp.id_image_behind_data = response.data;
-          this.setState({ personal_info: temp });
+          this.setState({personal_info: temp});
         } else if (numberOfImage == IMAGE_JUDICIAL_RECORD) {
           this.setState({
             judicial_record_image: response.uri,
@@ -233,13 +243,13 @@ export class FillProfileContainer extends Component {
           arr[index].degree_image_front = response.uri;
           arr[index].degree_image_front_data = response.data;
 
-          this.setState({ degree_info: arr });
+          this.setState({degree_info: arr});
         } else if (numberOfImage == IMAGE_DEGREE_BEHIND) {
           var arr = this.state.degree_info;
           arr[index].degree_image_behind = response.uri;
           arr[index].degree_image_behind_data = response.data;
 
-          this.setState({ degree_info: arr });
+          this.setState({degree_info: arr});
         }
       }
     });
@@ -250,24 +260,24 @@ export class FillProfileContainer extends Component {
       var temp = this.state.sub_avatar_list;
       temp.sub_avatar_1 = '';
       temp.sub_avatar_1_data = '';
-      this.setState({ sub_avatar_list: temp });
+      this.setState({sub_avatar_list: temp});
     } else if (numberOfImage == IMAGE_2) {
       var temp = this.state.sub_avatar_list;
       temp.sub_avatar_2 = '';
       temp.sub_avatar_2_data = '';
-      this.setState({ sub_avatar_list: temp });
+      this.setState({sub_avatar_list: temp});
     } else if (numberOfImage == IMAGE_3) {
       var temp = this.state.sub_avatar_list;
       temp.sub_avatar_3 = '';
       temp.sub_avatar_3_data = '';
-      this.setState({ sub_avatar_list: temp });
+      this.setState({sub_avatar_list: temp});
     } else if (numberOfImage == IMAGE_4) {
       var temp = this.state.sub_avatar_list;
       temp.sub_avatar_4 = '';
       temp.sub_avatar_4_data = '';
-      this.setState({ sub_avatar_list: temp });
+      this.setState({sub_avatar_list: temp});
     } else if (numberOfImage == IMAGE_ID_FRONT) {
-      const { personal_info } = this.state;
+      const {personal_info} = this.state;
       var temp = personal_info;
       temp.id_image_front = '';
       this.setState({
@@ -275,7 +285,7 @@ export class FillProfileContainer extends Component {
         id_image_front_data: '',
       });
     } else if (numberOfImage == IMAGE_ID_BEHIND) {
-      const { personal_info } = this.state;
+      const {personal_info} = this.state;
       var temp = personal_info;
       temp.id_image_behind = '';
       this.setState({
@@ -295,27 +305,27 @@ export class FillProfileContainer extends Component {
       arr[index].degree_image_front = '';
       arr[index].degree_image_front_data = '';
 
-      this.setState({ degree_info: arr });
+      this.setState({degree_info: arr});
     } else if (numberOfImage == IMAGE_DEGREE_BEHIND) {
       var arr = this.state.degree_info;
       arr[index].degree_image_behind = '';
       arr[index].degree_image_behind_data = '';
 
-      this.setState({ degree_info: arr });
+      this.setState({degree_info: arr});
     }
   };
 
   _showPicker = () => {
-    this.setState({ isShowBirthday: true });
+    this.setState({isShowBirthday: true});
   };
 
   _hidePicker = () => {
-    this.setState({ isShowBirthday: false });
+    this.setState({isShowBirthday: false});
   };
 
   _handleDatePicked = date => {
     const dateFormat = moment(date).format('DD/MM/YYYY');
-    this.setState({ birthday: dateFormat });
+    this.setState({birthday: dateFormat});
     this._hidePicker();
   };
 
@@ -342,11 +352,11 @@ export class FillProfileContainer extends Component {
   }
 
   _handleSelectGender = genderSelect => {
-    this.setState({ gender: genderSelect });
+    this.setState({gender: genderSelect});
   };
 
   _handleSelectProvince = provinceSelect => {
-    const { district_list, address } = this.state;
+    const {district_list, address} = this.state;
     var temp = address;
     temp.province_id = provinceSelect;
     this.setState({
@@ -356,7 +366,7 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectProvinceRelative = (idRelative, provinceSelect) => {
-    const { district_list, user_relative_info } = this.state;
+    const {district_list, user_relative_info} = this.state;
     for (var i = 0; i < user_relative_info.length; i++) {
       if (idRelative == user_relative_info[i].relative_id) {
         var arr = user_relative_info;
@@ -370,14 +380,14 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectDistrict = districtSelect => {
-    const { address } = this.state;
+    const {address} = this.state;
     var temp = address;
     temp.district_id = districtSelect;
-    this.setState({ address: temp });
+    this.setState({address: temp});
   };
 
   _handleSelectDistrictRelative = (idRelative, districtSelect) => {
-    const { user_relative_info } = this.state;
+    const {user_relative_info} = this.state;
 
     for (var i = 0; i < user_relative_info.length; i++) {
       if (idRelative == user_relative_info[i].relative_id) {
@@ -400,7 +410,7 @@ export class FillProfileContainer extends Component {
     };
     var arr = this.state.user_relative_info;
     arr.push(objectParams);
-    this.setState({ user_relative_info: arr });
+    this.setState({user_relative_info: arr});
   };
 
   _handleAddDegreeRelativeItem = () => {
@@ -413,40 +423,40 @@ export class FillProfileContainer extends Component {
     };
     var arr = this.state.degree_info;
     arr.push(objectParams);
-    this.setState({ degree_info: arr });
+    this.setState({degree_info: arr});
   };
 
   _handleSelectProvinces = provinceIdSelect => {
-    const { working_places } = this.state;
+    const {working_places} = this.state;
     if (handleCheck(provinceIdSelect, working_places)) {
       var array = [...working_places];
       var index = array.indexOf(provinceIdSelect);
       if (index !== -1) {
         array.splice(index, 1);
-        this.setState({ working_places: array });
+        this.setState({working_places: array});
       }
     } else {
       working_places.push(provinceIdSelect);
-      this.setState({ working_places: working_places });
+      this.setState({working_places: working_places});
     }
   };
   _handleSelectMajors = majorIdSelect => {
-    const { working_majors } = this.state;
+    const {working_majors} = this.state;
     if (handleCheck(majorIdSelect, working_majors)) {
       var array = [...working_majors];
       var index = array.indexOf(majorIdSelect);
       if (index !== -1) {
         array.splice(index, 1);
-        this.setState({ working_majors: array });
+        this.setState({working_majors: array});
       }
     } else {
       working_majors.push(majorIdSelect);
-      this.setState({ working_majors: working_majors });
+      this.setState({working_majors: working_majors});
     }
   };
 
   _handleSelectEducation = educationSelect => {
-    const { education } = this.state;
+    const {education} = this.state;
     var temp = education;
     temp.education_id = educationSelect;
     this.setState({
@@ -454,7 +464,7 @@ export class FillProfileContainer extends Component {
     });
   };
   _handleSelectBank = bankSelect => {
-    const { bank_branch_list, user_bank_info } = this.state;
+    const {bank_branch_list, user_bank_info} = this.state;
     var temp = user_bank_info;
     temp.bank_id = bankSelect;
     this.setState({
@@ -464,17 +474,17 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectBranch = branchSelect => {
-    const { user_bank_info } = this.state;
+    const {user_bank_info} = this.state;
     var temp = user_bank_info;
     temp.bank_branch_id = branchSelect;
-    this.setState({ user_bank_info: temp });
+    this.setState({user_bank_info: temp});
   };
 
   _handleSelectPersonalInfo = id_type => {
-    const { personal_info } = this.state;
+    const {personal_info} = this.state;
     var temp = personal_info;
     temp.id_type = id_type;
-    this.setState({ personal_info: temp });
+    this.setState({personal_info: temp});
   };
   _handleSelectProvinceIdentification = provinceSelect => {
     this.setState({
@@ -483,7 +493,7 @@ export class FillProfileContainer extends Component {
   };
 
   _getUserInfo = token => {
-    const { getUserInfo } = this.props;
+    const {getUserInfo} = this.props;
     getUserInfo('full_detail', token);
   };
 
@@ -529,7 +539,7 @@ export class FillProfileContainer extends Component {
   };
 
   _handleUpdateFullInfo = () => {
-    const { doUpdateUserInfo } = this.props;
+    const {doUpdateUserInfo} = this.props;
 
     const {
       avatar_data,
@@ -591,6 +601,11 @@ export class FillProfileContainer extends Component {
       !REGEX.test(user_relative_info[1].relative_phone)
     ) {
       showAlert('Số điện thoại không đúng định dạng.');
+      return;
+    }
+
+    if (specialCharacters.test(first_name)||specialCharacters.test(last_name)) {
+      showAlert('Tên không được chứa ký tự đặc biệt.');
       return;
     }
 
@@ -686,7 +701,7 @@ export class FillProfileContainer extends Component {
     };
 
     if (token != '') {
-      this.setState({ isLoading: true });
+      this.setState({isLoading: true});
       doUpdateUserInfo(params, token);
     }
   };
@@ -705,12 +720,12 @@ export class FillProfileContainer extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
       this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
       showAlert(nextProps.message);
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       showAlert('Cập nhật thông tin thành công');
@@ -721,7 +736,7 @@ export class FillProfileContainer extends Component {
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       showAlert('Cập nhật thông tin thất bại');
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
       nextProps.changeMsgCode('');
     }
   }
@@ -737,11 +752,11 @@ export class FillProfileContainer extends Component {
   };
 
   _handleScrollView = isEnable => {
-    this.setState({ enableScrollViewScroll: isEnable });
+    this.setState({enableScrollViewScroll: isEnable});
   };
 
   render() {
-    const { navigation, percent_updated, name, user } = this.props;
+    const {navigation, percent_updated, name, user} = this.props;
     return (
       <KeyboardShift>
         {() => (
@@ -757,7 +772,7 @@ export class FillProfileContainer extends Component {
 
               {this._renderBirthdayPicker()}
               <View style={styles.viewTop}>
-                <View style={{ flex: 1 }}>
+                <View style={{flex: 1}}>
                   <TouchableOpacity
                     style={styles.viewBack}
                     onPress={() => {
@@ -766,7 +781,7 @@ export class FillProfileContainer extends Component {
                     <Image
                       resizeMode="contain"
                       source={require('../../../assets/images/ic-back-black.png')}
-                      style={{ width: 24, height: 24 }}
+                      style={{width: 24, height: 24}}
                     />
                   </TouchableOpacity>
                 </View>
@@ -790,7 +805,7 @@ export class FillProfileContainer extends Component {
                 />
                 <Image
                   resizeMode="cover"
-                  source={{ uri: this.state.avatar }}
+                  source={{uri: this.state.avatar}}
                   style={styles.circleAvatarFill}
                 />
                 <View style={styles.viewCamera}>
@@ -801,7 +816,7 @@ export class FillProfileContainer extends Component {
                       <Image
                         resizeMode="contain"
                         source={require('../../../assets/images/ic-camera.png')}
-                        style={{ width: 18, height: 18 }}
+                        style={{width: 18, height: 18}}
                       />
                     </View>
                   </TouchableOpacity>
