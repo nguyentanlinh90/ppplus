@@ -46,7 +46,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
   },
-  
+
   inputLogin: {
     height: 48,
     flex: 1,
@@ -137,6 +137,15 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
+  },
+  buttonContinueDisable: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+    backgroundColor: '#d8d8d8',
+    borderRadius: 8,
   },
   defaultContainerAlert: {
     paddingTop: 20,

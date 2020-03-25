@@ -24,3 +24,5 @@ export const IMAGE_DEGREE_BEHIND = 8;
 export const IMAGE_JUDICIAL_RECORD = 9;
 export const REGEX = /^(03|09|08|07|05)[0-9]{8}$/;
 export const specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+export const KEY_TIME_LOGIN_FAIL = 'KEY_TIME_LOGIN_FAIL';
+

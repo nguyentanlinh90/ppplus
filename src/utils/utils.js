@@ -35,12 +35,12 @@ export const convertPhone = text => {
 
 export const showAlert = massage => {
   if (!isShowAlert) {
-    isShowAlert = true;
+    isShowAlert = false;
     Alert.alert('Thông báo', massage, [{text: 'Đồng Ý', onPress: () => {}}], {
       cancelable: false,
     });
   } else {
-    isShowAlert = false;
+    isShowAlert = true;
   }
 };
 

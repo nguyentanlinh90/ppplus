@@ -22,6 +22,8 @@ export default class LoginForm extends Component {
       handleNotYetAccount,
       phone,
       password,
+      allowLogin,
+      timeRemainAfterLoginFail,
     } = this.props;
     return (
       <View>
@@ -70,14 +72,27 @@ export default class LoginForm extends Component {
           onPress={() => showAlertForgotPass()}>
           Quên mật khẩu
         </Text>
+        {allowLogin ? (
+          <TouchableOpacity
+            style={styles.buttonContinue}
+            activeOpacity={0.7}
+            onPress={() => handleLogin()}>
+            <BgButton />
+            <Text style={styles.buttonText}>Tiếp Tục</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={{alignItems: 'center'}}>
+            <View
+              style={styles.buttonContinueDisable}
+              onPress={() => handleLogin()}>
+              <Text style={styles.buttonText}>Tiếp Tục</Text>
+            </View>
+            <Text style={[styles.txtTitleField, {marginTop: 10}]}>
+              Bạn sẽ được đăng nhập sau {timeRemainAfterLoginFail} giây
+            </Text>
+          </View>
+        )}
 
-        <TouchableOpacity
-          style={styles.buttonContinue}
-          activeOpacity={0.7}
-          onPress={() => handleLogin()}>
-          <BgButton />
-          <Text style={styles.buttonText}>Tiếp Tục</Text>
-        </TouchableOpacity>
         <Text
           style={styles.textNotYetAccount}
           onPress={() => handleNotYetAccount()}>

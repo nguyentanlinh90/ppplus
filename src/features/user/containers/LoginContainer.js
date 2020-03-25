@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  AsyncStorage,
 } from 'react-native';
 import LoginForm from '../components/LoginForm';
 import {doLogin, doSendOTP} from '../actions/index';
@@ -19,28 +20,75 @@ import {
   SCREEN_INFO,
 } from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
-import {IS_UPDATE_BASIC, REGEX} from '../../../utils/constants';
+import {
+  IS_UPDATE_BASIC,
+  REGEX,
+  KEY_TIME_LOGIN_FAIL,
+} from '../../../utils/constants';
 import {convertPhone, showAlert, setStoreData} from '../../../utils/utils';
 import * as types from '../../../api/types';
+let countLoginFail = 0;
+let TIME_OUT_DEFAULT = 300;
 export class LoginContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      phone: '',
-      password: '',
+      phone: '0988422495',
+      password: '12Chiec',
       isLoading: false,
       isConnecting: false,
+      allowLogin: false,
+      timeRemainAfterLoginFail: 0,
     };
     this._handleLogin = this._handleLogin.bind(this);
     this._onChangeText = this._onChangeText.bind(this);
+    this._checkLoginFail();
   }
+
+  async _checkLoginFail() {
+    let timeFail = await AsyncStorage.getItem(KEY_TIME_LOGIN_FAIL);
+
+    if (timeFail != 0) {
+      //login fail before
+      let timeCurr = new Date().valueOf();
+      let timeRemain = ((timeCurr - timeFail) / 1000).toFixed(0); //convert to seconds
+      console.log('linhnt', timeRemain);
+      // > 5 minutes => allow login
+      if (timeRemain > TIME_OUT_DEFAULT) {
+        this.setState({allowLogin: true});
+      } else {
+        // <= 5 minutes => don't allow login
+        this.setState({
+          allowLogin: false,
+          timeRemainAfterLoginFail: TIME_OUT_DEFAULT - timeRemain,
+        });
+        this._startInterval();
+      }
+    } else {
+      this.setState({allowLogin: true});
+    }
+  }
+
+  _startInterval = () => {
+    this.interval = setInterval(() => {
+      if (this.state.timeRemainAfterLoginFail !== 0) {
+        this.setState(prevState => ({
+          timeRemainAfterLoginFail: prevState.timeRemainAfterLoginFail - 1,
+        }));
+      } else {
+        this.setState({allowLogin: true, timeRemainAfterLoginFail: 0});
+        clearInterval(this.interval);
+      }
+    }, 1000);
+  };
 
   componentDidMount() {
     NetInfo.isConnected.addEventListener(
       'connectionChange',
       this._handleConnectivityChange,
     );
+    clearInterval(this.interval);
   }
 
   componentWillUnmount() {
@@ -126,12 +174,26 @@ export class LoginContainer extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({isLoading: false});
     if (nextProps.msg_code == types.LOGIN_FAIL) {
-      showAlert(nextProps.message);
+      
       nextProps.changeMsgCode('');
+      countLoginFail = countLoginFail + 1;
+      if (countLoginFail == 5) {
+        showAlert('Bạn đã nhập sai 5 lần, bạn sẽ bị khóa đăng nhập 5 phút.');
+        countLoginFail = 0;
+        let currentTimeStamp = new Date().valueOf(); //milliSeconds
+        setStoreData(KEY_TIME_LOGIN_FAIL, currentTimeStamp);
+        this.setState({
+          allowLogin: false,
+          timeRemainAfterLoginFail: TIME_OUT_DEFAULT,
+        });
+        this._startInterval();
+      }else{
+        showAlert(nextProps.message);
+      }
     } else if (nextProps.msg_code == types.LOGIN_SUCCESS) {
       nextProps.changeMsgCode('');
       setStoreData(IS_UPDATE_BASIC, nextProps.data.is_updated_basic);
-
+      setStoreData(KEY_TIME_LOGIN_FAIL, 0);
       if (nextProps.data.is_updated_basic == 1) {
         // 1: User has updated basic info, 0: not yet
         var token = 'Bearer ' + nextProps.message;
@@ -169,6 +231,8 @@ export class LoginContainer extends Component {
               onChangeText={this._onChangeText}
               phone={this.state.phone}
               password={this.state.password}
+              allowLogin={this.state.allowLogin}
+              timeRemainAfterLoginFail={this.state.timeRemainAfterLoginFail}
             />
           </KeyboardAvoidingView>
           <Spinner

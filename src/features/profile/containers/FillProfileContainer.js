@@ -731,6 +731,20 @@ export class FillProfileContainer extends Component {
     return true; //disable
   }
 
+  _goBack = navigation => {
+    navigation.state.params.onGoBack(
+      this.state.percent_updated,
+      this.state.avatar,
+      this.state.last_name,
+      this.state.first_name,
+    );
+    navigation.goBack();
+  };
+
+  _handleScrollView = isEnable => {
+    this.setState({enableScrollViewScroll: isEnable});
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});
@@ -753,20 +767,6 @@ export class FillProfileContainer extends Component {
       nextProps.changeMsgCode('');
     }
   }
-
-  _goBack = navigation => {
-    navigation.state.params.onGoBack(
-      this.state.percent_updated,
-      this.state.avatar,
-      this.state.last_name,
-      this.state.first_name,
-    );
-    navigation.goBack();
-  };
-
-  _handleScrollView = isEnable => {
-    this.setState({enableScrollViewScroll: isEnable});
-  };
 
   render() {
     const {navigation} = this.props;
