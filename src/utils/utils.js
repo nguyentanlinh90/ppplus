@@ -1,6 +1,6 @@
 import {Alert, AsyncStorage} from 'react-native';
 import {text_select} from '../utils/constants';
-
+let isShowAlert = false;
 export const dispatchScreen = (props, screen, params?) => {
   props.navigation.dispatch({
     key: screen,
@@ -34,9 +34,14 @@ export const convertPhone = text => {
 };
 
 export const showAlert = massage => {
-  Alert.alert('Thông báo', massage, [{text: 'Đồng Ý', onPress: () => {}}], {
-    cancelable: false,
-  });
+  if (!isShowAlert) {
+    isShowAlert = true;
+    Alert.alert('Thông báo', massage, [{text: 'Đồng Ý', onPress: () => {}}], {
+      cancelable: false,
+    });
+  } else {
+    isShowAlert = false;
+  }
 };
 
 export const setStoreData = async (key, value) => {

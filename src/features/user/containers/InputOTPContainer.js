@@ -109,6 +109,7 @@ export class InputOTPContainer extends Component {
       nextProps.changeMsgCode('');
       countInputWrong = countInputWrong + 1;
       if (countInputWrong == 5) {
+        countInputWrong = 0;
         Alert.alert(
           'Thông báo',
           nextProps.message,
