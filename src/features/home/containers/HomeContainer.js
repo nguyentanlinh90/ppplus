@@ -183,7 +183,7 @@ class HomeContainer extends Component {
               return (
                 <Image
                   resizeMode="stretch"
-                  source={{uri: 'rowData.job_company.icon'}}
+                  source={{uri: rowData.job_company.icon}}
                   style={{
                     width: 94,
                     height: 59,

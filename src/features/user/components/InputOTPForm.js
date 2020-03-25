@@ -68,7 +68,8 @@ export default class InputOTPForm extends Component {
             </Text>
           </TouchableOpacity>
         ) : (
-          <View style={{flexDirection: 'row', marginTop: 30}}>
+          <View
+            style={{flexDirection: 'row', marginTop: 30, alignItems: 'center'}}>
             <Text style={styles.txtTitleField}>Gửi lại mã sau</Text>
             <Text style={styles.textSendOTPAgain}>{timeResend}s</Text>
           </View>
