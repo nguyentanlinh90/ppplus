@@ -765,16 +765,11 @@ export class FillProfileContainer extends Component {
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       showAlert('Cập nhật thông tin thành công');
-      this.setState({
-        percent_updated: nextProps.data.percent_updated,
-      });
+      this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       showAlert('Cập nhật thông tin thất bại');
-      this.setState({
-        avatar: this.state.avatar,
-        sub_avatar_list: this.state.sub_avatar_list,
-      });
+      this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
     }
   }
