@@ -158,8 +158,8 @@ export default class ItemSelectLocation extends Component {
                       </Text>
                       <Text
                         style={{
-                          flex:1,
-                          textAlign:'right',
+                          flex: 1,
+                          textAlign: 'right',
                           color: checkIdInIds(
                             rowData.district_id,
                             working_districts,
@@ -221,8 +221,7 @@ export default class ItemSelectLocation extends Component {
                   <View style={styles.infoBoxSelect}>
                     <Text style={styles.txtViewSelect}>{rowData}</Text>
                     <CheckBox
-                    style={{flex:1, alignItems:'flex-end'}}
-                    
+                      style={{flex: 1, alignItems: 'flex-end'}}
                       disabled={true}
                       isChecked={checkIdInIds(rowData, working_times)}
                       checkedImage={<CBChecked />}

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
+import moment from 'moment';
 import styleHome from '../styles/styles';
 import styles from '../styles/styles';
 import {Card} from 'react-native-shadow-cards';
@@ -13,7 +14,7 @@ export default class JobHotItem extends Component {
   _setLocation = (working_places, province_list) => {
     var text = '';
     if (working_places.length > 1) {
-      text = working_places.length + ' địa điểm';
+      text = working_places.length + ' tỉnh';
     } else {
       text = getNamesFromIds(working_places, province_list);
     }
@@ -30,7 +31,6 @@ export default class JobHotItem extends Component {
       textTrending = 'Mới';
       textColorTrending = '#63D471';
     } else {
-      JobHotItem;
       colorOfBgTrending = '#FFE2E2';
       textTrending = 'Hot';
       textColorTrending = '#FF3434';
@@ -61,7 +61,7 @@ export default class JobHotItem extends Component {
               {item.job_company.name}
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', flex: 1, marginEnd: 5}}>
                 <Image
                   resizeMode="contain"
                   source={require('../../../assets/images/ic-thunder-red.png')}
@@ -94,7 +94,13 @@ export default class JobHotItem extends Component {
                   style={styleHome.imgInfoJob}
                 />
                 <Text numberOfLines={1} style={styleHome.txtInfoJob}>
-                  {item.start_date} - {item.end_date}
+                  {moment(moment(item.start_date, 'DD/MM/YYYY')).format(
+                    'DD.MM.YYYY',
+                  )}{' '}
+                  -{' '}
+                  {moment(moment(item.end_date, 'DD/MM/YYYY')).format(
+                    'DD.MM.YYYY',
+                  )}
                 </Text>
               </View>
               <View

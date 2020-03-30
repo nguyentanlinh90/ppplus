@@ -259,7 +259,6 @@ export default StyleSheet.create({
     color: '#060606',
   },
   newItemViewAddress: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
