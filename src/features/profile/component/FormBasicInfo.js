@@ -85,6 +85,7 @@ export default class FormBasicInfo extends Component {
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Họ và tên đệm*</Text>
                 <TextInput
+                  maxLength={100}
                   style={txtInputStyle(last_name)}
                   returnKeyType="done"
                   value={last_name}
@@ -96,6 +97,7 @@ export default class FormBasicInfo extends Component {
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Tên*</Text>
                 <TextInput
+                  maxLength={100}
                   style={txtInputStyle(first_name)}
                   returnKeyType="done"
                   value={first_name}

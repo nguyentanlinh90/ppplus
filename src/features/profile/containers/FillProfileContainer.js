@@ -24,7 +24,11 @@ import KeyboardShift from './KeyboardShift';
 import {changeMsgCode} from '../../../api/helpers';
 import {getUserInfo, doUpdateUserInfo} from '../../../features/user/actions';
 
-import {ACCESS_TOKEN, specialCharacters} from '../../../utils/constants';
+import {
+  ACCESS_TOKEN,
+  specialCharacters,
+  numberCharacters,
+} from '../../../utils/constants';
 
 import * as types from '../../../api/types';
 import {
@@ -115,13 +119,13 @@ export class FillProfileContainer extends Component {
   }
   _onChangeText = (text, type) => {
     if (type == 'last_name') {
-      if (specialCharacters.test(text)) {
+      if (specialCharacters.test(text) || numberCharacters.test(text)) {
         this.setState({last_name: text.substring(0, text.length - 1)});
       } else {
         this.setState({last_name: text});
       }
     } else if (type == 'first_name') {
-      if (specialCharacters.test(text)) {
+      if (specialCharacters.test(text) || numberCharacters.test(text)) {
         this.setState({first_name: text.substring(0, text.length - 1)});
       } else {
         this.setState({first_name: text});
@@ -160,6 +164,9 @@ export class FillProfileContainer extends Component {
     var arr = user_relative_info;
 
     if (type == 'relative_name') {
+      if (specialCharacters.test(text) || numberCharacters.test(text)) {
+        text = text.substring(0, text.length - 1);
+      }
       arr[index].relative_name = text;
       this.setState({user_relative_info: arr});
     } else if (type == 'relative_phone') {
@@ -174,6 +181,9 @@ export class FillProfileContainer extends Component {
   _onChangeTextDegree = (index, text, type) => {
     const {degree_info} = this.state;
     var arr = degree_info;
+    if (specialCharacters.test(text)) {
+      text = text.substring(0, text.length - 1);
+    }
     arr[index].degree_name = text;
     this.setState({degree_info: arr});
   };
@@ -567,8 +577,8 @@ export class FillProfileContainer extends Component {
       isEmpty(last_name) ||
       isEmpty(birthday) ||
       isZero(gender) ||
-      isZero(height) ||
-      isZero(weight) ||
+      // isZero(height) ||
+      // isZero(weight) ||
       isEmpty(address.province_id) ||
       isEmpty(address.district_id) ||
       isEmpty(address.address) ||
@@ -746,7 +756,6 @@ export class FillProfileContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('linhnt next', nextProps.msg_code)
     this.setState({isLoading: false});
     if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
       this._setUser(nextProps.data);
