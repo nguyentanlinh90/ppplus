@@ -746,24 +746,26 @@ export class FillProfileContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log('linhnt next', nextProps.msg_code)
+    this.setState({isLoading: false});
     if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
-      this.setState({isLoading: false});
       this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
       showAlert(nextProps.message);
-      this.setState({isLoading: false});
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       showAlert('Cập nhật thông tin thành công');
       this.setState({
-        isLoading: false,
         percent_updated: nextProps.data.percent_updated,
       });
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       showAlert('Cập nhật thông tin thất bại');
-      this.setState({isLoading: false});
+      this.setState({
+        avatar: this.state.avatar,
+        sub_avatar_list: this.state.sub_avatar_list,
+      });
       nextProps.changeMsgCode('');
     }
   }

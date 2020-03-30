@@ -34,8 +34,8 @@ export class LoginContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '0988422495',
-      password: '12Chiec',
+      phone: '',
+      password: '',
       isLoading: false,
       isConnecting: false,
       allowLogin: false,
@@ -43,7 +43,7 @@ export class LoginContainer extends Component {
     };
     this._handleLogin = this._handleLogin.bind(this);
     this._onChangeText = this._onChangeText.bind(this);
-    this._checkLoginFail();
+    this._checkLoginFail()
   }
 
   async _checkLoginFail() {
@@ -53,7 +53,6 @@ export class LoginContainer extends Component {
       //login fail before
       let timeCurr = new Date().valueOf();
       let timeRemain = ((timeCurr - timeFail) / 1000).toFixed(0); //convert to seconds
-      console.log('linhnt', timeRemain);
       // > 5 minutes => allow login
       if (timeRemain > TIME_OUT_DEFAULT) {
         this.setState({allowLogin: true});
@@ -84,6 +83,8 @@ export class LoginContainer extends Component {
   };
 
   componentDidMount() {
+    this._checkLoginFail();
+
     NetInfo.isConnected.addEventListener(
       'connectionChange',
       this._handleConnectivityChange,

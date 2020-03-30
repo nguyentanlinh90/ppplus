@@ -285,7 +285,7 @@ export default StyleSheet.create({
     color: '#000',
     fontSize: 16,
     paddingStart: 10,
-    flex: 1,
+    marginEnd:10,
     paddingTop: 14,
   },
   lineSelect: {

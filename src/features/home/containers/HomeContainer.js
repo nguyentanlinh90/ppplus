@@ -303,7 +303,7 @@ class HomeContainer extends Component {
             <View style={styles.viewUser}>
               <Text style={styles.txtHello}>Xin chào, </Text>
               <Text style={[styles.txtHello, styles.txtUserName]}>
-                {user.last_name + ' ' + user.first_name}{' '}
+                {' ' + user.first_name}{' '}
               </Text>
             </View>
             <View style={styles.boxNotification}></View>
