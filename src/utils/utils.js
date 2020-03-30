@@ -241,3 +241,26 @@ export const isEmptyObject = obj => {
 export const sortNumber = (a, b) => {
   return a - b;
 };
+
+export const formatMoney = (money) => {
+  let n = money,
+      s = n < 0
+          ? "-"
+          : "",
+      i = parseInt(n = Math.abs(+ n || 0).toFixed(c)) + "",
+      j = (j = i.length) > 3
+          ? j % 3
+          : 0;
+
+  let c = 0;
+  let d = ",";
+  let t = ",";
+
+  return s + (j
+      ? i.substr(0, j) + t
+      : "") + i
+      .substr(j)
+      .replace(/(\d{3})(?=\d)/g, "$1" + t) + (c
+      ? d + Math.abs(n - i).toFixed(c).slice(2)
+      : "");
+}

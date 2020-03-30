@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {
   View,
   Text,
@@ -11,15 +11,12 @@ import {
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import styles from '../styles/styles';
-import {
-  SCREEN_FILL_PROFILE,
-  SCREEN_PROGRAM,
-} from '../../../api/screen';
-import { setStoreData, showAlert } from '../../../utils/utils';
-import { ACCESS_TOKEN } from '../../../utils/constants';
-import { doLogout } from '../../user/actions/index';
+import {SCREEN_FILL_PROFILE, SCREEN_PROGRAM} from '../../../api/screen';
+import {setStoreData, showAlert, formatMoney} from '../../../utils/utils';
+import {ACCESS_TOKEN} from '../../../utils/constants';
+import {doLogout} from '../../user/actions/index';
 import * as types from '../../../api/types';
-import { changeMsgCode } from '../../../api/helpers';
+import {changeMsgCode} from '../../../api/helpers';
 var token = '';
 class ProfileContainer extends Component {
   constructor(props) {
@@ -39,7 +36,7 @@ class ProfileContainer extends Component {
       'Thông báo',
       'Bạn có chắc chắn muốn thoát ứng dụng không?',
       [
-        { text: 'Huỷ', onPress: () => { } },
+        {text: 'Huỷ', onPress: () => {}},
         {
           text: 'Đồng Ý',
           onPress: () => {
@@ -47,23 +44,23 @@ class ProfileContainer extends Component {
           },
         },
       ],
-      { cancelable: true },
+      {cancelable: true},
     );
   };
 
   _handleLogout = () => {
-    const { doLogout } = this.props;
+    const {doLogout} = this.props;
     doLogout(token);
   };
 
   _refresh = (percent_updated, avatar, last_name, first_name) => {
-    const { user } = this.state;
+    const {user} = this.state;
     var temp = user;
     user.percent_updated = percent_updated;
     temp.avatar = avatar;
     temp.last_name = last_name;
     temp.first_name = first_name;
-    this.setState({ user: temp });
+    this.setState({user: temp});
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -78,10 +75,10 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const { user } = this.state;
-    const { props } = this.props;
+    const {user} = this.state;
+    const {props} = this.props;
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{flex: 1}}>
         <ScrollView>
           <View style={styles.viewCircleAvatar}>
             <ProgressCircle
@@ -92,7 +89,7 @@ class ProfileContainer extends Component {
               shadowColor="#d8d8d8"
               bgColor="#fff"
             />
-            <Image source={{ uri: user.avatar }} style={styles.circleAvatar} />
+            <Image source={{uri: user.avatar}} style={styles.circleAvatar} />
           </View>
           {/* <Rating
             readonly={true}
@@ -112,7 +109,7 @@ class ProfileContainer extends Component {
             <View style={styles.boxReward}>
               <Text style={styles.boxRewardTextReward}>Điểm thưởng </Text>
               <Text style={styles.boxRewardTextPoint}>
-                {user.point_rewards}
+                {formatMoney(user.point_rewards)}
               </Text>
             </View>
           </View>
@@ -123,7 +120,7 @@ class ProfileContainer extends Component {
             </Text>
           ) : null}
 
-          <View style={{ backgroundColor: '#f1f1f1', height: 5 }} />
+          <View style={{backgroundColor: '#f1f1f1', height: 5}} />
           <TouchableOpacity
             style={styles.boxItem}
             onPress={() => {
@@ -137,23 +134,23 @@ class ProfileContainer extends Component {
               source={require('../../../assets/images/ic-edit.png')}
               style={styles.boxItemImage}
             />
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.boxItemTitle}>Cập nhật hồ sơ</Text>
               {user.percent_updated < 100 ? (
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ color: '#757575', fontSize: 12 }}>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={{color: '#757575', fontSize: 12}}>
                     {' (Đã hoàn thiện '}
                   </Text>
-                  <Text style={{ color: '#f0532d', fontSize: 12 }}>
+                  <Text style={{color: '#f0532d', fontSize: 12}}>
                     {user.percent_updated + '%'}
                   </Text>
-                  <Text style={{ color: '#757575', fontSize: 12 }}>{')'}</Text>
+                  <Text style={{color: '#757575', fontSize: 12}}>{')'}</Text>
                 </View>
               ) : (
-                  <Text style={{ color: '#25A174', fontSize: 12 }}>
-                    {' (Đã hoàn thiện hồ sơ)'}
-                  </Text>
-                )}
+                <Text style={{color: '#25A174', fontSize: 12}}>
+                  {' (Đã hoàn thiện hồ sơ)'}
+                </Text>
+              )}
             </View>
           </TouchableOpacity>
           <View style={styles.boxItemIndicator} />
@@ -161,7 +158,7 @@ class ProfileContainer extends Component {
             style={styles.boxItem}
             onPress={() => {
               // this.props.navigation.navigate(SCREEN_PROGRAM);
-              this._showAlert()
+              this._showAlert();
             }}>
             <Image
               resizeMode="contain"
