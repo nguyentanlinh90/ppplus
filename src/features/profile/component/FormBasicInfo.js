@@ -15,8 +15,9 @@ import styles from '../styles/styles';
 import {text_select} from '../../../utils/constants';
 import {
   boxSelectStyle,
+  boxSelectStyleWithAlert,
   txtInBoxSelectStyle,
-  txtInputStyle,
+  txtInputStyleWithAlert,
   getNamesFromIds,
   checkIdInIds,
   getNameFromId,
@@ -86,7 +87,7 @@ export default class FormBasicInfo extends Component {
                 <Text style={styles.txtTitleBasicInfo}>Họ và tên đệm*</Text>
                 <TextInput
                   maxLength={100}
-                  style={txtInputStyle(last_name)}
+                  style={txtInputStyleWithAlert(last_name)}
                   returnKeyType="done"
                   value={last_name}
                   name="last_name"
@@ -98,7 +99,7 @@ export default class FormBasicInfo extends Component {
                 <Text style={styles.txtTitleBasicInfo}>Tên*</Text>
                 <TextInput
                   maxLength={100}
-                  style={txtInputStyle(first_name)}
+                  style={txtInputStyleWithAlert(first_name)}
                   returnKeyType="done"
                   value={first_name}
                   name="first_name"
@@ -116,7 +117,7 @@ export default class FormBasicInfo extends Component {
                 <Text style={styles.txtTitleBasicInfo}>Năm sinh*</Text>
                 <TouchableOpacity
                   onPress={() => showPicker()}
-                  style={boxSelectStyle(!isEmpty(birthday))}>
+                  style={boxSelectStyleWithAlert(!isEmpty(birthday))}>
                   <Text style={txtInBoxSelectStyle()}>
                     {' '}
                     {isEmpty(birthday) ? text_select : birthday}
@@ -128,7 +129,7 @@ export default class FormBasicInfo extends Component {
                 <Text style={styles.txtTitleBasicInfo}>Giới tính*</Text>
                 <TouchableOpacity
                   onPress={() => this._setShowGender()}
-                  style={boxSelectStyle(
+                  style={boxSelectStyleWithAlert(
                     !isZero(gender) || this.state.isShowListGender,
                   )}>
                   <Text style={txtInBoxSelectStyle()}>
@@ -165,7 +166,7 @@ export default class FormBasicInfo extends Component {
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Chiều cao (cm)*</Text>
                 <TextInput
-                  style={txtInputStyle(height)}
+                  style={txtInputStyleWithAlert(height)}
                   returnKeyType="done"
                   value={height ? height.toString() : height}
                   name="height"
@@ -177,7 +178,7 @@ export default class FormBasicInfo extends Component {
               <View style={styles.boxBasicInfo}>
                 <Text style={styles.txtTitleBasicInfo}>Cân nặng (kg)*</Text>
                 <TextInput
-                  style={txtInputStyle(weight)}
+                  style={txtInputStyleWithAlert(weight)}
                   returnKeyType="done"
                   value={weight ? weight.toString() : weight}
                   name="weight"

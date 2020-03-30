@@ -152,6 +152,9 @@ export class FillProfileContainer extends Component {
       temp.bank_account_name = text;
       this.setState({user_bank_info: temp});
     } else if (type == 'bank_account_number') {
+      if (!numberCharacters.test(text)) {
+        text = text.substring(0, text.length - 1);
+      }
       const {user_bank_info} = this.state;
       var temp = user_bank_info;
       temp.bank_account_number = text;

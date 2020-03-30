@@ -65,6 +65,19 @@ export const boxSelectStyle = function(isRed) {
   };
 };
 
+export const boxSelectStyleWithAlert = function(isRed) {
+  return {
+    flex: 1,
+    borderColor: isRed ? '#25A174' : '#F0532D',
+    borderWidth: 1,
+    borderRadius: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingStart: 10,
+    paddingEnd: 10,
+  };
+};
+
 export const txtInBoxSelectStyle = function(text) {
   return {
     flex: 1,
@@ -80,6 +93,20 @@ export const txtInputStyle = function(text) {
     flex: 1,
     height: 44,
     borderColor: text ? '#25A174' : '#D8D8D8',
+    borderWidth: 1,
+    borderRadius: 6,
+    paddingStart: 10,
+    paddingEnd: 10,
+    color: '#2B2B2B',
+    fontSize: 16,
+  };
+};
+
+export const txtInputStyleWithAlert = function(text) {
+  return {
+    flex: 1,
+    height: 44,
+    borderColor: text ? '#25A174' : '#F0532D',
     borderWidth: 1,
     borderRadius: 6,
     paddingStart: 10,

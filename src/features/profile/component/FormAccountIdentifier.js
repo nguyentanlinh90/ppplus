@@ -20,19 +20,17 @@ import styles from '../styles/styles';
 import {
   IMAGE_ID_FRONT,
   IMAGE_ID_BEHIND,
-  IMAGE_DEGREE_FRONT,
-  IMAGE_DEGREE_BEHIND,
   IMAGE_JUDICIAL_RECORD,
   text_select,
 } from '../../../utils/constants';
 import {
   boxSelectStyle,
-  txtInBoxSelectStyle,
+  boxSelectStyleWithAlert,
   txtInputStyle,
   getNameFromId,
-  getDistrictNameFromId,
   showAlert,
   isEmpty,
+  txtInputStyleWithAlert,
 } from '../../../utils/utils';
 
 import CloseImage from '../../../components/CloseImage';
@@ -76,7 +74,7 @@ export default class FormAccountIdentifier extends Component {
       bank_list,
       bank_branch_list_follow_bank,
       personal_types_list,
-      
+
       user_bank_info,
       personal_info,
       judicial_record_image,
@@ -84,9 +82,7 @@ export default class FormAccountIdentifier extends Component {
 
       handleSelectBank,
       handleSelectBranch,
-      handleSelectProvinceIdentification,
       handleSelectPersonalInfo,
-      showPickerIdentification,
       handleOpenImage,
       handleCloseImage,
       handleOpenImageDegree,
@@ -116,7 +112,7 @@ export default class FormAccountIdentifier extends Component {
                   onPress={() => {
                     this.setState({isShowBank: !this.state.isShowBank});
                   }}
-                  style={boxSelectStyle(
+                  style={boxSelectStyleWithAlert(
                     this.state.isShowBank || !isEmpty(user_bank_info.bank_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
@@ -166,14 +162,18 @@ export default class FormAccountIdentifier extends Component {
               <View style={{flex: 1, marginStart: 10}}>
                 <TouchableOpacity
                   onPress={() => {
-                    if (getNameFromId(user_bank_info.bank_id, bank_list) == text_select) {
+                    if (
+                      getNameFromId(user_bank_info.bank_id, bank_list) ==
+                      text_select
+                    ) {
                       showAlert('Bạn chưa chọn ngân hàng');
                     } else {
                       this._setShowBranch();
                     }
                   }}
-                  style={boxSelectStyle(
-                    this.state.isShowBranch || !isEmpty(user_bank_info.bank_branch_id),
+                  style={boxSelectStyleWithAlert(
+                    this.state.isShowBranch ||
+                      !isEmpty(user_bank_info.bank_branch_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
                     {getNameFromId(
@@ -220,7 +220,10 @@ export default class FormAccountIdentifier extends Component {
               </View>
             </View>
             <TextInput
-              style={[txtInputStyle(user_bank_info.bank_account_name), {marginBottom: 10}]}
+              style={[
+                txtInputStyleWithAlert(user_bank_info.bank_account_name),
+                {marginBottom: 10},
+              ]}
               returnKeyType="done"
               value={user_bank_info.bank_account_name}
               name="bank_account_name"
@@ -228,7 +231,10 @@ export default class FormAccountIdentifier extends Component {
               onChangeText={text => onChangeText(text, 'bank_account_name')}
             />
             <TextInput
-              style={[txtInputStyle(user_bank_info.bank_account_number), {marginBottom: 10}]}
+              style={[
+                txtInputStyleWithAlert(user_bank_info.bank_account_number),
+                {marginBottom: 10},
+              ]}
               returnKeyType="done"
               value={user_bank_info.bank_account_number}
               name="bank_account_number"
@@ -246,7 +252,7 @@ export default class FormAccountIdentifier extends Component {
                   isShowPersonalInfo: !this.state.isShowPersonalInfo,
                 });
               }}
-              style={boxSelectStyle(
+              style={boxSelectStyleWithAlert(
                 this.state.isShowPersonalInfo ||
                   !isEmpty(personal_info.id_type),
               )}>

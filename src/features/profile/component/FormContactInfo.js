@@ -27,8 +27,9 @@ import {
 
 import {
   boxSelectStyle,
-  txtInBoxSelectStyle,
+  boxSelectStyleWithAlert,
   txtInputStyle,
+  txtInputStyleWithAlert,
   isEmpty,
 } from '../../../utils/utils';
 export default class FormContactInfo extends Component {
@@ -101,7 +102,7 @@ export default class FormContactInfo extends Component {
                   onPress={() => {
                     this.setState({isShowProvince: !this.state.isShowProvince});
                   }}
-                  style={boxSelectStyle(
+                  style={boxSelectStyleWithAlert(
                     this.state.isShowProvince || !isEmpty(address.province_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
@@ -159,7 +160,7 @@ export default class FormContactInfo extends Component {
                       this._setShowDistrict();
                     }
                   }}
-                  style={boxSelectStyle(
+                  style={boxSelectStyleWithAlert(
                     this.state.isShowDistrict || !isEmpty(address.district_id),
                   )}>
                   <Text style={styles.txtSelectStyle}>
@@ -208,7 +209,7 @@ export default class FormContactInfo extends Component {
             </View>
 
             <TextInput
-              style={[txtInputStyle(address.address), {marginBottom: 10}]}
+              style={[txtInputStyleWithAlert(address.address), {marginBottom: 10}]}
               returnKeyType="done"
               value={address.address}
               name="address"
