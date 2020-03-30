@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import {Card} from 'react-native-shadow-cards';
+import moment from 'moment';
 import styles from '../styles/styles';
 import {getNamesFromIds, isEmpty, setGender} from '../../../utils/utils';
 export default class JobHotItem extends Component {
@@ -101,7 +102,7 @@ export default class JobHotItem extends Component {
             {item.employee_min_age} - {item.employee_max_age} tuổi
           </Text>
         </View>
-        <View style={styles.hotItemBoxContent}>
+        {/* <View style={styles.hotItemBoxContent}>
           <Image
             resizeMode="contain"
             source={require('../../../assets/images/ic-gender.png')}
@@ -110,7 +111,7 @@ export default class JobHotItem extends Component {
           <Text style={styles.txtInfoJob}>
             {setGender(item.employee_gender, gender_list)}
           </Text>
-        </View>
+        </View> */}
         <View style={styles.hotItemBoxContent}>
           <Image
             resizeMode="contain"
@@ -132,7 +133,8 @@ export default class JobHotItem extends Component {
             adjustsFontSizeToFit
             allowFontScaling
             style={styles.txtInfoJob}>
-            {item.start_date} - {item.end_date}
+            {moment(moment(item.start_date, 'DD/MM/YYYY')).format('DD.MM.YYYY')}{' '}
+            - {moment(moment(item.end_date, 'DD/MM/YYYY')).format('DD.MM.YYYY')}
           </Text>
         </View>
       </Card>
