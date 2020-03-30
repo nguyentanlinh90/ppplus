@@ -581,7 +581,10 @@ export class FillProfileContainer extends Component {
       // isZero(weight) ||
       isEmpty(address.province_id) ||
       isEmpty(address.district_id) ||
-      isEmpty(address.address) ||
+      isEmpty(user_bank_info.bank_id) ||
+      isEmpty(user_bank_info.bank_branch_id) ||
+      isEmpty(user_bank_info.bank_account_name) ||
+      isEmpty(user_bank_info.bank_account_number) ||
       isEmpty(user_relative_info[0].relative_name) ||
       isEmpty(user_relative_info[0].relative_phone) ||
       (user_relative_info.length == 2 &&
@@ -629,6 +632,13 @@ export class FillProfileContainer extends Component {
 
     if (weight > 200 || weight < 35) {
       showAlert('Cân nặng phải nằm trong khoảng 35 - 200 (kg).');
+      return;
+    }
+
+    if (working_places.length > 2) {
+      showAlert(
+        'Bạn chỉ được chọn tối đa 2 địa điểm làm việc. Vui lòng bỏ bớt địa điểm làm việc',
+      );
       return;
     }
 
