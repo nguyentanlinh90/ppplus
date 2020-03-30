@@ -620,10 +620,12 @@ export class FillProfileContainer extends Component {
       return;
     }
 
-    if (
-      specialCharacters.test(first_name) ||
-      specialCharacters.test(last_name)
-    ) {
+    if (specialCharacters.test(last_name)) {
+      showAlert('Họ và tên đệm không được chứa ký tự đặc biệt.');
+      return;
+    }
+
+    if (specialCharacters.test(first_name)) {
       showAlert('Tên không được chứa ký tự đặc biệt.');
       return;
     }
