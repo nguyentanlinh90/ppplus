@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {
-  View,
-  SafeAreaView,
-  ScrollView,
-  Image,
-  AsyncStorage,
-} from 'react-native';
+import {View, SafeAreaView, Image, AsyncStorage} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
@@ -17,7 +11,11 @@ import {txt_dob_select} from '../../../utils/constants';
 import {dispatchScreen} from '../../../utils/utils';
 import {showAlert} from '../../../utils/utils';
 import {doUpdateUserInfo} from '../../user/actions/index';
-import {ACCESS_TOKEN, specialCharacters} from '../../../utils/constants';
+import {
+  ACCESS_TOKEN,
+  specialCharacters,
+  numberCharacters,
+} from '../../../utils/constants';
 import {handleCheck, arrayToString} from '../../../utils/utils';
 import {changeMsgCode} from '../../../api/helpers';
 import * as types from '../../../api/types';
@@ -41,7 +39,7 @@ class InfoContainer extends Component {
       birthday: txt_dob_select,
       provinceIDs: [],
       majorIDs: [],
-      dayIDs: [0,1,2,3,4,5,6,7],
+      dayIDs: [0, 1, 2, 3, 4, 5, 6, 7],
       turnIDs: [],
     };
 
@@ -57,13 +55,17 @@ class InfoContainer extends Component {
   }
   _onChangeText = (text, type) => {
     if (type == 'lastName') {
-      if (specialCharacters.test(text)) {
+      if (specialCharacters.test(text) || numberCharacters.test(text)) {
         this.setState({lastName: text.substring(0, text.length - 1)});
       } else {
         this.setState({lastName: text});
       }
     } else if (type == 'firstName') {
-      if (specialCharacters.test(text)) {
+      if (
+        specialCharacters.test(text) ||
+        numberCharacters.test(text) ||
+        /\s/.test(text)
+      ) {
         this.setState({firstName: text.substring(0, text.length - 1)});
       } else {
         this.setState({firstName: text});

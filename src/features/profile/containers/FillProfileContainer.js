@@ -125,7 +125,11 @@ export class FillProfileContainer extends Component {
         this.setState({last_name: text});
       }
     } else if (type == 'first_name') {
-      if (specialCharacters.test(text) || numberCharacters.test(text)) {
+      if (
+        specialCharacters.test(text) ||
+        numberCharacters.test(text) ||
+        /\s/.test(text)
+      ) {
         this.setState({first_name: text.substring(0, text.length - 1)});
       } else {
         this.setState({first_name: text});
