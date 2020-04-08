@@ -27,7 +27,7 @@ export default class InputOTPForm extends Component {
           marginStart: 20,
           marginEnd: 20,
         }}>
-        <Text style={styles.txtCreateAccount}>Mã OTP</Text>
+        <Text style={styles.txtCreateAccount}>Mã xác nhận</Text>
         <View style={{alignItems: 'center'}}>
           <SmoothPinCodeInput
             autoFocus={true}
