@@ -41,9 +41,7 @@ export class LoginContainer extends Component {
       allowLogin: false,
       timeRemainAfterLoginFail: 0,
     };
-    this._handleLogin = this._handleLogin.bind(this);
-    this._onChangeText = this._onChangeText.bind(this);
-    this._checkLoginFail()
+    this._checkLoginFail();
   }
 
   async _checkLoginFail() {
@@ -138,7 +136,7 @@ export class LoginContainer extends Component {
             {
               text: 'Đồng Ý',
               onPress: () => {
-                doSendOTP(phone, types.TYPE_USER_FORGOT_PASSWORD);
+                doSendOTP(phone, types.TYPE_USER_FORGOT_PASSWORD, '');
               },
             },
           ],
@@ -175,7 +173,6 @@ export class LoginContainer extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({isLoading: false});
     if (nextProps.msg_code == types.LOGIN_FAIL) {
-      
       nextProps.changeMsgCode('');
       countLoginFail = countLoginFail + 1;
       if (countLoginFail == 5) {
@@ -188,7 +185,7 @@ export class LoginContainer extends Component {
           timeRemainAfterLoginFail: TIME_OUT_DEFAULT,
         });
         this._startInterval();
-      }else{
+      } else {
         showAlert(nextProps.message);
       }
     } else if (nextProps.msg_code == types.LOGIN_SUCCESS) {
@@ -256,8 +253,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  doLogin,
-  doSendOTP,
-  changeMsgCode,
-})(LoginContainer);
+export default connect(
+  mapStateToProps,
+  {
+    doLogin,
+    doSendOTP,
+    changeMsgCode,
+  },
+)(LoginContainer);

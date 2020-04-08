@@ -15,32 +15,30 @@ import {showAlert} from '../../../utils/utils';
 import {doProcessOTP, doSendOTP} from '../actions/index';
 import * as types from '../../../api/types';
 
-let timeResend = 0;
 let countInputWrong = 0;
 export class InputOTPContainer extends Component {
   constructor(props) {
     super(props);
 
-    timeResend = this.props.navigation.state.params[1];
     this.state = {
       phone: this.props.navigation.state.params[0],
+      timeResend: this.props.navigation.state.params[1],
       isRegister: this.props.navigation.state.params[2],
-      timeResend: timeResend,
       otpCode: '',
       isLoading: false,
       isConnecting: false,
     };
-    this._handleProcessOTP = this._handleProcessOTP.bind(this);
-    this._handleResendOTP = this._handleResendOTP.bind(this);
-    this.onChangeText = this.onChangeText.bind(this);
   }
 
   _startInterval = () => {
+    console.log('linhnt interval', this.state.timeResend);
     this.interval = setInterval(() => {
       if (this.state.timeResend !== 0) {
         this.setState(prevState => ({
           timeResend: prevState.timeResend - 1,
         }));
+      } else {
+        clearInterval(this.interval);
       }
     }, 1000);
   };
@@ -79,14 +77,19 @@ export class InputOTPContainer extends Component {
 
   onChangeText = (text, type) => {
     if (type == 'otpCode') {
-      let cleanNumber = text.replace(/[^0-9]/g, '');// just number
+      let cleanNumber = text.replace(/[^0-9]/g, ''); // just number
       this.setState({otpCode: cleanNumber});
     }
   };
 
   _handleResendOTP = () => {
     const {doSendOTP} = this.props;
-    doSendOTP(this.state.phone);
+    this.setState({isLoading: true});
+    doSendOTP(
+      this.state.phone,
+      this.state.isRegister ? '' : types.TYPE_USER_FORGOT_PASSWORD,
+      types.RESEND_OTP,
+    );
   };
   _handleProcessOTP = () => {
     const {doProcessOTP} = this.props;
@@ -103,8 +106,9 @@ export class InputOTPContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    this.setState({isLoading: false});
+
     if (nextProps.msg_code == types.PROCESS_OTP_FAIL) {
-      this.setState({isLoading: false});
       showAlert(nextProps.message);
       nextProps.changeMsgCode('');
       countInputWrong = countInputWrong + 1;
@@ -129,7 +133,6 @@ export class InputOTPContainer extends Component {
         showAlert(nextProps.message);
       }
     } else if (nextProps.msg_code == types.PROCESS_OTP_SUCCESS) {
-      this.setState({isLoading: false});
       nextProps.changeMsgCode('');
       if (this.state.isRegister) {
         dispatchScreen(this.props, SCREEN_LOGIN, {});
@@ -139,16 +142,15 @@ export class InputOTPContainer extends Component {
           nextProps.data.access_token,
         ]);
       }
-    } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
+    } else if (nextProps.msg_code == types.RESEND_OTP_SUCCESS) {
       showAlert('Mã OTP đã được gửi đến số điện thoại ' + this.state.phone);
       nextProps.changeMsgCode('');
-      this.setState({timeResend: timeResend});
-      this._startInterval();
-    } else if (nextProps.msg_code == types.SEND_OTP_FAIL) {
+      this.setState({timeResend: nextProps.data.waiting_time_otp}, function() {
+        this._startInterval();
+      });
+    } else if (nextProps.msg_code == types.RESEND_OTP_FAIL) {
       showAlert(nextProps.message);
       nextProps.changeMsgCode('');
-      this.setState({timeResend: timeResend});
-      this._startInterval();
     }
   }
 
@@ -184,8 +186,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  doProcessOTP,
-  doSendOTP,
-  changeMsgCode,
-})(InputOTPContainer);
+export default connect(
+  mapStateToProps,
+  {
+    doProcessOTP,
+    doSendOTP,
+    changeMsgCode,
+  },
+)(InputOTPContainer);

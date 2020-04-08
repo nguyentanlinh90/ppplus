@@ -1,8 +1,8 @@
-import { callGetApi, callPostApi, callPutApi } from '../../../api/api';
-import { fetchDataSuccess, getApiPath } from '../../../api/helpers';
+import {callGetApi, callPostApi, callPutApi} from '../../../api/api';
+import {fetchDataSuccess, getApiPath} from '../../../api/helpers';
 import * as types from '../../../api/types';
-import { setStoreData } from '../../../utils/utils';
-import { ACCESS_TOKEN, V_1_0_0 } from '../../../utils/constants';
+import {setStoreData} from '../../../utils/utils';
+import {ACCESS_TOKEN, V_1_0_0} from '../../../utils/constants';
 
 export const doCreateAccount = (
   phone,
@@ -18,7 +18,7 @@ export const doCreateAccount = (
     password: password,
     password_confirm: password_confirm,
   };
-  const { json } = await callPostApi(path, params, '');
+  const {json} = await callPostApi(path, params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -42,7 +42,7 @@ export const doProcessOTP = (phone, otp_code) => async dispatch => {
     otp_code: otp_code,
   };
 
-  const { json } = await callPostApi(path, params, '');
+  const {json} = await callPostApi(path, params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -59,26 +59,37 @@ export const doProcessOTP = (phone, otp_code) => async dispatch => {
   }
 };
 
-export const doSendOTP = (phone, type) => async dispatch => {
+export const doSendOTP = (phone, type, screen) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'send_otp');
   const params = {
     phone: phone,
     type: type,
   };
-
-  const { json } = await callPostApi(path, params, '');
+  const {json} = await callPostApi(path, params, '');
+  const IS_RESEND = screen === types.RESEND_OTP;
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
   ) {
-    await dispatch(fetchDataSuccess(types.PROCESS_OTP_SUCCESS, json.data));
     await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, types.SEND_OTP_SUCCESS),
+      fetchDataSuccess(
+        IS_RESEND ? types.RESEND_OTP_SUCCESS : types.SEND_OTP_SUCCESS,
+        json.data,
+      ),
+    );
+    await dispatch(
+      fetchDataSuccess(
+        types.CHANGE_MSG_CODE,
+        IS_RESEND ? types.RESEND_OTP_SUCCESS : types.SEND_OTP_SUCCESS,
+      ),
     );
   } else {
     await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
     await dispatch(
-      fetchDataSuccess(types.CHANGE_MSG_CODE, types.SEND_OTP_FAIL),
+      fetchDataSuccess(
+        types.CHANGE_MSG_CODE,
+        IS_RESEND ? types.RESEND_OTP_FAIL : types.SEND_OTP_FAIL,
+      ),
     );
   }
 };
@@ -89,7 +100,7 @@ export const doLogin = (phone, password) => async dispatch => {
     phone: phone,
     password: password,
   };
-  const { json } = await callPostApi(path, params, '');
+  const {json} = await callPostApi(path, params, '');
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -110,7 +121,7 @@ export const doLogin = (phone, password) => async dispatch => {
 export const doLogout = token => async dispatch => {
   const path = getApiPath(V_1_0_0, 'logout');
 
-  const { json } = await callPostApi(path, {}, token);
+  const {json} = await callPostApi(path, {}, token);
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -126,7 +137,7 @@ export const doLogout = token => async dispatch => {
 
 export const doUpdateUserInfo = (params, access_token) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'user_info_update');
-  const { json } = await callPostApi(path, params, access_token);
+  const {json} = await callPostApi(path, params, access_token);
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS
@@ -146,7 +157,7 @@ export const doUpdateUserInfo = (params, access_token) => async dispatch => {
 export const getUserInfo = (type, token) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'get_user_info') + type;
 
-  const { json } = await callGetApi(path, token);
+  const {json} = await callGetApi(path, token);
   if (
     typeof json !== types.UNDEFINED &&
     json.result_code == types.RESULT_CODE_SUCCESS

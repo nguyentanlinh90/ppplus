@@ -30,7 +30,6 @@ export default StyleSheet.create({
     lineHeight: 29,
   },
   txtTitleField: {
-    paddingBottom: 5,
     fontSize: 16,
     color: '#757575',
     lineHeight: 19,
