@@ -84,7 +84,16 @@ export const doSendOTP = (phone, type, screen) => async dispatch => {
       ),
     );
   } else {
-    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
+    const IS_PHONE_NOT_EXIST =
+      json.result_code === types.RESULT_CODE_PHONE_NOT_EXIST;
+    await dispatch(
+      fetchDataSuccess(
+        types.MESSAGE_HEADER,
+        IS_PHONE_NOT_EXIST
+          ? types.RESULT_CODE_PHONE_NOT_EXIST.toString()
+          : json.message,
+      ),
+    );
     await dispatch(
       fetchDataSuccess(
         types.CHANGE_MSG_CODE,

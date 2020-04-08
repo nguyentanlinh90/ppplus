@@ -116,7 +116,7 @@ export class InputOTPContainer extends Component {
         countInputWrong = 0;
         Alert.alert(
           'Thông báo',
-          nextProps.message,
+          'Nhập sai quá 5 lần. Vui lòng thao tác lại từ đầu.',
           [
             {
               text: 'Đồng Ý',

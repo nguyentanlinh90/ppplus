@@ -1,4 +1,13 @@
 import {StyleSheet, Platform, Dimensions} from 'react-native';
+export const textForgetPass =function(isPhoneCorrect){
+return {
+  textAlign: 'right',
+    alignSelf: 'flex-end',
+    color: isPhoneCorrect?'#F0532D':'#757575',
+    fontSize: 16,
+    padding: 5,
+}
+}
 
 export default StyleSheet.create({
   buttonText: {
@@ -96,13 +105,6 @@ export default StyleSheet.create({
     color: '#333333',
     fontSize: 16,
     marginStart: 5,
-  },
-  textForgetPass: {
-    textAlign: 'right',
-    alignSelf: 'flex-end',
-    color: '#F0532D',
-    fontSize: 16,
-    padding: 5,
   },
   textNotYetAccount: {
     marginTop: 17,

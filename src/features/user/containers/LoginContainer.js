@@ -24,9 +24,11 @@ import {
   IS_UPDATE_BASIC,
   REGEX,
   KEY_TIME_LOGIN_FAIL,
+  KEY_PHONE_NOT_EXITS,
 } from '../../../utils/constants';
 import {convertPhone, showAlert, setStoreData} from '../../../utils/utils';
 import * as types from '../../../api/types';
+
 let countLoginFail = 0;
 let TIME_OUT_DEFAULT = 300;
 export class LoginContainer extends Component {
@@ -40,9 +42,24 @@ export class LoginContainer extends Component {
       isConnecting: false,
       allowLogin: false,
       timeRemainAfterLoginFail: 0,
+      isPhoneCorrect: false,
+      phoneInputIncorrectList: [],
     };
     this._checkLoginFail();
+    this._getPhoneInputCorrectList();
   }
+
+  _getPhoneInputCorrectList = () => {
+    AsyncStorage.getItem(KEY_PHONE_NOT_EXITS)
+      .then(req => {
+        if (JSON.parse(req) != null) {
+          this.setState({phoneInputIncorrectList: JSON.parse(req)}, function() {
+            this._checkEnableButtonForgotPass();
+          });
+        }
+      })
+      .catch(error => console.log('linhnt get error!', error));
+  };
 
   async _checkLoginFail() {
     let timeFail = await AsyncStorage.getItem(KEY_TIME_LOGIN_FAIL);
@@ -107,10 +124,37 @@ export class LoginContainer extends Component {
     });
   };
 
+  _setPhoneCorrect = isCorrect => {
+    this.setState({isPhoneCorrect: isCorrect});
+  };
+
+  _checkEnableButtonForgotPass = () => {
+    if (REGEX.test(this.state.phone)) {
+      let allowClickForgetPass = true;
+      let numberWrongInputPhone = 0;
+      const {phoneInputIncorrectList} = this.state;
+      if (phoneInputIncorrectList.length > 0) {
+        for (let i = 0; i < phoneInputIncorrectList.length; i++) {
+          if (this.state.phone == phoneInputIncorrectList[i]) {
+            numberWrongInputPhone++;
+          }
+        }
+        allowClickForgetPass = numberWrongInputPhone < 3;
+        this._setPhoneCorrect(allowClickForgetPass);
+      } else {
+        this._setPhoneCorrect(true);
+      }
+    } else {
+      this._setPhoneCorrect(false);
+    }
+  };
+
   _onChangeText = (text, type) => {
     if (type == 'phone') {
       const strPhone = convertPhone(text);
-      this.setState({phone: strPhone});
+      this.setState({phone: strPhone}, function() {
+        this._checkEnableButtonForgotPass();
+      });
     } else if (type == 'password') {
       this.setState({password: text});
     }
@@ -201,18 +245,30 @@ export class LoginContainer extends Component {
       }
     } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
       nextProps.changeMsgCode('');
-      // dispatchScreen(this.props, SCREEN_INPUT_OTP, [
-      //   this.state.phone,
-      //   nextProps.data.waiting_time_otp,
-      //   false, //check isRegister (here is forgot pass)
-      // ]);
       this.props.navigation.navigate(SCREEN_INPUT_OTP, [
         this.state.phone,
         nextProps.data.waiting_time_otp,
         false, //check isRegister (here is forgot pass)
       ]);
     } else if (nextProps.msg_code == types.SEND_OTP_FAIL) {
-      showAlert(nextProps.message);
+      if (nextProps.message == types.RESULT_CODE_PHONE_NOT_EXIST) {
+        //store phone input inCorrect to check click forget pass
+        let phoneInputIncorrectList = this.state.phoneInputIncorrectList;
+        phoneInputIncorrectList.push(this.state.phone);
+        AsyncStorage.setItem(
+          KEY_PHONE_NOT_EXITS,
+          JSON.stringify(phoneInputIncorrectList),
+        )
+          .then(json => {
+            console.log('linhnt set success!');
+            this._getPhoneInputCorrectList();
+          })
+          .catch(error => console.log('linhnt set error!'));
+
+        showAlert('Số điện thoại không đúng. Vui lòng thử lại.');
+      } else {
+        showAlert(nextProps.message);
+      }
       nextProps.changeMsgCode('');
     }
   }
@@ -228,6 +284,7 @@ export class LoginContainer extends Component {
               handleNotYetAccount={this._handleNotYetAccount}
               onChangeText={this._onChangeText}
               phone={this.state.phone}
+              isPhoneCorrect={this.state.isPhoneCorrect}
               password={this.state.password}
               allowLogin={this.state.allowLogin}
               timeRemainAfterLoginFail={this.state.timeRemainAfterLoginFail}

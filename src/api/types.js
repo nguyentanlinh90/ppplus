@@ -3,6 +3,7 @@ export const UNDEFINED = 'undefined';
 export const STATUS_SUCCESS = 200;
 export const STATUS_FAIL = 400;
 export const RESULT_CODE_SUCCESS = 10001;
+export const RESULT_CODE_PHONE_NOT_EXIST = 10003;
 
 export const CHANGE_MSG_CODE = 'CHANGE_MSG_CODE';
 export const MESSAGE_HEADER = 'MESSAGE_HEADER';

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import styles from '../styles/styles';
+import styles, {textForgetPass} from '../styles/styles';
 import CheckBox from 'react-native-check-box';
 import CBShowPass from '../../../components/CBShowPass';
 import CBHidePass from '../../../components/CBHidePass';
@@ -21,6 +21,7 @@ export default class LoginForm extends Component {
       handleLogin,
       handleNotYetAccount,
       phone,
+      isPhoneCorrect,
       password,
       allowLogin,
       timeRemainAfterLoginFail,
@@ -66,25 +67,21 @@ export default class LoginForm extends Component {
             />
           </View>
         </View>
-
         <Text
-          style={styles.textForgetPass}
-          onPress={() => showAlertForgotPass()}>
+          style={textForgetPass(isPhoneCorrect)}
+          onPress={() => (isPhoneCorrect ? showAlertForgotPass() : null)}>
           Quên mật khẩu
         </Text>
         {allowLogin ? (
           <TouchableOpacity
             style={styles.buttonContinue}
-            activeOpacity={0.7}
             onPress={() => handleLogin()}>
             <BgButton />
             <Text style={styles.buttonText}>Tiếp Tục</Text>
           </TouchableOpacity>
         ) : (
           <View style={{alignItems: 'center'}}>
-            <View
-              style={styles.buttonContinueDisable}
-              onPress={() => handleLogin()}>
+            <View style={styles.buttonContinueDisable}>
               <Text style={styles.buttonText}>Tiếp Tục</Text>
             </View>
             <Text style={[styles.txtTitleField, {marginTop: 10}]}>
