@@ -270,12 +270,11 @@ export default StyleSheet.create({
     paddingEnd: 10,
   },
   txtViewSelect: {
-    height: 44,
+    // height: 44,
     color: '#000',
     fontSize: 16,
-    paddingStart: 10,
     flex: 1,
-    paddingTop: 14,
+    padding: 14,
   },
   lineSelect: {
     height: 0.5,

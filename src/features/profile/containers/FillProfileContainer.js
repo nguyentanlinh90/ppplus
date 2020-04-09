@@ -80,6 +80,7 @@ export class FillProfileContainer extends Component {
       district_list_follow_province_relative: [],
       major_list: [],
       education_list: [],
+      major_list_follow_education: [],
       bank_list: [],
       bank_branch_list: [],
       bank_branch_list_follow_bank: [],
@@ -143,13 +144,6 @@ export class FillProfileContainer extends Component {
       var temp = address;
       temp.address = text;
       this.setState({address: temp});
-    } else if (type == 'education_major_name') {
-      const {education} = this.state;
-      var temp = education;
-      temp.education_major_name = text;
-      this.setState({
-        education: temp,
-      });
     } else if (type == 'bank_account_name') {
       const {user_bank_info} = this.state;
       var temp = user_bank_info;
@@ -473,12 +467,21 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectEducation = educationSelect => {
-    const {education} = this.state;
+    const {education_major_list, education} = this.state;
     var temp = education;
     temp.education_id = educationSelect;
+    temp.education_major_id = '';
+
     this.setState({
       education: temp,
+      major_list_follow_education: education_major_list[educationSelect],
     });
+  };
+  _handleSelectMajor = majorSelect => {
+    const {education} = this.state;
+    var temp = education;
+    temp.education_major_id = majorSelect;
+    this.setState({education: temp});
   };
   _handleSelectBank = bankSelect => {
     const {bank_branch_list, user_bank_info} = this.state;
@@ -515,8 +518,10 @@ export class FillProfileContainer extends Component {
   };
 
   _setUser = data => {
-    var relative_province_id = data.user_relative_info[0].relative_province_id;
-    var province_id = data.address.province_id;
+    let relative_province_id = data.user_relative_info[0].relative_province_id;
+    let province_id = data.address.province_id;
+    let education_id = data.education.education_id;
+    let bank_id = data.user_bank_info.bank_id;
 
     this.setState({
       gender_list: data.gender_list,
@@ -528,10 +533,17 @@ export class FillProfileContainer extends Component {
         relative_province_id == ''
           ? []
           : data.district_list[relative_province_id],
-      major_list: data.major_list,
+
       education_list: data.education_list,
+      education_major_list: data.education_major_list,
+      major_list_follow_education:
+        education_id == '' ? [] : data.education_major_list[education_id],
+
       bank_list: data.bank_list,
       bank_branch_list: data.bank_branch_list,
+      bank_branch_list_follow_bank:
+        bank_id == '' ? [] : data.bank_branch_list[bank_id],
+
       personal_types_list: data.personal_types_list,
 
       avatar: data.avatar,
@@ -651,6 +663,16 @@ export class FillProfileContainer extends Component {
       return;
     }
 
+    //many education not have major
+    if (
+      !isEmpty(education.education_id) &&
+      this.state.major_list_follow_education.length > 0 &&
+      isEmpty(education.education_major_id)
+    ) {
+      showAlert('Bạn chưa chọn chuyên ngành.');
+      return;
+    }
+
     const params = {
       avatar: avatar_data,
       //
@@ -699,7 +721,7 @@ export class FillProfileContainer extends Component {
           : '',
       //
       education_id: education.education_id,
-      education_major_name: education.education_major_name,
+      education_major_id: education.education_major_id,
       //
       bank_id: user_bank_info.bank_id,
       bank_branch_id: user_bank_info.bank_branch_id,
@@ -923,10 +945,13 @@ export class FillProfileContainer extends Component {
                 myScroll={this._myScroll}
                 handleScrollView={this._handleScrollView}
                 enableScrollViewScroll={this.state.enableScrollViewScroll}
-                onChangeText={this._onChangeText}
                 education_list={this.state.education_list}
+                major_list_follow_education={
+                  this.state.major_list_follow_education
+                }
                 education={this.state.education}
                 handleSelectEducation={this._handleSelectEducation}
+                handleSelectMajor={this._handleSelectMajor}
               />
               <View style={styles.boxIndicatorFill} />
               <FormAccountIdentifier
@@ -976,8 +1001,11 @@ function mapStateToProps(state) {
     data: state.user.data,
   };
 }
-export default connect(mapStateToProps, {
-  getUserInfo,
-  doUpdateUserInfo,
-  changeMsgCode,
-})(FillProfileContainer);
+export default connect(
+  mapStateToProps,
+  {
+    getUserInfo,
+    doUpdateUserInfo,
+    changeMsgCode,
+  },
+)(FillProfileContainer);

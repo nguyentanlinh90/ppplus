@@ -24,9 +24,7 @@ import {
   text_select,
 } from '../../../utils/constants';
 import {
-  boxSelectStyle,
   boxSelectStyleWithAlert,
-  txtInputStyle,
   getNameFromId,
   showAlert,
   isEmpty,
@@ -70,7 +68,6 @@ export default class FormAccountIdentifier extends Component {
       enableScrollViewScroll,
       onChangeText,
       onChangeTextDegree,
-      province_list,
       bank_list,
       bank_branch_list_follow_bank,
       personal_types_list,
@@ -110,7 +107,7 @@ export default class FormAccountIdentifier extends Component {
               <View style={{flex: 1, marginStart: 10}}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.setState({isShowBank: !this.state.isShowBank});
+                    this._setShowBank();
                   }}
                   style={boxSelectStyleWithAlert(
                     this.state.isShowBank || !isEmpty(user_bank_info.bank_id),
