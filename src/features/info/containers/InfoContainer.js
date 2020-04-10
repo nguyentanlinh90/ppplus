@@ -11,12 +11,8 @@ import {txt_dob_select} from '../../../utils/constants';
 import {dispatchScreen} from '../../../utils/utils';
 import {showAlert} from '../../../utils/utils';
 import {doUpdateUserInfo} from '../../user/actions/index';
-import {
-  ACCESS_TOKEN,
-  specialCharacters,
-  numberCharacters,
-} from '../../../utils/constants';
-import {handleCheck, arrayToString} from '../../../utils/utils';
+import {ACCESS_TOKEN} from '../../../utils/constants';
+import {handleCheck, arrayToString, convertName} from '../../../utils/utils';
 import {changeMsgCode} from '../../../api/helpers';
 import * as types from '../../../api/types';
 
@@ -55,21 +51,11 @@ class InfoContainer extends Component {
   }
   _onChangeText = (text, type) => {
     if (type == 'lastName') {
-      if (specialCharacters.test(text) || numberCharacters.test(text)) {
-        this.setState({lastName: text.substring(0, text.length - 1)});
-      } else {
-        this.setState({lastName: text});
-      }
+      const strLastName = convertName(text, false);
+      this.setState({lastName: strLastName});
     } else if (type == 'firstName') {
-      if (
-        specialCharacters.test(text) ||
-        numberCharacters.test(text) ||
-        /\s/.test(text)
-      ) {
-        this.setState({firstName: text.substring(0, text.length - 1)});
-      } else {
-        this.setState({firstName: text});
-      }
+      const strFirstName = convertName(text, true);
+      this.setState({firstName: strFirstName});
     }
   };
   _handleGenderSelect = (isMale, isCheck) => {
@@ -206,10 +192,7 @@ class InfoContainer extends Component {
       showAlert('Vui lòng cung cấp đầy đủ các trường thông tin ở trên');
       return;
     }
-    if (specialCharacters.test(firstName) || specialCharacters.test(lastName)) {
-      showAlert('Tên không được chứa ký tự đặc biệt.');
-      return;
-    }
+    
     if (provinceIDs.length > 2) {
       showAlert(
         'Bạn chỉ được chọn tối đa 2 địa điểm làm việc. Vui lòng bỏ bớt địa điểm làm việc',
@@ -331,7 +314,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  doUpdateUserInfo,
-  changeMsgCode,
-})(InfoContainer);
+export default connect(
+  mapStateToProps,
+  {
+    doUpdateUserInfo,
+    changeMsgCode,
+  },
+)(InfoContainer);

@@ -1,5 +1,9 @@
 import {Alert, AsyncStorage} from 'react-native';
-import {text_select} from '../utils/constants';
+import {
+  text_select,
+  specialCharacters,
+  numberCharacters,
+} from '../utils/constants';
 let isShowAlert = false;
 export const dispatchScreen = (props, screen, params?) => {
   props.navigation.dispatch({
@@ -30,6 +34,28 @@ export const convertPhone = text => {
   if (newText.length > 10) {
     newText = newText.substring(0, 10);
   }
+  return newText;
+};
+
+export const convertName = (text, isFirstName) => {
+  let newText = '';
+  for (let i = 0; i < text.length; i++) {
+    if (
+      !specialCharacters.test(text[i]) &&
+      !numberCharacters.test(text[i]) &&
+      text.length < 101
+    ) {
+      if (isFirstName) {
+        if (!/\s/.test(text[i])) {
+          newText = newText + text[i];
+        }
+      } else {
+        newText = newText + text[i];
+        newText = newText.replace(/\s{2,}/g, ' '); // remove multi spaces
+      }
+    }
+  }
+
   return newText;
 };
 
@@ -242,25 +268,25 @@ export const sortNumber = (a, b) => {
   return a - b;
 };
 
-export const formatMoney = (money) => {
+export const formatMoney = money => {
   let n = money,
-      s = n < 0
-          ? "-"
-          : "",
-      i = parseInt(n = Math.abs(+ n || 0).toFixed(c)) + "",
-      j = (j = i.length) > 3
-          ? j % 3
-          : 0;
+    s = n < 0 ? '-' : '',
+    i = parseInt((n = Math.abs(+n || 0).toFixed(c))) + '',
+    j = (j = i.length) > 3 ? j % 3 : 0;
 
   let c = 0;
-  let d = ",";
-  let t = ",";
+  let d = ',';
+  let t = ',';
 
-  return s + (j
-      ? i.substr(0, j) + t
-      : "") + i
-      .substr(j)
-      .replace(/(\d{3})(?=\d)/g, "$1" + t) + (c
-      ? d + Math.abs(n - i).toFixed(c).slice(2)
-      : "");
-}
+  return (
+    s +
+    (j ? i.substr(0, j) + t : '') +
+    i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + t) +
+    (c
+      ? d +
+        Math.abs(n - i)
+          .toFixed(c)
+          .slice(2)
+      : '')
+  );
+};

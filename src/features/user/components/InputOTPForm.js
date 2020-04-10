@@ -54,8 +54,8 @@ export default class InputOTPForm extends Component {
               backgroundColor: '#F0532D',
               marginTop: 30,
               borderRadius: 30,
-              height: 30,
-              width: 100,
+              height: 35,
+              width: 140,
               justifyContent: 'center',
             }}>
             <Text

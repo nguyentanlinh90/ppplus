@@ -23,6 +23,7 @@ import FormAccountIdentifier from '../component/FormAccountIdentifier';
 import KeyboardShift from './KeyboardShift';
 import {changeMsgCode} from '../../../api/helpers';
 import {getUserInfo, doUpdateUserInfo} from '../../../features/user/actions';
+import {convertName} from '../../../utils/utils';
 
 import {
   ACCESS_TOKEN,
@@ -120,21 +121,11 @@ export class FillProfileContainer extends Component {
   }
   _onChangeText = (text, type) => {
     if (type == 'last_name') {
-      if (specialCharacters.test(text) || numberCharacters.test(text)) {
-        this.setState({last_name: text.substring(0, text.length - 1)});
-      } else {
-        this.setState({last_name: text});
-      }
+      const strLastName = convertName(text, false);
+      this.setState({last_name: strLastName});
     } else if (type == 'first_name') {
-      if (
-        specialCharacters.test(text) ||
-        numberCharacters.test(text) ||
-        /\s/.test(text)
-      ) {
-        this.setState({first_name: text.substring(0, text.length - 1)});
-      } else {
-        this.setState({first_name: text});
-      }
+      const strFirstName = convertName(text, true);
+      this.setState({first_name: strFirstName});
     } else if (type == 'height') {
       this.setState({height: text});
     } else if (type == 'weight') {
