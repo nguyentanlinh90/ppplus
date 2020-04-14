@@ -9,7 +9,7 @@ import {
   AsyncStorage,
 } from 'react-native';
 import LoginForm from '../components/LoginForm';
-import {doLogin, doSendOTP} from '../actions/index';
+import {doLogin, doCheckPhone, doSendOTP} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 import Spinner from 'react-native-loading-spinner-overlay';
 import NetInfo from '@react-native-community/netinfo';
@@ -160,34 +160,37 @@ export class LoginContainer extends Component {
     }
   };
 
+  _showLoading = () => {
+    this.setState({isLoading: true});
+  };
+  _checkPhoneNumber = () => {
+    const {phone} = this.state;
+    const {doCheckPhone} = this.props;
+    this._showLoading();
+    doCheckPhone(phone);
+  };
+
   _showAlertForgotPass = () => {
     const {phone} = this.state;
     const {doSendOTP} = this.props;
-    if (phone == '') {
-      showAlert('Vui lòng nhập số điện thoại để gửi mã xác thực.');
-      return;
-    } else {
-      if (!REGEX.test(phone)) {
-        showAlert('Số điện thoại không đúng định dạng.');
-      } else {
-        Alert.alert(
-          'Thông báo',
-          'Một mã xác nhận sẽ được gửi đến số điện thoại ' +
-            phone +
-            '. Vui lòng chọn đồng ý để tiếp tục.',
-          [
-            {text: 'Huỷ', onPress: () => {}},
-            {
-              text: 'Đồng Ý',
-              onPress: () => {
-                doSendOTP(phone, types.TYPE_USER_FORGOT_PASSWORD, '');
-              },
-            },
-          ],
-          {cancelable: true},
-        );
-      }
-    }
+
+    Alert.alert(
+      'Thông báo',
+      'Một mã xác nhận sẽ được gửi đến số điện thoại ' +
+        phone +
+        '. Vui lòng chọn đồng ý để tiếp tục.',
+      [
+        {text: 'Huỷ', onPress: () => {}},
+        {
+          text: 'Đồng Ý',
+          onPress: () => {
+            this._showLoading();
+            doSendOTP(phone, types.TYPE_USER_FORGOT_PASSWORD, '');
+          },
+        },
+      ],
+      {cancelable: true},
+    );
   };
 
   _handleNotYetAccount = () => {
@@ -203,7 +206,7 @@ export class LoginContainer extends Component {
         showAlert('Số điện thoại không đúng định dạng.');
       } else {
         if (this.state.isConnecting) {
-          this.setState({isLoading: true});
+          this._showLoading();
           doLogin(phone, password);
         } else {
           showAlert('Vui lòng kiểm tra kết nối mạng.');
@@ -215,9 +218,7 @@ export class LoginContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({isLoading: false});
     if (nextProps.msg_code == types.LOGIN_FAIL) {
-      nextProps.changeMsgCode('');
       countLoginFail = countLoginFail + 1;
       if (countLoginFail == 5) {
         showAlert('Bạn đã nhập sai 5 lần, bạn sẽ bị khóa đăng nhập 5 phút.');
@@ -233,7 +234,6 @@ export class LoginContainer extends Component {
         showAlert(nextProps.message);
       }
     } else if (nextProps.msg_code == types.LOGIN_SUCCESS) {
-      nextProps.changeMsgCode('');
       setStoreData(IS_UPDATE_BASIC, nextProps.data.is_updated_basic);
       setStoreData(KEY_TIME_LOGIN_FAIL, 0);
       if (nextProps.data.is_updated_basic == 1) {
@@ -244,33 +244,32 @@ export class LoginContainer extends Component {
         dispatchScreen(this.props, SCREEN_INFO, nextProps.data);
       }
     } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
-      nextProps.changeMsgCode('');
       this.props.navigation.navigate(SCREEN_INPUT_OTP, [
         this.state.phone,
         nextProps.data.waiting_time_otp,
         false, //check isRegister (here is forgot pass)
       ]);
     } else if (nextProps.msg_code == types.SEND_OTP_FAIL) {
-      if (nextProps.message == types.RESULT_CODE_PHONE_NOT_EXIST) {
-        //store phone input inCorrect to check click forget pass
-        let phoneInputIncorrectList = this.state.phoneInputIncorrectList;
-        phoneInputIncorrectList.push(this.state.phone);
-        AsyncStorage.setItem(
-          KEY_PHONE_NOT_EXITS,
-          JSON.stringify(phoneInputIncorrectList),
-        )
-          .then(json => {
-            console.log('linhnt set success!');
-            this._getPhoneInputCorrectList();
-          })
-          .catch(error => console.log('linhnt set error!'));
+      showAlert(nextProps.message);
+    } else if (nextProps.msg_code == types.CHECK_PHONE_SUCCESS) {
+      this._showAlertForgotPass();
+    } else if (nextProps.msg_code == types.CHECK_PHONE_FAIL) {
+      //store phone input inCorrect to check click forget pass
+      let phoneInputIncorrectList = this.state.phoneInputIncorrectList;
+      phoneInputIncorrectList.push(this.state.phone);
+      AsyncStorage.setItem(
+        KEY_PHONE_NOT_EXITS,
+        JSON.stringify(phoneInputIncorrectList),
+      )
+        .then(json => {
+          this._getPhoneInputCorrectList();
+        })
+        .catch(error => console.log('linhnt set error!'));
 
-        showAlert('Số điện thoại không đúng. Vui lòng thử lại.');
-      } else {
-        showAlert(nextProps.message);
-      }
-      nextProps.changeMsgCode('');
+      showAlert('Số điện thoại không đúng. Vui lòng thử lại.');
     }
+    nextProps.changeMsgCode('');
+    this.setState({isLoading: false});
   }
 
   render() {
@@ -279,7 +278,7 @@ export class LoginContainer extends Component {
         <View style={{flex: 1, justifyContent: 'center', padding: 20}}>
           <KeyboardAvoidingView behavior="padding" enabled>
             <LoginForm
-              showAlertForgotPass={this._showAlertForgotPass}
+              showAlertForgotPass={this._checkPhoneNumber}
               handleLogin={this._handleLogin}
               handleNotYetAccount={this._handleNotYetAccount}
               onChangeText={this._onChangeText}
@@ -314,6 +313,7 @@ export default connect(
   mapStateToProps,
   {
     doLogin,
+    doCheckPhone,
     doSendOTP,
     changeMsgCode,
   },

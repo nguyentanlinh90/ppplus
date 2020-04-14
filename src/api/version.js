@@ -8,6 +8,10 @@ export const version = {
       version: 1,
       path: '/api/user/process/otp',
     },
+    check_phone: {
+      version: 1,
+      path: '/api/user/check_phone',
+    },
     send_otp: {
       version: 1,
       path: '/api/user/send/otp',

@@ -3,7 +3,6 @@ export const UNDEFINED = 'undefined';
 export const STATUS_SUCCESS = 200;
 export const STATUS_FAIL = 400;
 export const RESULT_CODE_SUCCESS = 10001;
-export const RESULT_CODE_PHONE_NOT_EXIST = 10003;
 
 export const CHANGE_MSG_CODE = 'CHANGE_MSG_CODE';
 export const MESSAGE_HEADER = 'MESSAGE_HEADER';
@@ -16,6 +15,8 @@ export const SEND_OTP_FAIL = 'SEND_OTP_FAIL';
 export const RESEND_OTP = 'RESEND_OTP';
 export const RESEND_OTP_SUCCESS = 'RESEND_OTP_SUCCESS';
 export const RESEND_OTP_FAIL = 'RESEND_OTP_FAIL';
+export const CHECK_PHONE_SUCCESS = 'CHECK_PHONE_SUCCESS';
+export const CHECK_PHONE_FAIL = 'RESEND_OTP_FAIL';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -32,6 +33,7 @@ export const GET_USER_BASIC_INFO_SUCCESS = 'GET_USER_BASIC_INFO_SUCCESS';
 export const GET_USER_BASIC_INFO_FAIL = 'GET_USER_BASIC_INFO_FAIL';
 
 export const TYPE_USER_FORGOT_PASSWORD = 'forgot_password';
+export const TYPE_USER_CHECK_PHONE = 'check_phone';
 export const TYPE_USER_BASIC_DETAIL = 'basic_detail';
 export const TYPE_USER_FULL_DETAIL = 'full_detail';
 export const SEARCH_JOBS_SUCCESS = 'SEARCH_JOBS_SUCCESS';

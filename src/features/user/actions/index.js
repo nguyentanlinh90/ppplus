@@ -59,6 +59,26 @@ export const doProcessOTP = (phone, otp_code) => async dispatch => {
   }
 };
 
+export const doCheckPhone = phone => async dispatch => {
+  const path = getApiPath(V_1_0_0, 'check_phone');
+  const params = {
+    phone: phone,
+  };
+  const {json} = await callPostApi(path, params, '');
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.CHECK_PHONE_SUCCESS),
+    );
+  } else {
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.CHECK_PHONE_FAIL),
+    );
+  }
+};
+
 export const doSendOTP = (phone, type, screen) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'send_otp');
   const params = {
@@ -84,16 +104,7 @@ export const doSendOTP = (phone, type, screen) => async dispatch => {
       ),
     );
   } else {
-    const IS_PHONE_NOT_EXIST =
-      json.result_code === types.RESULT_CODE_PHONE_NOT_EXIST;
-    await dispatch(
-      fetchDataSuccess(
-        types.MESSAGE_HEADER,
-        IS_PHONE_NOT_EXIST
-          ? types.RESULT_CODE_PHONE_NOT_EXIST.toString()
-          : json.message,
-      ),
-    );
+    await dispatch(fetchDataSuccess(types.MESSAGE_HEADER, json.message));
     await dispatch(
       fetchDataSuccess(
         types.CHANGE_MSG_CODE,
