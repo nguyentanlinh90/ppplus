@@ -36,12 +36,10 @@ export default StyleSheet.create({
     fontSize: 24,
     color: '#1C1C1C',
     fontWeight: 'bold',
-    lineHeight: 29,
   },
   txtTitleField: {
     fontSize: 16,
     color: '#757575',
-    lineHeight: 19,
   },
   groupInput: {
     borderColor: '#E6E6E6',
