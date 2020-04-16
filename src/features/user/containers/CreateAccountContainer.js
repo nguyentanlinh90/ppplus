@@ -180,19 +180,6 @@ export class CreateAccountContainer extends Component {
               isAgree={this.state.isAgree}
             />
           </KeyboardAvoidingView>
-          <KeyboardAvoidingView behavior="padding" enabled={false}>
-            <CreateAccountForm
-              handleCreateAccount={this.handleCreateAccount}
-              navigation={this.props.navigation}
-              onChangeText={this.onChangeText}
-              phone={this.state.phone}
-              reference_code={this.state.reference_code}
-              password={this.state.password}
-              password_confirm={this.state.password_confirm}
-              setAgree={this._setAgree}
-              isAgree={this.state.isAgree}
-            />
-          </KeyboardAvoidingView>
         </ScrollView>
       </TouchableWithoutFeedback>
     );
@@ -208,7 +195,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
+export default connect(
+  mapStateToProps,
   doCreateAccount,
   changeMsgCode,
-})(CreateAccountContainer);
+)(CreateAccountContainer);

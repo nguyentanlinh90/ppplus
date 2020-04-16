@@ -1,5 +1,14 @@
-import { StyleSheet, Platform } from 'react-native';
+import {StyleSheet} from 'react-native';
 
+export const dotStyle = function(isPageSelect) {
+  return {
+    width: 8,
+    height: 8,
+    borderRadius: 8 / 2,
+    backgroundColor: isPageSelect ? '#F0532D' : '#F6C8A1',
+    marginEnd: 10,
+  };
+};
 export default StyleSheet.create({
   txtIgnore: {
     fontSize: 16,
@@ -21,32 +30,14 @@ export default StyleSheet.create({
     paddingBottom: 20,
     paddingEnd: 20,
   },
-  slide1: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB',
-  },
-  slide2: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5',
-  },
-  slide3: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9',
-  },
+
   text: {
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold',
   },
-  boxContent: {},
   buttonLogin: {
-    height: 44,
+    height: 40,
     marginStart: 20,
     marginEnd: 20,
     justifyContent: 'center',
@@ -59,13 +50,6 @@ export default StyleSheet.create({
   },
   txtCreateAccount: {
     color: '#F0532D',
-  },
-  viewPage: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginStart: 20,
-    marginEnd: 20,
   },
   imagePage: {
     width: '100%',
