@@ -239,7 +239,7 @@ export class LoginContainer extends Component {
       if (nextProps.data.is_updated_basic == 1) {
         // 1: User has updated basic info, 0: not yet
         var token = 'Bearer ' + nextProps.message;
-        dispatchScreen(this.props, SCREEN_MAIN, [token, nextProps.data]);
+        dispatchScreen(this.props, SCREEN_MAIN, {token: token, user: nextProps.data});
       } else {
         dispatchScreen(this.props, SCREEN_INFO, nextProps.data);
       }

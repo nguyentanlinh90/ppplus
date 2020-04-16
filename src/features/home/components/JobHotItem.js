@@ -63,7 +63,7 @@ export default class JobHotItem extends Component {
 
           <View style={styles.hotItemTopRight}>
             <Text numberOfLines={1} style={styles.hotItemCompanyName}>
-              {item.job_company.name}
+              {item.name}
             </Text>
             <View
               style={[

@@ -60,7 +60,7 @@ class SplashContainer extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.GET_USER_BASIC_INFO_SUCCESS) {
       nextProps.changeMsgCode('');
-      dispatchScreen(this.props, SCREEN_MAIN, [token, nextProps.data]);
+      dispatchScreen(this.props, SCREEN_MAIN, {token: token, user: nextProps.data});
     } else if (nextProps.msg_code == types.GET_USER_BASIC_INFO_FAIL) {
       nextProps.changeMsgCode('');
       dispatchScreen(this.props, SCREEN_LOGIN, {});

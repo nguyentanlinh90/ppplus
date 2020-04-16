@@ -1,87 +1,56 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, SafeAreaView, ScrollView, Image, Text, RefreshControl} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import styles from '../styles/styles';
-import SpinnerComponent from '../../../components/Spinner';
+import {sizes} from '../../../styles/styles';
+import {isEmptyObject} from '../../../utils/utils';
 
-class ScheduleContainer extends Component {
+export default class ScheduleContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       refreshing: false,
     };
   }
-
-  _onRefresh = () => {
-    this.setState({refreshing: true});
-    this._fetchData();
+  componentDidMount = () => {
+    this.props.getTasks();
   };
-  _fetchData = () => {
-    setTimeout(() => {
-      this.setState({refreshing: false});
-    }, 1000);
-  };
-
-  _checkData = () => {
-    if (this.props.messages.length > 0) {
-      return (
-        <View>
-          <Text> Data</Text>
-        </View>
-      );
-    } else {
-      return (
-        <View style={{alignItems: 'center', marginTop: 40}}>
-          <Image source={require('../../../assets/images/ic-no-message.png')} />
-          <Text
-            style={{
-              fontSize: 16,
-              color: '#1c1c1c',
-              marginTop: 20,
-            }}>
-            Bạn không có lịch làm việc nào
-          </Text>
-        </View>
-      );
-    }
-  };
-
-  // componentDidMount() {
-  //   setTimeout(() => {
-  //     this.props.handleRenderLoading('message');
-  //   }, 1000);
-  // }
-
-  componentWillUnmount() {
-  }
 
   render() {
-    const {props} = this.props;
-
+    const {firstName, dataSchedule} = this.props;
     return (
       <SafeAreaView>
-        <Text style={styles.title}>Lịch làm việc</Text>
-        <View style={{height: 5, backgroundColor: '#e3e3e3'}} />
-        {this.state.isLoading ? null : (
-          <ScrollView
-            style={{height: '100%'}}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}
-              />
-            }>
-            {this._checkData()}
-          </ScrollView>
-        )}
+        <Text style={styles.title}>Lịch làm việc của {firstName}</Text>
+        <ScrollView>
+          {!isEmptyObject(dataSchedule) && dataSchedule.task_list.length > 0 ? (
+            <FlatList
+              contentContainerStyle={{
+                paddingStart: sizes.s_22,
+                paddingEnd: sizes.s_15,
+              }}
+              data={dataSchedule.task_list}
+              renderItem={({item: rowData}) => {
+                return (
+                  <TouchableOpacity>
+                    <Text>{rowData.job_name}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              listKey={(item, index) => 'D' + index.toString()}
+            />
+          ) : (
+            <Text style={{alignSelf: 'center', fontSize: sizes.s_20}}>
+              Bạn không có lịch làm việc
+            </Text>
+          )}
+        </ScrollView>
       </SafeAreaView>
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    state: state,
-  };
-}
-export default connect(mapStateToProps, {})(ScheduleContainer);

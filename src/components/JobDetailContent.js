@@ -34,6 +34,7 @@ export default class JobDetailContent extends Component {
   render() {
     const {
       item,
+      gender_list,
       is_applied,
       getWorkingDistrictIds,
       getWorkingTimeIds,
@@ -93,7 +94,7 @@ export default class JobDetailContent extends Component {
             rankAge={
               item.employee_min_age + ' - ' + item.employee_max_age + ' tuổi'
             }
-            gender={setGender(item.employee_gender, item.gender_list)}
+            gender={setGender(item.employee_gender, gender_list)}
             figure={item.employee_figure}
             height={
               item.employee_min_height +

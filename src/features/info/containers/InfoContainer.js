@@ -223,7 +223,7 @@ class InfoContainer extends Component {
     if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      dispatchScreen(this.props, SCREEN_MAIN, [token, nextProps.data]);
+      dispatchScreen(this.props, SCREEN_MAIN, {token: token, user: nextProps.data});
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       this.setState({isLoading: false});
       showAlert(nextProps.message);

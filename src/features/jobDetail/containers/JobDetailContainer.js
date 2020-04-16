@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Dimensions} from 'react-native';
 import JobDetailContent from '../../../components/JobDetailContent';
 import SpinnerComponent from '../../../components/Spinner';
 import PopupApplyJobSuccess from '../components/PopupApplyJobSuccess';
@@ -17,8 +11,9 @@ import {applyJob} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 import * as types from '../../../api/types';
 import {arrayToString, handleCheck, showAlert} from '../../../utils/utils';
-var data = {};
-var token = '';
+let data = {};
+let token = '';
+let gender_list = [];
 class JobDetailContainer extends Component {
   constructor(props) {
     super(props);
@@ -31,8 +26,10 @@ class JobDetailContainer extends Component {
       is_applied: false,
       showPopupApplyJobSuccess: false,
     };
-    data = this.props.navigation.state.params[0];
-    token = this.props.navigation.state.params[1];
+    data = this.props.navigation.state.params.data;
+    token = this.props.navigation.state.params.token;
+    gender_list = this.props.navigation.state.params.gender_list;
+
   }
   componentDidMount = () => {
     this.setState({is_applied: data.is_applied});
@@ -193,6 +190,7 @@ class JobDetailContainer extends Component {
         </View>
         <JobDetailContent
           item={data}
+          gender_list = {gender_list}
           is_applied={this.state.is_applied}
           getWorkingDistrictIds={this._getWorkingDistrictIds}
           getWorkingTimeIds={this._getWorkingTimeIds}
@@ -210,7 +208,10 @@ function mapStateToProps(state) {
     data: state.job_detail.data,
   };
 }
-export default connect(mapStateToProps, {
-  applyJob,
-  changeMsgCode,
-})(JobDetailContainer);
+export default connect(
+  mapStateToProps,
+  {
+    applyJob,
+    changeMsgCode,
+  },
+)(JobDetailContainer);

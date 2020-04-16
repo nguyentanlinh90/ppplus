@@ -44,5 +44,9 @@ export const version = {
       version: 1,
       path: '/api/job/apply',
     },
+    get_tasks: {
+      version: 1,
+      path: '/api/task?page=',
+    },
   },
 };

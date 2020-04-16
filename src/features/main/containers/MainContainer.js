@@ -1,29 +1,50 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { View, Image, BackHandler } from 'react-native';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {View, Image, BackHandler, TouchableOpacity} from 'react-native';
+import Modal from 'react-native-modal';
 import NetInfo from '@react-native-community/netinfo';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from '../../home/containers/HomeContainer';
 import Notification from '../../notification/containers/NotificationContainer';
+import Schedule from '../../schedule/containers/ScheduleContainer';
 import Profile from '../../profile/containers/ProfileContainer';
 import SpinnerComponent from '../../../components/Spinner';
 import AlertJob from '../../activity/components/AlertJob';
-import { SCREEN_START_JOB, SCREEN_RETRO } from '../../../api/screen';
-import { dispatchScreen } from '../../../utils/utils';
+import {
+  SCREEN_START_JOB,
+  SCREEN_RETRO,
+  SCREEN_JOB_DETAIL,
+  SCREEN_SEARCH,
+} from '../../../api/screen';
+import {dispatchScreen, showAlert} from '../../../utils/utils';
 
 import styles from '../styles/styles';
-import ScheduleContainer from '../../schedule/containers/ScheduleContainer';
+import * as types from '../../../api/types';
+import {getJobs, getTasks} from '../actions/index';
+import {changeMsgCode} from '../../../api/helpers';
+
+let province_list = [];
+let district_list = [];
+let gender_list = [];
+let jobs_hot_page = 1;
+let jobs_new_page = 1;
 class MainContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: this.props.navigation.state.params[0],
-      user: this.props.navigation.state.params[1],
+      refreshing: true,
+      token: this.props.navigation.state.params.token,
+      user: this.props.navigation.state.params.user,
       isConnecting: false,
+      isShowViewFilter: false,
       selectedTab: 'home',
       isLoading: false,
       messages: [],
       showJobAlert: false, //=true for phase 2
+      jobs_hot: [],
+      jobs_new: [],
+      jobDetail: {},
+      dataSchedule: {},
     };
 
     this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
@@ -32,7 +53,10 @@ class MainContainer extends Component {
   }
 
   componentWillMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick,
+    );
   }
 
   handleBackButtonClick() {
@@ -45,10 +69,14 @@ class MainContainer extends Component {
   }
 
   _hideLoading = () => {
-    this.setState({ isLoading: false });
+    this.setState({isLoading: false});
+    if(this.state.refreshing){
+    this.setState({refreshing: false});
+
+    }
   };
   _showLoading = () => {
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
   };
 
   _loadData = tab => {
@@ -56,14 +84,14 @@ class MainContainer extends Component {
     setTimeout(() => {
       this._hideLoading();
       if (tab == 'message') {
-        this.setState({ messages: [] });
+        this.setState({messages: []});
       }
     }, 1000);
   };
 
   _openTab = tabName => {
     if (this.state.selectedTab != tabName)
-      this.setState({ selectedTab: tabName });
+      this.setState({selectedTab: tabName});
   };
 
   componentDidMount() {
@@ -77,17 +105,20 @@ class MainContainer extends Component {
       'connectionChange',
       this._handleConnectivityChange,
     );
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick,
+    );
   }
 
   _handleConnectivityChange = () => {
     NetInfo.isConnected.fetch().done(isConnected => {
-      this.setState({ isConnecting: isConnected });
+      this.setState({isConnecting: isConnected});
     });
   };
 
   _closeAlertJob = () => {
-    this.setState({ showJobAlert: false });
+    this.setState({showJobAlert: false});
   };
 
   _openStartJob = () => {
@@ -103,25 +134,142 @@ class MainContainer extends Component {
     dispatchScreen(this.props, SCREEN_RETRO, {});
   };
 
-  _setLoading = isLoading => {
-    this.setState({ isLoading: isLoading });
+  _renderViewFilter = () => {
+    return (
+      <Modal
+        backdropOpacity={0.4}
+        backdropColor="#000"
+        useNativeDriver={true}
+        animationIn={'slideInUp'}
+        animationInTiming={300}
+        animationOut={'slideOutDown'}
+        animationOutTiming={300}
+        isVisible={this.state.isShowViewFilter}
+        style={{margin: 15}}>
+        <View style={{height: 300, backgroundColor: '#fff', borderRadius: 10}}>
+          <TouchableOpacity
+            style={{width: '100%', alignItems: 'flex-end'}}
+            onPress={() => this._showViewFilter(false)}>
+            <Image
+              source={require('../../../assets/images/ic-close-1.png')}
+              style={{
+                width: 25,
+                height: 25,
+                justifyContent: 'flex-end',
+                marginEnd: 16,
+                marginTop: 16,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+      </Modal>
+    );
   };
+
+  _showViewFilter = isShow => {
+    this.setState({isShowViewFilter: isShow});
+  };
+
+  _openSearchContainer = () => {
+    this.props.navigation.navigate(SCREEN_SEARCH);
+  };
+
+  _setLoading = isLoading => {
+    this.setState({isLoading: isLoading});
+  };
+
+  _getJobs = params => {
+    this._showLoading();
+    const {getJobs} = this.props;
+    getJobs(this.state.token, params);
+  };
+
+  _loadMoreJob = isJobHot => {
+    var params = '';
+    if (isJobHot) {
+      jobs_hot_page = jobs_hot_page + 1;
+      params = jobs_hot_page + '&type=job_hot';
+    } else {
+      jobs_new_page = jobs_new_page + 1;
+      params = jobs_new_page + '&type=job_new';
+    }
+    this._getJobs(params);
+  };
+
+  _getTasks = () => {
+    this._showLoading();
+    const {getTasks} = this.props;
+    getTasks(this.state.token, 1);
+  };
+
+  _openJobDetail = data => {
+    this.props.navigation.navigate(SCREEN_JOB_DETAIL, {
+      data: data,
+      token: this.state.token,
+      gender_list: gender_list,
+    });
+  };
+
+  _onRefreshHome = () => {
+    this.setState({refreshing: true});
+    jobs_new_page = 1;
+    jobs_hot_page = 1;
+    this._getJobs(1);
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this._hideLoading();
+    if (nextProps.msg_code == types.GET_JOBS_SUCCESS) {
+      //jobs hot
+      var jobsHot = nextProps.data.job_hot_list;
+      if (jobsHot.length > 0) {
+        var arr = this.state.jobs_hot;
+        for (var i = 0; i < jobsHot.length; i++) {
+          arr.push(jobsHot[i]);
+        }
+        this.setState({
+          jobs_hot: arr != 0 ? arr : [],
+        });
+      }
+
+      //jobs new
+      var jobsNew = nextProps.data.job_new_list;
+      if (jobsNew.length > 0) {
+        var arr = this.state.jobs_new;
+        for (var i = 0; i < jobsNew.length; i++) {
+          arr.push(jobsNew[i]);
+        }
+        this.setState({
+          jobs_new: arr != 0 ? arr : [],
+        });
+      }
+
+      if (province_list.length == 0) {
+        province_list = nextProps.data.province_list;
+      }
+      if (district_list.length == 0) {
+        district_list = nextProps.data.district_list;
+      }
+      if (gender_list.length == 0) {
+        gender_list = nextProps.data.gender_list;
+      }
+    } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_SUCCESS) {
+      this._openJobDetail(nextProps.data);
+    } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_FAIL) {
+      showAlert(nextProps.message);
+    } else if (nextProps.msg_code == types.GET_TASKS_SUCCESS) {
+      this.setState({dataSchedule: nextProps.data});
+    } else if (nextProps.msg_code == types.GET_TASKS_FAIL) {
+      this.setState({dataSchedule: {}});
+    }
+    nextProps.changeMsgCode('');
+  }
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <SpinnerComponent visible={this.state.isLoading} />
-        {/* <AlertJob
-          visible={this.state.showJobAlert}
-          name="Linh"
-          timeStart="13:00"
-          timeEnd="17:00"
-          jobTitle="Ra Mắt OPPO F7"
-          jobAddress="12 Nguyễn Thị Minh Khai, P. Đa Kao, Q. 1, Tp. Hồ Chí Minh."
-          closeAlertJob={this._closeAlertJob}
-          openStartJob={this._openStartJob}
-        /> */}
-
+        {this._renderViewFilter()}
         <TabNavigator
           style={styles.container}
           tabBarStyle={styles.tabBarStyle}
@@ -149,39 +297,20 @@ class MainContainer extends Component {
               this._openTab('home');
             }}>
             <Home
-              props={this.props}
-              token={this.state.token}
-              user={this.state.user}
-              setLoading={this._setLoading}
+              onRefreshHome={this._onRefreshHome}
+              openSearchContainer={this._openSearchContainer}
+              showViewFilter={this._showViewFilter}
+              firstName={this.state.user.first_name}
+              getJobs={this._getJobs}
+              loadMoreJob={this._loadMoreJob}
+              openJobDetail={this._openJobDetail}
+              jobs_hot={this.state.jobs_hot}
+              jobs_new={this.state.jobs_hot}
+              province_list={province_list}
+              district_list={district_list}
+              gender_list={gender_list}
             />
           </TabNavigator.Item>
-
-          {/* <TabNavigator.Item
-            selected={this.state.selectedTab === 'message'}
-            renderIcon={() => (
-              <Image
-                resizeMode="contain"
-                source={require('../../../assets/images/ic-message-unselect.png')}
-                style={styles.imgNav}
-              />
-            )}
-            renderSelectedIcon={() => (
-              <View style={styles.viewSelect}>
-                <Image
-                  resizeMode="contain"
-                  source={require('../../../assets/images/ic-message-select.png')}
-                  style={styles.imgNav}
-                />
-                <View style={styles.circleMenu} />
-              </View>
-            )}
-            onPress={() => {
-              this._openTab('message');
-              return;
-              this._loadData('message');
-            }}>
-            <Message messages={this.state.messages} props={this.props} />
-          </TabNavigator.Item> */}
 
           <TabNavigator.Item
             selected={this.state.selectedTab === 'notification'}
@@ -230,12 +359,11 @@ class MainContainer extends Component {
             )}
             onPress={() => {
               this._openTab('schedule');
-              return;
-              this._loadData('schedule');
             }}>
-            <ScheduleContainer
-              messages={this.state.messages}
-              props={this.props}
+            <Schedule
+              firstName={this.state.user.first_name}
+              getTasks={this._getTasks}
+              dataSchedule={this.state.dataSchedule}
             />
           </TabNavigator.Item>
           <TabNavigator.Item
@@ -263,7 +391,6 @@ class MainContainer extends Component {
               token={this.state.token}
               user={this.state.user}
               gotoRetroScreen={this._gotoRetroScreen}
-
             />
           </TabNavigator.Item>
         </TabNavigator>
@@ -274,7 +401,16 @@ class MainContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    state: state,
+    msg_code: state.main.msg_code,
+    message: state.main.message,
+    data: state.main.data,
   };
 }
-export default connect(mapStateToProps, {})(MainContainer);
+export default connect(
+  mapStateToProps,
+  {
+    getJobs,
+    getTasks,
+    changeMsgCode,
+  },
+)(MainContainer);
