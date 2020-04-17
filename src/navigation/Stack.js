@@ -15,6 +15,7 @@ import Program from '../features/program/containers/ProgramContainer';
 import StartJob from '../features/activity/containers/StartJobContainer';
 import Product from '../features/product/containers/ProductContainer';
 import JobDetail from '../features/jobDetail/containers/JobDetailContainer';
+import WebViewShow from '../features/schedule/containers/WebViewShow';
 
 const Stack = createStackNavigator(
   {
@@ -102,6 +103,12 @@ const Stack = createStackNavigator(
         header: null,
       },
     },
+    WebViewShow: {
+      screen: WebViewShow,
+      navigationOptions: {
+        header: null,
+      },
+    },
   },
   {
     initialRouteName: 'Splash',
@@ -126,4 +133,4 @@ Stack.router.getStateForAction = (action, state) => {
   return prevGetState(action, state);
 };
 
-export default AppContainer = createAppContainer(Stack);
+export default (AppContainer = createAppContainer(Stack));

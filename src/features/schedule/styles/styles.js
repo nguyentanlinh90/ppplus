@@ -55,12 +55,10 @@ export default StyleSheet.create({
     textAlignVertical: 'bottom',
   },
   textButton: {
-    flex: 1,
+    // flex: 1,
     color: colors.white,
     fontSize: sizes.s_16,
     fontWeight: 'bold',
-    alignSelf: 'center',
-    textAlignVertical: 'center',
   },
   dash: {
     marginStart: sizes.s_40,
@@ -70,5 +68,7 @@ export default StyleSheet.create({
     marginBottom: sizes.s_15,
     marginStart: sizes.s_80,
     marginTop: sizes.s_10,
+    alignItems:'center',
+    justifyContent:'center'
   },
 });

@@ -20,6 +20,7 @@ import {
   SCREEN_RETRO,
   SCREEN_JOB_DETAIL,
   SCREEN_SEARCH,
+  SCREEN_WEBVIEW_SHOW,
 } from '../../../api/screen';
 
 let province_list = [];
@@ -36,7 +37,7 @@ class MainContainer extends Component {
       user: this.props.navigation.state.params.user,
       isConnecting: false,
       isShowViewFilter: false,
-      selectedTab: 'home',
+      selectedTab: 'schedule',
       isLoading: false,
       messages: [],
       showJobAlert: false, //=true for phase 2
@@ -59,12 +60,12 @@ class MainContainer extends Component {
   }
 
   handleBackButtonClick() {
-    if (this.state.selectedTab == 'home') {
-      return false;
-    } else {
-      this._openTab('home');
-    }
-    return true;
+    // if (this.state.selectedTab == 'home') {
+    //   return false;
+    // } else {
+    //   this._openTab('home');
+    // }
+    // return true;
   }
 
   _hideLoading = () => {
@@ -206,8 +207,8 @@ class MainContainer extends Component {
     jobs_hot_page = 1;
     this._getJobs(1);
   };
-
   //screen home end
+  
   //==========================================
   //screen schedule
 
@@ -216,10 +217,18 @@ class MainContainer extends Component {
     const {getTasks} = this.props;
     getTasks(this.state.token, 1);
   };
-
+  _openWebView = uri => {
+    let header = {
+      Authorization: this.state.token,
+    };
+    this.props.navigation.navigate(SCREEN_WEBVIEW_SHOW, {
+      uri: uri,
+      header: header,
+    });
+  };
   //screen schedule end
-  //==========================================
 
+  //==========================================
   //screen profile
   _updateUser = (percent_updated, avatar, last_name, first_name) => {
     const {user} = this.state;
@@ -401,6 +410,8 @@ class MainContainer extends Component {
               firstName={this.state.user.first_name}
               getTasks={this._getTasks}
               dataSchedule={this.state.dataSchedule}
+              token={this.state.token}
+              openWebView={this._openWebView}
             />
           </TabNavigator.Item>
           <TabNavigator.Item

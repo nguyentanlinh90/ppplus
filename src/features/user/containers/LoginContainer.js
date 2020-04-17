@@ -36,8 +36,8 @@ export class LoginContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '',
-      password: '',
+      phone: '0387665204',
+      password: '12Chiec@',
       isLoading: false,
       isConnecting: false,
       allowLogin: false,

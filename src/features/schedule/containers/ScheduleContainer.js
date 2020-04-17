@@ -1,31 +1,32 @@
+import 'react-native-get-random-values';
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {
   SafeAreaView,
   ScrollView,
   Text,
   FlatList,
+  BackHandler,
 } from 'react-native';
+import {WebView} from 'react-native-webview';
+import Modal from 'react-native-modal';
 import styles from '../styles/styles';
-import {sizes} from '../../../styles/styles';
+import {sizes, colors} from '../../../styles/styles';
 import {isEmptyObject} from '../../../utils/utils';
 import ItemTask from '../components/ItemTask';
-
 export default class ScheduleContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      refreshing: false,
-    };
+    this.state = {};
   }
-  componentDidMount = () => {
+
+  componentDidMount() {
     this.props.getTasks();
-  };
+  }
 
   render() {
-    const {firstName, dataSchedule} = this.props;
+    const {firstName, dataSchedule, openWebView} = this.props;
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{flex: 1}}>
         <Text style={styles.title}>Lịch làm việc của {firstName}</Text>
         <ScrollView>
           {!isEmptyObject(dataSchedule) && dataSchedule.task_list.length > 0 ? (
@@ -36,6 +37,7 @@ export default class ScheduleContainer extends Component {
                   <ItemTask
                     item={rowData}
                     priority_list={dataSchedule.priority_list}
+                    openWebView={openWebView}
                   />
                 );
               }}
