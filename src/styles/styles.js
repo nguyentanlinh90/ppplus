@@ -8,7 +8,8 @@ export const colors = {
   c_f0532d: '#f0523d',
   c_d8d8d8: '#d8d8d8',
   c_f1f1f1: '#f1f1f1',
-  c_25a174 : '#25a174'
+  c_25a174 : '#25a174',
+  c_727373: '#727373'
 };
 export const sizes = {
   s_0: 0,

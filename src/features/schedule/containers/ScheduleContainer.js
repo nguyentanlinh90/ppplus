@@ -10,6 +10,7 @@ import {
 import styles from '../styles/styles';
 import {sizes} from '../../../styles/styles';
 import {isEmptyObject} from '../../../utils/utils';
+import ItemTask from '../components/ItemTask';
 
 export default class ScheduleContainer extends Component {
   constructor(props) {
@@ -30,17 +31,9 @@ export default class ScheduleContainer extends Component {
         <ScrollView>
           {!isEmptyObject(dataSchedule) && dataSchedule.task_list.length > 0 ? (
             <FlatList
-              contentContainerStyle={{
-                paddingStart: sizes.s_22,
-                paddingEnd: sizes.s_15,
-              }}
               data={dataSchedule.task_list}
               renderItem={({item: rowData}) => {
-                return (
-                  <TouchableOpacity>
-                    <Text>{rowData.job_name}</Text>
-                  </TouchableOpacity>
-                );
+                return <ItemTask item={rowData.job_name} />;
               }}
               listKey={(item, index) => 'D' + index.toString()}
             />
