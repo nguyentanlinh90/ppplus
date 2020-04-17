@@ -9,19 +9,18 @@ import Notification from '../../notification/containers/NotificationContainer';
 import Schedule from '../../schedule/containers/ScheduleContainer';
 import Profile from '../../profile/containers/ProfileContainer';
 import SpinnerComponent from '../../../components/Spinner';
-import AlertJob from '../../activity/components/AlertJob';
+import styles from '../styles/styles';
+import * as types from '../../../api/types';
+import {getJobs, getTasks, doLogout} from '../actions/index';
+import {changeMsgCode} from '../../../api/helpers';
+import {dispatchScreen, showAlert, setStoreData} from '../../../utils/utils';
+import {ACCESS_TOKEN} from '../../../utils/constants';
 import {
   SCREEN_START_JOB,
   SCREEN_RETRO,
   SCREEN_JOB_DETAIL,
   SCREEN_SEARCH,
 } from '../../../api/screen';
-import {dispatchScreen, showAlert} from '../../../utils/utils';
-
-import styles from '../styles/styles';
-import * as types from '../../../api/types';
-import {getJobs, getTasks} from '../actions/index';
-import {changeMsgCode} from '../../../api/helpers';
 
 let province_list = [];
 let district_list = [];
@@ -32,7 +31,7 @@ class MainContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      refreshing: true,
+      refreshing: false,
       token: this.props.navigation.state.params.token,
       user: this.props.navigation.state.params.user,
       isConnecting: false,
@@ -70,9 +69,8 @@ class MainContainer extends Component {
 
   _hideLoading = () => {
     this.setState({isLoading: false});
-    if(this.state.refreshing){
-    this.setState({refreshing: false});
-
+    if (this.state.refreshing) {
+      this.setState({refreshing: false});
     }
   };
   _showLoading = () => {
@@ -130,10 +128,8 @@ class MainContainer extends Component {
     });
   };
 
-  _gotoRetroScreen = () => {
-    dispatchScreen(this.props, SCREEN_RETRO, {});
-  };
-
+  //==========================================
+  //screen home
   _renderViewFilter = () => {
     return (
       <Modal
@@ -196,12 +192,6 @@ class MainContainer extends Component {
     this._getJobs(params);
   };
 
-  _getTasks = () => {
-    this._showLoading();
-    const {getTasks} = this.props;
-    getTasks(this.state.token, 1);
-  };
-
   _openJobDetail = data => {
     this.props.navigation.navigate(SCREEN_JOB_DETAIL, {
       data: data,
@@ -211,11 +201,46 @@ class MainContainer extends Component {
   };
 
   _onRefreshHome = () => {
-    this.setState({refreshing: true});
+    this.setState({refreshing: true, jobs_hot: [], jobs_new: []});
     jobs_new_page = 1;
     jobs_hot_page = 1;
     this._getJobs(1);
   };
+
+  //screen home end
+  //==========================================
+  //screen schedule
+
+  _getTasks = () => {
+    this._showLoading();
+    const {getTasks} = this.props;
+    getTasks(this.state.token, 1);
+  };
+
+  //screen schedule end
+  //==========================================
+
+  //screen profile
+  _updateUser = (percent_updated, avatar, last_name, first_name) => {
+    const {user} = this.state;
+    var temp = user;
+    user.percent_updated = percent_updated;
+    temp.avatar = avatar;
+    temp.last_name = last_name;
+    temp.first_name = first_name;
+    this.setState({user: temp});
+  };
+
+  _handleLogout = () => {
+    this._showLoading();
+    const {doLogout} = this.props;
+    doLogout(this.state.token);
+  };
+
+  _gotoRetroScreen = () => {
+    dispatchScreen(this.props, SCREEN_RETRO, {});
+  };
+  //screen profile end
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     this._hideLoading();
@@ -253,16 +278,27 @@ class MainContainer extends Component {
       if (gender_list.length == 0) {
         gender_list = nextProps.data.gender_list;
       }
+      nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_SUCCESS) {
       this._openJobDetail(nextProps.data);
+      nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_FAIL) {
       showAlert(nextProps.message);
+      nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_TASKS_SUCCESS) {
       this.setState({dataSchedule: nextProps.data});
+      nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_TASKS_FAIL) {
       this.setState({dataSchedule: {}});
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.LOGOUT_SUCCESS) {
+      setStoreData(ACCESS_TOKEN, '');
+      this._gotoRetroScreen();
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.LOGOUT_FAIL) {
+      showAlert(nextProps.message);
+      nextProps.changeMsgCode('');
     }
-    nextProps.changeMsgCode('');
   }
 
   render() {
@@ -298,6 +334,7 @@ class MainContainer extends Component {
             }}>
             <Home
               onRefreshHome={this._onRefreshHome}
+              refreshing={this.state.refreshing}
               openSearchContainer={this._openSearchContainer}
               showViewFilter={this._showViewFilter}
               firstName={this.state.user.first_name}
@@ -388,9 +425,9 @@ class MainContainer extends Component {
             onPress={() => this._openTab('profile')}>
             <Profile
               props={this.props}
-              token={this.state.token}
               user={this.state.user}
-              gotoRetroScreen={this._gotoRetroScreen}
+              updateUser={this._updateUser}
+              handleLogout={this._handleLogout}
             />
           </TabNavigator.Item>
         </TabNavigator>
@@ -411,6 +448,7 @@ export default connect(
   {
     getJobs,
     getTasks,
+    doLogout,
     changeMsgCode,
   },
 )(MainContainer);

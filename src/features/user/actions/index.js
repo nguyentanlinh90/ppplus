@@ -176,7 +176,6 @@ export const doUpdateUserInfo = (params, access_token) => async dispatch => {
 
 export const getUserInfo = (type, token) => async dispatch => {
   const path = getApiPath(V_1_0_0, 'get_user_info') + type;
-
   const {json} = await callGetApi(path, token);
   if (
     typeof json !== types.UNDEFINED &&

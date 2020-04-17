@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {
   View,
   Image,
@@ -14,15 +13,12 @@ import styles from '../../../features/home/styles/styles';
 import JobHotItem from '../components/JobHotItem';
 import JobNewItem from '../components/JobNewItem';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {colors, sizes} from '../../../styles/styles';
 
 export default class HomeContainer extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      refreshing: false,
-      inputSearch: '',
-    };
+    this.state = {};
   }
 
   _renderContent = () => {
@@ -43,9 +39,9 @@ export default class HomeContainer extends Component {
 
           <FlatList
             contentContainerStyle={{
-              paddingStart: 16,
-              paddingBottom: 16,
-              paddingTop: 16,
+              paddingStart: sizes.s_16,
+              paddingBottom: sizes.s_16,
+              paddingTop: sizes.s_16,
             }}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
@@ -71,10 +67,14 @@ export default class HomeContainer extends Component {
             }}
           />
         </View>
-        <View style={[styles.groupContent, {marginTop: 10}]}>
+        <View style={[styles.groupContent, {marginTop: sizes.s_10}]}>
           <Text style={styles.txtTitleGroupContent}>Việc mới cập nhật</Text>
           <FlatList
-            style={{paddingStart: 16, marginTop: 10, marginEnd: 16}}
+            style={{
+              paddingStart: sizes.s_16,
+              marginTop: sizes.s_10,
+              marginEnd: sizes.s_16,
+            }}
             data={jobs_new}
             renderItem={({item: rowData}) => {
               return (
@@ -91,9 +91,9 @@ export default class HomeContainer extends Component {
           <Text style={styles.txtTitleGroupContent}>Thương hiệu hàng đầu</Text>
           <FlatList
             style={{
-              backgroundColor: '#fff',
-              paddingBottom: 16,
-              paddingStart: 16,
+              backgroundColor: colors.white,
+              paddingBottom: sizes.s_16,
+              paddingStart: sizes.s_16,
             }}
             showsHorizontalScrollIndicator={false}
             horizontal={true}
@@ -104,10 +104,10 @@ export default class HomeContainer extends Component {
                   resizeMode="stretch"
                   source={{uri: rowData.job_company.icon}}
                   style={{
-                    width: 94,
-                    height: 59,
-                    backgroundColor: '#757575',
-                    marginEnd: 16,
+                    width: sizes.s_94,
+                    height: sizes.s_59,
+                    backgroundColor: colors.c_757575,
+                    marginEnd: sizes.s_16,
                   }}
                 />
               );
@@ -127,8 +127,12 @@ export default class HomeContainer extends Component {
   };
 
   render() {
-
-    const{onRefreshHome,openSearchContainer,showViewFilter} = this.props;
+    const {
+      onRefreshHome,
+      refreshing,
+      openSearchContainer,
+      showViewFilter,
+    } = this.props;
     return (
       <View style={styles.container}>
         <Image
@@ -156,7 +160,7 @@ export default class HomeContainer extends Component {
               <TouchableOpacity
                 activeOpacity={1}
                 style={styles.inputSearch}
-                onPress={() =>openSearchContainer()}>
+                onPress={() => openSearchContainer()}>
                 <Text style={styles.txtSearch}>Tìm kiếm</Text>
                 <View style={styles.imgBoxSearch}>
                   <Image
@@ -168,7 +172,11 @@ export default class HomeContainer extends Component {
               </TouchableOpacity>
             </Card>
             <Card
-              style={{width: 44, height: 44, marginStart: 10}}
+              style={{
+                width: sizes.s_44,
+                height: sizes.s_44,
+                marginStart: sizes.s_10,
+              }}
               cornerRadius={6}
               elevation={1.5}
               opacity={0.2}>
@@ -181,7 +189,7 @@ export default class HomeContainer extends Component {
                 <Image
                   resizeMode="contain"
                   source={require('../../../assets/images/ic-filter.png')}
-                  style={{width: 20, height: 20}}
+                  style={{width: sizes.s_20, height: sizes.s_20}}
                 />
               </TouchableOpacity>
             </Card>
@@ -194,8 +202,8 @@ export default class HomeContainer extends Component {
               // tintColor={'#098'}
               // titleColor={'#000'}
               // title={'Cập nhật'}
-              // refreshing={this.state.refreshing}
-              // onRefresh={onRefreshHome()}
+              refreshing={refreshing}
+              onRefresh={onRefreshHome.bind(this.props)}
             />
           }>
           {this._renderContent()}

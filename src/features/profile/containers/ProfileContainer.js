@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {
   View,
   Text,
@@ -11,20 +10,13 @@ import {
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import styles from '../styles/styles';
-import {SCREEN_FILL_PROFILE, SCREEN_PROGRAM} from '../../../api/screen';
-import {setStoreData, showAlert, formatMoney} from '../../../utils/utils';
-import {ACCESS_TOKEN} from '../../../utils/constants';
-import {doLogout} from '../../user/actions/index';
-import * as types from '../../../api/types';
-import {changeMsgCode} from '../../../api/helpers';
-var token = '';
-class ProfileContainer extends Component {
+import {SCREEN_FILL_PROFILE} from '../../../api/screen';
+import {formatMoney} from '../../../utils/utils';
+import {colors} from '../../../styles/styles';
+export default class ProfileContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      user: this.props.user,
-    };
-    token = this.props.token;
+    this.state = {};
   }
 
   _showAlert = () => {
@@ -40,7 +32,7 @@ class ProfileContainer extends Component {
         {
           text: 'Đồng Ý',
           onPress: () => {
-            this._handleLogout();
+            this.props.handleLogout();
           },
         },
       ],
@@ -48,35 +40,8 @@ class ProfileContainer extends Component {
     );
   };
 
-  _handleLogout = () => {
-    const {doLogout} = this.props;
-    doLogout(token);
-  };
-
-  _refresh = (percent_updated, avatar, last_name, first_name) => {
-    const {user} = this.state;
-    var temp = user;
-    user.percent_updated = percent_updated;
-    temp.avatar = avatar;
-    temp.last_name = last_name;
-    temp.first_name = first_name;
-    this.setState({user: temp});
-  };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == types.LOGOUT_SUCCESS) {
-      nextProps.changeMsgCode('');
-      setStoreData(ACCESS_TOKEN, '');
-      this.props.gotoRetroScreen();
-    } else if (nextProps.msg_code == types.LOGOUT_FAIL) {
-      showAlert(nextProps.message);
-      nextProps.changeMsgCode('');
-    }
-  }
-
   render() {
-    const {user} = this.state;
-    const {props} = this.props;
+    const {props, user, updateUser} = this.props;
     return (
       <SafeAreaView style={{flex: 1}}>
         <ScrollView>
@@ -85,23 +50,13 @@ class ProfileContainer extends Component {
               percent={user.percent_updated}
               radius={58}
               borderWidth={3}
-              color="#F0532D"
-              shadowColor="#d8d8d8"
-              bgColor="#fff"
+              color={colors.c_f0532d}
+              shadowColor={colors.c_d8d8d8}
+              bgColor={colors.white}
             />
             <Image source={{uri: user.avatar}} style={styles.circleAvatar} />
           </View>
-          {/* <Rating
-            readonly={true}
-            type="custom"
-            ratingColor="#FEBE10"
-            ratingBackgroundColor="#d8d8d8"
-            ratingCount={5}
-            imageSize={20}
-            startingValue={this.state.rating}
-            style={{paddingVertical: 5}}
-            tintColor="#fff"
-          /> */}
+
           <Text style={styles.name}>
             {user.last_name + ' ' + user.first_name}
           </Text>
@@ -120,13 +75,13 @@ class ProfileContainer extends Component {
             </Text>
           ) : null}
 
-          <View style={{backgroundColor: '#f1f1f1', height: 5}} />
+          <View style={{backgroundColor: colors.c_f1f1f1, height: 5}} />
           <TouchableOpacity
             style={styles.boxItem}
             onPress={() => {
               props.navigation.navigate(SCREEN_FILL_PROFILE, {
                 onGoBack: (percent_updated, avatar, last_name, first_name) =>
-                  this._refresh(percent_updated, avatar, last_name, first_name),
+                  updateUser(percent_updated, avatar, last_name, first_name),
               });
             }}>
             <Image
@@ -138,16 +93,18 @@ class ProfileContainer extends Component {
               <Text style={styles.boxItemTitle}>Cập nhật hồ sơ</Text>
               {user.percent_updated < 100 ? (
                 <View style={{flexDirection: 'row'}}>
-                  <Text style={{color: '#757575', fontSize: 12}}>
+                  <Text style={{color: colors.c_757575, fontSize: 12}}>
                     {' (Đã hoàn thiện '}
                   </Text>
-                  <Text style={{color: '#f0532d', fontSize: 12}}>
+                  <Text style={{color: colors.c_f0532d, fontSize: 12}}>
                     {user.percent_updated + '%'}
                   </Text>
-                  <Text style={{color: '#757575', fontSize: 12}}>{')'}</Text>
+                  <Text style={{color: colors.c_757575, fontSize: 12}}>
+                    {')'}
+                  </Text>
                 </View>
               ) : (
-                <Text style={{color: '#25A174', fontSize: 12}}>
+                <Text style={{color: colors.c_25a174, fontSize: 12}}>
                   {' (Đã hoàn thiện hồ sơ)'}
                 </Text>
               )}
@@ -267,15 +224,3 @@ class ProfileContainer extends Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    msg_code: state.user.msg_code,
-    message: state.user.message,
-    data: state.user.data,
-  };
-}
-export default connect(mapStateToProps, {
-  doLogout,
-  changeMsgCode,
-})(ProfileContainer);
