@@ -5,7 +5,6 @@ import {
   ScrollView,
   Text,
   FlatList,
-  TouchableOpacity,
 } from 'react-native';
 import styles from '../styles/styles';
 import {sizes} from '../../../styles/styles';
@@ -33,7 +32,12 @@ export default class ScheduleContainer extends Component {
             <FlatList
               data={dataSchedule.task_list}
               renderItem={({item: rowData}) => {
-                return <ItemTask item={rowData.job_name} />;
+                return (
+                  <ItemTask
+                    item={rowData}
+                    priority_list={dataSchedule.priority_list}
+                  />
+                );
               }}
               listKey={(item, index) => 'D' + index.toString()}
             />
