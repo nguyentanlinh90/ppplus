@@ -27,4 +27,5 @@ export const specialCharacters = /[`~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 export const numberCharacters = /[0123456789]/;
 export const KEY_TIME_LOGIN_FAIL = 'KEY_TIME_LOGIN_FAIL';
 export const KEY_PHONE_NOT_EXITS = 'KEY_PHONE_NOT_EXITS';
+export const EVENT_CODE_BACK = 1001;
 

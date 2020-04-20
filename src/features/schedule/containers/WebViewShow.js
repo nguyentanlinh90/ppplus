@@ -1,48 +1,37 @@
 import 'react-native-get-random-values';
 import React, {Component} from 'react';
-import {SafeAreaView, Alert} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
+import {EVENT_CODE_BACK} from '../../../utils/constants';
 export default class WebViewShow extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  //   this.webView.isFileUploadSupported().then(res => {
-  //     if (res === true) {
-  //       // file upload is supported
-  //     } else {
-  //       // file upload is not supported
-  //     }
-  //   });
-  }
-  onMessage=(m)=> {
-    //Prints out data that was passed.
-    console.log('linhnt data');
-    alert('linhsss')
   }
 
+  onMessage = event => {
+    let eventCode = JSON.parse(event.nativeEvent.data).code_event;
+
+    if (EVENT_CODE_BACK == eventCode) {
+      this.props.navigation.goBack();
+    }
+  };
+
   render() {
-    // const params = 'platform='+Platform.OS;
     let uri = this.props.navigation.state.params.uri;
     let header = this.props.navigation.state.params.header;
-    // const injectedJS = `if (!window.location.search) {
-    //   var link = document.getElementById('progress-bar');
-    //   link.href = './site/index.html?${params}';
-    //   link.click();
-    // }`;
     return (
       <SafeAreaView style={{flex: 1}}>
         <WebView
-        // injectedJavaScript={injectedJS}
-          // ref={ref => (this.webview = ref)}
-          source={{uri: uri, headers: header}}
-          javaScriptEnabled={true}
-          originWhitelist={['*']}
-          allowFileAccess={true}
+          scrollEnabled={true}
           startInLoadingState={true}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
           useWebKit={true}
+          mixedContentMode="always"
+          bounces={false}
+          source={{uri: uri, headers: header}}
           onMessage={this.onMessage}
-          goBack = {()=>{console.log('linhnt goback')}}
-          
         />
       </SafeAreaView>
     );

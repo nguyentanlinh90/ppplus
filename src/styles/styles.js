@@ -15,6 +15,8 @@ export const colors = {
   c_e6e6e6: '#e6e6e6',
   c_ffeeea: '#ffeeea',
   c_060606: '#060606',
+  c_f3f3f3 : '#f3f3f3',
+  c_f2f2f2 : '#f2f2f2'
 };
 export const sizes = {
   s_0: 0,
@@ -38,6 +40,7 @@ export const sizes = {
   s_25: 25,
   s_26: 26,
   s_30: 30,
+  s_32: 32,
   s_34: 34,
   s_40: 40,
   s_42: 42,
