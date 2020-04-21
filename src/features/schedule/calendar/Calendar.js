@@ -258,11 +258,11 @@ export default class Calendar extends Component {
             marginBottom: 10,
           }}>
           <Text style={styles.visibleMonthAndYear}>{visibleMonthAndYear}</Text>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <Image
               source={require('../../../assets/images/ic-calendar-orange.png')}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <ScrollView
           ref={scrollView => {
@@ -290,5 +290,6 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#fa6400',
     fontSize: 16,
+    fontWeight:'bold'
   },
 });

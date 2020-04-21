@@ -37,10 +37,9 @@ class MainContainer extends Component {
       user: this.props.navigation.state.params.user,
       isConnecting: false,
       isShowViewFilter: false,
-      selectedTab: 'schedule',
+      selectedTab: 'home',
       isLoading: false,
       messages: [],
-      showJobAlert: false, //=true for phase 2
       jobs_hot: [],
       jobs_new: [],
       jobDetail: {},
@@ -60,12 +59,12 @@ class MainContainer extends Component {
   }
 
   handleBackButtonClick() {
-    // if (this.state.selectedTab == 'home') {
-    //   return false;
-    // } else {
-    //   this._openTab('home');
-    // }
-    // return true;
+    if (this.state.selectedTab == 'home') {
+      return false;
+    } else {
+      this._openTab('home');
+    }
+    return true;
   }
 
   _hideLoading = () => {
@@ -114,10 +113,6 @@ class MainContainer extends Component {
     NetInfo.isConnected.fetch().done(isConnected => {
       this.setState({isConnecting: isConnected});
     });
-  };
-
-  _closeAlertJob = () => {
-    this.setState({showJobAlert: false});
   };
 
   _openStartJob = () => {
@@ -198,6 +193,9 @@ class MainContainer extends Component {
       data: data,
       token: this.state.token,
       gender_list: gender_list,
+      province_list: province_list,
+      district_list: district_list,
+
     });
   };
 
@@ -208,14 +206,13 @@ class MainContainer extends Component {
     this._getJobs(1);
   };
   //screen home end
-  
   //==========================================
-  //screen schedule
 
-  _getTasks = () => {
+  //screen schedule
+  _getTasks = (params) => {
     this._showLoading();
     const {getTasks} = this.props;
-    getTasks(this.state.token, 1);
+    getTasks(this.state.token, params);
   };
   _openWebView = uri => {
     let header = {

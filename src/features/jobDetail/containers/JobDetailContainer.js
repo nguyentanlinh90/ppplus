@@ -4,20 +4,20 @@ import {View, Text, Image, TouchableOpacity, Dimensions} from 'react-native';
 import JobDetailContent from '../../../components/JobDetailContent';
 import SpinnerComponent from '../../../components/Spinner';
 import PopupApplyJobSuccess from '../components/PopupApplyJobSuccess';
-const screenHeight = Math.round(Dimensions.get('window').height);
-import {getStatusBarHeight} from 'react-native-status-bar-height';
 import styles from '../styles/styles';
 import {applyJob} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 import * as types from '../../../api/types';
 import {arrayToString, handleCheck, showAlert} from '../../../utils/utils';
-let data = {};
 let token = '';
 let gender_list = [];
+let province_list = [];
+let district_list = [];
 class JobDetailContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data : this.props.navigation.state.params.data,
       isLoading: false,
       working_province_ids: [],
       working_district_ids: [],
@@ -26,14 +26,12 @@ class JobDetailContainer extends Component {
       is_applied: false,
       showPopupApplyJobSuccess: false,
     };
-    data = this.props.navigation.state.params.data;
     token = this.props.navigation.state.params.token;
     gender_list = this.props.navigation.state.params.gender_list;
+    province_list = this.props.navigation.state.params.province_list;
+    district_list = this.props.navigation.state.params.district_list;
 
   }
-  componentDidMount = () => {
-    this.setState({is_applied: data.is_applied});
-  };
 
   _checkValid = (isValid, provinceSelect, province_id) => {
     this.setState({isValidToApply: isValid});
@@ -126,7 +124,7 @@ class JobDetailContainer extends Component {
     }
 
     var params = {
-      job_list_id: data.id,
+      job_list_id: this.state.data.id,
       working_province_ids: arrayToString(working_province_ids),
       working_district_ids: arrayToString(working_district_ids),
       working_times: arrayToString(working_times),
@@ -142,7 +140,10 @@ class JobDetailContainer extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.APPLY_JOBS_SUCCESS) {
       this.setState({isLoading: false});
-      this.setState({is_applied: true, showPopupApplyJobSuccess: true});
+
+      var temp = this.state.data;
+      temp.is_applied = true;
+      this.setState({data: temp, showPopupApplyJobSuccess: true});
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.APPLY_JOBS_FAIL) {
       showAlert(nextProps.message);
@@ -152,6 +153,7 @@ class JobDetailContainer extends Component {
   }
 
   render() {
+    const {data} = this.state
     return (
       <View style={{paddingBottom: Platform.OS === 'ios' ? 110 : 100}}>
         <SpinnerComponent visible={this.state.isLoading} />
@@ -191,11 +193,12 @@ class JobDetailContainer extends Component {
         <JobDetailContent
           item={data}
           gender_list = {gender_list}
-          is_applied={this.state.is_applied}
           getWorkingDistrictIds={this._getWorkingDistrictIds}
           getWorkingTimeIds={this._getWorkingTimeIds}
           checkValid={this._checkValid}
           handleApplyJob={this._handleApplyJob}
+          province_list = {province_list}
+          district_list = {district_list}
         />
       </View>
     );

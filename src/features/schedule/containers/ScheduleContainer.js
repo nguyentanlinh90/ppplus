@@ -13,21 +13,23 @@ import styles from '../styles/styles';
 import {isEmptyObject} from '../../../utils/utils';
 import ItemTask from '../components/ItemTask';
 import {colors, sizes} from '../../../styles/styles';
-
+import moment from 'moment';
 import Calendar from '../calendar/Calendar';
-import Moment from 'moment';
 export default class ScheduleContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      dateSelect : new Date()
+    };
   }
 
-  onSelectDate = date => {
-    // alert(date.calendar());
+  onSelectDate = dateMilliseconds => {
+    let date = moment(new Date(dateMilliseconds)).format('DD/MM/YYYY');
+    this.props.getTasks(1 + '&date=' + date);
   };
 
   componentDidMount() {
-    this.props.getTasks();
+    this.props.getTasks(1);
   }
 
   render() {
@@ -36,7 +38,7 @@ export default class ScheduleContainer extends Component {
       <SafeAreaView style={{flex: 1}}>
         <Text style={styles.title}>Lịch làm việc của {firstName}</Text>
         <Calendar
-          currentDate={new Date()}
+          currentDate={this.state.dateSelect}
           showDaysBeforeCurrent={1}
           showDaysAfterCurrent={30}
           onSelectDate={this.onSelectDate}
@@ -74,7 +76,7 @@ export default class ScheduleContainer extends Component {
               listKey={(item, index) => 'D' + index.toString()}
             />
           ) : (
-            <Text style={{alignSelf: 'center', fontSize: sizes.s_20}}>
+            <Text style={{alignSelf: 'center', fontSize: sizes.s_20, marginTop:50}}>
               Bạn không có lịch làm việc
             </Text>
           )}

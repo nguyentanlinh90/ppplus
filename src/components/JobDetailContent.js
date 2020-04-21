@@ -2,21 +2,15 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   Image,
   ScrollView,
   FlatList,
-  SafeAreaView,
 } from 'react-native';
-import {Rating} from 'react-native-ratings';
 import CheckBox from 'react-native-check-box';
-import moment from 'moment';
 import styles from '../features/home/styles/styles';
-import JobFollowLocationItem from '../features/home/components/JobFollowLocationItem';
 import BookmarkChecked from './BookmarkChecked';
 import BookmarkUnChecked from './BookmarkUnChecked';
-import LocationPicker from '../features/home/components/LocationPicker';
 import BgButton from './BgButton';
 import JobInfo from '../features/home/components/JobInfo';
 import JobRequest from '../features/home/components/JobRequest';
@@ -35,12 +29,15 @@ export default class JobDetailContent extends Component {
     const {
       item,
       gender_list,
-      is_applied,
       getWorkingDistrictIds,
       getWorkingTimeIds,
       checkValid,
       handleApplyJob,
+      province_list,
+      district_list
     } = this.props;
+    console.log('linhnt', item.job_detail_lists)
+
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -112,7 +109,7 @@ export default class JobDetailContent extends Component {
           />
           <View style={styles.jobDetailViewLine} />
           <JobInfo description={item.description} />
-          {is_applied ? null : (
+          {item.is_applied ? null : (
             <View>
               <View style={styles.jobDetailViewLine} />
               <View style={{padding: 16}}>
@@ -128,8 +125,8 @@ export default class JobDetailContent extends Component {
                     renderItem={({item: rowData, index}) => {
                       return (
                         <ItemSelectLocation
-                          province_list={item.province_list}
-                          district_list={item.district_list}
+                          province_list={province_list}
+                          district_list={district_list}
                           index={index}
                           province_id={rowData.province_id}
                           working_district_list={rowData.working_district_list}
@@ -148,9 +145,8 @@ export default class JobDetailContent extends Component {
             </View>
           )}
           <View style={styles.jobDetailViewLine} />
-          {is_applied ? (
+          {item.is_applied ? (
             <View
-              onPress={() => submit()}
               style={[styles.jobDetailBoxSubmit, {backgroundColor: '#C7C7C7'}]}>
               <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
                 Ứng Tuyển Ngay
