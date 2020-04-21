@@ -10,7 +10,8 @@
   "scripts": {
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "flow": "flow"
   },
   "dependencies": {
     "@react-native-community/netinfo": "^4.2.2",
@@ -22,7 +23,6 @@
     "native-base": "^2.13.8",
     "prop-types": "^15.7.2",
     "react": "16.9.0",
-    "react-horizontal-datepicker": "^2.0.2",
     "react-native": "^0.61.5",
     "react-native-actionsheet": "^2.4.2",
     "react-native-check-box": "^2.1.7",

@@ -9,17 +9,22 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-// import DatePicker from "react-horizontal-datepicker";
 import styles from '../styles/styles';
 import {isEmptyObject} from '../../../utils/utils';
 import ItemTask from '../components/ItemTask';
 import {colors, sizes} from '../../../styles/styles';
 
+import Calendar from '../calendar/Calendar';
+import Moment from 'moment';
 export default class ScheduleContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  onSelectDate = date => {
+    // alert(date.calendar());
+  };
 
   componentDidMount() {
     this.props.getTasks();
@@ -30,8 +35,13 @@ export default class ScheduleContainer extends Component {
     return (
       <SafeAreaView style={{flex: 1}}>
         <Text style={styles.title}>Lịch làm việc của {firstName}</Text>
-        <View
-          style={styles.viewFilter}>
+        <Calendar
+          currentDate={new Date()}
+          showDaysBeforeCurrent={1}
+          showDaysAfterCurrent={30}
+          onSelectDate={this.onSelectDate}
+        />
+        <View style={styles.viewFilter}>
           <TouchableOpacity style={styles.viewButtonList}>
             <Image
               resizeMode="center"
@@ -39,12 +49,8 @@ export default class ScheduleContainer extends Component {
               style={styles.imageIcon}
             />
           </TouchableOpacity>
-          <View
-            style={styles.boxFilter}>
-            <Text
-              style={styles.textFilter}>
-              LỌC
-            </Text>
+          <View style={styles.boxFilter}>
+            <Text style={styles.textFilter}>LỌC</Text>
             <Image
               resizeMode="center"
               source={require('../../../assets/images/ic-filter-black.png')}
