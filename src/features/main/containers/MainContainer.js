@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Image, BackHandler, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
+import moment from 'moment';
 import NetInfo from '@react-native-community/netinfo';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from '../../home/containers/HomeContainer';
@@ -44,6 +45,7 @@ class MainContainer extends Component {
       jobs_new: [],
       jobDetail: {},
       dataSchedule: {},
+      dateTaskSelect: '',
     };
 
     this._handleConnectivityChange = this._handleConnectivityChange.bind(this);
@@ -195,7 +197,6 @@ class MainContainer extends Component {
       gender_list: gender_list,
       province_list: province_list,
       district_list: district_list,
-
     });
   };
 
@@ -209,10 +210,13 @@ class MainContainer extends Component {
   //==========================================
 
   //screen schedule
-  _getTasks = (params) => {
-    this._showLoading();
-    const {getTasks} = this.props;
-    getTasks(this.state.token, params);
+  _getTasks = (page, dateSelect) => {
+    this.setState({dateTaskSelect: dateSelect}, function() {
+      this._showLoading();
+      const {getTasks} = this.props;
+      let params = page + '&date=' + this.state.dateTaskSelect;
+      getTasks(this.state.token, params);
+    });
   };
   _openWebView = uri => {
     let header = {
@@ -221,6 +225,7 @@ class MainContainer extends Component {
     this.props.navigation.navigate(SCREEN_WEBVIEW_SHOW, {
       uri: uri,
       header: header,
+      onGoBack: () => this._getTasks(1, this.state.dateTaskSelect),
     });
   };
   //screen schedule end

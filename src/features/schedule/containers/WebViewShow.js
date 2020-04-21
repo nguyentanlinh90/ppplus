@@ -13,6 +13,7 @@ export default class WebViewShow extends Component {
     let eventCode = JSON.parse(event.nativeEvent.data).code_event;
 
     if (EVENT_CODE_BACK == eventCode) {
+      this.props.navigation.state.params.onGoBack();
       this.props.navigation.goBack();
     }
   };

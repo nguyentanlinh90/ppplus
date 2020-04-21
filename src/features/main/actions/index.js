@@ -22,8 +22,8 @@ export const getJobs = (token, params) => async dispatch => {
   }
 };
 
-export const getTasks = (token, page) => async dispatch => {
-  const path = getApiPath(V_1_0_0, 'get_tasks') + page;
+export const getTasks = (token, params) => async dispatch => {
+  const path = getApiPath(V_1_0_0, 'get_tasks') + params;
   const {json} = await callGetApi(path, token);
   if (
     typeof json !== types.UNDEFINED &&

@@ -36,7 +36,6 @@ export default class JobDetailContent extends Component {
       province_list,
       district_list
     } = this.props;
-    console.log('linhnt', item.job_detail_lists)
 
     return (
       <ScrollView

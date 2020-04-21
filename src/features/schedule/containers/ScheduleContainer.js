@@ -18,18 +18,16 @@ import Calendar from '../calendar/Calendar';
 export default class ScheduleContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dateSelect : new Date()
-    };
+    this.state = {};
   }
 
   onSelectDate = dateMilliseconds => {
     let date = moment(new Date(dateMilliseconds)).format('DD/MM/YYYY');
-    this.props.getTasks(1 + '&date=' + date);
+    this.props.getTasks(1, date);
   };
 
   componentDidMount() {
-    this.props.getTasks(1);
+    this.props.getTasks(1, moment(new Date()).format('DD/MM/YYYY'));
   }
 
   render() {
@@ -76,7 +74,12 @@ export default class ScheduleContainer extends Component {
               listKey={(item, index) => 'D' + index.toString()}
             />
           ) : (
-            <Text style={{alignSelf: 'center', fontSize: sizes.s_20, marginTop:50}}>
+            <Text
+              style={{
+                alignSelf: 'center',
+                fontSize: sizes.s_20,
+                marginTop: 50,
+              }}>
               Bạn không có lịch làm việc
             </Text>
           )}

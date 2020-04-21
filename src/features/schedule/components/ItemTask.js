@@ -62,12 +62,13 @@ export default class ItemTask extends Component {
             <Text style={styles.textAddress}>{item.job_info}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.button}
-        onPress={()=>openWebView(item.task_site_check)}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => openWebView(item.task_site_check)}>
           <BgButton />
 
           <Text style={styles.textButton}>
-            {priority_list[item.priority]}!! 01:32:22
+            {priority_list[item.priority]}!! {item.alert_time}
           </Text>
         </TouchableOpacity>
         <Dash
