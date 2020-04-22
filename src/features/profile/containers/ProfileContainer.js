@@ -80,8 +80,8 @@ export default class ProfileContainer extends Component {
             style={styles.boxItem}
             onPress={() => {
               props.navigation.navigate(SCREEN_FILL_PROFILE, {
-                onGoBack: (percent_updated, avatar, last_name, first_name) =>
-                  updateUser(percent_updated, avatar, last_name, first_name),
+                onGoBack: (user) =>
+                  updateUser(user),
               });
             }}>
             <Image

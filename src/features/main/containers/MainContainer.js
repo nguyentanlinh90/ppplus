@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, Image, BackHandler, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
-import moment from 'moment';
 import NetInfo from '@react-native-community/netinfo';
 import TabNavigator from 'react-native-tab-navigator';
+import {EventRegister} from 'react-native-event-listeners';
 import Home from '../../home/containers/HomeContainer';
 import Notification from '../../notification/containers/NotificationContainer';
 import Schedule from '../../schedule/containers/ScheduleContainer';
@@ -29,6 +29,9 @@ let district_list = [];
 let gender_list = [];
 let jobs_hot_page = 1;
 let jobs_new_page = 1;
+
+let isFromEditProfile = false;
+
 class MainContainer extends Component {
   constructor(props) {
     super(props);
@@ -53,20 +56,16 @@ class MainContainer extends Component {
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
-  componentWillMount() {
-    BackHandler.addEventListener(
-      'hardwareBackPress',
-      this.handleBackButtonClick,
-    );
-  }
-
   handleBackButtonClick() {
-    if (this.state.selectedTab == 'home') {
-      return false;
-    } else {
-      this._openTab('home');
+    if (!isFromEditProfile) {
+      if (this.state.selectedTab == 'home') {
+        return false;
+      } else {
+        this._openTab('home');
+      }
+      return true;
     }
-    return true;
+    isFromEditProfile = false;
   }
 
   _hideLoading = () => {
@@ -95,11 +94,24 @@ class MainContainer extends Component {
   };
 
   componentDidMount() {
+    this.listener = EventRegister.addEventListener('myCustomEvent', data => {
+      isFromEditProfile = data.isFromEditProfile;
+      this.setState({user: data.user});
+    });
+
     NetInfo.isConnected.addEventListener(
       'connectionChange',
       this._handleConnectivityChange,
     );
   }
+
+  componentWillMount() {
+    BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick,
+    );
+  }
+
   componentWillUnmount() {
     NetInfo.isConnected.removeEventListener(
       'connectionChange',
@@ -109,6 +121,8 @@ class MainContainer extends Component {
       'hardwareBackPress',
       this.handleBackButtonClick,
     );
+
+    EventRegister.removeEventListener(this.listener);
   }
 
   _handleConnectivityChange = () => {
@@ -232,14 +246,8 @@ class MainContainer extends Component {
 
   //==========================================
   //screen profile
-  _updateUser = (percent_updated, avatar, last_name, first_name) => {
-    const {user} = this.state;
-    var temp = user;
-    user.percent_updated = percent_updated;
-    temp.avatar = avatar;
-    temp.last_name = last_name;
-    temp.first_name = first_name;
-    this.setState({user: temp});
+  _updateUser = user => {
+    this.setState({user: user});
   };
 
   _handleLogout = () => {

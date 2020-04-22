@@ -24,6 +24,7 @@ import KeyboardShift from './KeyboardShift';
 import {changeMsgCode} from '../../../api/helpers';
 import {getUserInfo, doUpdateUserInfo} from '../../../features/user/actions';
 import {convertName} from '../../../utils/utils';
+import {EventRegister} from 'react-native-event-listeners';
 
 import {
   ACCESS_TOKEN,
@@ -65,6 +66,8 @@ let options = {
     path: 'images',
   },
 };
+//to update when user click back
+let user = {};
 export class FillProfileContainer extends Component {
   constructor(props) {
     super(props);
@@ -556,6 +559,8 @@ export class FillProfileContainer extends Component {
       judicial_record_image: data.judicial_record_image,
       degree_info: data.degree_info,
     });
+
+    user = data;
   };
 
   _handleUpdateFullInfo = () => {
@@ -770,16 +775,15 @@ export class FillProfileContainer extends Component {
   }
 
   handleBackButton() {
-    return true; //disable
+    EventRegister.emit('myCustomEvent', {
+      isFromEditProfile: true,
+      user: user,
+    });
+    return false; //disable
   }
 
   _goBack = navigation => {
-    navigation.state.params.onGoBack(
-      this.state.percent_updated,
-      this.state.avatar,
-      this.state.last_name,
-      this.state.first_name,
-    );
+    navigation.state.params.onGoBack(user);
     navigation.goBack();
   };
 
@@ -796,9 +800,9 @@ export class FillProfileContainer extends Component {
       showAlert(nextProps.message);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
-      showAlert('Cập nhật thông tin thành công');
       this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
+      showAlert('Cập nhật thông tin thành công');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       showAlert('Cập nhật thông tin thất bại');
       this._setUser(nextProps.data);
