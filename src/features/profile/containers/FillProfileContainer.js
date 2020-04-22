@@ -24,7 +24,6 @@ import FormAccountIdentifier from '../component/FormAccountIdentifier';
 import KeyboardShift from './KeyboardShift';
 import {changeMsgCode} from '../../../api/helpers';
 import {getUserInfo, doUpdateUserInfo} from '../../../features/user/actions';
-import {convertName} from '../../../utils/utils';
 import {EventRegister} from 'react-native-event-listeners';
 
 import {
@@ -36,11 +35,13 @@ import {
 import * as types from '../../../api/types';
 import {
   showAlert,
+  showAlertWithPress,
   handleCheck,
   arrayToString,
   stringToArray,
   isEmpty,
   isZero,
+  convertName,
 } from '../../../utils/utils';
 
 const IMAGE_AVATAR = 0;
@@ -792,6 +793,10 @@ export class FillProfileContainer extends Component {
     this.setState({enableScrollViewScroll: isEnable});
   };
 
+  _hideLoading = () => {
+    this.setState({isLoading: false});
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});
@@ -804,39 +809,11 @@ export class FillProfileContainer extends Component {
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
-      Alert.alert(
-        'Thông báo',
-        'Cập nhật thông tin thành công.',
-        [
-          {
-            text: 'Đồng Ý',
-            onPress: () => {
-              this.setState({isLoading: false});
-            },
-          },
-        ],
-        {
-          cancelable: false,
-        },
-      );
+      showAlertWithPress('Cập nhật thông tin thành công.', this._hideLoading);
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
-      Alert.alert(
-        'Thông báo',
-        'Cập nhật thông tin thất bại.',
-        [
-          {
-            text: 'Đồng Ý',
-            onPress: () => {
-              this.setState({isLoading: false});
-            },
-          },
-        ],
-        {
-          cancelable: false,
-        },
-      );
       this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
+      showAlertWithPress('Cập nhật thông tin thất bại.', this._hideLoading);
     }
   }
 

@@ -70,6 +70,18 @@ export const showAlert = massage => {
   }
 };
 
+
+export const showAlertWithPress = (massage, onPress) => {
+  if (!isShowAlert) {
+    isShowAlert = false;
+    Alert.alert('Thông báo', massage, [{text: 'Đồng Ý', onPress: () => {onPress()}}], {
+      cancelable: false,
+    });
+  } else {
+    isShowAlert = true;
+  }
+};
+
 export const setStoreData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value.toString());
