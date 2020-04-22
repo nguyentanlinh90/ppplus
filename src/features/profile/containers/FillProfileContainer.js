@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   AsyncStorage,
   BackHandler,
+  Alert,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import ImagePicker from 'react-native-image-picker';
@@ -792,19 +793,48 @@ export class FillProfileContainer extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({isLoading: false});
     if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
+      this.setState({isLoading: false});
       this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
+      this.setState({isLoading: false});
       showAlert(nextProps.message);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
-      showAlert('Cập nhật thông tin thành công');
+      Alert.alert(
+        'Thông báo',
+        'Cập nhật thông tin thành công.',
+        [
+          {
+            text: 'Đồng Ý',
+            onPress: () => {
+              this.setState({isLoading: false});
+            },
+          },
+        ],
+        {
+          cancelable: false,
+        },
+      );
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
-      showAlert('Cập nhật thông tin thất bại');
+      Alert.alert(
+        'Thông báo',
+        'Cập nhật thông tin thất bại.',
+        [
+          {
+            text: 'Đồng Ý',
+            onPress: () => {
+              this.setState({isLoading: false});
+            },
+          },
+        ],
+        {
+          cancelable: false,
+        },
+      );
       this._setUser(nextProps.data);
       nextProps.changeMsgCode('');
     }
