@@ -16,7 +16,7 @@ import {showAlert, convertPhone, dispatchScreen} from '../../../utils/utils';
 import * as types from '../../../api/types';
 import {REGEX} from '../../../utils/constants';
 
-export class CreateAccountContainer extends Component {
+class CreateAccountContainer extends Component {
   constructor(props) {
     super(props);
 
@@ -131,6 +131,10 @@ export class CreateAccountContainer extends Component {
     }
   };
 
+  _setAgree = () => {
+    this.setState({isAgree: !this.state.isAgree});
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.REGISTER_USER_FAIL) {
       this.setState({isLoading: false});
@@ -152,10 +156,6 @@ export class CreateAccountContainer extends Component {
       ]);
     }
   }
-
-  _setAgree = () => {
-    this.setState({isAgree: !this.state.isAgree});
-  };
 
   render() {
     return (
@@ -197,6 +197,8 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  doCreateAccount,
-  changeMsgCode,
+  {
+    doCreateAccount,
+    changeMsgCode,
+  },
 )(CreateAccountContainer);
