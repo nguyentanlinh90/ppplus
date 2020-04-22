@@ -105,12 +105,14 @@ export class InputOTPContainer extends Component {
     }
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  _hideLoading = nextProps => {
+    nextProps.changeMsgCode('');
     this.setState({isLoading: false});
+  };
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.PROCESS_OTP_FAIL) {
       showAlert(nextProps.message);
-      nextProps.changeMsgCode('');
       countInputWrong = countInputWrong + 1;
       if (countInputWrong == 5) {
         countInputWrong = 0;
@@ -132,8 +134,8 @@ export class InputOTPContainer extends Component {
       } else {
         showAlert(nextProps.message);
       }
+      this._hideLoading(nextProps);
     } else if (nextProps.msg_code == types.PROCESS_OTP_SUCCESS) {
-      nextProps.changeMsgCode('');
       if (this.state.isRegister) {
         dispatchScreen(this.props, SCREEN_LOGIN, {});
       } else {
@@ -142,15 +144,16 @@ export class InputOTPContainer extends Component {
           nextProps.data.access_token,
         ]);
       }
+      this._hideLoading(nextProps);
     } else if (nextProps.msg_code == types.RESEND_OTP_SUCCESS) {
       showAlert('Mã OTP đã được gửi đến số điện thoại ' + this.state.phone);
-      nextProps.changeMsgCode('');
       this.setState({timeResend: nextProps.data.waiting_time_otp}, function() {
         this._startInterval();
       });
+      this._hideLoading(nextProps);
     } else if (nextProps.msg_code == types.RESEND_OTP_FAIL) {
       showAlert(nextProps.message);
-      nextProps.changeMsgCode('');
+      this._hideLoading(nextProps);
     }
   }
 

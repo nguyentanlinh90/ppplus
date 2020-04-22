@@ -217,6 +217,11 @@ export class LoginContainer extends Component {
     }
   };
 
+  _hideLoading = nextProps => {
+    nextProps.changeMsgCode('');
+    this.setState({isLoading: false});
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.LOGIN_FAIL) {
       countLoginFail = countLoginFail + 1;
@@ -233,26 +238,33 @@ export class LoginContainer extends Component {
       } else {
         showAlert(nextProps.message);
       }
+      this._hideLoading(nextProps);
     } else if (nextProps.msg_code == types.LOGIN_SUCCESS) {
       setStoreData(IS_UPDATE_BASIC, nextProps.data.is_updated_basic);
       setStoreData(KEY_TIME_LOGIN_FAIL, 0);
       if (nextProps.data.is_updated_basic == 1) {
         // 1: User has updated basic info, 0: not yet
         var token = 'Bearer ' + nextProps.message;
-        dispatchScreen(this.props, SCREEN_MAIN, {token: token, user: nextProps.data});
+        dispatchScreen(this.props, SCREEN_MAIN, {
+          token: token,
+          user: nextProps.data,
+        });
       } else {
         dispatchScreen(this.props, SCREEN_INFO, nextProps.data);
       }
+      this._hideLoading(nextProps);
     } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
       this.props.navigation.navigate(SCREEN_INPUT_OTP, [
         this.state.phone,
         nextProps.data.waiting_time_otp,
         false, //check isRegister (here is forgot pass)
       ]);
+      this._hideLoading(nextProps);
     } else if (nextProps.msg_code == types.SEND_OTP_FAIL) {
       showAlert(nextProps.message);
     } else if (nextProps.msg_code == types.CHECK_PHONE_SUCCESS) {
       this._showAlertForgotPass();
+      this._hideLoading(nextProps);
     } else if (nextProps.msg_code == types.CHECK_PHONE_FAIL) {
       //store phone input inCorrect to check click forget pass
       let phoneInputIncorrectList = this.state.phoneInputIncorrectList;
@@ -267,9 +279,8 @@ export class LoginContainer extends Component {
         .catch(error => console.log('linhnt set error!'));
 
       showAlert('Số điện thoại không đúng. Vui lòng thử lại.');
+      this._hideLoading(nextProps);
     }
-    nextProps.changeMsgCode('');
-    this.setState({isLoading: false});
   }
 
   render() {
