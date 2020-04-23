@@ -9,7 +9,7 @@ import {
 import CreateAccountForm from '../components/CreateAccountForm';
 import {doCreateAccount} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
-import Spinner from 'react-native-loading-spinner-overlay';
+import SpinnerComponent from '../../../components/Spinner';
 import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_INPUT_OTP} from '../../../api/screen';
 import {showAlert, convertPhone, dispatchScreen} from '../../../utils/utils';
@@ -161,12 +161,7 @@ class CreateAccountContainer extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView>
-          <Spinner
-            visible={this.state.isLoading}
-            color={'white'}
-            size={'large'}
-            textStyle={{color: '#fff'}}
-          />
+        <SpinnerComponent visible={this.state.isLoading} />
           <KeyboardAvoidingView behavior="padding" enabled={false}>
             <CreateAccountForm
               handleCreateAccount={this.handleCreateAccount}

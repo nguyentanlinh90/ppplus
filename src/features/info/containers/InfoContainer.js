@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {View, SafeAreaView, Image, AsyncStorage} from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import SpinnerComponent from '../../../components/Spinner';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import styles from '../styles/styles';
@@ -192,7 +192,7 @@ class InfoContainer extends Component {
       showAlert('Vui lòng cung cấp đầy đủ các trường thông tin ở trên');
       return;
     }
-    
+
     if (provinceIDs.length > 2) {
       showAlert(
         'Bạn chỉ được chọn tối đa 2 địa điểm làm việc. Vui lòng bỏ bớt địa điểm làm việc',
@@ -223,7 +223,10 @@ class InfoContainer extends Component {
     if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});
       nextProps.changeMsgCode('');
-      dispatchScreen(this.props, SCREEN_MAIN, {token: token, user: nextProps.data});
+      dispatchScreen(this.props, SCREEN_MAIN, {
+        token: token,
+        user: nextProps.data,
+      });
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
       this.setState({isLoading: false});
       showAlert(nextProps.message);
@@ -271,12 +274,7 @@ class InfoContainer extends Component {
           source={require('../../../assets/images/bg.png')}
         />
         <SafeAreaView style={[styles.container]}>
-          <Spinner
-            visible={this.state.isLoading}
-            color={'white'}
-            size={'large'}
-            textStyle={{color: '#fff'}}
-          />
+          <SpinnerComponent visible={this.state.isLoading} />
           <InfoForm
             onChangeText={this._onChangeText}
             lastName={this.state.lastName}

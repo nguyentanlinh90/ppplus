@@ -2,19 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
   View,
-  SafeAreaView,
   KeyboardAvoidingView,
-  Image,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
 } from 'react-native';
 import UpdatePassForm from '../components/UpdatePassForm';
 import {doUpdateUserInfo} from '../actions/index';
-import rootStyles from '../../../styles/styles';
-import styles from '../styles/styles';
 import {changeMsgCode} from '../../../api/helpers';
-import Spinner from 'react-native-loading-spinner-overlay';
+import SpinnerComponent from '../../../components/Spinner';
 import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_LOGIN} from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
@@ -137,12 +133,7 @@ export class UpdatePassContainer extends Component {
               new_password_confirm={this.state.new_password_confirm}
             />
           </KeyboardAvoidingView>
-          <Spinner
-            visible={this.state.isLoading}
-            color={'white'}
-            size={'large'}
-            textStyle={{color: '#fff'}}
-          />
+          <SpinnerComponent visible={this.state.isLoading} />
         </View>
       </TouchableWithoutFeedback>
     );
@@ -157,7 +148,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  doUpdateUserInfo,
-  changeMsgCode,
-})(UpdatePassContainer);
+export default connect(
+  mapStateToProps,
+  {
+    doUpdateUserInfo,
+    changeMsgCode,
+  },
+)(UpdatePassContainer);

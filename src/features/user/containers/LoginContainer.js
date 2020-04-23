@@ -11,7 +11,7 @@ import {
 import LoginForm from '../components/LoginForm';
 import {doLogin, doCheckPhone, doSendOTP} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
-import Spinner from 'react-native-loading-spinner-overlay';
+import SpinnerComponent from '../../../components/Spinner';
 import NetInfo from '@react-native-community/netinfo';
 import {
   SCREEN_INPUT_OTP,
@@ -300,12 +300,7 @@ export class LoginContainer extends Component {
               timeRemainAfterLoginFail={this.state.timeRemainAfterLoginFail}
             />
           </KeyboardAvoidingView>
-          <Spinner
-            visible={this.state.isLoading}
-            color={'white'}
-            size={'large'}
-            textStyle={{color: '#fff'}}
-          />
+          <SpinnerComponent visible={this.state.isLoading} />
         </View>
       </TouchableWithoutFeedback>
     );

@@ -4,7 +4,7 @@ import {View, Alert} from 'react-native';
 import InputOTPForm from '../components/InputOTPForm';
 import {changeMsgCode} from '../../../api/helpers';
 import {dispatchScreen} from '../../../utils/utils';
-import Spinner from 'react-native-loading-spinner-overlay';
+import SpinnerComponent from '../../../components/Spinner';
 import NetInfo from '@react-native-community/netinfo';
 import {
   SCREEN_LOGIN,
@@ -170,12 +170,7 @@ export class InputOTPContainer extends Component {
             timeResend={this.state.timeResend}
           />
         </View>
-        <Spinner
-          visible={this.state.isLoading}
-          color={'white'}
-          size={'large'}
-          textStyle={{color: '#fff'}}
-        />
+        <SpinnerComponent visible={this.state.isLoading} />
       </View>
     );
   }
