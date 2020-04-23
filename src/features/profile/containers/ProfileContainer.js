@@ -78,12 +78,7 @@ export default class ProfileContainer extends Component {
           <View style={{backgroundColor: colors.c_f1f1f1, height: 5}} />
           <TouchableOpacity
             style={styles.boxItem}
-            onPress={() => {
-              props.navigation.navigate(SCREEN_FILL_PROFILE, {
-                onGoBack: (user) =>
-                  updateUser(user),
-              });
-            }}>
+            onPress={() => updateUser()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-edit.png')}

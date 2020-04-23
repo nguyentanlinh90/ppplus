@@ -15,13 +15,14 @@ import * as types from '../../../api/types';
 import {getJobs, getTasks, doLogout} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 import {dispatchScreen, showAlert, setStoreData} from '../../../utils/utils';
-import {ACCESS_TOKEN} from '../../../utils/constants';
+import {ACCESS_TOKEN, EVENT_BACK_UPDATE_USER} from '../../../utils/constants';
 import {
   SCREEN_START_JOB,
   SCREEN_RETRO,
   SCREEN_JOB_DETAIL,
   SCREEN_SEARCH,
   SCREEN_WEBVIEW_SHOW,
+  SCREEN_FILL_PROFILE,
 } from '../../../api/screen';
 
 let province_list = [];
@@ -94,10 +95,14 @@ class MainContainer extends Component {
   };
 
   componentDidMount() {
-    this.listener = EventRegister.addEventListener('myCustomEvent', data => {
-      isFromEditProfile = data.isFromEditProfile;
-      this.setState({user: data.user});
-    });
+    this.listener = EventRegister.addEventListener(
+      EVENT_BACK_UPDATE_USER,
+      data => {
+        isFromEditProfile = data.isFromEditProfile;
+        this.setState({user: data.user});
+        this._onRefreshHome();
+      },
+    );
 
     NetInfo.isConnected.addEventListener(
       'connectionChange',
@@ -215,10 +220,11 @@ class MainContainer extends Component {
   };
 
   _onRefreshHome = () => {
-    this.setState({refreshing: true, jobs_hot: [], jobs_new: []});
-    jobs_new_page = 1;
-    jobs_hot_page = 1;
-    this._getJobs(1);
+    this.setState({refreshing: true, jobs_hot: [], jobs_new: []}, function() {
+      jobs_new_page = 1;
+      jobs_hot_page = 1;
+      this._getJobs(1);
+    });
   };
   //screen home end
   //==========================================
@@ -246,8 +252,14 @@ class MainContainer extends Component {
 
   //==========================================
   //screen profile
-  _updateUser = user => {
-    this.setState({user: user});
+  _updateUser = () => {
+    {
+      this.props.navigation.navigate(SCREEN_FILL_PROFILE, {
+        user: this.state.user,
+        token :  this.state.token
+        // onGoBack: user => this.setState({user: user}),
+      });
+    }
   };
 
   _handleLogout = () => {
@@ -265,26 +277,34 @@ class MainContainer extends Component {
     this._hideLoading();
     if (nextProps.msg_code == types.GET_JOBS_SUCCESS) {
       //jobs hot
+      var arr = this.state.jobs_hot;
       var jobsHot = nextProps.data.job_hot_list;
       if (jobsHot.length > 0) {
-        var arr = this.state.jobs_hot;
         for (var i = 0; i < jobsHot.length; i++) {
           arr.push(jobsHot[i]);
         }
         this.setState({
           jobs_hot: arr != 0 ? arr : [],
         });
+      } else {
+        this.setState({
+          jobs_hot: arr,
+        });
       }
 
       //jobs new
+      var arr = this.state.jobs_new;
       var jobsNew = nextProps.data.job_new_list;
       if (jobsNew.length > 0) {
-        var arr = this.state.jobs_new;
         for (var i = 0; i < jobsNew.length; i++) {
           arr.push(jobsNew[i]);
         }
         this.setState({
           jobs_new: arr != 0 ? arr : [],
+        });
+      } else {
+        this.setState({
+          jobs_new: arr,
         });
       }
 

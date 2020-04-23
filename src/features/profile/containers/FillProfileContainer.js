@@ -6,9 +6,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  AsyncStorage,
   BackHandler,
-  Alert,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import ImagePicker from 'react-native-image-picker';
@@ -23,13 +21,13 @@ import FormLevel from '../component/FormLevel';
 import FormAccountIdentifier from '../component/FormAccountIdentifier';
 import KeyboardShift from './KeyboardShift';
 import {changeMsgCode} from '../../../api/helpers';
-import {getUserInfo, doUpdateUserInfo} from '../../../features/user/actions';
+import {doUpdateUserInfo} from '../../../features/user/actions';
 import {EventRegister} from 'react-native-event-listeners';
 
 import {
-  ACCESS_TOKEN,
   specialCharacters,
   numberCharacters,
+  EVENT_BACK_UPDATE_USER,
 } from '../../../utils/constants';
 
 import * as types from '../../../api/types';
@@ -57,7 +55,6 @@ import {
   IMAGE_JUDICIAL_RECORD,
   REGEX,
 } from '../../../utils/constants';
-var token = '';
 let options = {
   title: 'Chọn ảnh',
   cancelButtonTitle: 'Hủy',
@@ -68,26 +65,27 @@ let options = {
     path: 'images',
   },
 };
-//to update when user click back
+let token = '';
 let user = {};
+let gender_list = [];
+let province_list = [];
+let district_list = [];
+let major_list = [];
+let education_list = [];
+let bank_list = [];
+
 export class FillProfileContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       enableScrollViewScroll: true,
-
-      isLoading: true,
+      isLoading: false,
       isShowBirthday: false,
 
-      gender_list: [],
-      province_list: [],
-      district_list: [],
       district_list_follow_province: [],
       district_list_follow_province_relative: [],
-      major_list: [],
-      education_list: [],
+
       major_list_follow_education: [],
-      bank_list: [],
       bank_branch_list: [],
       bank_branch_list_follow_bank: [],
       personal_types_list: [],
@@ -114,16 +112,10 @@ export class FillProfileContainer extends Component {
       judicial_record_image: '',
       judicial_record_image_data: '',
     };
-    this._getToken();
-    this._onChangeText = this._onChangeText.bind(this);
+    user = this.props.navigation.state.params.user;
+    token = this.props.navigation.state.params.token;
   }
 
-  async _getToken() {
-    token = await AsyncStorage.getItem(ACCESS_TOKEN);
-    if (token && !isEmpty(token)) {
-      this._getUserInfo(token);
-    }
-  }
   _onChangeText = (text, type) => {
     if (type == 'last_name') {
       const strLastName = convertName(text, false);
@@ -513,6 +505,15 @@ export class FillProfileContainer extends Component {
     getUserInfo('full_detail', token);
   };
 
+  _setOptionalList = data => {
+    gender_list = data.gender_list;
+    province_list = data.province_list;
+    district_list = data.district_list;
+    major_list = data.major_list;
+    education_list = data.education_list;
+    bank_list = data.bank_list;
+  };
+
   _setUser = data => {
     let relative_province_id = data.user_relative_info[0].relative_province_id;
     let province_id = data.address.province_id;
@@ -520,9 +521,6 @@ export class FillProfileContainer extends Component {
     let bank_id = data.user_bank_info.bank_id;
 
     this.setState({
-      gender_list: data.gender_list,
-      province_list: data.province_list,
-      district_list: data.district_list,
       district_list_follow_province:
         province_id == '' ? [] : data.district_list[province_id],
       district_list_follow_province_relative:
@@ -530,12 +528,10 @@ export class FillProfileContainer extends Component {
           ? []
           : data.district_list[relative_province_id],
 
-      education_list: data.education_list,
       education_major_list: data.education_major_list,
       major_list_follow_education:
         education_id == '' ? [] : data.education_major_list[education_id],
 
-      bank_list: data.bank_list,
       bank_branch_list: data.bank_branch_list,
       bank_branch_list_follow_bank:
         bank_id == '' ? [] : data.bank_branch_list[bank_id],
@@ -561,8 +557,41 @@ export class FillProfileContainer extends Component {
       judicial_record_image: data.judicial_record_image,
       degree_info: data.degree_info,
     });
+  };
 
-    user = data;
+  componentDidMount() {
+    this._setOptionalList(user);
+    this._setUser(user);
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    EventRegister.emit(EVENT_BACK_UPDATE_USER, {
+      isFromEditProfile: true,
+      user: user,
+    });
+    return false; //disable
+  }
+
+  _goBack = navigation => {
+    // navigation.state.params.onGoBack(user);
+    EventRegister.emit(EVENT_BACK_UPDATE_USER, {
+      isFromEditProfile: true,
+      user: user,
+    });
+    navigation.goBack();
+  };
+
+  _handleScrollView = isEnable => {
+    this.setState({enableScrollViewScroll: isEnable});
+  };
+
+  _hideLoading = () => {
+    this.setState({isLoading: false});
   };
 
   _handleUpdateFullInfo = () => {
@@ -768,46 +797,10 @@ export class FillProfileContainer extends Component {
     }
   };
 
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-  }
-
-  handleBackButton() {
-    EventRegister.emit('myCustomEvent', {
-      isFromEditProfile: true,
-      user: user,
-    });
-    return false; //disable
-  }
-
-  _goBack = navigation => {
-    navigation.state.params.onGoBack(user);
-    navigation.goBack();
-  };
-
-  _handleScrollView = isEnable => {
-    this.setState({enableScrollViewScroll: isEnable});
-  };
-
-  _hideLoading = () => {
-    this.setState({isLoading: false});
-  };
-
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
-      this.setState({isLoading: false});
+    if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this._setUser(nextProps.data);
-      nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
-      this.setState({isLoading: false});
-      showAlert(nextProps.message);
-      nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
-      this._setUser(nextProps.data);
+      user = nextProps.data;
       nextProps.changeMsgCode('');
       showAlertWithPress('Cập nhật thông tin thành công.', this._hideLoading);
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
@@ -895,9 +888,9 @@ export class FillProfileContainer extends Component {
                 handleScrollView={this._handleScrollView}
                 enableScrollViewScroll={this.state.enableScrollViewScroll}
                 onChangeText={this._onChangeText}
-                gender_list={this.state.gender_list}
-                province_list={this.state.province_list}
-                major_list={this.state.major_list}
+                gender_list={gender_list}
+                province_list={province_list}
+                major_list={major_list}
                 last_name={this.state.last_name}
                 first_name={this.state.first_name}
                 height={this.state.height}
@@ -919,7 +912,7 @@ export class FillProfileContainer extends Component {
                 onChangeText={this._onChangeText}
                 onChangeTextRelative={this._onChangeTextRelative}
                 //
-                province_list={this.state.province_list}
+                province_list={province_list}
                 district_list_follow_province={
                   this.state.district_list_follow_province
                 }
@@ -947,7 +940,7 @@ export class FillProfileContainer extends Component {
                 myScroll={this._myScroll}
                 handleScrollView={this._handleScrollView}
                 enableScrollViewScroll={this.state.enableScrollViewScroll}
-                education_list={this.state.education_list}
+                education_list={education_list}
                 major_list_follow_education={
                   this.state.major_list_follow_education
                 }
@@ -962,11 +955,11 @@ export class FillProfileContainer extends Component {
                 enableScrollViewScroll={this.state.enableScrollViewScroll}
                 onChangeText={this._onChangeText}
                 onChangeTextDegree={this._onChangeTextDegree}
-                bank_list={this.state.bank_list}
+                bank_list={bank_list}
                 bank_branch_list_follow_bank={
                   this.state.bank_branch_list_follow_bank
                 }
-                province_list={this.state.province_list}
+                province_list={province_list}
                 personal_types_list={this.state.personal_types_list}
                 //
                 user_bank_info={this.state.user_bank_info}
@@ -1006,7 +999,6 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   {
-    getUserInfo,
     doUpdateUserInfo,
     changeMsgCode,
   },

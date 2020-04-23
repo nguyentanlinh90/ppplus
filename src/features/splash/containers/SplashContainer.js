@@ -55,13 +55,13 @@ class SplashContainer extends Component {
 
   _getUserInfo = () => {
     const {getUserInfo} = this.props;
-    getUserInfo('basic_detail', token);
+    getUserInfo('full_detail', token);
   };
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.msg_code == types.GET_USER_BASIC_INFO_SUCCESS) {
+    if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
       nextProps.changeMsgCode('');
       dispatchScreen(this.props, SCREEN_MAIN, {token: token, user: nextProps.data});
-    } else if (nextProps.msg_code == types.GET_USER_BASIC_INFO_FAIL) {
+    } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
       nextProps.changeMsgCode('');
       dispatchScreen(this.props, SCREEN_LOGIN, {});
     }

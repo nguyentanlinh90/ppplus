@@ -68,6 +68,7 @@ export default class FormBasicInfo extends Component {
       handleSelectMajors,
     } = this.props;
 
+
     return (
       <Collapse
         isCollapsed={this.state.isCollapsed}
