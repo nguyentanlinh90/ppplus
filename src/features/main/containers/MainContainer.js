@@ -16,7 +16,6 @@ import {getJobs, getTasks, doLogout} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 import {
   dispatchScreen,
-  showAlert,
   showAlertWithPress,
   setStoreData,
 } from '../../../utils/utils';

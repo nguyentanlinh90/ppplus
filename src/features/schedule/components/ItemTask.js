@@ -1,15 +1,77 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import Dash from 'react-native-dash';
+import AnimatedCircularProgress from 'react-native-conical-gradient-progress';
+import moment from 'moment';
 import BgButton from '../../../components/BgButton';
 import {colors, sizes} from '../../../styles/styles';
 import styles from '../styles/styles';
-import AnimatedCircularProgress from 'react-native-conical-gradient-progress';
+import {isEmpty} from '../../../utils/utils';
 
 export default class ItemTask extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      timerDistance: 0,
+    };
+  }
+
+  _startInterval = () => {
+    this.interval = setInterval(() => {
+      if (this.state.timerDistance !== 0) {
+        this.setState(prevState => ({
+          timerDistance: prevState.timerDistance - 1,
+        }));
+      } else {
+        clearInterval(this.interval);
+      }
+    }, 1000);
+  };
+
+  componentDidMount() {
+    let alert_time = this.props.item.alert_time;
+    if (!isEmpty(alert_time)) {
+      let then = moment(alert_time, 'HH:mm:ss');
+      let countdown = moment(then);
+      let hoursToSeconds = Math.floor(countdown.format('HH') * 3600);
+      let minutesToSeconds = Math.floor(countdown.format('mm') * 60);
+      let seconds = Math.floor(countdown.format('ss'));
+
+      this.setState(
+        {timerDistance: hoursToSeconds + minutesToSeconds + seconds},
+        function() {
+          this._startInterval();
+        },
+      );
+    }
+  }
+
+  _renderTextTimer = () => {
+    const {timerDistance} = this.state;
+    if (timerDistance != 0) {
+      let sec = timerDistance;
+      let hours = Math.floor(sec / 3600); // get hours
+      let minutes = Math.floor((sec - hours * 3600) / 60); // get minutes
+      let seconds = sec - hours * 3600 - minutes * 60; //  get seconds
+      // add 0 if value < 10
+      if (hours < 10) {
+        hours = '0' + hours;
+      }
+      if (minutes < 10) {
+        minutes = '0' + minutes;
+      }
+      if (seconds < 10) {
+        seconds = '0' + seconds;
+      }
+      return hours + ':' + minutes + ':' + seconds; // Return is HH : MM : SS
+    }
+    return '';
+  };
+
+  componentDidUpdate() {
+    if (this.state.timerDistance === 0) {
+      clearInterval(this.interval);
+    }
   }
 
   render() {
@@ -68,7 +130,7 @@ export default class ItemTask extends Component {
           <BgButton />
 
           <Text style={styles.textButton}>
-            {priority_list[item.priority]}!! {item.alert_time}
+            {priority_list[item.priority]}!! {this._renderTextTimer()}
           </Text>
         </TouchableOpacity>
         <Dash
