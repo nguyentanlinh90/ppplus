@@ -21,7 +21,7 @@ import {ACCESS_TOKEN} from '../../../utils/constants';
 import {searchJobs, searchJobDetail} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 import * as types from '../../../api/types';
-import {showAlert} from '../../../utils/utils';
+import {showAlert, showAlertWithPress} from '../../../utils/utils';
 import {SCREEN_JOB_DETAIL} from '../../../api/screen';
 
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -69,8 +69,7 @@ class SearchContainer extends Component {
   _saveSearchSuggest = async (key, array) => {
     try {
       await AsyncStorage.setItem(key, JSON.stringify(array));
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   _onSubmitSearch = () => {
@@ -115,34 +114,31 @@ class SearchContainer extends Component {
     this.props.navigation.navigate(SCREEN_JOB_DETAIL, [data, token]);
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  _hideLoading = () => {
     this.setState({isLoading: false});
+  };
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.SEARCH_JOBS_SUCCESS) {
       this.setState({
         isShowSearchSuggest: false,
         data: nextProps.data,
       });
+      this._hideLoading();
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.SEARCH_JOBS_FAIL) {
-      showAlert(nextProps.message);
+      showAlertWithPress(nextProps.message, this._hideLoading);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.SEARCH_JOBS_DETAIL_SUCCESS) {
       //setState method doesn't mutate the state immediately
-      this.setState(
-        {
-          isLoading: false,
-          jobDetail: nextProps.data,
-        },
-        function() {
-          // //so we must waiting setState done
-          this._gotoJobDetail(this.state.jobDetail);
-        },
-      );
-      nextProps.changeMsgCode('');
+      this.setState({jobDetail: nextProps.data}, function() {
+        // //so we must waiting setState done
+        this._gotoJobDetail(this.state.jobDetail);
+      });
+      this._hideLoading();
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.SEARCH_JOBS_DETAIL_FAIL) {
-      showAlert(nextProps.message);
+      showAlertWithPress(nextProps.message, this._hideLoading);
       nextProps.changeMsgCode('');
     }
   }
@@ -213,8 +209,11 @@ function mapStateToProps(state) {
     data: state.search.data,
   };
 }
-export default connect(mapStateToProps, {
-  changeMsgCode,
-  searchJobs,
-  searchJobDetail,
-})(SearchContainer);
+export default connect(
+  mapStateToProps,
+  {
+    changeMsgCode,
+    searchJobs,
+    searchJobDetail,
+  },
+)(SearchContainer);

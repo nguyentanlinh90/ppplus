@@ -14,7 +14,12 @@ import styles from '../styles/styles';
 import * as types from '../../../api/types';
 import {getJobs, getTasks, doLogout} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
-import {dispatchScreen, showAlert, setStoreData} from '../../../utils/utils';
+import {
+  dispatchScreen,
+  showAlert,
+  showAlertWithPress,
+  setStoreData,
+} from '../../../utils/utils';
 import {ACCESS_TOKEN, EVENT_BACK_UPDATE_USER} from '../../../utils/constants';
 import {
   SCREEN_START_JOB,
@@ -256,7 +261,7 @@ class MainContainer extends Component {
     {
       this.props.navigation.navigate(SCREEN_FILL_PROFILE, {
         user: this.state.user,
-        token :  this.state.token
+        token: this.state.token,
         // onGoBack: user => this.setState({user: user}),
       });
     }
@@ -274,7 +279,6 @@ class MainContainer extends Component {
   //screen profile end
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    this._hideLoading();
     if (nextProps.msg_code == types.GET_JOBS_SUCCESS) {
       //jobs hot
       var arr = this.state.jobs_hot;
@@ -317,25 +321,27 @@ class MainContainer extends Component {
       if (gender_list.length == 0) {
         gender_list = nextProps.data.gender_list;
       }
+      this._hideLoading();
       nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_SUCCESS) {
-      this._openJobDetail(nextProps.data);
-      nextProps.changeMsgCode('');
-    } else if (nextProps.msg_code == types.GET_JOBS_DETAIL_FAIL) {
-      showAlert(nextProps.message);
+    }
+    if (nextProps.msg_code == types.GET_JOBS_FAIL) {
+      showAlertWithPress(nextProps.message, this._hideLoading);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_TASKS_SUCCESS) {
       this.setState({dataSchedule: nextProps.data});
+      this._hideLoading();
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.GET_TASKS_FAIL) {
       this.setState({dataSchedule: {}});
+      showAlertWithPress(nextProps.message, this._hideLoading);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.LOGOUT_SUCCESS) {
       setStoreData(ACCESS_TOKEN, '');
       this._gotoRetroScreen();
+      this._hideLoading();
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.LOGOUT_FAIL) {
-      showAlert(nextProps.message);
+      showAlertWithPress(nextProps.message, this._hideLoading);
       nextProps.changeMsgCode('');
     }
   }

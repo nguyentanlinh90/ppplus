@@ -12,7 +12,12 @@ import {changeMsgCode} from '../../../api/helpers';
 import SpinnerComponent from '../../../components/Spinner';
 import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_INPUT_OTP} from '../../../api/screen';
-import {showAlert, convertPhone, dispatchScreen} from '../../../utils/utils';
+import {
+  showAlert,
+  showAlertWithPress,
+  convertPhone,
+  dispatchScreen,
+} from '../../../utils/utils';
 import * as types from '../../../api/types';
 import {REGEX} from '../../../utils/constants';
 
@@ -135,11 +140,13 @@ class CreateAccountContainer extends Component {
     this.setState({isAgree: !this.state.isAgree});
   };
 
+  _hideLoading = () => {
+    this.setState({isLoading: false});
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.REGISTER_USER_FAIL) {
-      this.setState({isLoading: false});
-      // showAlert(nextProps.message);
-      showAlert(nextProps.message);
+      showAlertWithPress(nextProps.message, this._hideLoading);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.REGISTER_USER_SUCCESS) {
       this.setState({isLoading: false});
@@ -161,7 +168,7 @@ class CreateAccountContainer extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView>
-        <SpinnerComponent visible={this.state.isLoading} />
+          <SpinnerComponent visible={this.state.isLoading} />
           <KeyboardAvoidingView behavior="padding" enabled={false}>
             <CreateAccountForm
               handleCreateAccount={this.handleCreateAccount}

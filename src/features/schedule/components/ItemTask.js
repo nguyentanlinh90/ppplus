@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import Dash from 'react-native-dash';
 import BgButton from '../../../components/BgButton';
 import {colors, sizes} from '../../../styles/styles';

@@ -26,7 +26,12 @@ import {
   KEY_TIME_LOGIN_FAIL,
   KEY_PHONE_NOT_EXITS,
 } from '../../../utils/constants';
-import {convertPhone, showAlert, setStoreData} from '../../../utils/utils';
+import {
+  convertPhone,
+  showAlert,
+  showAlertWithPress,
+  setStoreData,
+} from '../../../utils/utils';
 import * as types from '../../../api/types';
 
 let countLoginFail = 0;
@@ -36,8 +41,8 @@ export class LoginContainer extends Component {
     super(props);
 
     this.state = {
-      phone: '',
-      password: '',
+      phone: '0906063100',
+      password: 'Qwerty',
       isLoading: false,
       isConnecting: false,
       allowLogin: false,
@@ -217,8 +222,12 @@ export class LoginContainer extends Component {
     }
   };
 
-  _hideLoading = nextProps => {
+  _changeMsgCode = nextProps => {
     nextProps.changeMsgCode('');
+    this.setState({isLoading: false});
+  };
+
+  _hideLoading = () => {
     this.setState({isLoading: false});
   };
 
@@ -235,10 +244,11 @@ export class LoginContainer extends Component {
           timeRemainAfterLoginFail: TIME_OUT_DEFAULT,
         });
         this._startInterval();
+        this._changeMsgCode(nextProps);
       } else {
-        showAlert(nextProps.message);
+        showAlertWithPress(nextProps.message, this._hideLoading);
+        nextProps.changeMsgCode('');
       }
-      this._hideLoading(nextProps);
     } else if (nextProps.msg_code == types.LOGIN_SUCCESS) {
       setStoreData(IS_UPDATE_BASIC, nextProps.data.is_updated_basic);
       setStoreData(KEY_TIME_LOGIN_FAIL, 0);
@@ -252,19 +262,19 @@ export class LoginContainer extends Component {
       } else {
         dispatchScreen(this.props, SCREEN_INFO, nextProps.data);
       }
-      this._hideLoading(nextProps);
+      this._changeMsgCode(nextProps);
     } else if (nextProps.msg_code == types.SEND_OTP_SUCCESS) {
       this.props.navigation.navigate(SCREEN_INPUT_OTP, [
         this.state.phone,
         nextProps.data.waiting_time_otp,
         false, //check isRegister (here is forgot pass)
       ]);
-      this._hideLoading(nextProps);
+      this._changeMsgCode(nextProps);
     } else if (nextProps.msg_code == types.SEND_OTP_FAIL) {
       showAlert(nextProps.message);
     } else if (nextProps.msg_code == types.CHECK_PHONE_SUCCESS) {
       this._showAlertForgotPass();
-      this._hideLoading(nextProps);
+      this._changeMsgCode(nextProps);
     } else if (nextProps.msg_code == types.CHECK_PHONE_FAIL) {
       //store phone input inCorrect to check click forget pass
       let phoneInputIncorrectList = this.state.phoneInputIncorrectList;
@@ -278,8 +288,11 @@ export class LoginContainer extends Component {
         })
         .catch(error => console.log('linhnt set error!'));
 
-      showAlert('Số điện thoại không đúng. Vui lòng thử lại.');
-      this._hideLoading(nextProps);
+      showAlertWithPress(
+        'Số điện thoại không đúng. Vui lòng thử lại.',
+        this._hideLoading,
+      );
+      nextProps.changeMsgCode('');
     }
   }
 

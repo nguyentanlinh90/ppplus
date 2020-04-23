@@ -14,7 +14,7 @@ import SpinnerComponent from '../../../components/Spinner';
 import NetInfo from '@react-native-community/netinfo';
 import {SCREEN_LOGIN} from '../../../api/screen';
 import {dispatchScreen} from '../../../utils/utils';
-import {showAlert} from '../../../utils/utils';
+import {showAlert, showAlertWithPress} from '../../../utils/utils';
 import * as types from '../../../api/types';
 export class UpdatePassContainer extends Component {
   constructor(props) {
@@ -95,10 +95,13 @@ export class UpdatePassContainer extends Component {
     doUpdateUserInfo(params, 'Bearer ' + access_token);
   };
 
+  _hideLoading = () => {
+    this.setState({isLoading: false});
+  };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
-      this.setState({isLoading: false});
-      showAlert(nextProps.message);
+      showAlertWithPress(nextProps.message, this._hideLoading);
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this.setState({isLoading: false});

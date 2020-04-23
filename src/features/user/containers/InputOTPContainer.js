@@ -11,7 +11,7 @@ import {
   SCREEN_UPDATE_PASS,
   SCREEN_RETRO,
 } from '../../../api/screen';
-import {showAlert} from '../../../utils/utils';
+import {showAlert, showAlertWithPress} from '../../../utils/utils';
 import {doProcessOTP, doSendOTP} from '../actions/index';
 import * as types from '../../../api/types';
 
@@ -105,8 +105,12 @@ export class InputOTPContainer extends Component {
     }
   };
 
-  _hideLoading = nextProps => {
+  _changeMsgCode = nextProps => {
     nextProps.changeMsgCode('');
+    this.setState({isLoading: false});
+  };
+
+  _hideLoading = () => {
     this.setState({isLoading: false});
   };
 
@@ -132,9 +136,9 @@ export class InputOTPContainer extends Component {
           },
         );
       } else {
-        showAlert(nextProps.message);
+        showAlertWithPress(nextProps.message, this._hideLoading);
       }
-      this._hideLoading(nextProps);
+      this._changeMsgCode(nextProps);
     } else if (nextProps.msg_code == types.PROCESS_OTP_SUCCESS) {
       if (this.state.isRegister) {
         dispatchScreen(this.props, SCREEN_LOGIN, {});
@@ -144,16 +148,16 @@ export class InputOTPContainer extends Component {
           nextProps.data.access_token,
         ]);
       }
-      this._hideLoading(nextProps);
+      this._changeMsgCode(nextProps);
     } else if (nextProps.msg_code == types.RESEND_OTP_SUCCESS) {
       showAlert('Mã OTP đã được gửi đến số điện thoại ' + this.state.phone);
       this.setState({timeResend: nextProps.data.waiting_time_otp}, function() {
         this._startInterval();
       });
-      this._hideLoading(nextProps);
+      this._changeMsgCode(nextProps);
     } else if (nextProps.msg_code == types.RESEND_OTP_FAIL) {
-      showAlert(nextProps.message);
-      this._hideLoading(nextProps);
+      showAlertWithPress(nextProps.message, this._hideLoading);
+      this._changeMsgCode(nextProps);
     }
   }
 
