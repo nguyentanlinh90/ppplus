@@ -122,8 +122,18 @@ export default StyleSheet.create({
     margin: 15,
     justifyContent: 'space-evenly',
   },
-  boxShowImage: {width: 80, height: 80},
-  imageLoad: {width: '100%', height: '100%', borderRadius: 6},
+
+  boxShowImage: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#d8d8d8',
+    borderRadius: 6,
+  },
+  imageLoad: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 6,
+  },
   boxClose: {
     width: 25,
     height: 25,
