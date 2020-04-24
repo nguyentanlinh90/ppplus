@@ -18,6 +18,7 @@ export default StyleSheet.create({
   viewCircleAvatar: {
     alignItems: 'center',
     marginTop: 15,
+    marginBottom: 5,
     justifyContent: 'center',
   },
   circleAvatar: {

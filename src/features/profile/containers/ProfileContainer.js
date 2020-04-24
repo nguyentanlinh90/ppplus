@@ -9,8 +9,8 @@ import {
   Alert,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
+import {Rating, AirbnbRating} from 'react-native-ratings';
 import styles from '../styles/styles';
-import {SCREEN_FILL_PROFILE} from '../../../api/screen';
 import {formatMoney} from '../../../utils/utils';
 import {colors} from '../../../styles/styles';
 export default class ProfileContainer extends Component {
@@ -57,6 +57,15 @@ export default class ProfileContainer extends Component {
             <Image source={{uri: user.avatar}} style={styles.circleAvatar} />
           </View>
 
+          <Rating
+            type="custom"
+            startingValue={user.rating}
+            readonly
+            imageSize={12}
+            ratingColor="#FFC107"
+            ratingBackgroundColor="#C7C7C7"
+            tintColor="#fff"
+          />
           <Text style={styles.name}>
             {user.last_name + ' ' + user.first_name}
           </Text>
