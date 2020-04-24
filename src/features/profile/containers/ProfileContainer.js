@@ -75,10 +75,8 @@ export default class ProfileContainer extends Component {
             </Text>
           ) : null}
 
-          <View style={{backgroundColor: colors.c_f1f1f1, height: 5}} />
-          <TouchableOpacity
-            style={styles.boxItem}
-            onPress={() => updateUser()}>
+          <View style={{backgroundColor: colors.c_f1f1f1, height: 2}} />
+          <TouchableOpacity style={styles.boxItem} onPress={() => updateUser()}>
             <Image
               resizeMode="contain"
               source={require('../../../assets/images/ic-edit.png')}

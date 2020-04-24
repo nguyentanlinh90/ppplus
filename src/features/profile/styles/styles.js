@@ -86,7 +86,7 @@ export default StyleSheet.create({
   },
   boxItemTitle: {color: '#1c1c1c', fontSize: 16, marginStart: 10},
   boxItemImage: {width: 24, height: 24},
-  boxItemIndicator: {backgroundColor: '#d8d8d8', height: 1, marginStart: 14},
+  boxItemIndicator: {backgroundColor: '#d8d8d8', height: 0.3, marginStart: 14},
   viewTop: {
     height: 60,
     flexDirection: 'row',
