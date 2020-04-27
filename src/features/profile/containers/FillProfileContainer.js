@@ -355,7 +355,7 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectProvince = provinceSelect => {
-    const {district_list, address} = this.state;
+    const {address} = this.state;
     var temp = address;
     temp.province_id = provinceSelect;
     this.setState({
@@ -365,7 +365,7 @@ export class FillProfileContainer extends Component {
   };
 
   _handleSelectProvinceRelative = (idRelative, provinceSelect) => {
-    const {district_list, user_relative_info} = this.state;
+    const {user_relative_info} = this.state;
     for (var i = 0; i < user_relative_info.length; i++) {
       if (idRelative == user_relative_info[i].relative_id) {
         var arr = user_relative_info;
