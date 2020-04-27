@@ -56,3 +56,21 @@ export const doLogout = token => async dispatch => {
     await dispatch(fetchDataSuccess(types.CHANGE_MSG_CODE, types.LOGOUT_FAIL));
   }
 };
+
+export const getUserInfo = (type, token) => async dispatch => {
+  const path = getApiPath(V_1_0_0, 'get_user_info') + type;
+  const {json} = await callGetApi(path, token);
+  if (
+    typeof json !== types.UNDEFINED &&
+    json.result_code == types.RESULT_CODE_SUCCESS
+  ) {
+    await dispatch(fetchDataSuccess(types.GET_USER_INFO_SUCCESS, json.data));
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_USER_INFO_SUCCESS),
+    );
+  } else {
+    await dispatch(
+      fetchDataSuccess(types.CHANGE_MSG_CODE, types.GET_USER_INFO_FAIL),
+    );
+  }
+};

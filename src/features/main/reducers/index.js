@@ -25,6 +25,7 @@ export default function entities(state = initialState, action) {
     case types.GET_TASKS_SUCCESS:
     case types.GET_JOBS_SUCCESS:
     case types.LOGOUT_SUCCESS:
+    case types.GET_USER_INFO_SUCCESS:
       return {
         ...state,
         data: action.data,

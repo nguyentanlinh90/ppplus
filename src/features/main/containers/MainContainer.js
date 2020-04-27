@@ -12,7 +12,7 @@ import Profile from '../../profile/containers/ProfileContainer';
 import SpinnerComponent from '../../../components/Spinner';
 import styles from '../styles/styles';
 import * as types from '../../../api/types';
-import {getJobs, getTasks, doLogout} from '../actions/index';
+import {getJobs, getTasks, doLogout, getUserInfo} from '../actions/index';
 import {changeMsgCode} from '../../../api/helpers';
 import {
   dispatchScreen,
@@ -103,7 +103,8 @@ class MainContainer extends Component {
       EVENT_BACK_UPDATE_USER,
       data => {
         isFromEditProfile = data.isFromEditProfile;
-        this.setState({user: data.user});
+        // this.setState({user: data.user});
+        this._getUserInfo()
         this._onRefreshHome();
       },
     );
@@ -230,6 +231,13 @@ class MainContainer extends Component {
       this._getJobs(1);
     });
   };
+
+  // get user again after goto edit profile
+  _getUserInfo = () => {
+    const {getUserInfo} = this.props;
+    getUserInfo('full_detail', this.state.token);
+  };
+
   //screen home end
   //==========================================
 
@@ -341,6 +349,11 @@ class MainContainer extends Component {
       nextProps.changeMsgCode('');
     } else if (nextProps.msg_code == types.LOGOUT_FAIL) {
       showAlertWithPress(nextProps.message, this._hideLoading);
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.GET_USER_INFO_SUCCESS) {
+      this.setState({user: nextProps.data});
+      nextProps.changeMsgCode('');
+    } else if (nextProps.msg_code == types.GET_USER_INFO_FAIL) {
       nextProps.changeMsgCode('');
     }
   }
@@ -495,6 +508,7 @@ export default connect(
     getJobs,
     getTasks,
     doLogout,
+    getUserInfo,
     changeMsgCode,
   },
 )(MainContainer);

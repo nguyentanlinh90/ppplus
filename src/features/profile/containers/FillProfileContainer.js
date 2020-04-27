@@ -572,7 +572,7 @@ export class FillProfileContainer extends Component {
   handleBackButton() {
     EventRegister.emit(EVENT_BACK_UPDATE_USER, {
       isFromEditProfile: true,
-      user: user,
+      // user: user,
     });
     return false; //disable
   }
@@ -581,7 +581,7 @@ export class FillProfileContainer extends Component {
     // navigation.state.params.onGoBack(user);
     EventRegister.emit(EVENT_BACK_UPDATE_USER, {
       isFromEditProfile: true,
-      user: user,
+      // user: user,
     });
     navigation.goBack();
   };
@@ -800,7 +800,7 @@ export class FillProfileContainer extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.msg_code == types.UPDATE_USER_INFO_SUCCESS) {
       this._setUser(nextProps.data);
-      user = nextProps.data;
+      // user = nextProps.data;
       nextProps.changeMsgCode('');
       showAlertWithPress('Cập nhật thông tin thành công.', this._hideLoading);
     } else if (nextProps.msg_code == types.UPDATE_USER_INFO_FAIL) {
